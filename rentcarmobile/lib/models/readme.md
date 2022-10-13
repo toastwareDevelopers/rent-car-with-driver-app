@@ -1,0 +1,1 @@
+Bu klasör tanımlanan model objelerini barındırmak için kullanılacak.

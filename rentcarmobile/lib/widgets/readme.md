@@ -1,0 +1,1 @@
+Bu klasör bizim temel widgetleri birleştirerek oluşturduğumuz ve birçok yerde kullanacağımız kendi kompleks - özel widgetlerimizi barındıracak.
