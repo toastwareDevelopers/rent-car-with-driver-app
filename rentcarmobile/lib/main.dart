@@ -16,18 +16,27 @@ class RentVanApp extends StatelessWidget {
     return MaterialApp(
       title: 'Rent Van App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-        fontFamily: 'Arial',
+        scaffoldBackgroundColor: const Color.fromARGB(255, 40, 40, 40),
+        fontFamily: 'Arapey',
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 40, 40, 40),
+        ),
         buttonTheme: const ButtonThemeData(),
-        textTheme: const TextTheme(),
+        textTheme: const TextTheme(
+          headlineMedium: TextStyle(
+            color: Colors.white,
+            fontSize: 24,          
+          ),
+        ),
+        primaryColor: const Color.fromARGB(255, 40, 40, 40),
+        highlightColor: const Color.fromARGB(255, 167, 117, 77)
       ),
-      initialRoute: "/",
+      initialRoute: "/registerDriver",
       routes: {
-        '/' :(context) => const LoginScreen(),
-        '/registerCustomer' :(context) => const RegisterCustomerScreen(),
-        '/registerDriver' :(context) => const RegisterDriverScreen(),
-        '/forgotPassword' :(context) => const ForgotPasswordScreen()
+        '/': (context) => const LoginScreen(),
+        '/registerCustomer': (context) => const RegisterCustomerScreen(),
+        '/registerDriver': (context) => const RegisterDriverScreen(),
+        '/forgotPassword': (context) => const ForgotPasswordScreen()
       },
     );
   }
