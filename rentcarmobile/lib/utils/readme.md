@@ -1,1 +1,0 @@
-Bu klasör projemizde bazı kısımları kolaylaştıran bit tool olan sınıfları barındıracak. Örneğin elimizde bi string var ve bu stringden tüm decimal karakterleri çıkartan bir fonksiyon yazmamız gerekiyor o fonksiyonu burada bir sınıfta tanımlayacağız ve burada tutacağız.

@@ -1,1 +1,0 @@
-Bu klasör bizim tüm sayfa yapılarımızı barındıracak (login page , main page , profile page etc.)
