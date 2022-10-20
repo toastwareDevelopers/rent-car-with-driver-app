@@ -41,7 +41,7 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
                       radius: 40,
                       child: CircleAvatar(
                         backgroundImage:
-                          AssetImage(AssetPaths.blankProfilePhotoPath),
+                            AssetImage(AssetPaths.blankProfilePhotoPath),
                         radius: 37.0,
                       ),
                     ),
@@ -49,9 +49,8 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
                       backgroundColor: Theme.of(context).highlightColor,
                       radius: 13,
                       child: CircleAvatar(
-
                         backgroundImage:
-                          AssetImage(AssetPaths.uploadPhotoIconPath),
+                            AssetImage(AssetPaths.uploadPhotoIconPath),
                         radius: 10.0,
                       ),
                     ),
@@ -64,14 +63,83 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
           Expanded(
             flex: 7,
             child: Container(
-              color: Colors.pink,
+              padding: EdgeInsets.only(
+                  left: phoneWidth * 0.07, right: phoneWidth * 0.07),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  //Name - Surname
+                  Row(
+                    children: [
+                      //Name
+                      const Expanded(
+                        flex: 1,
+                        child: TextField(
+                          decoration: InputDecoration(hintText: "Name"),
+                        ),
+                      ),
+                      SizedBox(
+                        width: phoneWidth * 0.04,
+                      ),
+                      //Surname
+                      const Expanded(
+                        flex: 1,
+                        child: TextField(
+                          decoration: InputDecoration(hintText: "Surname"),
+                        ),
+                      ),
+                    ],
+                  ),
+                  //Birthdate - Gender
+                  Row(
+                    children: [
+                      //Birthdate
+                      const Expanded(
+                        flex: 1,
+                        child: TextField(decoration: InputDecoration(hintText: "Birthdate"),),
+                      ),
+                      SizedBox(
+                        width: phoneWidth * 0.04,
+                      ),
+                      //Gender
+                      const Expanded(
+                        flex: 1,
+                        child: TextField(decoration: InputDecoration(hintText: "Gender"),),
+                      ),
+                    ],
+                  ),
+                  //NationalID - Location
+                  Row(
+                    children: [
+                      //NationalID
+                      const Expanded(
+                        flex: 1,
+                        child: TextField(decoration: InputDecoration(hintText: "NationalID"),),
+                      ),
+                      SizedBox(
+                        width: phoneWidth * 0.04,
+                      ),
+                      //Location
+                      const Expanded(
+                        flex: 1,
+                        child: TextField(decoration: InputDecoration(hintText: "Location"),),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           //Continue butonu alanı
           Expanded(
             flex: 2,
             child: Container(
-              color: Colors.blue,
+              alignment: Alignment.topRight,
+              padding: const EdgeInsets.only(right: 10),
+              child: ElevatedButton(
+                child: const Text("Continue"),
+                onPressed: () {},
+              ),
             ),
           ),
         ],
