@@ -13,6 +13,7 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
+    TextEditingController birthDateController = TextEditingController();
 
     return Scaffold(
       body: Column(
@@ -31,31 +32,29 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
           //Profil fotoğrafı yükleme alanı
           Expanded(
             flex: 2,
-            child: Container(
-              child: Center(
-                child: Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Theme.of(context).highlightColor,
-                      radius: 40,
-                      child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage(AssetPaths.blankProfilePhotoPath),
-                        radius: 37.0,
-                      ),
+            child: Center(
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Theme.of(context).highlightColor,
+                    radius: 40,
+                    child: CircleAvatar(
+                      backgroundImage:
+                          AssetImage(AssetPaths.blankProfilePhotoPath),
+                      radius: 37.0,
                     ),
-                    CircleAvatar(
-                      backgroundColor: Theme.of(context).highlightColor,
-                      radius: 13,
-                      child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage(AssetPaths.uploadPhotoIconPath),
-                        radius: 10.0,
-                      ),
+                  ),
+                  CircleAvatar(
+                    backgroundColor: Theme.of(context).highlightColor,
+                    radius: 13,
+                    child: CircleAvatar(
+                      backgroundImage:
+                          AssetImage(AssetPaths.uploadPhotoIconPath),
+                      radius: 10.0,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -94,9 +93,38 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
                   Row(
                     children: [
                       //Birthdate
-                      const Expanded(
+                      Expanded(
                         flex: 1,
-                        child: TextField(decoration: InputDecoration(hintText: "Birthdate"),),
+                        child: TextField(
+                          decoration: const InputDecoration(hintText: "Birth Date"),
+                          controller: birthDateController,
+                          onTap: () async {
+                            showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    actions: [
+                                      CalendarDatePicker(
+                                        firstDate: DateTime.parse("1900-01-01"),
+                                        initialDate: DateTime.now(),
+                                        lastDate: DateTime.now(),
+                                        onDateChanged: (DateTime value) {
+                                          birthDateController.text =
+                                              "${value.year}-${value.month}-${value.day}";
+                                        },
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text("OK"),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                        ),
                       ),
                       SizedBox(
                         width: phoneWidth * 0.04,
@@ -104,7 +132,9 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
                       //Gender
                       const Expanded(
                         flex: 1,
-                        child: TextField(decoration: InputDecoration(hintText: "Gender"),),
+                        child: TextField(
+                          decoration: InputDecoration(hintText: "Gender"),
+                        ),
                       ),
                     ],
                   ),
@@ -114,7 +144,9 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
                       //NationalID
                       const Expanded(
                         flex: 1,
-                        child: TextField(decoration: InputDecoration(hintText: "NationalID"),),
+                        child: TextField(
+                          decoration: InputDecoration(hintText: "NationalID"),
+                        ),
                       ),
                       SizedBox(
                         width: phoneWidth * 0.04,
@@ -122,7 +154,9 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
                       //Location
                       const Expanded(
                         flex: 1,
-                        child: TextField(decoration: InputDecoration(hintText: "Location"),),
+                        child: TextField(
+                          decoration: InputDecoration(hintText: "Location"),
+                        ),
                       ),
                     ],
                   ),
