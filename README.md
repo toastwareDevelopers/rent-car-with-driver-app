@@ -1,2 +1,1 @@
-# rent-van-app
-An application which users can rent a van
+rent car app's backend side

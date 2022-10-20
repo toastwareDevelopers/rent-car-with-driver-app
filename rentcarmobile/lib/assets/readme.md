@@ -1,1 +1,0 @@
-Bu klasör bizim font , image , sound , dil dosyaları gibi dosyalarımızı barındıracak.
