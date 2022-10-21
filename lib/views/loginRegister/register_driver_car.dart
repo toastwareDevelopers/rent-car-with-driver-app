@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rentcarmobile/constants/assets_path.dart';
 
-class RegisterDriverScreen extends StatefulWidget {
-  RegisterDriverScreen({super.key});
+class RegisterDriverCarScreen extends StatefulWidget {
+  RegisterDriverCarScreen({super.key});
   String? locationDropdown = "Adana";
   String? genderDropdown = "Male";
   final List<String> cities = [
@@ -92,10 +92,10 @@ class RegisterDriverScreen extends StatefulWidget {
   final List<String> genders = ["Male", "Female"];
 
   @override
-  State<RegisterDriverScreen> createState() => _RegisterDriverScreenState();
+  State<RegisterDriverCarScreen> createState() => _RegisterDriverCarScreenState();
 }
 
-class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
+class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
@@ -111,7 +111,7 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
             child: Container(
               padding: EdgeInsets.only(top: phoneHeight * 0.08),
               child: Text(
-                "Register as a Driver",
+                "Register as a Driver Car",
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
@@ -330,6 +330,7 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
                       ),
                     ],
                   ),
+                  //Biography
                   const TextField(
                     keyboardType: TextInputType.multiline,
                     maxLines: 5,
@@ -346,7 +347,7 @@ class _RegisterDriverScreenState extends State<RegisterDriverScreen> {
               alignment: Alignment.topRight,
               padding: const EdgeInsets.only(right: 10),
               child: ElevatedButton(
-                child: const Text("Continue"),
+                child: const Text("Register"),
                 onPressed: () {},
               ),
             ),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rentcarmobile/views/loginRegister/forgotpassword_screen.dart';
 import 'package:rentcarmobile/views/loginRegister/login_screen.dart';
 import 'package:rentcarmobile/views/loginRegister/register_customer.dart';
-import 'package:rentcarmobile/views/loginRegister/register_driver.dart';
+import 'package:rentcarmobile/views/loginRegister/register_driver_auth.dart';
+import 'package:rentcarmobile/views/loginRegister/register_driver_car.dart';
+import 'package:rentcarmobile/views/loginRegister/register_driver_personal.dart';
 
 void main() {
   runApp(const RentVanApp());
@@ -64,13 +66,14 @@ class RentVanApp extends StatelessWidget {
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Color.fromARGB(255, 167, 117, 77),
         ),
-        
       ),
-      initialRoute: "/registerDriver",
+      initialRoute: "/registerDriverAuth",
       routes: {
         '/': (context) => const LoginScreen(),
         '/registerCustomer': (context) => const RegisterCustomerScreen(),
-        '/registerDriver': (context) =>  RegisterDriverScreen(),
+        '/registerDriverPersonal': (context) =>  RegisterDriverPersonalScreen(),
+        '/registerDriverAuth': (context) =>  RegisterDriverAuthScreen(),
+        '/registerDriverCar': (context) =>  RegisterDriverCarScreen(),
         '/forgotPassword': (context) => const ForgotPasswordScreen()
       },
     );
