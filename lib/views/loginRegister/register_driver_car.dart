@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:rentcarmobile/constants/assets_path.dart';
 
 class RegisterDriverCarScreen extends StatefulWidget {
   RegisterDriverCarScreen({super.key});
@@ -92,7 +90,8 @@ class RegisterDriverCarScreen extends StatefulWidget {
   final List<String> genders = ["Male", "Female"];
 
   @override
-  State<RegisterDriverCarScreen> createState() => _RegisterDriverCarScreenState();
+  State<RegisterDriverCarScreen> createState() =>
+      _RegisterDriverCarScreenState();
 }
 
 class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
@@ -100,7 +99,6 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
-    TextEditingController birthDateController = TextEditingController();
 
     return Scaffold(
       body: Column(
@@ -111,37 +109,8 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
             child: Container(
               padding: EdgeInsets.only(top: phoneHeight * 0.08),
               child: Text(
-                "Register as a Driver Car",
+                "Register as a Driver",
                 style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ),
-          ),
-          //Profil fotoğrafı yükleme alanı
-          Expanded(
-            flex: 2,
-            child: Center(
-              child: Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Theme.of(context).highlightColor,
-                    radius: 40,
-                    child: CircleAvatar(
-                      backgroundImage:
-                          AssetImage(AssetPaths.blankProfilePhotoPath),
-                      radius: 37.0,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundColor: Theme.of(context).highlightColor,
-                    radius: 13,
-                    child: CircleAvatar(
-                      backgroundImage:
-                          AssetImage(AssetPaths.uploadPhotoIconPath),
-                      radius: 10.0,
-                    ),
-                  ),
-                ],
               ),
             ),
           ),
@@ -154,188 +123,144 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  //Name - Surname
+                  //Driver Lisence Number - Car Lisence Number
                   Row(
                     children: [
-                      //Name
-                      Expanded(
+                      //Driver Lisence Number
+                      const Expanded(
                         flex: 1,
                         child: TextField(
-                          decoration: const InputDecoration(
-                            hintText: "Name",
+                          decoration: InputDecoration(
+                            hintText: "Driver Lisence Number ",
+                            hintMaxLines: 2,
+                            isDense: true,
                           ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp("[a-zA-Z]"),
-                            ),
-                          ],
                         ),
                       ),
                       SizedBox(
                         width: phoneWidth * 0.04,
                       ),
-                      //Surname
-                      Expanded(
+                      //Car Lisence Number
+                      const Expanded(
                         flex: 1,
                         child: TextField(
-                          decoration:
-                              const InputDecoration(hintText: "Surname"),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp("[a-zA-Z]"),
-                            ),
-                          ],
+                          decoration: InputDecoration(
+                            hintText: "Car Lisence Number",
+                            hintMaxLines: 2,
+                            isDense: true,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  //Birthdate - Gender
+                  //Driver Lisence Year - Car Age
                   Row(
                     children: [
-                      //Birthdate
-                      Expanded(
+                      //Driver Lisence Year
+                      const Expanded(
                         flex: 1,
                         child: TextField(
-                          decoration: const InputDecoration(
-                            hintText: "Birth Date",
+                          decoration: InputDecoration(
+                            hintText: "Driver Lisence Year ",
+                            hintMaxLines: 2,
+                            isDense: true,
                           ),
-                          controller: birthDateController,
-                          onTap: () async {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return Theme(
-                                    data: Theme.of(context),
-                                    child: AlertDialog(
-                                      actions: [
-                                        CalendarDatePicker(
-                                          firstDate:
-                                              DateTime.parse("1900-01-01"),
-                                          initialDate:
-                                              birthDateController.text != ""
-                                                  ? DateTime.parse(
-                                                      birthDateController.text)
-                                                  : DateTime.now(),
-                                          lastDate: DateTime.now(),
-                                          onDateChanged: (DateTime value) {
-                                            birthDateController.text =
-                                                "${value.year}-${value.month < 10 ? "0${value.month}" : value.month}-${value.day < 10 ? "0${value.day}" : value.day}";
-                                          },
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text("OK"),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                });
-                          },
                         ),
                       ),
                       SizedBox(
                         width: phoneWidth * 0.04,
                       ),
-                      //Gender
-                      Expanded(
+                      //Car Model Year
+                      const Expanded(
                         flex: 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 218, 218, 218),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: DropdownButton(
-                            value: widget.genderDropdown,
-                            items: widget.genders
-                                .map(
-                                  (value) => DropdownMenuItem(
-                                    value: value,
-                                    child: Container(
-                                      padding: const EdgeInsets.only(left: 12),
-                                      child: Text(value,
-                                          style: const TextStyle(fontSize: 17)),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                widget.genderDropdown = value;
-                              });
-                            },
-                            dropdownColor:
-                                const Color.fromARGB(255, 218, 218, 218),
-                            borderRadius: BorderRadius.circular(10),
-                            isExpanded: true,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Model Year",
                           ),
                         ),
                       ),
                     ],
                   ),
-                  //NationalID - Location
+                  //Car Brand - Car Model
                   Row(
                     children: [
-                      //NationalID
-                      Expanded(
+                      //Car Brand
+                      const Expanded(
                         flex: 1,
                         child: TextField(
-                          decoration:
-                              const InputDecoration(hintText: "National ID"),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp("[0-9]"),
-                            ),
-                          ],
+                          decoration: InputDecoration(
+                            hintText: "Car Brand ",
+                          ),
                         ),
                       ),
                       SizedBox(
                         width: phoneWidth * 0.04,
                       ),
-                      //Location
-                      Expanded(
+                      //Car Model
+                      const Expanded(
                         flex: 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 218, 218, 218),
-                            borderRadius: BorderRadius.circular(5),
+                        child: TextField(
+                          decoration: InputDecoration(hintText: "Car Model"),
+                        ),
+                      ),
+                    ],
+                  ),
+                  //Car Color - Car Registration Plate
+                  Row(
+                    children: [
+                      //Car Color
+                      const Expanded(
+                        flex: 1,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Car Color",
                           ),
-                          child: DropdownButton(
-                            value: widget.locationDropdown,
-                            items: widget.cities
-                                .map(
-                                  (value) => DropdownMenuItem(
-                                    value: value,
-                                    child: Container(
-                                      padding: const EdgeInsets.only(left: 12),
-                                      child: Text(value,
-                                          style: const TextStyle(fontSize: 17)),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                widget.locationDropdown = value;
-                              });
-                            },
-                            dropdownColor:
-                                const Color.fromARGB(255, 218, 218, 218),
-                            borderRadius: BorderRadius.circular(10),
-                            isExpanded: true,
+                        ),
+                      ),
+                      SizedBox(
+                        width: phoneWidth * 0.04,
+                      ),
+                      //Car Registration Plate
+                      const Expanded(
+                        flex: 1,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Car Registration Plate",
+                            hintMaxLines: 2,
+                            isDense: true,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  //Biography
-                  const TextField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 5,
-                    decoration: InputDecoration(hintText: "Biography"),
-                  )
+                  //Hourly Price - Tax Number
+                  Row(
+                    children: [
+                      //Hourly Price
+                      const Expanded(
+                        flex: 1,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Hourly Price (TL)",
+                            hintMaxLines: 2,
+                            isDense: true,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: phoneWidth * 0.04,
+                      ),
+                      //Tax Number
+                      const Expanded(
+                        flex: 1,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Tax Number",
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -345,7 +270,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
             flex: 2,
             child: Container(
               alignment: Alignment.topRight,
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 20),
               child: ElevatedButton(
                 child: const Text("Register"),
                 onPressed: () {},

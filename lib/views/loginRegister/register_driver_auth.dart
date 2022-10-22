@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:rentcarmobile/constants/assets_path.dart';
 import 'package:rentcarmobile/services/auth.dart';
 
 class RegisterDriverAuthScreen extends StatefulWidget {
@@ -30,7 +28,7 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
             child: Container(
               padding: EdgeInsets.only(top: phoneHeight * 0.08),
               child: Text(
-                "Register as a Driver Auth",
+                "Register as a Driver",
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),

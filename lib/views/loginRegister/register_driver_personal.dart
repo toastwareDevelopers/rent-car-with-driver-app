@@ -111,7 +111,7 @@ class _RegisterDriverPersonalScreenState extends State<RegisterDriverPersonalScr
             child: Container(
               padding: EdgeInsets.only(top: phoneHeight * 0.08),
               child: Text(
-                "Register as a Driver Personal",
+                "Register as a Driver",
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
@@ -347,7 +347,7 @@ class _RegisterDriverPersonalScreenState extends State<RegisterDriverPersonalScr
               padding: const EdgeInsets.only(right: 20),
               child: ElevatedButton(
                 child: const Text("Continue"),
-                onPressed: () {Navigator.of(context).pushNamed("/registerDriverCar");},
+                onPressed: () {Navigator.of(context).pushNamed("/registerDriverSkills");},
               ),
             ),
           ),
