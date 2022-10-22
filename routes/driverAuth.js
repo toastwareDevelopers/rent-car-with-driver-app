@@ -5,7 +5,7 @@ const bcryptjs = require('bcryptjs');
 
 const driverAuthRouter = express.Router();
 
-driverAuthRouter.get('/api/signup/driver',async function(req,res){
+driverAuthRouter.post('/api/signup/driverCheck',async function(req,res){
     try {
         
         const {phoneNumber,email,password} = req.body;
