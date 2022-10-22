@@ -1,23 +1,36 @@
+// IMPORTS FROM PACKAGES
 const express = require('express');
-const mongoose = require("mongoose");
+const { default: mongoose } = require('mongoose');
 
-const driverAuthRouter = require("./routes/driverAuth");
-
+// IMPORTS FROM OTHER FILES
+const loginAuthRouter = require("./routes/loginAuth");
+// INIT
 const PORT = 3000;
+const DB = "mongodb+srv://toastware:habilsheild343*@cluster0.qtshlnw.mongodb.net/?retryWrites=true&w=majority";
+
 const app = express();
-const DB = "mongodb+srv://toastware:habilsheild343*@cluster0.qtshlnw.mongodb.net/?retryWrites=true&w=majority"
 
+// middleware
 app.use(express.json());
-app.use(driverAuthRouter);
+app.use(loginAuthRouter);
 
-
-mongoose.connect(DB).then(function ( ) {
-    console.log("Connection Successful")
-}).catch(e => {
-    console.log(e);
+//connections
+mongoose
+.connect(DB)
+.then(() => {
+    console.log("connected to DB");
 })
-;
-
-app.listen(PORT, () =>{
-    console.log('connected ad port ' + PORT);
+.catch((e) => {
+    console.log(e)
 });
+
+
+app.listen(PORT,"0.0.0.0", () =>{
+    console.log("connected at port " + PORT);
+
+});
+// Create an api
+// http://<youripaddress>/index
+app.get('/index',(req, res) => {
+    res.send("hello world");
+})

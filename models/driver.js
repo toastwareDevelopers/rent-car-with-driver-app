@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
     
+    userType:{
+        type: String,
+        default: "driver",
+    },
+
     phoneNumber:{
         required: true,
         type: String,
@@ -96,6 +101,8 @@ const userSchema = mongoose.Schema({
     info:{
         type: String,
     },
+    
+    
 
     carInfo:{
         
@@ -114,6 +121,10 @@ const userSchema = mongoose.Schema({
         color:{
             type: String,
         },
+    },
+
+    avatar:{
+        type: Buffer,
     },
 
 });
