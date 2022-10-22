@@ -344,7 +344,7 @@ class _RegisterDriverPersonalScreenState extends State<RegisterDriverPersonalScr
             flex: 2,
             child: Container(
               alignment: Alignment.topRight,
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 20),
               child: ElevatedButton(
                 child: const Text("Continue"),
                 onPressed: () {Navigator.of(context).pushNamed("/registerDriverCar");},
