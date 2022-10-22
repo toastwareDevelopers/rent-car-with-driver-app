@@ -56,7 +56,7 @@ driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
             
         });
 
-        driver = driver.save()
+        driver = await driver.save()
 
         res.send(driver);
 
