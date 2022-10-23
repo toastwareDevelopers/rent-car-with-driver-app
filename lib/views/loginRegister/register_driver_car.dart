@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class RegisterDriverCarScreen extends StatefulWidget {
   RegisterDriverCarScreen({super.key});
@@ -157,13 +158,21 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                   Row(
                     children: [
                       //Driver Lisence Year
-                      const Expanded(
+                      Expanded(
                         flex: 1,
                         child: TextField(
-                          decoration: InputDecoration(
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                          maxLength: 4,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                              RegExp("[0-9]"),
+                            ),
+                          ],
+                          decoration: const InputDecoration(
                             hintText: "Driver Lisence Year ",
                             hintMaxLines: 2,
                             isDense: true,
+                            counterText: "",
                           ),
                         ),
                       ),
@@ -171,11 +180,18 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                         width: phoneWidth * 0.04,
                       ),
                       //Car Model Year
-                      const Expanded(
+                      Expanded(
                         flex: 1,
                         child: TextField(
-                          decoration: InputDecoration(
+                          maxLength: 4,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                              RegExp("[0-9]"),
+                            ),
+                          ],
+                          decoration: const InputDecoration(
                             hintText: "Model Year",
+                            counterText: "",
                           ),
                         ),
                       ),
@@ -237,10 +253,15 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                   Row(
                     children: [
                       //Hourly Price
-                      const Expanded(
+                      Expanded(
                         flex: 1,
                         child: TextField(
-                          decoration: InputDecoration(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                              RegExp("[0-9]"),
+                            ),
+                          ],
+                          decoration: const InputDecoration(
                             hintText: "Hourly Price (TL)",
                             hintMaxLines: 2,
                             isDense: true,
