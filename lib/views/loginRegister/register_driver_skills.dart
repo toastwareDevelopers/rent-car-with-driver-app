@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../models/driver.dart';
+
 class RegisterDriverSkillsScreen extends StatefulWidget {
   RegisterDriverSkillsScreen({super.key});
-  var skills = [];
+  List<String> skills = [];
   var skillController = TextEditingController();
   final List<String> languages = [
     "Afrikaans",
@@ -95,6 +97,7 @@ class _RegisterDriverSkillsScreenState
     extends State<RegisterDriverSkillsScreen> {
   @override
   Widget build(BuildContext context) {
+    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
 
@@ -266,7 +269,23 @@ class _RegisterDriverSkillsScreenState
               child: ElevatedButton(
                 child: const Text("Continue"),
                 onPressed: () {
-                  Navigator.of(context).pushNamed("/registerDriverCar");
+                  Navigator.of(context).pushNamed(
+                    "/registerDriverCar",
+                    arguments: Driver(
+                      email: driver.email,
+                      phoneNumber: driver.phoneNumber,
+                      password: driver.password,
+                      name: driver.name,
+                      surname: driver.surname,
+                      birthDate: driver.birthDate,
+                      gender: driver.gender,
+                      nationalId: driver.nationalId,
+                      location: driver.location,
+                      bio: driver.bio,
+                      skills: widget.skills,
+                      languages: widget.addedLanguages,
+                    ),
+                  );
                 },
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rentcarmobile/constants/assets_path.dart';
+import 'package:rentcarmobile/models/driver.dart';
 
 class RegisterDriverPersonalScreen extends StatefulWidget {
   RegisterDriverPersonalScreen({super.key});
@@ -92,12 +93,15 @@ class RegisterDriverPersonalScreen extends StatefulWidget {
   final List<String> genders = ["Male", "Female"];
 
   @override
-  State<RegisterDriverPersonalScreen> createState() => _RegisterDriverPersonalScreenState();
+  State<RegisterDriverPersonalScreen> createState() =>
+      _RegisterDriverPersonalScreenState();
 }
 
-class _RegisterDriverPersonalScreenState extends State<RegisterDriverPersonalScreen> {
+class _RegisterDriverPersonalScreenState
+    extends State<RegisterDriverPersonalScreen> {
   @override
   Widget build(BuildContext context) {
+    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
     TextEditingController birthDateController = TextEditingController();
@@ -212,11 +216,12 @@ class _RegisterDriverPersonalScreenState extends State<RegisterDriverPersonalScr
                                         CalendarDatePicker(
                                           firstDate:
                                               DateTime.parse("1900-01-01"),
-                                          initialDate:
-                                              birthDateController.text != ""
-                                                  ? DateTime.parse(
-                                                      birthDateController.text)
-                                                  : DateTime.now(),
+                                          initialDate: birthDateController
+                                                      .text !=
+                                                  ""
+                                              ? DateTime.parse(
+                                                  birthDateController.text)
+                                              : DateTime.now(),
                                           lastDate: DateTime.now(),
                                           onDateChanged: (DateTime value) {
                                             birthDateController.text =
@@ -254,9 +259,11 @@ class _RegisterDriverPersonalScreenState extends State<RegisterDriverPersonalScr
                                   (value) => DropdownMenuItem(
                                     value: value,
                                     child: Container(
-                                      padding: const EdgeInsets.only(left: 12),
+                                      padding:
+                                          const EdgeInsets.only(left: 12),
                                       child: Text(value,
-                                          style: const TextStyle(fontSize: 17)),
+                                          style:
+                                              const TextStyle(fontSize: 17)),
                                     ),
                                   ),
                                 )
@@ -309,9 +316,11 @@ class _RegisterDriverPersonalScreenState extends State<RegisterDriverPersonalScr
                                   (value) => DropdownMenuItem(
                                     value: value,
                                     child: Container(
-                                      padding: const EdgeInsets.only(left: 12),
+                                      padding:
+                                          const EdgeInsets.only(left: 12),
                                       child: Text(value,
-                                          style: const TextStyle(fontSize: 17)),
+                                          style:
+                                              const TextStyle(fontSize: 17)),
                                     ),
                                   ),
                                 )
@@ -347,7 +356,23 @@ class _RegisterDriverPersonalScreenState extends State<RegisterDriverPersonalScr
               padding: const EdgeInsets.only(right: 20),
               child: ElevatedButton(
                 child: const Text("Continue"),
-                onPressed: () {Navigator.of(context).pushNamed("/registerDriverSkills");},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    "/registerDriverSkills",
+                    arguments: Driver(
+                      email: driver.email,
+                      phoneNumber: driver.phoneNumber,
+                      password: driver.password,
+                      name: "",
+                      surname: "",
+                      birthDate: "1900-01-01",
+                      gender: "Male",
+                      nationalId: "",
+                      location: "",
+                      bio: ""
+                    ),
+                  );
+                },
               ),
             ),
           ),

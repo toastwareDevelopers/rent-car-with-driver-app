@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/input_validator.dart';
 
+import '../../models/driver.dart';
+
 class RegisterDriverAuthScreen extends StatefulWidget {
   const RegisterDriverAuthScreen({super.key});
   @override
@@ -126,7 +128,14 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
               child: ElevatedButton(
                 child: const Text("Continue"),
                 onPressed: () {
-                  Navigator.of(context).pushNamed("/registerDriverPersonal");
+                  Navigator.of(context).pushNamed(
+                    "/registerDriverPersonal",
+                    arguments: Driver(
+                      email: "",
+                      phoneNumber: "",
+                      password: "",
+                    ),
+                  );
                 },
               ),
             ),

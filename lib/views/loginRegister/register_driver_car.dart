@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rentcarmobile/services/auth.dart';
+
+import '../../models/driver.dart';
 
 class RegisterDriverCarScreen extends StatefulWidget {
   RegisterDriverCarScreen({super.key});
@@ -98,6 +101,7 @@ class RegisterDriverCarScreen extends StatefulWidget {
 class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
   @override
   Widget build(BuildContext context) {
+    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
 
@@ -294,7 +298,39 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
               padding: const EdgeInsets.only(right: 20),
               child: ElevatedButton(
                 child: const Text("Register"),
-                onPressed: () {},
+                onPressed: () {
+                  AuthService.registerDriver(
+                    Driver(
+                      bio: driver.bio,
+                      birthDate: driver.birthDate,
+                      email: driver.email,
+                      gender: driver.gender,
+                      hourlyPrice: 0,
+                      languages: driver.languages,
+                      licenceNumber: "",
+                      licenceYear: "",
+                      location: driver.location,
+                      name: driver.name,
+                      nationalId: driver.nationalId,
+                      passportNumber: driver.passportNumber,
+                      password: driver.password,
+                      phoneNumber: driver.phoneNumber,
+                      rating: 0,
+                      skills: driver.skills,
+                      surname: driver.surname,
+                      taxNumber: "",
+                      carInfo: {
+                        "lisenceNumber": "",
+                        "lisenceYear": "",
+                        "plateNumber": "",
+                        "brand": "",
+                        "model": "",
+                        "year": "",
+                        "color": "",
+                      },
+                    ),
+                  );
+                },
               ),
             ),
           ),
