@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rentcarmobile/services/auth.dart';
+import 'package:rentcarmobile/utils/input_validator.dart';
 
 class RegisterDriverAuthScreen extends StatefulWidget {
   const RegisterDriverAuthScreen({super.key});
@@ -35,66 +37,77 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
           ),
           //Form inputları alanı
           Expanded(
-            flex: 4,
+            flex: 6,
             child: Container(
               padding: EdgeInsets.only(
                   left: phoneWidth * 0.07, right: phoneWidth * 0.07),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  //Email or Phone Number
-                  Row(
-                    children: const [
-                      //Email or Phone Number
-                      Expanded(
-                        flex: 1,
-                        child: TextField(
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          decoration: InputDecoration(
-                            hintText: "Email or Phone Number",
-                          ),
-                        ),
+                  //Email
+                  Expanded(
+                    flex: 4,
+                    child: TextFormField(
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: const InputDecoration(
+                        hintText: "Email",
                       ),
-                    ],
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator:(value) => InputValidator.validateEmail(value),
+                    ),
                   ),
-                  SizedBox(height: phoneHeight*0.03,),
+                  //Phone Number
+                  const Expanded(
+                    flex: 3,
+                    child: TextField(
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                        hintText: "Phone Number",
+                      ),
+                    ),
+                  ),
                   //Password - retype password
-                  Row(
-                    children: [
-                      //Password
-                      const Expanded(
-                        flex: 1,
-                        child: TextField(
-                          obscureText: true,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          decoration: InputDecoration(
-                            hintText: "Password",
+                  Expanded(
+                    flex: 3,
+                    child: Row(
+                      children: [
+                        //Password
+                        const Expanded(
+                          flex: 1,
+                          child: TextField(
+                            obscureText: true,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            decoration: InputDecoration(
+                              hintText: "Password",
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: phoneWidth * 0.04,
-                      ),
-                      //Re-type password
-                      const Expanded(
-                        flex: 1,
-                        child: TextField(
-                          obscureText: true,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          decoration: InputDecoration(
-                            hintText: "Retype Password",
+                        SizedBox(
+                          width: phoneWidth * 0.04,
+                        ),
+                        //Re-type password
+                        const Expanded(
+                          flex: 1,
+                          child: TextField(
+                            obscureText: true,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            decoration: InputDecoration(
+                              hintText: "Retype Password",
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
           ),
+          SizedBox(height: phoneHeight*0.01,),
           //Continue butonu alanı
           Expanded(
             flex: 5,
