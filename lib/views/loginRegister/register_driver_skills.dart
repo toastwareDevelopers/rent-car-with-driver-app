@@ -3,9 +3,88 @@ import 'package:flutter/material.dart';
 class RegisterDriverSkillsScreen extends StatefulWidget {
   RegisterDriverSkillsScreen({super.key});
   var skills = [];
-  var languages = [];
   var skillController = TextEditingController();
-  var languageController = TextEditingController();
+  final List<String> languages = [
+    "Afrikaans",
+    "Arabic",
+    "Bengali",
+    "Bulgarian",
+    "Catalan",
+    "Cantonese",
+    "Croatian",
+    "Czech",
+    "Danish",
+    "Dutch",
+    "Lithuanian",
+    "Malay",
+    "Malayalam",
+    "Panjabi",
+    "Tamil",
+    "English",
+    "Finnish",
+    "French",
+    "German",
+    "Greek",
+    "Hebrew",
+    "Hindi",
+    "Hungarian",
+    "Indonesian",
+    "Italian",
+    "Japanese",
+    "Javanese",
+    "Korean",
+    "Norwegian",
+    "Polish",
+    "Portuguese",
+    "Romanian",
+    "Russian",
+    "Serbian",
+    "Slovak",
+    "Slovene",
+    "Spanish",
+    "Swedish",
+    "Telugu",
+    "Thai",
+    "Turkish",
+    "Ukrainian",
+    "Vietnamese",
+    "Welsh",
+    "Sign language",
+    "Algerian",
+    "Aramaic",
+    "Armenian",
+    "Berber",
+    "Burmese",
+    "Bosnian",
+    "Brazilian",
+    "Bulgarian",
+    "Cypriot",
+    "Corsica",
+    "Creole",
+    "Scottish",
+    "Egyptian",
+    "Esperanto",
+    "Estonian",
+    "Finn",
+    "Flemish",
+    "Georgian",
+    "Hawaiian",
+    "Indonesian",
+    "Inuit",
+    "Irish",
+    "Icelandic",
+    "Latin",
+    "Mandarin",
+    "Nepalese",
+    "Sanskrit",
+    "Tagalog",
+    "Tahitian",
+    "Tibetan",
+    "Gypsy",
+    "Wu"
+  ];
+  List<String> addedLanguages = [];
+  String? languageDropdown = "Turkish";
 
   @override
   State<RegisterDriverSkillsScreen> createState() =>
@@ -74,9 +153,13 @@ class _RegisterDriverSkillsScreenState
                             child: ElevatedButton(
                               onPressed: () {
                                 setState(() {
-                                  widget.skills.add(widget.skillController.text);
+                                  if (!widget.skills
+                                      .contains(widget.skillController.text)) {
+                                    widget.skills
+                                        .add(widget.skillController.text);
+                                    widget.skillController.text = "";
+                                  }
                                 });
-                                
                               },
                               child: const Text("Add"),
                             ),
@@ -88,21 +171,7 @@ class _RegisterDriverSkillsScreenState
                   //Skills List
                   Expanded(
                     flex: 6,
-                    child: Container(
-                      height: phoneHeight * 0.05,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: const Color.fromARGB(255, 218, 218, 218),
-                      ),
-                      child: ListView.builder(
-                        itemBuilder: ((context, index) => Container(
-                              child: Text(
-                                widget.skills[index],
-                              ),
-                            )),
-                        itemCount: widget.skills.length,
-                      ),
-                    ),
+                    child: listSkillsWidget(phoneWidth, phoneHeight),
                   ),
                   //Boşluk
                   Expanded(
@@ -113,32 +182,59 @@ class _RegisterDriverSkillsScreenState
                   Expanded(
                     flex: 3,
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        //Enter a Language Input Area
+                        //Select a Language Input Area
                         Expanded(
                           flex: 3,
-                          child: TextField(
-                            enableSuggestions: false,
-                            autocorrect: false,
-                            decoration: const InputDecoration(
-                              hintText: "Enter A Language",
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 218, 218, 218),
+                              borderRadius: BorderRadius.circular(5),
                             ),
-                            controller: widget.languageController,
+                            child: DropdownButton(
+                              value: widget.languageDropdown,
+                              items: widget.languages
+                                  .map(
+                                    (value) => DropdownMenuItem(
+                                      value: value,
+                                      child: Container(
+                                        padding:
+                                            const EdgeInsets.only(left: 12),
+                                        child: Text(
+                                          value,
+                                          style: const TextStyle(fontSize: 17),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  widget.languageDropdown = value;
+                                });
+                              },
+                              dropdownColor:
+                                  const Color.fromARGB(255, 218, 218, 218),
+                              borderRadius: BorderRadius.circular(10),
+                              isExpanded: true,
+                            ),
                           ),
                         ),
                         Expanded(
                           flex: 1,
-                          child: Container(
-                            padding: EdgeInsets.only(
-                              bottom: phoneHeight * 0.01,
-                            ),
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(
+                                height: phoneHeight * 0.085),
                             child: ElevatedButton(
                               onPressed: () {
                                 setState(() {
-                                  widget.languages.add(widget.languageController.text);
+                                  if (!widget.addedLanguages.contains(
+                                      widget.languageDropdown.toString())) {
+                                    widget.addedLanguages.add(
+                                        widget.languageDropdown.toString());
+                                  }
                                 });
-                                
                               },
                               child: const Text("Add"),
                             ),
@@ -150,21 +246,7 @@ class _RegisterDriverSkillsScreenState
                   //Language List
                   Expanded(
                     flex: 6,
-                    child: Container(
-                      height: phoneHeight * 0.05,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: const Color.fromARGB(255, 218, 218, 218),
-                      ),
-                      child: ListView.builder(
-                        itemBuilder: ((context, index) => Container(
-                              child: Text(
-                                widget.languages[index],
-                              ),
-                            )),
-                        itemCount: widget.languages.length,
-                      ),
-                    ),
+                    child: listLanguagesWidget(phoneWidth, phoneHeight),
                   ),
                   //Boşluk
                   Expanded(
@@ -190,6 +272,106 @@ class _RegisterDriverSkillsScreenState
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Container listSkillsWidget(double phoneWidth, double phoneHeight) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.03),
+      height: phoneHeight * 0.05,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: const Color.fromARGB(255, 218, 218, 218),
+      ),
+      child: ListView.separated(
+        itemBuilder: ((context, index) => Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: const Color.fromARGB(255, 167, 117, 77),
+              ),
+              child: ListTile(
+                title: Text(
+                  widget.skills[index],
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                style: ListTileStyle.list,
+                trailing: InkWell(
+                  onTap: () {
+                    setState(
+                      () {
+                        widget.skills.removeAt(index);
+                      },
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: const Color.fromARGB(255, 40, 40, 40),
+                    ),
+                    child: const Icon(
+                      Icons.delete,
+                      color: Color.fromARGB(255, 218, 218, 218),
+                      size: 35,
+                    ),
+                  ),
+                ),
+              ),
+            )),
+        separatorBuilder: (context, index) => SizedBox(
+          height: phoneHeight * 0.01,
+        ),
+        itemCount: widget.skills.length,
+      ),
+    );
+  }
+
+  Container listLanguagesWidget(double phoneWidth, double phoneHeight) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.03),
+      height: phoneHeight * 0.05,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: const Color.fromARGB(255, 218, 218, 218),
+      ),
+      child: ListView.separated(
+        itemBuilder: ((context, index) => Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: const Color.fromARGB(255, 167, 117, 77),
+              ),
+              child: ListTile(
+                title: Text(
+                  widget.addedLanguages[index],
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                style: ListTileStyle.list,
+                trailing: InkWell(
+                  onTap: () {
+                    setState(
+                      () {
+                        widget.addedLanguages.removeAt(index);
+                      },
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: const Color.fromARGB(255, 40, 40, 40),
+                    ),
+                    child: const Icon(
+                      Icons.delete,
+                      color: Color.fromARGB(255, 218, 218, 218),
+                      size: 35,
+                    ),
+                  ),
+                ),
+              ),
+            )),
+        separatorBuilder: (context, index) => SizedBox(
+          height: phoneHeight * 0.01,
+        ),
+        itemCount: widget.addedLanguages.length,
       ),
     );
   }

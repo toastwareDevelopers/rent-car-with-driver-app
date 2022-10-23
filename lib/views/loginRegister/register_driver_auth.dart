@@ -6,7 +6,8 @@ import 'package:rentcarmobile/utils/input_validator.dart';
 class RegisterDriverAuthScreen extends StatefulWidget {
   const RegisterDriverAuthScreen({super.key});
   @override
-  State<RegisterDriverAuthScreen> createState() => _RegisterDriverAuthScreenState();
+  State<RegisterDriverAuthScreen> createState() =>
+      _RegisterDriverAuthScreenState();
 }
 
 class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
@@ -15,6 +16,7 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
     AuthService.login();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
@@ -54,18 +56,23 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                         hintText: "Email",
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator:(value) => InputValidator.validateEmail(value),
+                      validator: (value) => InputValidator.validateEmail(value),
                     ),
                   ),
                   //Phone Number
-                  const Expanded(
+                  Expanded(
                     flex: 3,
                     child: TextField(
                       enableSuggestions: false,
                       autocorrect: false,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Phone Number",
                       ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp("[0-9]"),
+                        ),
+                      ],
                     ),
                   ),
                   //Password - retype password
@@ -107,7 +114,9 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
               ),
             ),
           ),
-          SizedBox(height: phoneHeight*0.01,),
+          SizedBox(
+            height: phoneHeight * 0.01,
+          ),
           //Continue butonu alanı
           Expanded(
             flex: 5,
@@ -116,7 +125,9 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
               padding: const EdgeInsets.only(right: 20),
               child: ElevatedButton(
                 child: const Text("Continue"),
-                onPressed: () {Navigator.of(context).pushNamed("/registerDriverPersonal");},
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/registerDriverPersonal");
+                },
               ),
             ),
           ),

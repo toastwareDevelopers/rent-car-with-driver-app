@@ -54,6 +54,10 @@ class RentVanApp extends StatelessWidget {
             color: Colors.white,
             fontSize: 24,
           ),
+          headlineSmall: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+          ),
         ),
         inputDecorationTheme: const InputDecorationTheme(
           filled: true,
