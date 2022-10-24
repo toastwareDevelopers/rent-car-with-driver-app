@@ -1,5 +1,6 @@
 const express = require('express');
 const Customer = require("../models/customer");
+const moment = require('moment');
 
 const bcryptjs = require('bcryptjs');
 
@@ -31,7 +32,7 @@ const customerAuthRouter = express.Router();
 
 customerAuthRouter.post('/api/signup/customer', async function (req, res) {
     try {
-        
+
         const { phoneNumber, email, password, name, surname, birthDate, gender, nationalId, passportNumber } = req.body;
 
         const existingCustomerWithNationalId = await Customer.findOne({ nationalId });
@@ -61,7 +62,8 @@ customerAuthRouter.post('/api/signup/customer', async function (req, res) {
             birthDate,
             gender,
             nationalId,
-            passportNumber
+            passportNumber,
+            registerDate: moment().format('L, HH:mm')
         });
 
         customer = await customer.save()

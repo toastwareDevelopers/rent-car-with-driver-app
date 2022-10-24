@@ -68,6 +68,9 @@ const customerSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
+    registerDate: {
+        type: String,
+    },
 });
 
 
