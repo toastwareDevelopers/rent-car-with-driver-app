@@ -5,13 +5,15 @@ const bcryptjs = require('bcryptjs');
 
 const driverAuthRouter = express.Router();
 
-driverAuthRouter.get('/api/signup/driver',async function(req,res){
+driverAuthRouter.post('/api/signup/driverCheck',async function(req,res){
     try {
         
-        const {phoneNumber,email,password} = req.body;
+        const {phoneNumber,email} = req.body;
         
         const existingDriverWithMail = await Driver.findOne({email});
         const existingDriverWithPhone = await Driver.findOne({phoneNumber});
+
+        
 
         if(existingDriverWithMail){
             return res.status(400).json({msg: "There is a person with same email already"});
@@ -32,7 +34,7 @@ driverAuthRouter.get('/api/signup/driver',async function(req,res){
 driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
     try {
         
-        const{phoneNumber,email,password,name,surname,birthDate,gender,nationalId,location,info} = req.body;
+        const{phoneNumber,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenceNumber,licenceYear,carInfo,hourlyPrice,taxNumber} = req.body;
         
         const existingDriverWithNationalId = await Driver.findOne({nationalId});
 
@@ -52,11 +54,19 @@ driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
             gender,
             nationalId,
             location,
-            info
+            info,
+            skills,
+            languages,
+            licenceNumber,
+            licenceYear,
+            carInfo,
+            hourlyPrice,
+            taxNumber
+            
             
         });
 
-        driver = driver.save()
+        driver = await driver.save()
 
         res.send(driver);
 

@@ -51,55 +51,65 @@ const userSchema = mongoose.Schema({
         required: true,
         type: Date,
     },
+
     gender:{
         required: true,
         type: String,
-        //enum: "homme" || "femme",
+        enum: ["femme","homme"],
     },
+
     nationalId:{
         required: true,
         type: String,
         trim: true,
         
     },
+
     passportNumber:{
         type: String,
         trim: true,
     },
+
     location:{
         required: true,
         type: String,
         trim: true,
     },
-    sicilNo:{
+    
+    bio:{
+        type: String,
+    },
+    
+    skills:{
+        type: [String],
+    },
+
+    languages:{
+        type: [String],
+
+    },
+
+    licenceNumber:{
         //required: true,
         type: String,
         trim: true,
     },
 
-    rating:{
-        type: Number,
-    },
-    
-    hourlyPrice:{
-        type: Number,
-    },
-
-    driverLicenceYear:{
+    licenceYear:{
         type: Date, 
-    },
-
-    languages:{
-        type: String,
-    },
-
-    info:{
-        type: String,
     },
 
     carInfo:{
         
-        planteNumber:{
+        lisenceNumber:{
+            type: String,
+        },
+
+        lisenceYear:{
+            type: Date,
+        },
+
+        plateNumber:{
             type: String,
         },
         brand:{
@@ -114,6 +124,25 @@ const userSchema = mongoose.Schema({
         color:{
             type: String,
         },
+        photos:{
+            type: [Buffer],
+        }
+    },
+
+    rating:{
+        type: Number,
+    },
+    
+    hourlyPrice:{
+        type: Number,
+    },
+
+    taxNumber:{
+        type: String,
+    },
+
+    avatar:{
+        type: Buffer,
     },
 
 });
