@@ -29,5 +29,3 @@ mongoose.connect(DB).then(function ( ) {
 app.listen(PORT, () =>{
     console.log('connected ad port ' + PORT);
 });
-
-connection()
