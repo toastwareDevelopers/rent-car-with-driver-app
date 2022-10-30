@@ -24,9 +24,13 @@ class AuthService {
   }
 
   static Future<int> registerDriver(Driver driver) async {
+    final driverCheckHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
     try {
       var url = Uri.parse("http://localhost:3000/api/signup/driver");
-      var response = await http.post(url, body: driver.toJson());
+      var response = await http.post(url, body: json.encode(driver.toJson()),headers: driverCheckHeaders);
       return response.statusCode;
     } catch (e) {
       return 400;
