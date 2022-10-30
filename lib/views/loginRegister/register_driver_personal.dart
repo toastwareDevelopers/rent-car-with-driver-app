@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rentcarmobile/constants/assets_path.dart';
 import 'package:rentcarmobile/models/driver.dart';
+import 'package:rentcarmobile/utils/warning_alert.dart';
 
 class RegisterDriverPersonalScreen extends StatefulWidget {
   RegisterDriverPersonalScreen({super.key});
+  TextEditingController nameController = TextEditingController();
+  TextEditingController surnameController = TextEditingController();
+  TextEditingController birthDateController = TextEditingController();
+  TextEditingController nationalIdController = TextEditingController();
+  TextEditingController biogrophyController = TextEditingController();
   String? locationDropdown = "Adana";
   String? genderDropdown = "Male";
   final List<String> cities = [
@@ -104,8 +110,7 @@ class _RegisterDriverPersonalScreenState
     Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
-    TextEditingController birthDateController = TextEditingController();
-
+    
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -165,6 +170,7 @@ class _RegisterDriverPersonalScreenState
                       Expanded(
                         flex: 1,
                         child: TextField(
+                          controller: widget.nameController,
                           decoration: const InputDecoration(
                             hintText: "Name",
                           ),
@@ -182,6 +188,7 @@ class _RegisterDriverPersonalScreenState
                       Expanded(
                         flex: 1,
                         child: TextField(
+                          controller: widget.surnameController,
                           decoration:
                               const InputDecoration(hintText: "Surname"),
                           inputFormatters: [
@@ -203,7 +210,7 @@ class _RegisterDriverPersonalScreenState
                           decoration: const InputDecoration(
                             hintText: "Birth Date",
                           ),
-                          controller: birthDateController,
+                          controller: widget.birthDateController,
                           onTap: () async {
                             showDialog(
                                 context: context,
@@ -216,15 +223,15 @@ class _RegisterDriverPersonalScreenState
                                         CalendarDatePicker(
                                           firstDate:
                                               DateTime.parse("1900-01-01"),
-                                          initialDate: birthDateController
-                                                      .text !=
-                                                  ""
-                                              ? DateTime.parse(
-                                                  birthDateController.text)
-                                              : DateTime.now(),
+                                          initialDate:
+                                              widget.birthDateController.text !=
+                                                      ""
+                                                  ? DateTime.parse(widget
+                                                      .birthDateController.text)
+                                                  : DateTime.now(),
                                           lastDate: DateTime.now(),
                                           onDateChanged: (DateTime value) {
-                                            birthDateController.text =
+                                            widget.birthDateController.text =
                                                 "${value.year}-${value.month < 10 ? "0${value.month}" : value.month}-${value.day < 10 ? "0${value.day}" : value.day}";
                                           },
                                         ),
@@ -259,11 +266,9 @@ class _RegisterDriverPersonalScreenState
                                   (value) => DropdownMenuItem(
                                     value: value,
                                     child: Container(
-                                      padding:
-                                          const EdgeInsets.only(left: 12),
+                                      padding: const EdgeInsets.only(left: 12),
                                       child: Text(value,
-                                          style:
-                                              const TextStyle(fontSize: 17)),
+                                          style: const TextStyle(fontSize: 17)),
                                     ),
                                   ),
                                 )
@@ -289,6 +294,7 @@ class _RegisterDriverPersonalScreenState
                       Expanded(
                         flex: 1,
                         child: TextField(
+                          controller: widget.nationalIdController,
                           decoration:
                               const InputDecoration(hintText: "National ID"),
                           inputFormatters: [
@@ -316,11 +322,9 @@ class _RegisterDriverPersonalScreenState
                                   (value) => DropdownMenuItem(
                                     value: value,
                                     child: Container(
-                                      padding:
-                                          const EdgeInsets.only(left: 12),
+                                      padding: const EdgeInsets.only(left: 12),
                                       child: Text(value,
-                                          style:
-                                              const TextStyle(fontSize: 17)),
+                                          style: const TextStyle(fontSize: 17)),
                                     ),
                                   ),
                                 )
@@ -339,7 +343,8 @@ class _RegisterDriverPersonalScreenState
                       ),
                     ],
                   ),
-                  const TextField(
+                  TextField(
+                    controller: widget.biogrophyController,
                     keyboardType: TextInputType.multiline,
                     maxLines: 5,
                     decoration: InputDecoration(hintText: "Biography"),
@@ -357,21 +362,30 @@ class _RegisterDriverPersonalScreenState
               child: ElevatedButton(
                 child: const Text("Continue"),
                 onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    "/registerDriverSkills",
-                    arguments: Driver(
-                      email: driver.email,
-                      phoneNumber: driver.phoneNumber,
-                      password: driver.password,
-                      name: "",
-                      surname: "",
-                      birthDate: "1900-01-01",
-                      gender: "Male",
-                      nationalId: "",
-                      location: "",
-                      bio: ""
-                    ),
-                  );
+                  if (!controlInputsAreNotEmpty(
+                      widget.nameController.text,
+                      widget.surnameController.text,
+                      widget.birthDateController.text,
+                      widget.nationalIdController.text,
+                      widget.biogrophyController.text)) {
+                    WarningAlert.showWarningDialog(
+                        context, "Please fill all inputs");
+                  } else {
+                    Navigator.of(context).pushNamed(
+                      "/registerDriverSkills",
+                      arguments: Driver(
+                          email: driver.email,
+                          phoneNumber: driver.phoneNumber,
+                          password: driver.password,
+                          name: widget.nameController.text,
+                          surname: widget.surnameController.text,
+                          birthDate: widget.birthDateController.text,
+                          gender: widget.genderDropdown.toString(),
+                          nationalId: widget.nationalIdController.text,
+                          location: widget.locationDropdown.toString(),
+                          bio: widget.biogrophyController.text),
+                    );
+                  }
                 },
               ),
             ),
@@ -379,5 +393,14 @@ class _RegisterDriverPersonalScreenState
         ],
       ),
     );
+  }
+
+  bool controlInputsAreNotEmpty(String name, String surname, String birthDate,
+      String nationalId, String bio) {
+    return name.isNotEmpty &&
+        surname.isNotEmpty &&
+        birthDate.isNotEmpty &&
+        nationalId.isNotEmpty &&
+        bio.isNotEmpty;
   }
 }

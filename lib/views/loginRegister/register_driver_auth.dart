@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/input_validator.dart';
+import 'package:rentcarmobile/utils/warning_alert.dart';
 
 import '../../models/driver.dart';
 
@@ -136,21 +137,22 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                       widget.phoneNumberController.text,
                       widget.passwordController.text,
                       widget.repasswordController.text)) {
-                        showWarningDialog(
+                    WarningAlert.showWarningDialog(
                         context, "Please fill all inputs!");
                   }
                   //If password and repassword is not equal
                   else if (!controlIsSamePasswordAndRePassword(
                       widget.passwordController.text,
                       widget.repasswordController.text)) {
-                    showWarningDialog(
+                    WarningAlert.showWarningDialog(
                         context, "Password and repassword must be same!");
                   }
                   //If email format is not true
                   else if (!RegExp(
                           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                       .hasMatch(widget.emailController.text)) {
-                    showWarningDialog(context, "Email format is wrong!");
+                    WarningAlert.showWarningDialog(
+                        context, "Email format is wrong!");
                   }
                   //Control email and phone number
                   else {
@@ -158,7 +160,7 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                             widget.emailController.text,
                             widget.phoneNumberController.text)) !=
                         200) {
-                      showWarningDialog(context,
+                      WarningAlert.showWarningDialog(context,
                           "There is a user with same email or phone number");
                     } else {
                       Navigator.of(context).pushNamed(
@@ -190,28 +192,5 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
 
   bool controlIsSamePasswordAndRePassword(String password, String rePassword) {
     return password == rePassword;
-  }
-
-  Future<void> showWarningDialog(BuildContext context, String warning) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Warning'),
-          content: SingleChildScrollView(
-            child: Text(warning),
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }
