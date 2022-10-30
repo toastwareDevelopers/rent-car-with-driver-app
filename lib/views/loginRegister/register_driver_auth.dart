@@ -65,12 +65,14 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                   //Phone Number
                   Expanded(
                     flex: 3,
-                    child: TextField(
+                    child: TextFormField(
                       enableSuggestions: false,
                       autocorrect: false,
                       decoration: const InputDecoration(
                         hintText: "Phone Number",
                       ),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) => InputValidator.validatePhoneNumber(value),
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(
                           RegExp("[0-9]"),
