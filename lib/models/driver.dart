@@ -13,7 +13,7 @@ class Driver {
   String nationalId = "null";
   String passportNumber = "null";
   String location = "null";
-  String bio = "null";
+  String info = "null";
   List<String> skills = [];
   List<String> languages = [];
   String licenceNumber = "null";
@@ -34,7 +34,7 @@ class Driver {
     this.nationalId = "null",
     this.passportNumber = "null",
     this.location = "null",
-    this.bio = "null",
+    this.info = "null",
     this.skills = const [],
     this.languages = const [],
     this.licenceNumber = "null",
@@ -48,4 +48,27 @@ class Driver {
   factory Driver.fromJson(Map<String, dynamic> json) => _$DriverFromJson(json);
 
   Map<String, dynamic> toJson() => _$DriverToJson(this);
+
+  @override
+  String toString() {
+    return "email : " + email + "\n" +
+    "password : " + password + "\n" +
+    "name : " + name + "\n" +
+    "surname : " + surname + "\n" +
+    "birthDate : " + birthDate + "\n" +
+    "gender : " + gender + "\n" +
+    "phoneNumber : " + phoneNumber + "\n" +
+    "nationalId : " + nationalId + "\n" +
+    "passportNumber : " + passportNumber + "\n" +
+    "location : " + location + "\n" +
+    "info : " + info + "\n" +
+    "skills : " + skills.toString() + "\n" +
+    "languages : " + languages.toString() + "\n" +
+    "licenceNumber : " + licenceNumber + "\n" +
+    "licenceYear : " + licenceYear + "\n" +
+    "rating : " + rating.toString() + "\n" +
+    "hourlyPrice : " + hourlyPrice.toString() + "\n" +
+    "taxNumber : " + taxNumber + "\n" +
+    "carInfo : " + carInfo.toString() + "\n";
+  }
 }

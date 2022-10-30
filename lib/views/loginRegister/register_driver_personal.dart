@@ -383,7 +383,7 @@ class _RegisterDriverPersonalScreenState
                           gender: widget.genderDropdown.toString(),
                           nationalId: widget.nationalIdController.text,
                           location: widget.locationDropdown.toString(),
-                          bio: widget.biogrophyController.text),
+                          info: widget.biogrophyController.text),
                     );
                   }
                 },

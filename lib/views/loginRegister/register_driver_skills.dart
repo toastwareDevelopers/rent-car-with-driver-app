@@ -281,7 +281,7 @@ class _RegisterDriverSkillsScreenState
                       gender: driver.gender,
                       nationalId: driver.nationalId,
                       location: driver.location,
-                      bio: driver.bio,
+                      info: driver.info,
                       skills: widget.skills,
                       languages: widget.addedLanguages,
                     ),

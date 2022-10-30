@@ -17,7 +17,7 @@ Driver _$DriverFromJson(Map<String, dynamic> json) => Driver(
       nationalId: json['nationalId'] as String? ?? "null",
       passportNumber: json['passportNumber'] as String? ?? "null",
       location: json['location'] as String? ?? "null",
-      bio: json['bio'] as String? ?? "null",
+      info: json['info'] as String? ?? "null",
       skills: (json['skills'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -45,7 +45,7 @@ Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
       'nationalId': instance.nationalId,
       'passportNumber': instance.passportNumber,
       'location': instance.location,
-      'bio': instance.bio,
+      'info': instance.info,
       'skills': instance.skills,
       'languages': instance.languages,
       'licenceNumber': instance.licenceNumber,
