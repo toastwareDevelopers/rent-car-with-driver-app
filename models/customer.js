@@ -55,7 +55,7 @@ const customerSchema = mongoose.Schema({
     gender: {
         required: true,
         type: String,
-        //enum: "homme" || "femme",
+        enum: ["Female","Male"],
     },
 
     nationalId: {
