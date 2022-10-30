@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:rentcarmobile/services/auth.dart';
+import 'package:rentcarmobile/utils/input_validator.dart';
+import 'package:rentcarmobile/utils/warning_alert.dart';
 
 import '../../constants/assets_path.dart';
-import '../../models/CustumerRegisterData.dart';
+import '../../models/customerRegisterData.dart';
 
 class RegisterCustomerScreen extends StatefulWidget {
   const RegisterCustomerScreen({super.key});
@@ -14,27 +18,25 @@ enum SingingCharacter { nationalNumber, passportNumber }
 
 class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
   SingingCharacter? _character = SingingCharacter.nationalNumber;
-  CustumerRegisterData data = new CustumerRegisterData();
-  TextEditingController name = new TextEditingController();
-  TextEditingController surname = new TextEditingController();
-  TextEditingController email = new TextEditingController();
-  TextEditingController phoneNumber = new TextEditingController();
-  TextEditingController password1 = new TextEditingController();
-  TextEditingController password2 = new TextEditingController();
-  TextEditingController idnumber = new TextEditingController();
-  TextEditingController idtype = new TextEditingController();
-  TextEditingController gender = new TextEditingController();
+  CustomerRegisterData data = CustomerRegisterData();
+  TextEditingController name = TextEditingController();
+  TextEditingController surname = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController password1 = TextEditingController();
+  TextEditingController password2 = TextEditingController();
+  TextEditingController idnumber = TextEditingController();
+  TextEditingController idtype = TextEditingController();
+  TextEditingController gender = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
-
+  String? genderDropdown = "Male";
+  final List<String> genders = ["Male", "Female"];
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Register Customer Screen"),
-      ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -43,10 +45,19 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
             children: [
               Column(
                 children: [
-                  Container(
+                  Container( // ismin bulunduğu alan
                     child: Container(
-                      padding: EdgeInsets.all(phoneHeight * 0.04),
-                      alignment: Alignment.topCenter,
+                      padding: EdgeInsets.only(top: phoneHeight * 0.06),
+                      child: Text(
+                        "Register as a Customer",
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                    ),
+                  ),
+                  Container( // profil resmi
+                    padding: EdgeInsets.only(
+                        top: phoneHeight * 0.04, bottom: phoneHeight * 0.04),
+                    child: Center(
                       child: Stack(
                         alignment: Alignment.bottomRight,
                         children: [
@@ -72,7 +83,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                       ),
                     ),
                   ),
-                  Container(
+                  Container( // form elamanları
                     height: MediaQuery.of(context).size.height / 2,
                     width: MediaQuery.of(context).size.width,
                     child: Container(
@@ -85,7 +96,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                           Row(
                             children: [
                               //Name
-                               Expanded(
+                              Expanded(
                                 flex: 1,
                                 child: TextField(
                                   decoration: InputDecoration(hintText: "Name"),
@@ -96,11 +107,11 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                 width: phoneWidth * 0.04,
                               ),
                               //Surname
+
                               Expanded(
                                 flex: 1,
                                 child: TextField(
-                                  decoration:
-                                      InputDecoration(hintText: "Surname"),
+                                  decoration: InputDecoration(hintText: "Surname"),
                                   controller: surname,
                                 ),
                               ),
@@ -108,15 +119,19 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                           ),
                           //Birthdate - Gender
                           Row(
-                            children:  [
-                              //Birthdate
-
-                              //Gender
+                            children: [
                               Expanded(
                                 flex: 1,
-                                child: TextField(
-                                  decoration:
-                                      InputDecoration(hintText: "Email"),
+                                child: TextFormField(
+                                  enableSuggestions: false,
+                                  autocorrect: false,
+                                  decoration: const InputDecoration(
+                                    hintText: "Email",
+                                  ),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: (value) =>
+                                      InputValidator.validateEmail(value),
                                   controller: email,
                                 ),
                               ),
@@ -125,7 +140,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                           //NationalID - Location
                           Row(
                             children: [
-                              //NationalID
+                              //passwordler
                               Expanded(
                                 flex: 1,
                                 child: TextField(
@@ -151,20 +166,32 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
 
                           Row(
                             children: [
-                              //NationalID
+                              //Phone number
                               Expanded(
                                 flex: 1,
-                                child: TextField(
-                                  decoration:
-                                      InputDecoration(hintText: "Phone Number"),
-                                  controller: phoneNumber ,
+                                child: TextFormField(
+                                  enableSuggestions: false,
+                                  autocorrect: false,
+                                  decoration: const InputDecoration(
+                                    hintText: "Phone Number",
+                                  ),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: (value) =>
+                                      InputValidator.validatePhoneNumber(value),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9]"),
+                                    ),
+                                  ],
+                                  controller: phoneNumber,
                                 ),
                               ),
                             ],
                           ),
                           Row(
                             children: [
-                              Expanded(
+                              Expanded( // radio button id number icin
                                 flex: 1,
                                 child: RadioListTile<SingingCharacter>(
                                   title: const Text(
@@ -204,7 +231,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                 child: TextField(
                                   decoration:
                                       InputDecoration(hintText: "National ID"),
-                                  controller: idnumber ,
+                                  controller: idnumber,
                                 ),
                               ),
                             ],
@@ -216,33 +243,40 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                 flex: 1,
                                 child: TextField(
                                   decoration: const InputDecoration(
-                                      hintText: "Birth Date"),
+                                    hintText: "Birth Date",
+                                  ),
                                   controller: birthDateController,
                                   onTap: () async {
                                     showDialog(
                                         context: context,
                                         barrierDismissible: false,
                                         builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            actions: [
-                                              CalendarDatePicker(
-                                                firstDate: DateTime.parse(
-                                                    "1900-01-01"),
-                                                initialDate: DateTime.now(),
-                                                lastDate: DateTime.now(),
-                                                onDateChanged:
-                                                    (DateTime value) {
-                                                  birthDateController.text =
-                                                      "${value.year}-${value.month}-${value.day}";
-                                                },
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text("OK"),
-                                              ),
-                                            ],
+                                          return Theme(
+                                            data: Theme.of(context),
+                                            child: AlertDialog(
+                                              actions: [
+                                                CalendarDatePicker(
+                                                  firstDate:
+                                                  DateTime.parse("1900-01-01"),
+                                                  initialDate:
+                                                  birthDateController.text !=
+                                                      ""
+                                                      ? DateTime.parse(birthDateController.text)
+                                                      : DateTime.now(),
+                                                  lastDate: DateTime.now(),
+                                                  onDateChanged: (DateTime value) {
+                                                    birthDateController.text =
+                                                    "${value.year}-${value.month < 10 ? "0${value.month}" : value.month}-${value.day < 10 ? "0${value.day}" : value.day}";
+                                                  },
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("OK"),
+                                                ),
+                                              ],
+                                            ),
                                           );
                                         });
                                   },
@@ -254,10 +288,35 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               //Gender
                               Expanded(
                                 flex: 1,
-                                child: TextField(
-                                  decoration:
-                                      InputDecoration(hintText: "Gender"),
-                                  controller: gender,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(255, 218, 218, 218),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: DropdownButton(
+                                    value: genderDropdown,
+                                    items: genders
+                                        .map(
+                                          (value) => DropdownMenuItem(
+                                        value: value,
+                                        child: Container(
+                                          padding: const EdgeInsets.only(left: 12),
+                                          child: Text(value,
+                                              style: const TextStyle(fontSize: 17)),
+                                        ),
+                                      ),
+                                    )
+                                        .toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        genderDropdown = value as String?;
+                                      });
+                                    },
+                                    dropdownColor:
+                                    const Color.fromARGB(255, 218, 218, 218),
+                                    borderRadius: BorderRadius.circular(10),
+                                    isExpanded: true,
+                                  ),
                                 ),
                               ),
                             ],
@@ -265,35 +324,56 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                         ],
                       ),
                     ),
-                  ),
+                  ), //form elemanları
                   Container(
                     height: MediaQuery.of(context).size.height / 2,
                     width: MediaQuery.of(context).size.width,
                     child: Container(
                       alignment: Alignment.topRight,
-                      padding: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.only(right: 15),
                       child: ElevatedButton(
                         child: const Text("Continue"),
-                        onPressed: () {
-                          if(name.value.text.toString().isEmpty || surname.value.text.toString().isEmpty || email.value.text.toString().isEmpty
-                              || password1.value.text.toString().isEmpty || password2.value.text.toString().isEmpty || phoneNumber.value.text.toString().isEmpty
-                              || idnumber.value.text.toString().isEmpty   || gender.value.text.toString().isEmpty  ){
-                            print("bos kutucuklar var");
-                          }
-                          else if(password1.value.text.toString().compareTo(password2.value.text.toString()) == false){
-                            print("iki sifre uyusmuyor");
-                          }
-                          else{
+                        onPressed: () async {
+                          if (name.value.text.toString().isEmpty ||
+                              surname.value.text.toString().isEmpty ||
+                              email.value.text.toString().isEmpty ||
+                              password1.value.text.toString().isEmpty ||
+                              password2.value.text.toString().isEmpty ||
+                              phoneNumber.value.text.toString().isEmpty ||
+                              idnumber.value.text.toString().isEmpty ) {
+                            WarningAlert.showWarningDialog(
+                                context, "Please fill all inputs!");
+                          } else if (password1.value.text
+                                  .toString()
+                                  .compareTo(password2.value.text.toString()) !=
+                              0) {
+                            WarningAlert.showWarningDialog(context,
+                                "Password and repassword must be same!");
+                          } else if (!RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(email.text)) {
+                            WarningAlert.showWarningDialog(
+                                context, "Email format is wrong!");
+                          } else if ((await AuthService.controlEmailPhone(
+                                  email.text, phoneNumber.text)) !=
+                              200) {
+                            WarningAlert.showWarningDialog(context,
+                                "There is a user with same email or phone number");
+                          } else {
                             data.name = name.value.text.toString();
                             data.surname = surname.value.text.toString();
                             data.mail = email.value.text.toString();
                             data.password = password1.value.text.toString();
-                            data.phoneNumber = phoneNumber.value.text.toString();
-                            data.birthday = birthDateController.value.text.toString();
-                            data.gender = gender.value.text.toString();
+                            data.phoneNumber =
+                                phoneNumber.value.text.toString();
+                            data.birthday =
+                                birthDateController.value.text.toString();
+                            data.gender = genderDropdown.toString();
+                            data.idtype = _character?.index;
+                            print("okey");
+                            AuthService.registerCustomer(data);
                           }
-
-
+                          print("berkan");
                         },
                       ),
                     ),
@@ -307,7 +387,5 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
     );
   }
 
-  void requestData(){
-
-  }
+  void requestData() {}
 }
