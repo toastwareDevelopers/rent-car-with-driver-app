@@ -76,7 +76,7 @@ class RentVanApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginScreen(),
         '/registerCustomer': (context) => const RegisterCustomerScreen(),
-        '/registerDriverAuth': (context) =>  const RegisterDriverAuthScreen(),
+        '/registerDriverAuth': (context) =>  RegisterDriverAuthScreen(),
         '/registerDriverPersonal': (context) =>  RegisterDriverPersonalScreen(),
         '/registerDriverSkills': (context) => RegisterDriverSkillsScreen(),
         '/registerDriverCar': (context) =>  RegisterDriverCarScreen(),

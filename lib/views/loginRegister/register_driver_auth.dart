@@ -6,19 +6,18 @@ import 'package:rentcarmobile/utils/input_validator.dart';
 import '../../models/driver.dart';
 
 class RegisterDriverAuthScreen extends StatefulWidget {
-  const RegisterDriverAuthScreen({super.key});
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController repasswordController = TextEditingController();
+
+  RegisterDriverAuthScreen({super.key});
   @override
   State<RegisterDriverAuthScreen> createState() =>
       _RegisterDriverAuthScreenState();
 }
 
 class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
-  @override
-  void initState() {
-    AuthService.login();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
@@ -59,6 +58,7 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) => InputValidator.validateEmail(value),
+                      controller: widget.emailController,
                     ),
                   ),
                   //Phone Number
@@ -75,6 +75,7 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                           RegExp("[0-9]"),
                         ),
                       ],
+                      controller: widget.phoneNumberController,
                     ),
                   ),
                   //Password - retype password
@@ -83,13 +84,14 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                     child: Row(
                       children: [
                         //Password
-                        const Expanded(
+                        Expanded(
                           flex: 1,
                           child: TextField(
+                            controller: widget.passwordController,
                             obscureText: true,
                             enableSuggestions: false,
                             autocorrect: false,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: "Password",
                             ),
                           ),
@@ -98,13 +100,14 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                           width: phoneWidth * 0.04,
                         ),
                         //Re-type password
-                        const Expanded(
+                        Expanded(
                           flex: 1,
                           child: TextField(
+                            controller: widget.repasswordController,
                             obscureText: true,
                             enableSuggestions: false,
                             autocorrect: false,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: "Retype Password",
                             ),
                           ),
@@ -127,21 +130,88 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
               padding: const EdgeInsets.only(right: 20),
               child: ElevatedButton(
                 child: const Text("Continue"),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    "/registerDriverPersonal",
-                    arguments: Driver(
-                      email: "",
-                      phoneNumber: "",
-                      password: "",
-                    ),
-                  );
+                onPressed: () async {
+                  if (!controlInputsAreNotEmpty(
+                      widget.emailController.text,
+                      widget.phoneNumberController.text,
+                      widget.passwordController.text,
+                      widget.repasswordController.text)) {
+                        showWarningDialog(
+                        context, "Please fill all inputs!");
+                  }
+                  //If password and repassword is not equal
+                  else if (!controlIsSamePasswordAndRePassword(
+                      widget.passwordController.text,
+                      widget.repasswordController.text)) {
+                    showWarningDialog(
+                        context, "Password and repassword must be same!");
+                  }
+                  //If email format is not true
+                  else if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(widget.emailController.text)) {
+                    showWarningDialog(context, "Email format is wrong!");
+                  }
+                  //Control email and phone number
+                  else {
+                    if ((await AuthService.controlEmailPhone(
+                            widget.emailController.text,
+                            widget.phoneNumberController.text)) !=
+                        200) {
+                      showWarningDialog(context,
+                          "There is a user with same email or phone number");
+                    } else {
+                      Navigator.of(context).pushNamed(
+                        "/registerDriverPersonal",
+                        arguments: Driver(
+                          email: widget.emailController.text,
+                          phoneNumber: widget.phoneNumberController.text,
+                          password: widget.passwordController.text,
+                        ),
+                      );
+                    }
+                  }
                 },
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  bool controlInputsAreNotEmpty(
+      String email, String phoneNumber, String password, String repassword) {
+    return email.isNotEmpty &&
+        phoneNumber.isNotEmpty &&
+        password.isNotEmpty &&
+        repassword.isNotEmpty;
+  }
+
+  bool controlIsSamePasswordAndRePassword(String password, String rePassword) {
+    return password == rePassword;
+  }
+
+  Future<void> showWarningDialog(BuildContext context, String warning) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Warning'),
+          content: SingleChildScrollView(
+            child: Text(warning),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

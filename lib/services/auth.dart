@@ -1,27 +1,34 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import '../models/driver.dart';
 
 class AuthService {
-  static void login() async {
-  }
+  static Future<int> controlEmailPhone(String email, String phoneNumber) async {
+    final driverCheckBody = {
+      "email": email,
+      "phoneNumber": phoneNumber,
+    };
+    final driverCheckHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
 
-  static Future<int> controlEmailPhone(Driver driver) async {
-    try{
+    try {
       var url = Uri.parse("http://localhost:3000/api/signup/driverCheck");
-      var response = await http.post(url,body: driver.toJson());
+      var response = await http.post(url,
+          body: json.encode(driverCheckBody), headers: driverCheckHeaders);
       return response.statusCode;
-    } catch (e){
+    } catch (e) {
       return 400;
     }
   }
 
   static Future<int> registerDriver(Driver driver) async {
-    try{
+    try {
       var url = Uri.parse("http://localhost:3000/api/signup/driver");
-      var response = await http.post(url,body: driver.toJson());
+      var response = await http.post(url, body: driver.toJson());
       return response.statusCode;
-    } catch (e){
+    } catch (e) {
       return 400;
     }
   }
