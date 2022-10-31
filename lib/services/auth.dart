@@ -1,0 +1,54 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import '../models/driver.dart';
+import '../models/login.dart';
+
+class AuthService {
+  static Future<int> controlEmailPhone(String email, String phoneNumber) async {
+    final driverCheckBody = {
+      "email": email,
+      "phoneNumber": phoneNumber,
+    };
+    final driverCheckHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+
+    try {
+      var url = Uri.parse("http://localhost:3000/api/signup/driverCheck");
+      var response = await http.post(url,
+          body: json.encode(driverCheckBody), headers: driverCheckHeaders);
+      return response.statusCode;
+    } catch (e) {
+      return 400;
+    }
+  }
+
+  static Future<int> registerDriver(Driver driver) async {
+    final driverCheckHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("http://localhost:3000/api/signup/driver");
+      var response = await http.post(url, body: json.encode(driver.toJson()),headers: driverCheckHeaders);
+      return response.statusCode;
+    } catch (e) {
+      return 400;
+    }
+  }
+
+  static Future<int> loginAuth(Login login) async {
+    final driverCheckHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("https://webhook.site/504837ae-ef51-44c2-b08d-c53f0e65cebe");
+      var response = await http.post(url, body: json.encode(login.toJson()),headers: driverCheckHeaders);
+      return response.statusCode;
+    } catch (e) {
+      return 400;
+    }
+  }
+}

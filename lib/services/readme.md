@@ -1,0 +1,1 @@
+Bu klasör backend ile iletişim için gerekecek olan service sınıflarını barındıracak. Backende istekleri buradaki service sınıfları ile gönderip - alacağız.
