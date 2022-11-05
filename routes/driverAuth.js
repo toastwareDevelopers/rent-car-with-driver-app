@@ -2,6 +2,7 @@ const express = require('express');
 const Driver = require("../models/driver");
 
 const bcryptjs = require('bcryptjs');
+const Customer = require('../models/customer');
 
 const driverAuthRouter = express.Router();
 
@@ -13,12 +14,22 @@ driverAuthRouter.post('/api/signup/driverCheck',async function(req,res){
         const existingDriverWithMail = await Driver.findOne({email});
         const existingDriverWithPhone = await Driver.findOne({phoneNumber});
 
-        
+        const existingCustomerWithMail = await Customer.findOne({email});
+        const existingCustomerWithPhone = await Customer.findOne({phoneNumber});
+
+        // TODO wili write clean  (quick fix)
 
         if(existingDriverWithMail){
             return res.status(400).json({msg: "There is a person with same email already"});
         }
         if(existingDriverWithPhone){
+            return res.status(400).json({msg: "There is a person with same phone number already"});
+        }
+
+        if(existingCustomerWithMail){
+            return res.status(400).json({msg: "There is a person with same email already"});
+        }
+        if(existingCustomerWithPhone){
             return res.status(400).json({msg: "There is a person with same phone number already"});
         }
 
