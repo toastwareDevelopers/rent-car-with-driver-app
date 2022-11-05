@@ -33,11 +33,16 @@ class AuthService {
     };
 
     try {
-      var url = Uri.parse("https://webhook.site/6382e02d-71ac-4d71-8fdd-4dd0cc903187");
+      var url = Uri.parse("http://192.168.10.5:3000/api/signup/driverCheck");
+      print("nerede1");
       var response = await http.post(url,
           body: json.encode(driverCheckBody), headers: driverCheckHeaders);
+      print("nerede2");
+      print("status:"+response.body.toString());
+      print("statuscode:"+response.statusCode.toString());
       return response.statusCode;
     } catch (e) {
+      print("auth:"+e.toString());
       return 400;
     }
   }
@@ -48,21 +53,23 @@ class AuthService {
 
 
         try{
-          var url = Uri.parse("https://webhook.site/6382e02d-71ac-4d71-8fdd-4dd0cc903187");
+          var url = Uri.parse("http://192.168.10.5:3000/api/signup/customer");
           var response = await http.post(url,headers: {"Content-Type": "application/json"},
               body: json.encode({"name": data.name,"surname":data.surname, "email":data.mail, "password": data.password,
-              "idnumber":data.idNumber,"gender": data.gender,"phoneNumber": data.phoneNumber,"birthday": data.birthday,
-                "idtype":data.idtype}) );
+              "passportNumber":data.passportNumber,"gender": data.gender,"phoneNumber": data.phoneNumber,"birthDate": data.birthday,
+                "nationalId":data.nationalId}) );
+          print("burada akin");
 
+          print("akin:"+response.body.toString());
           return response.statusCode;
         } catch (e){
-
-          return 400;
+          print("auth:"+e.toString());
+          ;
         }
 
 
     } catch (e){
-      print("hata:");
+      print("auth:"+e.toString());
     }
     return 400;
   }

@@ -11,11 +11,10 @@ class CustomerRegisterData {
   String? mail;
   String? password;
   String? phoneNumber;
-  int? idtype;
-  String? idNumber;
+  String? passportNumber;
   String? birthday;
   String? gender;
-
+  String? nationalId;
   CustomerRegisterData( {
     this.mail = "null",
     this.password = "null",
@@ -24,8 +23,9 @@ class CustomerRegisterData {
     this.birthday = "null",
     this.gender = "null",
     this.phoneNumber = "null",
-    this.idNumber = "null",
-    this.idtype =0,
+    this.passportNumber = "null",
+    this.nationalId ="null",
+
   });
 
 

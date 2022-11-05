@@ -8,8 +8,8 @@ CustomerRegisterData _$CustomerFromJson(Map<String, dynamic> json) => CustomerRe
   birthday: json['birthDate'] as String? ?? "null",
   gender: json['gender'] as String? ?? "null",
   phoneNumber: json['phoneNumber'] as String? ?? "null",
-  idNumber: json['idNumber'] as String? ?? "null"
-
+  passportNumber: json['passportNumber'] as String? ?? "null",
+  nationalId: json['nationalId'] as String? ?? "null",
 );
 
 Map<String, dynamic> _$CustomerToJson(CustomerRegisterData instance) => <String, dynamic>{
@@ -20,7 +20,9 @@ Map<String, dynamic> _$CustomerToJson(CustomerRegisterData instance) => <String,
   'birthDate': instance.birthday,
   'gender': instance.gender,
   'phoneNumber': instance.phoneNumber,
-  'nationalId': instance.idNumber,
+  'nationalId': instance.nationalId,
+  'passportNumber':instance.passportNumber,
+
 
 
 };

@@ -25,7 +25,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController password1 = TextEditingController();
   TextEditingController password2 = TextEditingController();
-  TextEditingController idnumber = TextEditingController();
+  TextEditingController idNumber = TextEditingController();
   TextEditingController idtype = TextEditingController();
   TextEditingController gender = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
@@ -231,7 +231,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                 child: TextField(
                                   decoration:
                                       InputDecoration(hintText: "National ID"),
-                                  controller: idnumber,
+                                  controller: idNumber,
                                 ),
                               ),
                             ],
@@ -334,32 +334,38 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                       child: ElevatedButton(
                         child: const Text("Continue"),
                         onPressed: () async {
+                          print("okey1");
                           if (name.value.text.toString().isEmpty ||
                               surname.value.text.toString().isEmpty ||
                               email.value.text.toString().isEmpty ||
                               password1.value.text.toString().isEmpty ||
                               password2.value.text.toString().isEmpty ||
                               phoneNumber.value.text.toString().isEmpty ||
-                              idnumber.value.text.toString().isEmpty ) {
+                              idNumber.value.text.toString().isEmpty ) {
+                            print("okey2");
                             WarningAlert.showWarningDialog(
                                 context, "Please fill all inputs!");
                           } else if (password1.value.text
                                   .toString()
                                   .compareTo(password2.value.text.toString()) !=
                               0) {
+                            print("okey3");
                             WarningAlert.showWarningDialog(context,
                                 "Password and repassword must be same!");
                           } else if (!RegExp(
                                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(email.text)) {
+                            print("okey4");
                             WarningAlert.showWarningDialog(
                                 context, "Email format is wrong!");
                           } else if ((await AuthService.controlEmailPhone(
-                                  email.text, phoneNumber.text)) !=
-                              200) {
+                                  email.text.toString(), phoneNumber.text.toString())) ==
+                              400) {
+                            print("okey5");
                             WarningAlert.showWarningDialog(context,
                                 "There is a user with same email or phone number");
                           } else {
+                            print("okey6");
                             data.name = name.value.text.toString();
                             data.surname = surname.value.text.toString();
                             data.mail = email.value.text.toString();
@@ -369,11 +375,18 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                             data.birthday =
                                 birthDateController.value.text.toString();
                             data.gender = genderDropdown.toString();
-                            data.idtype = _character?.index;
-                            print("okey");
+                            data.birthday ="3243244";
+
+                            if(_character?.index ==0){
+                              data.nationalId = idNumber.value.text.toString();
+                            }
+                            else{
+                              data.passportNumber = idNumber.value.text.toString();
+                            }
+                            print("okey7");
                             AuthService.registerCustomer(data);
                           }
-                          print("berkan");
+                          print("okey 8");
                         },
                       ),
                     ),
