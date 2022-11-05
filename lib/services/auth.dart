@@ -33,7 +33,7 @@ class AuthService {
     };
 
     try {
-      var url = Uri.parse("http://192.168.10.5:3000/api/signup/driverCheck");
+      var url = Uri.parse("http://192.168.10.5:3000/api/signup/customer");
       print("nerede1");
       var response = await http.post(url,
           body: json.encode(driverCheckBody), headers: driverCheckHeaders);
