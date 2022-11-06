@@ -375,7 +375,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                             data.birthday =
                                 birthDateController.value.text.toString();
                             data.gender = genderDropdown.toString();
-                            data.birthday ="3243244";
+                            data.birthday =birthDateController.value.text.toString();;
 
                             if(_character?.index ==0){
                               data.nationalId = idNumber.value.text.toString();
