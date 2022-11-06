@@ -45,7 +45,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
             children: [
               Column(
                 children: [
-                  Container( // ismin bulunduğu alan
+                  Container(
+                    // ismin bulunduğu alan
                     child: Container(
                       padding: EdgeInsets.only(top: phoneHeight * 0.06),
                       child: Text(
@@ -54,7 +55,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                       ),
                     ),
                   ),
-                  Container( // profil resmi
+                  Container(
+                    // profil resmi
                     padding: EdgeInsets.only(
                         top: phoneHeight * 0.04, bottom: phoneHeight * 0.04),
                     child: Center(
@@ -83,7 +85,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                       ),
                     ),
                   ),
-                  Container( // form elamanları
+                  Container(
+                    // form elamanları
                     height: MediaQuery.of(context).size.height / 2,
                     width: MediaQuery.of(context).size.width,
                     child: Container(
@@ -107,17 +110,17 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                 width: phoneWidth * 0.04,
                               ),
                               //Surname
-
                               Expanded(
                                 flex: 1,
                                 child: TextField(
-                                  decoration: InputDecoration(hintText: "Surname"),
+                                  decoration:
+                                      InputDecoration(hintText: "Surname"),
                                   controller: surname,
                                 ),
                               ),
                             ],
                           ),
-                          //Birthdate - Gender
+                          //Email
                           Row(
                             children: [
                               Expanded(
@@ -137,7 +140,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               ),
                             ],
                           ),
-                          //NationalID - Location
+                          //Password
                           Row(
                             children: [
                               //passwordler
@@ -152,7 +155,6 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               SizedBox(
                                 width: phoneWidth * 0.04,
                               ),
-                              //Location
                               Expanded(
                                 flex: 1,
                                 child: TextField(
@@ -163,7 +165,6 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               ),
                             ],
                           ),
-
                           Row(
                             children: [
                               //Phone number
@@ -191,9 +192,12 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                           ),
                           Row(
                             children: [
-                              Expanded( // radio button id number icin
+                              Expanded(
+                                // radio button id number icin
                                 flex: 1,
                                 child: RadioListTile<SingingCharacter>(
+                                  activeColor:
+                                      Color.fromRGBO(255, 167, 117, 77),
                                   title: const Text(
                                       style: TextStyle(color: Colors.white),
                                       'National ID'),
@@ -209,6 +213,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               Expanded(
                                 flex: 1,
                                 child: RadioListTile<SingingCharacter>(
+                                  activeColor:
+                                      Color.fromRGBO(255, 167, 117, 77),
                                   title: const Text(
                                       style: TextStyle(color: Colors.white),
                                       'Passpord ID'),
@@ -246,40 +252,6 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                     hintText: "Birth Date",
                                   ),
                                   controller: birthDateController,
-                                  onTap: () async {
-                                    showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (BuildContext context) {
-                                          return Theme(
-                                            data: Theme.of(context),
-                                            child: AlertDialog(
-                                              actions: [
-                                                CalendarDatePicker(
-                                                  firstDate:
-                                                  DateTime.parse("1900-01-01"),
-                                                  initialDate:
-                                                  birthDateController.text !=
-                                                      ""
-                                                      ? DateTime.parse(birthDateController.text)
-                                                      : DateTime.now(),
-                                                  lastDate: DateTime.now(),
-                                                  onDateChanged: (DateTime value) {
-                                                    birthDateController.text =
-                                                    "${value.year}-${value.month < 10 ? "0${value.month}" : value.month}-${value.day < 10 ? "0${value.day}" : value.day}";
-                                                  },
-                                                ),
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text("OK"),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        });
-                                  },
                                 ),
                               ),
                               SizedBox(
@@ -290,7 +262,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                 flex: 1,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: const Color.fromARGB(255, 218, 218, 218),
+                                    color: const Color.fromARGB(
+                                        255, 218, 218, 218),
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                   child: DropdownButton(
@@ -298,22 +271,24 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                     items: genders
                                         .map(
                                           (value) => DropdownMenuItem(
-                                        value: value,
-                                        child: Container(
-                                          padding: const EdgeInsets.only(left: 12),
-                                          child: Text(value,
-                                              style: const TextStyle(fontSize: 17)),
-                                        ),
-                                      ),
-                                    )
+                                            value: value,
+                                            child: Container(
+                                              padding: const EdgeInsets.only(
+                                                  left: 12),
+                                              child: Text(value,
+                                                  style: const TextStyle(
+                                                      fontSize: 17)),
+                                            ),
+                                          ),
+                                        )
                                         .toList(),
                                     onChanged: (value) {
                                       setState(() {
                                         genderDropdown = value as String?;
                                       });
                                     },
-                                    dropdownColor:
-                                    const Color.fromARGB(255, 218, 218, 218),
+                                    dropdownColor: const Color.fromARGB(
+                                        255, 218, 218, 218),
                                     borderRadius: BorderRadius.circular(10),
                                     isExpanded: true,
                                   ),
@@ -332,40 +307,41 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                       alignment: Alignment.topRight,
                       padding: const EdgeInsets.only(right: 15),
                       child: ElevatedButton(
-                        child: const Text("Continue"),
+                        child: const Text("Register"),
                         onPressed: () async {
-                          print("okey1");
                           if (name.value.text.toString().isEmpty ||
                               surname.value.text.toString().isEmpty ||
                               email.value.text.toString().isEmpty ||
                               password1.value.text.toString().isEmpty ||
                               password2.value.text.toString().isEmpty ||
                               phoneNumber.value.text.toString().isEmpty ||
-                              idNumber.value.text.toString().isEmpty ) {
-                            print("okey2");
+                              idNumber.value.text.toString().isEmpty) {
                             WarningAlert.showWarningDialog(
-                                context, "Please fill all inputs!");
+                              context,
+                              "Please fill all inputs!",
+                              () {
+                                Navigator.pop(context);
+                              },
+                            );
                           } else if (password1.value.text
                                   .toString()
                                   .compareTo(password2.value.text.toString()) !=
                               0) {
-                            print("okey3");
-                            WarningAlert.showWarningDialog(context,
-                                "Password and repassword must be same!");
+                            WarningAlert.showWarningDialog(
+                              context,
+                              "Password and repassword must be same!",
+                              () {
+                                Navigator.pop(context);
+                              },
+                            );
                           } else if (!RegExp(
                                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(email.text)) {
-                            print("okey4");
                             WarningAlert.showWarningDialog(
-                                context, "Email format is wrong!");
-                          } else if ((await AuthService.controlEmailPhone(
-                                  email.text.toString(), phoneNumber.text.toString())) ==
-                              400) {
-                            print("okey5");
-                            WarningAlert.showWarningDialog(context,
-                                "There is a user with same email or phone number");
+                                context, "Email format is wrong!", () {
+                              Navigator.pop(context);
+                            });
                           } else {
-                            print("okey6");
                             data.name = name.value.text.toString();
                             data.surname = surname.value.text.toString();
                             data.mail = email.value.text.toString();
@@ -375,18 +351,34 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                             data.birthday =
                                 birthDateController.value.text.toString();
                             data.gender = genderDropdown.toString();
-                            data.birthday =birthDateController.value.text.toString();;
+                            data.birthday =
+                                birthDateController.value.text.toString();
 
-                            if(_character?.index ==0){
+                            if (_character?.index == 0) {
                               data.nationalId = idNumber.value.text.toString();
+                            } else {
+                              data.passportNumber =
+                                  idNumber.value.text.toString();
                             }
-                            else{
-                              data.passportNumber = idNumber.value.text.toString();
+                            if ((await AuthService.registerCustomer(data)) !=
+                                200) {
+                              WarningAlert.showWarningDialog(
+                                context,
+                                "We can not register you. Try again please.",
+                                () {
+                                  Navigator.pop(context);
+                                },
+                              );
+                            } else {
+                              WarningAlert.showWarningDialog(
+                                context,
+                                "Congrulations! You have registered succesfully!",
+                                () {
+                                  Navigator.pushNamed(context, "/");
+                                },
+                              );
                             }
-                            print("okey7");
-                            AuthService.registerCustomer(data);
                           }
-                          print("okey 8");
                         },
                       ),
                     ),
@@ -399,6 +391,4 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
       ),
     );
   }
-
-  void requestData() {}
 }
