@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
+
+    role:{
+        type: String,
+        default:"driver",
+    },
     
     phoneNumber:{
         required: true,

@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const customerSchema = mongoose.Schema({
 
+    role:{
+        type: String,
+        default:"customer",
+    },
+
     phoneNumber: {
         required: true,
         type: String,

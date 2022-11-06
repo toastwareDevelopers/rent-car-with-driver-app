@@ -1,8 +1,8 @@
 const express = require("express");
 const bcyrptjs = require("bcryptjs");
 const loginAuthRouter = express.Router();
-const jwt = require('jsonwebtoken');
-const auth = require("../middlewares/auth");
+//const jwt = require('jsonwebtoken');
+//const auth = require("../middlewares/auth");
 const Customer = require("../models/customer");
 const Driver = require("../models/driver");
 
@@ -25,8 +25,11 @@ loginAuthRouter.post("/api/signin", async (req,res) =>{
                 .status(400)
                 .json({msg: "Incorrect password"});
             }
-            const token = jwt.sign({id: driver._id}, "passwordKey");
-            res.json({token, ...driver._doc});
+           
+           res.send(driver);
+
+        
+             
         }
         else{
             const isMatch = await bcyrptjs.compare(password, customer.password);
@@ -35,17 +38,13 @@ loginAuthRouter.post("/api/signin", async (req,res) =>{
                 .status(400)
                 .json({msg: "Incorrect password"});
             }
-            const token = jwt.sign({id: customer._id}, "passwordKey");
-            res.json({token, ...customer._doc});
+            
+            res.send(customer);
         }
     }catch(e){
         res.status(500).json({error:e.message});
     }
 })
 
-loginAuthRouter.get('/', auth, async (req,res) =>{
-    const user = await User.findById(req.user);
-    res.json({...user._doc,token: req.token});
-})
 
 module.exports = loginAuthRouter;
