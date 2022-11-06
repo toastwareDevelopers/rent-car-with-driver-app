@@ -112,6 +112,7 @@ class _RegisterDriverPersonalScreenState
     double phoneWidth = MediaQuery.of(context).size.width;
     
     return Scaffold(
+      appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
         child: Container(
           height: phoneHeight,

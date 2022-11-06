@@ -31,6 +31,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
     double phoneWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
         child: Container(
           height: phoneHeight,
@@ -83,7 +84,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                               decoration: const InputDecoration(
                                 hintText: "Car Lisence Number",
                                 hintMaxLines: 2,
-                                isDense: true,
+                                isDense: false,
                               ),
                             ),
                           ),
@@ -107,7 +108,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                               decoration: const InputDecoration(
                                 hintText: "Driver Lisence Year ",
                                 hintMaxLines: 2,
-                                isDense: true,
+                                isDense: false,
                                 counterText: "",
                               ),
                             ),
@@ -207,7 +208,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                               decoration: const InputDecoration(
                                 hintText: "Hourly Price (TL)",
                                 hintMaxLines: 2,
-                                isDense: true,
+                                isDense: false,
                               ),
                             ),
                           ),
