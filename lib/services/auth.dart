@@ -1,59 +1,24 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import '../models/driver.dart';
+import 'package:http/http.dart';
 import '../models/login.dart';
 
 class AuthService {
-  static Future<int> controlEmailPhone(String email, String phoneNumber) async {
-    final driverCheckBody = {
-      "email": email,
-      "phoneNumber": phoneNumber,
-    };
-    final driverCheckHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json'
-    };
-
-    try {
-      var url = Uri.parse("http://localhost:3000/api/signup/driverCheck");
-      var response = await http.post(url,
-          body: json.encode(driverCheckBody), headers: driverCheckHeaders);
-      return response.statusCode;
-    } catch (e) {
-      return 400;
-    }
-  }
-
-  static Future<int> registerDriver(Driver driver) async {
-    final driverCheckHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json'
-    };
-    try {
-      var url = Uri.parse("http://localhost:3000/api/signup/driver");
-      var response = await http.post(url,
-          body: json.encode(driver.toJson()), headers: driverCheckHeaders);
-      return response.statusCode;
-    } catch (e) {
-      return 400;
-    }
-  }
-
-  static Future<int> loginAuth(Login login) async {
+  static Future<Response> login(Login login) async {
     final driverCheckHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json'
     };
     try {
       var url = Uri.parse(
-          "http://localhost:3000/api/signin");
+          "http://192.168.1.105:3000/api/signin");
       var response = await http.post(url,
           body: json.encode(login.toJson()), headers: driverCheckHeaders);
       debugPrint(response.body.toString());
-      return response.statusCode;
+      return response;
     } catch (e) {
-      return 400;
+      return Response("null", 400);
     }
   }
 }

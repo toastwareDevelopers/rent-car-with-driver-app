@@ -1,6 +1,9 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors, sized_box_for_whitespace
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:rentcarmobile/models/login.dart';
 import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
@@ -99,22 +102,44 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (widget.emailController.text.isEmpty ||
                               widget.passwordController.text.isEmpty) {
                             WarningAlert.showWarningDialog(
-                                context, "Please fill al inputs!",(){Navigator.pop(context);});
+                                context, "Please fill al inputs!", () {
+                              Navigator.pop(context);
+                            });
                             // If email format is wrong
-                          } else if (!RegExp(r"""^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""")
+                          } else if (!RegExp(
+                                  r"""^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""")
                               .hasMatch(widget.emailController.text)) {
                             WarningAlert.showWarningDialog(
-                                context, "Email format is wrong!",(){Navigator.pop(context);});
+                                context, "Email format is wrong!", () {
+                              Navigator.pop(context);
+                            });
                           } else {
                             login.email =
                                 widget.emailController.text.toString();
                             login.password =
                                 widget.passwordController.text.toString();
 
-                            if (await AuthService.loginAuth(login) != 200) {
-                              WarningAlert.showWarningDialog(context,
-                                  "There is no such user in the system!",(){Navigator.pop(context);});
-                            } else {}
+                            Response response =
+                                (await AuthService.login(login));
+                            if (response.statusCode != 200) {
+                              WarningAlert.showWarningDialog(
+                                context,
+                                response.body.split("\"")[3],
+                                () {
+                                  Navigator.pop(context);
+                                },
+                              );
+                            } else {
+                              //driver
+                              if (json.decode(response.body)["role"] ==
+                                  "driver") {
+                                Navigator.pushNamed(context, "/driverMain");
+                              }
+                              //customer
+                              else {
+                                Navigator.pushNamed(context, "/customerMain");
+                              }
+                            }
                           }
                         },
                         child: Container(
