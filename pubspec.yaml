@@ -79,11 +79,11 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-  - family: Arapey
-    fonts:
-      - asset: lib/assets/fonts/arapey/arapey-regular.ttf
-      - asset: lib/assets/fonts/arapey/arapey-italic.ttf
-        style: italic
-  
+    - family: Arapey
+      fonts:
+        - asset: lib/assets/fonts/arapey/arapey-regular.ttf
+        - asset: lib/assets/fonts/arapey/arapey-italic.ttf
+          style: italic
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
