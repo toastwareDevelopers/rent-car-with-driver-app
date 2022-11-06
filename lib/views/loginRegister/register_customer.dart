@@ -37,6 +37,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
     double phoneWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(elevation: 0),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
