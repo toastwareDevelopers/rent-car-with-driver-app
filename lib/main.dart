@@ -76,8 +76,8 @@ class RentVanApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-        '/': (context) => const LoginScreen(),
-        '/forgotPassword': (context) => const ForgotPasswordScreen(),
+        '/': (context) => LoginScreen(),
+        '/forgotPassword': (context) => ForgotPasswordScreen(),
         '/registerCustomer': (context) => const RegisterCustomerScreen(),
         '/registerDriverAuth': (context) =>  RegisterDriverAuthScreen(),
         '/registerDriverPersonal': (context) =>  RegisterDriverPersonalScreen(),
