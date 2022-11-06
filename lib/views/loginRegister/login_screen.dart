@@ -6,7 +6,6 @@ import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 import '../../utils/input_validator.dart';
 
-
 class LoginScreen extends StatefulWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -37,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 // APP TITLE
                 Text(
-                  "RENTAGO",
+                  "App Name",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 40, color: Colors.white),
                 ),
@@ -100,14 +99,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (widget.emailController.text.isEmpty ||
                               widget.passwordController.text.isEmpty) {
                             WarningAlert.showWarningDialog(
-                                context, "Please fill al inputs!");
+                                context, "Please fill al inputs!",(){Navigator.pop(context);});
                             // If email format is wrong
-                          } else if (!RegExp(r"""
-^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""")
+                          } else if (!RegExp(r"""^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""")
                               .hasMatch(widget.emailController.text)) {
                             WarningAlert.showWarningDialog(
-                                context, "Email format is wrong!");
-                            // This is the backend part!!!
+                                context, "Email format is wrong!",(){Navigator.pop(context);});
                           } else {
                             login.email =
                                 widget.emailController.text.toString();
@@ -116,10 +113,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             if (await AuthService.loginAuth(login) != 200) {
                               WarningAlert.showWarningDialog(context,
-                                  "There is no such user in the system!");
-                            } else {
-
-                            }
+                                  "There is no such user in the system!",(){Navigator.pop(context);});
+                            } else {}
                           }
                         },
                         child: Container(
@@ -127,24 +122,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Center(
                             child: Text(
                               'LOGIN',
-                              style: TextStyle(fontSize: 15.0),
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
                             ),
                           ),
                         ),
                       ),
-
                       // FORGOT PASSWORD
                       TextButton(
-                        child: Text("Forgot Password?", style: TextStyle(fontSize: 15.0),),
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(fontSize: 15.0),
+                        ),
                         onPressed: () async {
                           Navigator.of(context).pushNamed(
                             "/forgotPassword",
                           );
                         },
                       ),
-
-                      //SizedBox(height: 50,),
-
                       // DIVIDER
                       // I have to deal with colors
                       Row(
@@ -154,7 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               margin: const EdgeInsets.only(
                                   left: 10.0, right: 15.0),
                               child: Divider(
-                                //color: Color.fromARGB(255, 167, 117, 77),
                                 color: Colors.black,
                                 thickness: 1,
                                 height: 40,
@@ -166,15 +161,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             "OR",
                             style: TextStyle(fontSize: 20.0),
                             selectionColor: Colors.black,
-                            //selectionColor: Color.fromARGB(255, 167, 117, 77),
                           ),
                           // I have to deal with colors
                           Expanded(
                             child: Container(
                               margin: const EdgeInsets.only(
-                                  left: 15.0, right: 10.0),
+                                left: 15.0,
+                                right: 10.0,
+                              ),
                               child: Divider(
-                                //color: Color.fromARGB(255, 167, 117, 77),
                                 color: Colors.black,
                                 thickness: 1,
                                 height: 40,
@@ -195,21 +190,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                             onPressed: () {
                               Navigator.of(context).pushNamed(
-                                  "/registerCustomer",
+                                "/registerCustomer",
                               );
                             },
                             child: Text(
                               "Register as Customer",
-                              style: TextStyle(fontSize: 15.0),
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
                             ),
                           ),
 
                           // REGISTER DRIVER
                           // I have to deal with colors
                           ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                //backgroundColor: Colors.brown,
-                                ),
+                            style: ElevatedButton.styleFrom(),
                             onPressed: () {
                               Navigator.of(context).pushNamed(
                                 "/registerDriverAuth",
@@ -217,7 +212,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             child: Text(
                               "Register as Driver",
-                              style: TextStyle(fontSize: 15.0),
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
                             ),
                           ),
                         ],

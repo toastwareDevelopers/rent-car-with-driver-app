@@ -86,12 +86,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           onPressed: () {
                             if(widget.emailController.text.isEmpty == true) {
                               WarningAlert.showWarningDialog(
-                                  context, "Please enter your email!");
+                                  context, "Please enter your email!",(){Navigator.pop(context);});
                             } else if(!RegExp(r"""
 ^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""")
                                 .hasMatch(widget.emailController.text)) {
                               WarningAlert.showWarningDialog(
-                                  context, "Email format is wrong!");
+                                  context, "Email format is wrong!",(){Navigator.pop(context);});
                             } else {
                               // backend related
                             }

@@ -3,9 +3,6 @@ import 'package:rentcarmobile/views/loginRegister/forgotpassword_screen.dart';
 import 'package:rentcarmobile/views/loginRegister/login_screen.dart';
 import 'package:rentcarmobile/views/loginRegister/register_customer.dart';
 import 'package:rentcarmobile/views/loginRegister/register_driver_auth.dart';
-import 'package:rentcarmobile/views/loginRegister/register_driver_car.dart';
-import 'package:rentcarmobile/views/loginRegister/register_driver_personal.dart';
-import 'package:rentcarmobile/views/loginRegister/register_driver_skills.dart';
 
 void main() {
   runApp(const RentVanApp());
@@ -77,9 +74,6 @@ class RentVanApp extends StatelessWidget {
         '/': (context) => LoginScreen(),
         '/registerCustomer': (context) => const RegisterCustomerScreen(),
         '/registerDriverAuth': (context) => RegisterDriverAuthScreen(),
-        '/registerDriverPersonal': (context) => RegisterDriverPersonalScreen(),
-        '/registerDriverSkills': (context) => RegisterDriverSkillsScreen(),
-        '/registerDriverCar': (context) => RegisterDriverCarScreen(),
         '/forgotPassword': (context) => ForgotPasswordScreen()
       },
     );
