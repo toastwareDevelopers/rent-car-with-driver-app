@@ -32,7 +32,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   alignment: Alignment.center,
                   height: 100.0,
                   width: 100.0,
-                  image: AssetImage('images/lock.png'),
+                  image: AssetImage('lib/assets/images/lock.png'),
                 ),
 
                 SizedBox(

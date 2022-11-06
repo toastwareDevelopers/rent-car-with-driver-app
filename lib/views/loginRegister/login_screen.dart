@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               WarningAlert.showWarningDialog(context,
                                   "There is no such user in the system!");
                             } else {
-                              
+
                             }
                           }
                         },

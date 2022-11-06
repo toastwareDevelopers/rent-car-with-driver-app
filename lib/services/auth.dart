@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import '../models/driver.dart';
 import '../models/login.dart';
@@ -49,6 +50,7 @@ class AuthService {
           "http://localhost:3000/api/signin");
       var response = await http.post(url,
           body: json.encode(login.toJson()), headers: driverCheckHeaders);
+      debugPrint(response.body.toString());
       return response.statusCode;
     } catch (e) {
       return 400;
