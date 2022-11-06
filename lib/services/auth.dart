@@ -17,8 +17,6 @@ class AuthService {
       var url = Uri.parse("http://192.168.1.105:3000/api/signup/driverCheck");
       var response = await http.post(url,
           body: json.encode(driverCheckBody), headers: driverCheckHeaders);
-      print(response.statusCode);
-      print(response.body);
       return response.statusCode;
     } catch (e) {
       return 400;

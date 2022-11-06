@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WarningAlert{
-  static Future<void> showWarningDialog(BuildContext context, String warning) async {
+  static Future<void> showWarningDialog(BuildContext context, String warning,Function func) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -15,7 +15,7 @@ class WarningAlert{
             ElevatedButton(
               child: const Text('OK'),
               onPressed: () {
-                Navigator.of(context).pop();
+                func();
               },
             ),
           ],
