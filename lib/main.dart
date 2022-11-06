@@ -49,7 +49,7 @@ class RentVanApp extends StatelessWidget {
             ),
           ),
         ),
-        textTheme:  const TextTheme(
+        textTheme: const TextTheme(
           headlineMedium: TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -72,15 +72,15 @@ class RentVanApp extends StatelessWidget {
           cursorColor: Color.fromARGB(255, 167, 117, 77),
         ),
       ),
-      initialRoute: "/registerDriverAuth",
+      initialRoute: "/",
       routes: {
-        '/': (context) => const LoginScreen(),
+        '/': (context) => LoginScreen(),
         '/registerCustomer': (context) => const RegisterCustomerScreen(),
-        '/registerDriverAuth': (context) =>  RegisterDriverAuthScreen(),
-        '/registerDriverPersonal': (context) =>  RegisterDriverPersonalScreen(),
+        '/registerDriverAuth': (context) => RegisterDriverAuthScreen(),
+        '/registerDriverPersonal': (context) => RegisterDriverPersonalScreen(),
         '/registerDriverSkills': (context) => RegisterDriverSkillsScreen(),
-        '/registerDriverCar': (context) =>  RegisterDriverCarScreen(),
-        '/forgotPassword': (context) => const ForgotPasswordScreen()
+        '/registerDriverCar': (context) => RegisterDriverCarScreen(),
+        '/forgotPassword': (context) => ForgotPasswordScreen()
       },
     );
   }

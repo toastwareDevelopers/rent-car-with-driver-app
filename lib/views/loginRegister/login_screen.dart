@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:rentcarmobile/models/login.dart';
 import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
-import 'package:rentcarmobile/views/loginRegister/register_customer.dart';
-import 'package:rentcarmobile/views/loginRegister/register_driver_auth.dart';
 import '../../utils/input_validator.dart';
-import 'forgotpassword_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   TextEditingController emailController = TextEditingController();
@@ -39,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 // APP TITLE
                 Text(
-                  "RENT CAR APP",
+                  "RENTAGO",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 40, color: Colors.white),
                 ),
@@ -118,9 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             if (await AuthService.loginAuth(login) != 200) {
                               WarningAlert.showWarningDialog(context,
-                                  "There is a user with same email or phone number");
+                                  "There is no such user in the system!");
                             } else {
-                              // Wil be fileed!!!!
+                              
                             }
                           }
                         },
@@ -137,12 +135,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       // FORGOT PASSWORD
                       TextButton(
-                        child: Text('Forgot Password?'),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ForgotPasswordScreen()),
+                        child: Text("Forgot Password?", style: TextStyle(fontSize: 15.0),),
+                        onPressed: () async {
+                          Navigator.of(context).pushNamed(
+                            "/forgotPassword",
                           );
                         },
                       ),
@@ -198,11 +194,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 //backgroundColor: Colors.brown,
                                 ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        RegisterCustomerScreen()),
+                              Navigator.of(context).pushNamed(
+                                  "/registerCustomer",
                               );
                             },
                             child: Text(
@@ -218,11 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 //backgroundColor: Colors.brown,
                                 ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        RegisterDriverAuthScreen()),
+                              Navigator.of(context).pushNamed(
+                                "/registerDriverAuth",
                               );
                             },
                             child: Text(
