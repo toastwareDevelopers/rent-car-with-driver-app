@@ -66,6 +66,7 @@ flutter:
   assets:
     - lib/assets/images/blank-profile-photo.png
     - lib/assets/images/upload-photo-icon.png
+    - lib/assets/images/lock.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
