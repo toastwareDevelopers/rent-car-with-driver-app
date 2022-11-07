@@ -19,6 +19,7 @@ class RentVanApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Rent Van App',
       theme: ThemeData(
         scaffoldBackgroundColor: const Color.fromARGB(255, 40, 40, 40),

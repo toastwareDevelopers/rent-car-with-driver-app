@@ -112,7 +112,7 @@ class _RegisterDriverSkillsScreenState
             children: <Widget>[
               //Register as a Driver yazan başlık
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: Container(
                   padding: EdgeInsets.only(
                     top: phoneHeight * 0.08,
@@ -125,7 +125,7 @@ class _RegisterDriverSkillsScreenState
               ),
               //Form inputları alanı
               Expanded(
-                flex: 10,
+                flex: 7,
                 child: Container(
                   padding: EdgeInsets.only(
                     left: phoneWidth * 0.07,
@@ -156,7 +156,7 @@ class _RegisterDriverSkillsScreenState
                               flex: 1,
                               child: Container(
                                 padding: EdgeInsets.only(
-                                  bottom: phoneHeight * 0.01,
+                                  bottom: phoneHeight * 0.022,
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () {
@@ -233,7 +233,7 @@ class _RegisterDriverSkillsScreenState
                               flex: 1,
                               child: ConstrainedBox(
                                 constraints: BoxConstraints.tightFor(
-                                    height: phoneHeight * 0.085),
+                                    height: phoneHeight * 0.06),
                                 child: ElevatedButton(
                                   onPressed: () {
                                     setState(() {
@@ -267,7 +267,7 @@ class _RegisterDriverSkillsScreenState
               ),
               //Continue butonu alanı
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Container(
                   alignment: Alignment.topRight,
                   padding: const EdgeInsets.only(right: 20),
@@ -304,7 +304,7 @@ class _RegisterDriverSkillsScreenState
 
   Container listSkillsWidget(double phoneWidth, double phoneHeight) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.03),
+      padding: EdgeInsets.only(left: phoneWidth * 0.03,right : phoneWidth * 0.03,top: phoneHeight*0.01),
       height: phoneHeight * 0.05,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
@@ -354,7 +354,7 @@ class _RegisterDriverSkillsScreenState
 
   Container listLanguagesWidget(double phoneWidth, double phoneHeight) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.03),
+      padding: EdgeInsets.only(left: phoneWidth * 0.03,right : phoneWidth * 0.03,top: phoneHeight*0.01),
       height: phoneHeight * 0.05,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
