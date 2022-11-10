@@ -4,19 +4,19 @@ import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/input_validator.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
-import '../../constants/assets_path.dart';
-import '../../models/customer.dart';
+import '../../../constants/assets_path.dart';
+import '../../../models/customer.dart';
 
-class RegisterCustomerScreen extends StatefulWidget {
-  const RegisterCustomerScreen({super.key});
+class EditCustomerScreen extends StatefulWidget {
+  const EditCustomerScreen({super.key});
 
   @override
-  State<RegisterCustomerScreen> createState() => _RegisterCustomerScreenState();
+  State<EditCustomerScreen> createState() => _EditCustomerScreenState();
 }
 
 enum SingingCharacter { nationalNumber, passportNumber }
 
-class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
+class _EditCustomerScreenState extends State<EditCustomerScreen> {
   SingingCharacter? _character = SingingCharacter.nationalNumber;
   Customer data = Customer();
   TextEditingController name = TextEditingController();

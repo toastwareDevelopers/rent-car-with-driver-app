@@ -42,7 +42,7 @@ class AuthService {
     }
   }
 
-  static Future<int> registerCustomer(CustomerRegisterData data) async {
+  static Future<int> registerCustomer(Customer data) async {
     final headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json'

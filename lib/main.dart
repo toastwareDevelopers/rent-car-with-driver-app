@@ -6,8 +6,15 @@ import 'package:rentcarmobile/views/loginRegister/register_driver_auth.dart';
 import 'package:rentcarmobile/views/loginRegister/register_driver_car.dart';
 import 'package:rentcarmobile/views/loginRegister/register_driver_personal.dart';
 import 'package:rentcarmobile/views/loginRegister/register_driver_skills.dart';
-import 'package:rentcarmobile/views/mainPage/driverMain.dart';
-import 'package:rentcarmobile/views/mainPage/customerMain.dart';
+import 'package:rentcarmobile/views/mainPage/driver_main.dart';
+import 'package:rentcarmobile/views/mainPage/customer_main.dart';
+import 'package:rentcarmobile/views/profile/customer_profile.dart';
+import 'package:rentcarmobile/views/profile/driver_profile.dart';
+import 'package:rentcarmobile/views/profile/editProfilePages/edit_customer.dart';
+import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_auth.dart';
+import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_car.dart';
+import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_personal.dart';
+import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_skills.dart';
 
 void main() {
   runApp(const RentVanApp());
@@ -86,6 +93,13 @@ class RentVanApp extends StatelessWidget {
         '/registerDriverCar': (context) =>  RegisterDriverCarScreen(),
         '/driverMain': (context) => const DriverMainScreen(),
         '/customerMain': (context) => const CustomerMainScreen(),
+        '/profileDriver' : (context) => const DriverProfileScreen(),
+        '/profileCustomer' : (context) => const CustomerProfileScreen(),
+        '/editCustomer' : (context) => const EditCustomerScreen(),
+        '/editDriverAuth': (context) =>  EditDriverAuthScreen(),
+        '/editDriverPersonal': (context) =>  EditDriverPersonalScreen(),
+        '/editDriverSkills': (context) => EditDriverSkillsScreen(),
+        '/editDriverCar': (context) =>  EditDriverCarScreen(),
       },
     );
   }

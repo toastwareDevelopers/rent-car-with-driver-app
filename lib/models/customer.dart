@@ -1,11 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 part  'customer.g.dart';
 
-
-
-
 @JsonSerializable()
-class CustomerRegisterData {
+class Customer {
   String? name;
   String? surname;
   String? mail;
@@ -15,7 +12,7 @@ class CustomerRegisterData {
   String? birthday;
   String? gender;
   String? nationalId;
-  CustomerRegisterData( {
+  Customer( {
     this.mail = "null",
     this.password = "null",
     this.name = "null",
@@ -29,11 +26,8 @@ class CustomerRegisterData {
   });
 
 
-  factory CustomerRegisterData.fromJson(Map<String, dynamic> json) => _$CustomerFromJson(json);
+  factory Customer.fromJson(Map<String, dynamic> json) => _$CustomerFromJson(json);
 
   Map<String, dynamic> toJson() => _$CustomerToJson(this);
-
-
-
-
+  
 }

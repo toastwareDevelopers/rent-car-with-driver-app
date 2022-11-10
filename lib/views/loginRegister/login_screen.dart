@@ -41,7 +41,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   "App Name",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40, color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 40,
+                    color: Colors.white,
+                  ),
                 ),
 
                 SizedBox(
@@ -81,7 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.lock),
                           labelText: 'Password',
-                          labelStyle: TextStyle(fontSize: 20.0),
+                          labelStyle: TextStyle(
+                            fontSize: 20.0,
+                          ),
                         ),
                       ),
 
@@ -158,7 +163,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextButton(
                         child: Text(
                           "Forgot Password?",
-                          style: TextStyle(fontSize: 15.0),
+                          style: TextStyle(
+                            fontSize: 15.0,
+                          ),
                         ),
                         onPressed: () async {
                           Navigator.of(context).pushNamed(
