@@ -313,6 +313,7 @@ class _RegisterDriverPersonalScreenState
                           ),
                         ],
                       ),
+                      //Biography
                       TextField(
                         controller: widget.biogrophyController,
                         keyboardType: TextInputType.multiline,
