@@ -98,7 +98,8 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                             flex: 1,
                             child: TextField(
                               controller: widget.driverLisenceYearController,
-                              maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                              maxLengthEnforcement:
+                                  MaxLengthEnforcement.enforced,
                               maxLength: 4,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
@@ -182,7 +183,8 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.carRegistirationPlateController,
+                              controller:
+                                  widget.carRegistirationPlateController,
                               decoration: const InputDecoration(
                                 hintText: "Car Registration Plate",
                                 hintMaxLines: 2,
@@ -252,7 +254,9 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                           widget.hourlyPriceController.text,
                           widget.taxNumberController.text)) {
                         WarningAlert.showWarningDialog(
-                            context, "You must fill all inputs",(){Navigator.pop(context);});
+                            context, "You must fill all inputs", () {
+                          Navigator.pop(context);
+                        });
                       } else {
                         if ((await AuthService.registerDriver(
                               Driver(
@@ -260,8 +264,8 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                                 birthDate: driver.birthDate,
                                 email: driver.email,
                                 gender: driver.gender,
-                                hourlyPrice:
-                                    int.parse(widget.hourlyPriceController.text),
+                                hourlyPrice: int.parse(
+                                    widget.hourlyPriceController.text),
                                 languages: driver.languages,
                                 licenceNumber:
                                     widget.carLisenceNumberController.text,
@@ -280,8 +284,8 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                                 carInfo: {
                                   "lisenceNumber":
                                       widget.carLisenceNumberController.text,
-                                  "plateNumber":
-                                      widget.carRegistirationPlateController.text,
+                                  "plateNumber": widget
+                                      .carRegistirationPlateController.text,
                                   "brand": widget.carBrandController.text,
                                   "model": widget.carModelController.text,
                                   "year": widget.modelYearController.text,
@@ -291,10 +295,15 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                             )) !=
                             200) {
                           WarningAlert.showWarningDialog(context,
-                              "We can not register you. Try again please.",(){Navigator.pop(context);});
+                              "We can not register you. Try again please.", () {
+                            Navigator.pop(context);
+                          });
                         } else {
                           WarningAlert.showWarningDialog(context,
-                              "Congrulations! You have registered succesfully!",(){Navigator.pushNamed(context, "/");});
+                              "Congrulations! You have registered succesfully!",
+                              () {
+                            Navigator.pushNamed(context, "/");
+                          });
                         }
                       }
                     },
