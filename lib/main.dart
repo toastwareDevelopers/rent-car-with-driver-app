@@ -93,7 +93,7 @@ class RentVanApp extends StatelessWidget {
         '/registerDriverCar': (context) =>  RegisterDriverCarScreen(),
         '/driverMain': (context) => const DriverMainScreen(),
         '/customerMain': (context) => const CustomerMainScreen(),
-        '/profileDriver' : (context) => const DriverProfileScreen(),
+        '/profileDriver' : (context) =>  DriverProfileScreen(),
         '/profileCustomer' : (context) => const CustomerProfileScreen(),
         '/editCustomer' : (context) => const EditCustomerScreen(),
         '/editDriverAuth': (context) =>  EditDriverAuthScreen(),
