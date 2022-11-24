@@ -1,5 +1,7 @@
+/* Importing the mongoose library. */
 const mongoose = require("mongoose");
 
+/* Creating a schema for the driver model. */
 const userSchema = mongoose.Schema({
 
     role:{
@@ -150,8 +152,13 @@ const userSchema = mongoose.Schema({
         type: Buffer,
     },
 
+    events:[mongoose.ObjectId], 
+
 });
 
 
+/* Creating a model for the driver schema. */
 const Driver = mongoose.model("Driver",userSchema);
+
+/* Exporting the Driver model to be used in other files. */
 module.exports = Driver;
