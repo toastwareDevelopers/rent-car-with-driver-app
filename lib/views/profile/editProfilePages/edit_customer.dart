@@ -51,7 +51,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                     child: Container(
                       padding: EdgeInsets.only(top: phoneHeight * 0.06),
                       child: Text(
-                        "Register as a Customer",
+                        "Edit Account",
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
@@ -308,7 +308,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                       alignment: Alignment.topRight,
                       padding: const EdgeInsets.only(right: 15),
                       child: ElevatedButton(
-                        child: const Text("Register"),
+                        child: const Text("Save"),
                         onPressed: () async {
                           if (name.value.text.toString().isEmpty ||
                               surname.value.text.toString().isEmpty ||
