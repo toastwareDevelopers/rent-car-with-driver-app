@@ -236,8 +236,11 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                               Expanded(
                                 flex: 1,
                                 child: TextField(
-                                  decoration:
-                                      InputDecoration(hintText: "National ID"),
+                                  decoration: InputDecoration(
+                                      hintText: (_character ==
+                                              SingingCharacter.nationalNumber)
+                                          ? 'National ID'
+                                          : 'Passport ID'),
                                   controller: idNumber,
                                 ),
                               ),
