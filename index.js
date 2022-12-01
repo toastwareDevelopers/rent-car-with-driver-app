@@ -9,6 +9,7 @@ const customerAuthRouter = require("./routes/customerAuth");
 const loginAuthRouter = require("./routes/loginAuth");
 const eventCreateRouter = require("./routes/createEvent");
 const getModelRouter = require("./routes/getModel");
+const driverEditRouter = require("./routes/driverEdit");
 
 
 
@@ -34,6 +35,7 @@ app.use(customerAuthRouter);
 app.use(loginAuthRouter);
 app.use(eventCreateRouter);
 app.use(getModelRouter);
+app.use(driverEditRouter);
 
 
 /* Connecting to the MongoDB Atlas cluster. */

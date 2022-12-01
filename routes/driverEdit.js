@@ -14,16 +14,19 @@ const driverEditRouter = express.Router();
 driverEditRouter.post('/api/edit/driver',async function(req,res){
     
     try {
-    
+        
+
         /* Destructuring the request body. */
-        const{_id,phoneNumber,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenceNumber,licenceYear,carInfo:{carlisenceNumber,carlisenceYear,plateNumber,brand,model,year,color,photos},hourlyPrice,taxNumber} = req.body;
+        const{phoneNumber,_id,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenceNumber,licenceYear,carInfo:{carlisenceNumber,carlisenceYear,plateNumber,brand,model,year,color,photos},hourlyPrice,taxNumber} = req.body;
 
         /* Finding the driver with the given ID. */
         const person = await Driver.findById(_id);
+        
+        console.log(_id);
 
         /* Checking if there is a person with the given ID. If there is not, it is returning a message. */
         if(!person){
-            return res.status.json({msg: "There is not a person with this ID"});
+            return res.status(400).json({msg: "There is not a person with this ID"});
         }
 
 
@@ -155,49 +158,51 @@ driverEditRouter.post('/api/edit/driver',async function(req,res){
         carlisenceNumber. If it is not, it is updating the person's carlisenceNumber. */
         if((carlisenceNumber != undefined) && (carlisenceNumber != person.carInfo.lisenceNumber)){        
             
-            await person.updateOne({carInfo:{licenceNumber:carlisenceNumber}},{runValidators:true});
+            await person.updateOne({"carInfo.licenceNumber":carlisenceNumber},{runValidators:true});
         }
 
         /* Checking if the carlisenceYear is not undefined and if it is not equal to the person's
         carlisenceYear. If it is not, it is updating the person's carlisenceYear. */
-        if((carlisenceYear != undefined) && (carlisenceYear != person.carInfo.carlisenceYear)){        
+        if((carlisenceYear != undefined) && (carlisenceYear != person.carInfo.lisenceYear)){        
             
-            await person.updateOne({carInfo:{lisenceYear:carlisenceYear}},{runValidators:true});
+            await person.updateOne({"carInfo.lisenceYear":carlisenceYear},{runValidators:true});
         }
 
         /* Checking if the plateNumber is not undefined and if it is not equal to the person's
         plateNumber. If it is not, it is updating the person's plateNumber. */
         if((plateNumber != undefined) && (plateNumber != person.carInfo.plateNumber)){        
             
-            await person.updateOne({carInfo:{plateNumber:plateNumber}},{runValidators:true});
+            await person.updateOne({"carInfo.plateNumber":plateNumber},{runValidators:true});
         }
 
         /* Checking if the brand is not undefined and if it is not equal to the person's
         brand. If it is not, it is updating the person's brand. */
         if((brand != undefined) && (brand != person.carInfo.brand)){        
             
-            await person.updateOne({carInfo:{brand:brand}},{runValidators:true});
+            await person.updateOne({"carInfo.brand":brand},{runValidators:true});
         }
 
         /* Checking if the model is not undefined and if it is not equal to the person's
         model. If it is not, it is updating the person's model. */
         if((model != undefined) && (model != person.carInfo.model)){        
             
-            await person.updateOne({carInfo:{model:model}},{runValidators:true});
+            await person.updateOne({"carInfo.model":model},{runValidators:true});
         }
 
         /* Checking if the year is not undefined and if it is not equal to the person's
         year. If it is not, it is updating the person's year. */
         if((year != undefined) && (year != person.carInfo.year)){        
             
-            await person.updateOne({carInfo:{year:year}},{runValidators:true});
+            await person.updateOne({"carInfo.year":year},{runValidators:true});
         }
+
+        
 
         /* Checking if the color is not undefined and if it is not equal to the person's
         color. If it is not, it is updating the person's color. */
         if((color != undefined) && (color != person.carInfo.color)){        
-            
-            await person.updateOne({carInfo:{color:color}},{runValidators:true});
+            console.log(person.carInfo);
+            await person.updateOne({"carInfo.color":color},{runValidators:true});
         }
         
         //TODO:TAHA
@@ -228,9 +233,10 @@ driverEditRouter.post('/api/edit/driver',async function(req,res){
             await person.updateOne({avatar:avatar},{runValidators:true});
         } */
 
+        res.sendStatus(200)
     
     } catch (error) {
-        
+        res.status(500).json({error:error.message});
     }
 
 
