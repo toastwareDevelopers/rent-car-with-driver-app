@@ -78,7 +78,7 @@ const customerSchema = mongoose.Schema({
     registerDate: {
         type: String,
     },
-    events:[mongoose.ObjectId],
+    trips:[mongoose.ObjectId],
 });
 
 

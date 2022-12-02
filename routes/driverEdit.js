@@ -17,7 +17,7 @@ driverEditRouter.post('/api/edit/driver',async function(req,res){
         
 
         /* Destructuring the request body. */
-        const{phoneNumber,_id,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenceNumber,licenceYear,carInfo:{carlisenceNumber,carlisenceYear,plateNumber,brand,model,year,color,photos},hourlyPrice,taxNumber} = req.body;
+        const{phoneNumber,_id,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenseNumber,licenseYear,carInfo:{carlicenseNumber,carlicenseYear,plateNumber,brand,model,year,color,photos},hourlyPrice,taxNumber} = req.body;
 
         /* Finding the driver with the given ID. */
         const person = await Driver.findById(_id);
@@ -140,32 +140,32 @@ driverEditRouter.post('/api/edit/driver',async function(req,res){
             await person.updateOne({languages:languages},{runValidators:true});
         }
 
-        /* Checking if the licenceNumber is not undefined and if it is not equal to the person's
-        licenceNumber. If it is not, it is updating the person's licenceNumber. */
-        if((licenceNumber != undefined) && (licenceNumber != person.licenceNumber)){        
+        /* Checking if the licenseNumber is not undefined and if it is not equal to the person's
+        licenseNumber. If it is not, it is updating the person's licenseNumber. */
+        if((licenseNumber != undefined) && (licenseNumber != person.licenseNumber)){        
             
-            await person.updateOne({licenceNumber:licenceNumber},{runValidators:true});
+            await person.updateOne({licenseNumber:licenseNumber},{runValidators:true});
         }
 
-        /* Checking if the licenceYear is not undefined and if it is not equal to the person's
-        licenceYear. If it is not, it is updating the person's licenceYear. */
-        if((licenceYear != undefined) && (licenceYear != person.licenceYear)){        
+        /* Checking if the licenseYear is not undefined and if it is not equal to the person's
+        licenseYear. If it is not, it is updating the person's licenseYear. */
+        if((licenseYear != undefined) && (licenseYear != person.licenseYear)){        
             
-            await person.updateOne({licenceYear:licenceYear},{runValidators:true});
+            await person.updateOne({licenseYear:licenseYear},{runValidators:true});
         }
 
-        /* Checking if the carlisenceNumber is not undefined and if it is not equal to the person's
-        carlisenceNumber. If it is not, it is updating the person's carlisenceNumber. */
-        if((carlisenceNumber != undefined) && (carlisenceNumber != person.carInfo.lisenceNumber)){        
+        /* Checking if the carlicenseNumber is not undefined and if it is not equal to the person's
+        carlicenseNumber. If it is not, it is updating the person's carlicenseNumber. */
+        if((carlicenseNumber != undefined) && (carlicenseNumber != person.carInfo.licenseNumber)){        
             
-            await person.updateOne({"carInfo.licenceNumber":carlisenceNumber},{runValidators:true});
+            await person.updateOne({"carInfo.licenseNumber":carlicenseNumber},{runValidators:true});
         }
 
-        /* Checking if the carlisenceYear is not undefined and if it is not equal to the person's
-        carlisenceYear. If it is not, it is updating the person's carlisenceYear. */
-        if((carlisenceYear != undefined) && (carlisenceYear != person.carInfo.lisenceYear)){        
+        /* Checking if the carlicenseYear is not undefined and if it is not equal to the person's
+        carlicenseYear. If it is not, it is updating the person's carlicenseYear. */
+        if((carlicenseYear != undefined) && (carlicenseYear != person.carInfo.licenseYear)){        
             
-            await person.updateOne({"carInfo.lisenceYear":carlisenceYear},{runValidators:true});
+            await person.updateOne({"carInfo.licenseYear":carlicenseYear},{runValidators:true});
         }
 
         /* Checking if the plateNumber is not undefined and if it is not equal to the person's

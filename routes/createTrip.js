@@ -1,17 +1,19 @@
 /* This is importing the express module. */
 const express = require('express');
 
-/* This is importing the driver, customer, and event models from the models folder. */
+
+/* This is importing the driver, customer, and trip models. */
 const Driver = require("../models/driver");
 const Customer = require('../models/customer');
-const Event = require('../models/event');
+const Trip = require('../models/trip');
 
 /* This is creating a new router object. */
-const eventCreateRouter = express.Router();
+const tripCreateRouter = express.Router();
 
 
-/* This is creating a new event. */
-eventCreateRouter.post('/api/createEvent',async function(req,res){
+
+/* This is creating a new trip. */
+tripCreateRouter.post('/api/createTrip',async function(req,res){
 
     try { 
         
@@ -34,8 +36,8 @@ eventCreateRouter.post('/api/createEvent',async function(req,res){
             return res.status(400).json({msg: "There is not a customer with this customerID"}); 
         }
 
-        /* Creating a new event object with the data that was passed in the request body. */
-        let event = Event({
+        /* This is creating a new trip object with the data that was passed in the request body. */
+        let trip = Trip({
             driverId,
             customerId,
             startDate,
@@ -45,16 +47,18 @@ eventCreateRouter.post('/api/createEvent',async function(req,res){
     
         });
 
-        /* Saving the event object to the database. */
-        event = await event.save();
+        
+        /* This is saving the trip object to the database. */
+        trip = await trip.save();
 
        
-        /* This is updating the driver and customer objects with the event id. */
-        await existDriver.updateOne({ $push: { events: [event.id] }});
-        await existCustomer.updateOne({ $push: { events: [event.id] }});
+        
+        /* This is updating the driver and customer objects with the trip id. */
+        await existDriver.updateOne({ $push: { trips: [trip.id] }});
+        await existCustomer.updateOne({ $push: { trips: [trip.id] }});
 
-        /* Sending the event object to the client. */
-        res.send(event);
+        /* This is sending the trip object to the client. */
+        res.send(trip);
     
     } catch (error) {
         /* This is sending a 500 error to the client. */
@@ -64,5 +68,6 @@ eventCreateRouter.post('/api/createEvent',async function(req,res){
 
 });
 
-/* This is exporting the eventCreateRouter object to be used in other files. */
-module.exports = eventCreateRouter;
+
+/* This is exporting the tripCreateRouter object. */
+module.exports = tripCreateRouter;

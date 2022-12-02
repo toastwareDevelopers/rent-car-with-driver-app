@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const eventSchema = ({
+const tripSchema = ({
     
     driverId: mongoose.ObjectId,
 
@@ -16,5 +16,5 @@ const eventSchema = ({
     
 });
 
-const Event = mongoose.model("Event",eventSchema);
-module.exports = Event;
+const Trip = mongoose.model("Trip",tripSchema);
+module.exports = Trip;

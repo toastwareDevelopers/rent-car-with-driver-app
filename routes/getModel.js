@@ -2,10 +2,10 @@
 const express = require('express');
 
 
-/* Importing the driver, customer, and event models. */
+/* Importing the models from the models folder. */
 const Driver = require("../models/driver");
 const Customer = require('../models/customer');
-const Event = require("../models/event");
+const Trip = require("../models/trip");
 
 /* Creating a new router object. */
 const getModelRouter = express.Router();
@@ -38,9 +38,9 @@ getModelRouter.get('/api/info',async function (req,res){
         }
 
 
-
-        /* Checking if the model is an event. If it is, it returns the model. */
-        model = await Event.findById(_id);
+        
+        /* Checking if the model is a trip. If it is, it returns the model. */
+        model = await Trip.findById(_id);
 
         if(model){
             return res.send(model);

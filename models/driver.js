@@ -69,6 +69,46 @@ const userSchema = mongoose.Schema({
         required: true,
         type: String,
         trim: true,
+        validate:{
+            validator: function(value){
+                const nationalIdFormat = /^[1-9][0-9]{10}$/;
+                if(value.match(nationalIdFormat)){
+                    
+                    first = 0;
+                    for (let index = 0; index <= 8; index+=2) {
+                        first += Number(value.charAt(index));
+                    }
+                    first = first*7;
+                    second = 0;
+
+                    for (let index = 1; index <= 7; index+=2) {
+                        second += Number(value.charAt(index));
+                    }
+                    
+                    
+                    
+
+                    tenth = first-second;
+
+                    
+                    last = 0;
+                    for (let index = 0; index < value.length-1; index++) {
+                        last += Number(value.charAt(index));
+                        
+
+                    }
+
+
+                    if((tenth % 10 == Number(value.charAt(9))) && (last%10 == Number(value.charAt(10)))){
+                        return true;
+                    }
+                    
+                }
+                return false;
+                
+            },
+            message: "Please enter a valid National ID",
+        },
         
     },
 
@@ -96,28 +136,49 @@ const userSchema = mongoose.Schema({
 
     },
 
-    licenceNumber:{
+    licenseNumber:{
         //required: true,
         type: String,
         trim: true,
+        validate:{
+            validator: function(value){
+                const licenseNumberFormat = /^[0-9]{6}$/;
+                return value.match(licenseNumberFormat);
+            },
+            message: "Please enter a valid Lisence Number",
+        },
     },
 
-    licenceYear:{
+    licenseYear:{
         type: Date, 
     },
 
     carInfo:{
         
-        lisenceNumber:{
+        licenseNumber:{
             type: String,
+            validate:{
+                validator: function(value){
+                    const carlicenseFormat = /^[A-Z]{2}[0-9]{6}$/;
+                    return value.match(carlicenseFormat);
+                },
+                message: "Please enter a valid Car Lisence Number",
+            },
         },
 
-        lisenceYear:{
+        licenseYear:{
             type: Date,
         },
 
         plateNumber:{
             type: String,
+            validate:{
+                validator: function(value){
+                    const plateFormat = /^(0[1-9]|[1-7][0-9]|8[01])((\s?[a-zA-Z]\s?)(\d{4,5})|(\s?[a-zA-Z]{2}\s?)(\d{3,4})|(\s?[a-zA-Z]{3}\s?)(\d{2,3}))$/;
+                    return value.match(plateFormat);
+                },
+                message: "Please enter a valid Plate Number",
+            },
         },
         brand:{
             type: String,
@@ -146,13 +207,20 @@ const userSchema = mongoose.Schema({
 
     taxNumber:{
         type: String,
+        validate:{
+            validator: function(value){
+                const taxFormat = /^[0-9]{10}$/;
+                return value.match(taxFormat);
+            },
+            message: "Please enter a valid Tax Number",
+        },
     },
 
     avatar:{
         type: Buffer,
     },
 
-    events:[mongoose.ObjectId], 
+    trips:[mongoose.ObjectId], 
 
 });
 

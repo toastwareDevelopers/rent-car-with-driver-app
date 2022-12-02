@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const driverAuthRouter = require("./routes/driverAuth");
 const customerAuthRouter = require("./routes/customerAuth");
 const loginAuthRouter = require("./routes/loginAuth");
-const eventCreateRouter = require("./routes/createEvent");
+const tripCreateRouter = require("./routes/createTrip");
 const getModelRouter = require("./routes/getModel");
 const driverEditRouter = require("./routes/driverEdit");
 
@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(driverAuthRouter);
 app.use(customerAuthRouter);
 app.use(loginAuthRouter);
-app.use(eventCreateRouter);
+app.use(tripCreateRouter);
 app.use(getModelRouter);
 app.use(driverEditRouter);
 

@@ -61,8 +61,10 @@ driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
     try {
         
         /* Destructuring the request body. */
-        const{phoneNumber,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenceNumber,licenceYear,carInfo,hourlyPrice,taxNumber} = req.body;
+        const{phoneNumber,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenseNumber,licenseYear,carInfo,hourlyPrice,taxNumber} = req.body;
         
+        
+
         /* Checking if there is a driver with the same national id. */
         const existingDriverWithNationalId = await Driver.findOne({nationalId});
 
@@ -87,8 +89,8 @@ driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
             info,
             skills,
             languages,
-            licenceNumber,
-            licenceYear,
+            licenseNumber,
+            licenseYear,
             carInfo,
             hourlyPrice,
             taxNumber
