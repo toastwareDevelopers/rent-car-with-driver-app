@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-const mongoose = require("mongoose");
-
-const customerSchema = mongoose.Schema({
-
-    role:{
-        type: String,
-        default:"customer",
-=======
 /* Importing the mongoose module. */
 const mongoose = require("mongoose");
 
@@ -16,7 +7,6 @@ const customerSchema = mongoose.Schema({
     role: {
         type: String,
         default: "customer",
->>>>>>> feature/backend/customer
     },
 
     phoneNumber: {
@@ -72,11 +62,7 @@ const customerSchema = mongoose.Schema({
     gender: {
         required: true,
         type: String,
-<<<<<<< HEAD
-        enum: ["Female","Male"],
-=======
         enum: ["Female", "Male"],
->>>>>>> feature/backend/customer
     },
 
     nationalId: {
@@ -89,16 +75,6 @@ const customerSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
-<<<<<<< HEAD
-    registerDate: {
-        type: String,
-    },
-});
-
-
-const Customer = mongoose.model("Customer", customerSchema);
-module.exports = Customer;
-=======
 
     registerDate: {
         type: String,
@@ -113,4 +89,3 @@ const Customer = mongoose.model("Customer", customerSchema);
 
 /* Exporting the Customer model to be used in other files. */
 module.exports = Customer;
->>>>>>> feature/backend/customer
