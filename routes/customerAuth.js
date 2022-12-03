@@ -3,6 +3,7 @@ const Customer = require("../models/customer");
 const moment = require('moment');
 
 const bcryptjs = require('bcryptjs');
+<<<<<<< HEAD
 const Driver = require('../models/driver');
 
 const customerAuthRouter = express.Router();
@@ -31,17 +32,29 @@ const customerAuthRouter = express.Router();
 //
 //});
 
+=======
+
+const customerAuthRouter = express.Router();
+
+>>>>>>> feature/backend/customer
 customerAuthRouter.post('/api/signup/customer', async function (req, res) {
     try {
 
         const { phoneNumber, email, password, name, surname, birthDate, gender, nationalId, passportNumber } = req.body;
 
+<<<<<<< HEAD
         const existingCustomerWithNationalId = await Customer.findOne({ nationalId });    
         const existingCustomerWithMail = await Customer.findOne({ email });        
         const existingCustomerWithPhone = await Customer.findOne({ phoneNumber });
 
         //TODO Buralar daha iyi yazılacak quick fix
 
+=======
+        const existingCustomerWithNationalId = await Customer.findOne({ nationalId });
+        const existingCustomerWithMail = await Customer.findOne({ email });
+        const existingCustomerWithPhone = await Customer.findOne({ phoneNumber });
+        
+>>>>>>> feature/backend/customer
         if (existingCustomerWithNationalId) {
             return res.status(400).json({ msg: "There is a person with same National Id already" });
         }
@@ -52,9 +65,14 @@ customerAuthRouter.post('/api/signup/customer', async function (req, res) {
 
         if (existingCustomerWithPhone) {
             return res.status(400).json({ msg: "There is a person with same phone number already" });
+<<<<<<< HEAD
         }
 
 
+=======
+        }   
+        
+>>>>>>> feature/backend/customer
         const hashedPassword = await bcryptjs.hash(password, 8);
 
         let customer = new Customer({
@@ -78,4 +96,8 @@ customerAuthRouter.post('/api/signup/customer', async function (req, res) {
     }
 });
 
+<<<<<<< HEAD
 module.exports = customerAuthRouter; 
+=======
+module.exports = customerAuthRouter; 
+>>>>>>> feature/backend/customer
