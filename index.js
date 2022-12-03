@@ -15,7 +15,6 @@ const PORT = 3000;
 
 /* Creating an instance of the express server. */
 const app = express();
-const DB = "mongodb+srv://toastware:habilsheild343*@cluster0.qtshlnw.mongodb.net/?retryWrites=true&w=majority"
 const connection = require('./db.js')
 
 // middleware
@@ -26,11 +25,7 @@ app.use(customerProfileRouter);
 app.use(loginAuthRouter);
 
 //connections
-mongoose.connect(DB).then(function ( ) {
-    console.log("Connection Successful")
-}).catch(e => {
-    console.log(e);
-});
+connection()
 
 app.listen(PORT, () =>{
     console.log('connected ad port ' + PORT);
