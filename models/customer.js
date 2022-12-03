@@ -4,9 +4,9 @@ const mongoose = require("mongoose");
 /* Creating a schema for the customer model. */
 const customerSchema = mongoose.Schema({
 
-    role: {
+    role:{
         type: String,
-        default: "customer",
+        default:"customer",
     },
 
     phoneNumber: {
@@ -62,7 +62,7 @@ const customerSchema = mongoose.Schema({
     gender: {
         required: true,
         type: String,
-        enum: ["Female", "Male"],
+        enum: ["Female","Male"],
     },
 
     nationalId: {
@@ -75,12 +75,10 @@ const customerSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
-
     registerDate: {
         type: String,
     },
-
-    events: [mongoose.ObjectId],
+    trips:[mongoose.ObjectId],
 });
 
 
