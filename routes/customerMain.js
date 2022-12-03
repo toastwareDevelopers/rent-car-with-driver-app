@@ -5,7 +5,7 @@ const Driver = require("../models/driver");
 const CustomerProfileRouter = express.Router();
 
 
-CustomerProfileRouter.get('/customer/profile', async function (req, res) {
+CustomerProfileRouter.get('/customer/main', async function (req, res) {
     
 
     try {
