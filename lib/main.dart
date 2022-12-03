@@ -10,6 +10,7 @@ import 'package:rentcarmobile/views/mainPage/driver_main.dart';
 import 'package:rentcarmobile/views/mainPage/customer_main.dart';
 import 'package:rentcarmobile/views/profile/customer_profile.dart';
 import 'package:rentcarmobile/views/profile/driver_profile.dart';
+import 'package:rentcarmobile/views/profile/driver_profile_car.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_customer.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_auth.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_car.dart';
@@ -82,7 +83,7 @@ class RentVanApp extends StatelessWidget {
           cursorColor: Color.fromARGB(255, 167, 117, 77),
         ),
       ),
-      initialRoute: "/profileDriver",
+      initialRoute: "/profileDriverPersonal",
       routes: {
         '/': (context) => LoginScreen(),
         '/forgotPassword': (context) => ForgotPasswordScreen(),
@@ -93,7 +94,8 @@ class RentVanApp extends StatelessWidget {
         '/registerDriverCar': (context) =>  RegisterDriverCarScreen(),
         '/driverMain': (context) => const DriverMainScreen(),
         '/customerMain': (context) => const CustomerMainScreen(),
-        '/profileDriver' : (context) =>  DriverProfileScreen(),
+        '/profileDriverPersonal' : (context) =>  DriverProfileScreen(),
+        '/profileDriverCar' : (context) =>  DriverProfileCarScreen(),
         '/profileCustomer' : (context) => const CustomerProfileScreen(),
         '/editCustomer' : (context) => const EditCustomerScreen(),
         '/editDriverAuth': (context) =>  EditDriverAuthScreen(),
