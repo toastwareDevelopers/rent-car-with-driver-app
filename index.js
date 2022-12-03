@@ -9,6 +9,9 @@ const customerAuthRouter = require("./routes/customerAuth");
 const customerMainRouter = require("./routes/customerMain");
 const customerEditRouter = require("./routes/customerEdit");
 const customerProfileRouter = require("./routes/customerProfile");
+const tripCreateRouter = require("./routes/createTrip");
+const getModelRouter = require("./routes/getModel");
+const driverEditRouter = require("./routes/driverEdit");
 
 /* Creating a server on port 3000. */
 const PORT = 3000;
@@ -23,6 +26,9 @@ app.use(customerAuthRouter);
 app.use(customerEditRouter);
 app.use(customerProfileRouter);
 app.use(loginAuthRouter);
+app.use(driverEditRouter);
+app.use(tripCreateRouter);
+app.use(getModelRouter);
 
 //connections
 connection()
