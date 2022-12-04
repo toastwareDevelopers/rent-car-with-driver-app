@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/widgets/driver_list_driver_widget.dart';
 
 import '../../constants/assets_path.dart';
 
@@ -14,6 +15,26 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
+    var drivers = [
+      DriverListDriver(
+          driverName: "Ahmet Kasabalı",
+          driverAge: "20",
+          driverLocation: "Istanbul",
+          driverDescription: "selam",
+          driverPrice: "150"),
+      DriverListDriver(
+          driverName: "Ahmet Kasabalı",
+          driverAge: "20",
+          driverLocation: "Istanbul",
+          driverDescription: "selam",
+          driverPrice: "150"),
+      DriverListDriver(
+          driverName: "Ahmet Kasabalı",
+          driverAge: "20",
+          driverLocation: "Istanbul",
+          driverDescription: "selam",
+          driverPrice: "150")
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -137,42 +158,59 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                   flex: 15,
                   child: Container(
                     child: Container(
-                        padding: EdgeInsets.only(
-                            left: phoneWidth * 0.05,
-                            right: phoneWidth * 0.05,
-                            bottom: phoneHeight * 0.03),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  "Find A Driver",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
+                      padding: EdgeInsets.only(
+                          left: phoneWidth * 0.05,
+                          right: phoneWidth * 0.05,
+                          bottom: phoneHeight * 0.03),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                "Find A Driver",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
                             ),
-                            SizedBox(
-                              height: phoneHeight * 0.005,
-                            ),
-                            Expanded(
-                              flex: 10,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(5),
-                                  ),
-                                  border: Border.all(
-                                      color: Theme.of(context).highlightColor,
-                                      width: 5),
+                          ),
+                          SizedBox(
+                            height: phoneHeight * 0.005,
+                          ),
+                          Expanded(
+                            flex: 10,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: phoneWidth*0.02,vertical: phoneHeight*0.01),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
                                 ),
+                                border: Border.all(
+                                    color: Theme.of(context).highlightColor,
+                                    width: 5),
+                              ),
+                              child: ListView.separated(
+                                separatorBuilder: (context, index) => SizedBox(height: phoneHeight*0.01,),
+                                itemCount: drivers.length,
+                                itemBuilder: ((context, index) {
+                                  return DriverListDriver(
+                                    driverName: drivers[index].driverName,
+                                    driverAge: drivers[index].driverAge,
+                                    driverLocation:
+                                        drivers[index].driverLocation,
+                                    driverDescription:
+                                        drivers[index].driverDescription,
+                                    driverPrice: drivers[index].driverPrice,
+                                  );
+                                }),
                               ),
                             ),
-                          ],
-                        )),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
