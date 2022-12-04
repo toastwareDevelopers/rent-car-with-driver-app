@@ -8,7 +8,7 @@ const customerEditRouter = express.Router();
 
 
 
-customerEditRouter.post('/customer/edit', async function (req, res) {
+customerEditRouter.post('/api/edit/customer', async function (req, res) {
 
         try {
 
