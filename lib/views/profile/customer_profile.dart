@@ -23,7 +23,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
     new Customer_Trip("Taha Yasar",40, "Istanbul", "12-0-1", "15-0-20"),
     new Customer_Trip("Alperen Acıkgoz",50, "Eskisehir", "12-0-1", "15-0-20"),
     new Customer_Trip("Berkan Akin",50, "Manisa", "12-0-1", "15-0-20")];
-
+  static const IconData pencil = IconData(0xf1d7, fontFamily: 'MaterialIcons');
 
   List<review_widget> reviews = [new review_widget("Levis Hemilton","Virajlara hızlı girmesi haricinde iyi bir sofor"),
     new review_widget("Levis Hemilton","Virajlara hızlı girmesi haricinde iyi bir sofor"),];
@@ -36,7 +36,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
     Customer tmp;
 
     //Map<String, dynamic> map =  ProfileService.getCustomer("636802ba08ae9ae84b4b7eda") as Map<String, dynamic> ;
-    print("hadilan");
+
 
     return Scaffold(
       body: Container(
@@ -64,7 +64,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     padding: EdgeInsets.only(right: phoneWidth * 0.05),
                     child: const CircleAvatar(
                       backgroundImage:
-                      AssetImage('assets/images/blank-profile-photo.png'),
+                      AssetImage('lib/assets/images/blank-profile-photo.png'),
                       radius: 30,
                     ),
                   ),
@@ -175,15 +175,15 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         alignment: Alignment.topRight,
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: Icon(Icons.menu, color: Colors.white),
                           style: ElevatedButton.styleFrom(
                             shape: CircleBorder(
 
                             ),
                             padding: EdgeInsets.all(10),
-                            backgroundColor: Colors.blue, // <-- Button color
+                            backgroundColor: const Color.fromARGB(255, 167, 117, 77), // <-- Button color
                             foregroundColor: Colors.red, // <-- Splash color
                           ),
+                          child: const Icon( pencil, color: Colors.white),
                         ),
                       )
                   )

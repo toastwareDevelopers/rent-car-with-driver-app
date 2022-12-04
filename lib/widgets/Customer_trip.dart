@@ -26,6 +26,7 @@ class Customer_Trip extends StatelessWidget {
       width: phoneWidth*0.7,
       margin: EdgeInsets.only(
           bottom: phoneWidth * 0.03,
+
           ),
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 167, 117, 77),
@@ -39,13 +40,15 @@ class Customer_Trip extends StatelessWidget {
                 left: phoneWidth * 0.01),
             child: const CircleAvatar(
               backgroundImage: AssetImage(
-                  'assets/images/blank-profile-photo.png'),
+                  'lib/assets/images/blank-profile-photo.png'),
               radius: 30,
             ),
           ),
           Column( // trips
+
             children: [
               Container(
+                alignment: Alignment.centerLeft,
                 child: Text(
                   name,
                   textAlign: TextAlign.left,
@@ -98,14 +101,16 @@ class Customer_Trip extends StatelessWidget {
                       top: phoneHeight * 0.01),
                   height: phoneHeight * 0.05,
                   //width: phoneWidth * 0.01,
-                  child: Text("200"),
+                  child: const Text("200 TL",style: TextStyle(backgroundColor: Colors.white),
+                  ),
                 ),
                 Container(
                   padding: EdgeInsets.only(
                       top: phoneHeight * 0.02),
                   height: phoneHeight * 0.05,
                   //width: phoneWidth * 0.01,
-                  child: Text("200"),
+                  child: Text("Review",style: TextStyle(backgroundColor: Colors.white,),
+                  ),
                 )
               ],
             ),

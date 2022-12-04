@@ -40,6 +40,7 @@ class review_widget extends StatelessWidget {
             ),
             child: Column(
               children: [
+
                 Row(
                   children: [
                     Container(
@@ -49,9 +50,10 @@ class review_widget extends StatelessWidget {
                         top: phoneHeight * 0.01,
 
                       ),
+
                       child: const CircleAvatar(
                         backgroundImage: AssetImage(
-                            'assets/images/blank-profile-photo.png'),
+                            'lib/assets/images/blank-profile-photo.png'),
                         radius: 25,
                       ),
                     ),
@@ -72,18 +74,24 @@ class review_widget extends StatelessWidget {
                         ],
                       ),
                     ),
+                    
 
                   ],
                 ),
                 Row(
+
                   children: [
+
                     Container(
                       padding: EdgeInsets.only(left: phoneWidth * 0.01),
                       child: Text(comment,
                         style: TextStyle(color: Colors.white),),
-                    )
+                    ),
+
+
                   ],
-                )
+                ),
+
               ],
             )
         )
