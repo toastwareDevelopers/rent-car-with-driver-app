@@ -12,6 +12,10 @@ class DriverProfileCarScreen extends StatefulWidget {
   var location = "Istanbul";
   var gender = "Male";
   var age = 37;
+  TextEditingController modelYearController = TextEditingController();
+  TextEditingController carBrandController = TextEditingController();
+  TextEditingController carModelController = TextEditingController();
+  TextEditingController carColorController = TextEditingController();
 
   @override
   State<DriverProfileCarScreen> createState() => _DriverProfileCarScreenState();
@@ -22,6 +26,10 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
+    widget.modelYearController.text = "2022";
+    widget.carBrandController.text = "Citroen";
+    widget.carModelController.text = "C4";
+    widget.carColorController.text = "White";
 
     return Scaffold(
       appBar: AppBar(
@@ -147,7 +155,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                 ),
                 //Car Photos
                 Expanded(
-                  flex:1,
+                  flex: 1,
                   child: Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: phoneWidth * 0.04,
@@ -189,7 +197,8 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                 Expanded(
                   flex: 1,
                   child: Container(
-                    padding: EdgeInsets.only(left: phoneWidth*0.04,right:phoneWidth*0.04),
+                    padding: EdgeInsets.only(
+                        left: phoneWidth * 0.04, right: phoneWidth * 0.04),
                     child: Row(
                       children: [
                         Expanded(
@@ -198,47 +207,84 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                             children: [
                               Expanded(
                                 flex: 1,
-                                child: TextField(
-                                  //controller: widget.carBrandController,
-                                  decoration: const InputDecoration(
-                                    hintText: "Car Brand ",
-                                  ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Car Brand",
+                                      style: TextStyle(color: Colors.white,fontSize: 17),
+                                    ),
+                                    SizedBox(height: 5,),
+                                    TextField(
+                                      controller: widget.carBrandController,
+                                      decoration: const InputDecoration(
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-
                               Expanded(
                                 flex: 1,
-                                child: TextField(
-                                  //controller: widget.carBrandController,
-                                  decoration: const InputDecoration(
-                                    hintText: "Car Model ",
-                                  ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Car Model",
+                                      style: TextStyle(color: Colors.white,fontSize: 17),
+                                    ),
+                                    SizedBox(height: 5,),
+                                    TextField(
+                                      controller: widget.carModelController,
+                                      decoration: const InputDecoration(
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(width: phoneWidth*0.1,),
+                        SizedBox(
+                          width: phoneWidth * 0.1,
+                        ),
                         Expanded(
                           flex: 1,
                           child: Column(
                             children: [
                               Expanded(
                                 flex: 1,
-                                child: TextField(
-                                  //controller: widget.carBrandController,
-                                  decoration: const InputDecoration(
-                                    hintText: "Car Color ",
-                                  ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Car Color",
+                                      style: TextStyle(color: Colors.white,fontSize: 17),
+                                    ),
+                                    SizedBox(height: 5,),
+                                    TextField(
+                                      controller: widget.carColorController,
+                                      decoration: const InputDecoration(
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Expanded(
                                 flex: 1,
-                                child: TextField(
-                                  //controller: widget.carBrandController,
-                                  decoration: const InputDecoration(
-                                    hintText: "Car Year ",
-                                  ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Car Year",
+                                      style: TextStyle(color: Colors.white,fontSize: 17),
+                                    ),
+                                    SizedBox(height: 5,),
+                                    TextField(
+                                      controller: widget.modelYearController,
+                                      decoration: const InputDecoration(
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
