@@ -28,9 +28,43 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
   @override
   Widget build(BuildContext context) {
     double phoneWidth = MediaQuery.of(context).size.width;
-    double phoneHeight = MediaQuery.of(context).size.height;
+    double phoneHeight = MediaQuery.of(context).size.height - 60;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            backgroundColor: const Color(0xff282828),
+            title: Center(
+              child: Row(
+                children: [
+                  const Spacer(),
+                  const Text("Rent Car App"),
+                  const Spacer(),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Material(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/profileDriver");
+                        },
+                        child: Ink.image(
+                          image: const AssetImage(
+                            "lib/assets/images/blank-profile-photo.png",
+                          ),
+                          height: 47,
+                          width: 47,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
         backgroundColor: const Color(0xff282828),
         body: SizedBox(
           width: phoneWidth,
@@ -77,13 +111,16 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
       height: phoneHeight * 0.125,
       width: phoneWidth * 0.77,
       child: FittedBox(
-        fit: BoxFit.contain,
+        alignment: Alignment.centerLeft,
         child: Row(
           children: [
-            Image.asset(
-              "lib/assets/images/blank-profile-photo.png",
-              width: phoneWidth * .1,
-              height: phoneHeight * .1,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.asset(
+                "lib/assets/images/blank-profile-photo.png",
+                width: phoneHeight * .1,
+                height: phoneHeight * .1,
+              ),
             ),
             SizedBox(
               width: phoneWidth * 0.05,
@@ -133,13 +170,17 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                     child: ListTile(
                       style: ListTileStyle.list,
                       title: FittedBox(
+                        alignment: Alignment.centerLeft,
                         fit: BoxFit.fitHeight,
                         child: Row(
                           children: [
-                            Image.asset(
-                              "lib/assets/images/blank-profile-photo.png",
-                              width: phoneWidth * .1,
-                              height: phoneHeight * .1,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.asset(
+                                "lib/assets/images/blank-profile-photo.png",
+                                width: phoneHeight * .1,
+                                height: phoneHeight * .1,
+                              ),
                             ),
                             SizedBox(
                               width: phoneWidth * 0.05,
@@ -154,9 +195,12 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                                   color: Colors.white,
                                   fontSize: 15),
                             ),
+                            SizedBox(
+                              width: phoneWidth * 0.3,
+                            ),
                             Container(
                               height: phoneHeight * 0.05,
-                              width: phoneWidth * 0.1,
+                              width: phoneWidth * 0.25,
                               decoration: const BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
@@ -209,26 +253,33 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                   style: const TextStyle(
                       fontFamily: "Arapey", color: Colors.white, fontSize: 16),
                 ),
-                Container(
-                  height: phoneHeight * 0.05,
-                  width: phoneWidth * 0.1,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(3)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 2,
-                        offset: Offset(1, 1),
+                SizedBox(
+                  width: phoneWidth * 0.45,
+                ),
+                Column(
+                  children: [
+                    Container(
+                      height: phoneHeight * 0.05,
+                      width: phoneWidth * 0.25,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(3)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 2,
+                            offset: Offset(1, 1),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: FittedBox(
-                    child: Text(
-                      "${snapshot.data?.price} TL",
-                      style: const TextStyle(fontFamily: "Arapey"),
+                      child: FittedBox(
+                        child: Text(
+                          "${snapshot.data?.price} TL",
+                          style: const TextStyle(fontFamily: "Arapey"),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             );
