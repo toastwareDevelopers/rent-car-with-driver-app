@@ -11,10 +11,9 @@ const customerEditRouter = express.Router();
 customerEditRouter.post('/api/edit/customer', async function (req, res) {
 
         try {
-            const {_id} = req.query.ID;
-            const { NewphoneNumber,NewEmail, NewPassword, NewName, NewSurname, NewBirthDate, NewGender, NewNationalId, NewPassportNumber } = req.body;
+            const { NewphoneNumber,_id,NewEmail, NewPassword, NewName, NewSurname, NewBirthDate, NewGender, NewNationalId, NewPassportNumber } = req.body;
     
-            profile = await Customer.findOne(_id);
+            const profile = await Customer.findById(_id);
             
             if(!profile){
                 return res.status(400).json({msg: "There is not a person with this ID"});
