@@ -1,44 +1,67 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
-import 'package:rentcarmobile/services/auth.dart';
 //import 'package:rentcarmobile/utils/input_validator.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 import '../../../constants/assets_path.dart';
 import '../../../models/customer.dart';
+import '../../../services/profile.dart';
 
 ///  NOTES:
 ///
 ///
 
-class EditCustomerScreen extends StatefulWidget {
+class EditCustomerScreen extends StatefulWidget  {
   const EditCustomerScreen({super.key});
 
   @override
   State<EditCustomerScreen> createState() => _EditCustomerScreenState();
+
 }
 
 enum SingingCharacter { nationalNumber, passportNumber }
 
 class _EditCustomerScreenState extends State<EditCustomerScreen> {
+  late Future<Customer> myFuture;
+
   SingingCharacter? _character = SingingCharacter.nationalNumber;
-  static Customer prevData = Customer.n(3); // Customers previous data (stub)
-  Customer data = Customer(); // Customers updated data
-  TextEditingController name = TextEditingController(text: prevData.name);
-  TextEditingController surname = TextEditingController(text: prevData.surname);
-  // If user is allowed to update email and phone number uncomment these
-  //TextEditingController email = TextEditingController(text: prevData.mail);
-  //TextEditingController phoneNumber = TextEditingController(text: prevData.phoneNumber);
-  TextEditingController password1 = TextEditingController(text: prevData.password);
-  TextEditingController password2 = TextEditingController(text: prevData.password);
-  TextEditingController nationalID = TextEditingController(text: prevData.nationalId);
-  TextEditingController passportID = TextEditingController(text: prevData.passportNumber);
-  TextEditingController gender = TextEditingController(text: prevData.gender);
-  TextEditingController birthDateController = TextEditingController(text: prevData.birthday);
-  String? genderDropdown = prevData.gender;
+  TextEditingController name = TextEditingController();
+  TextEditingController surname = TextEditingController();
+  TextEditingController password1 = TextEditingController();
+  TextEditingController password2 = TextEditingController();
+  TextEditingController nationalID = TextEditingController();
+  TextEditingController passportID = TextEditingController();
+  TextEditingController birthDateController = TextEditingController();
   final List<String> genders = ["Male", "Female"];
+  String? genderDropdown = "Male";
+
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    myFuture = ProfileService.getCustomer("636658c908ae9ae84b4b7ea7");
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    body: FutureBuilder<Customer>(
+      future: myFuture,
+      builder: (context, snapshot) {
+        Customer? customerData = snapshot.data;
+        switch(snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const Center(child: CircularProgressIndicator());
+          default:
+            if(snapshot.hasError) {
+              return const Center(child: Text('Some error occurred!'));
+            } else {
+              return buildCustomerEditScreen(customerData!);
+            }
+        }
+      },
+    ),
+  );
+
+  Widget buildCustomerEditScreen(Customer customerData) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
 
@@ -109,7 +132,6 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                     decoration:
                                       const InputDecoration(hintText: 'Name'),
                                     controller: name,
-                                    onSubmitted: (text) {if(name.text.isEmpty){name.text = prevData.name!;}},
                                     // textInputAction: TextInputAction.next, this might come in handy with register pages
                                   ),
                                 ),
@@ -124,7 +146,6 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                       // This part will receive data from the database
                                       const InputDecoration(hintText: 'Surname'),
                                     controller: surname,
-                                    onSubmitted: (text) {if(surname.text.isEmpty){surname.text = prevData.surname!;}},
                                   ),
                                 ),
                               ],
@@ -140,7 +161,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                     enabled: false,
                                     decoration: InputDecoration(
                                       // This part will receive data from the database
-                                      hintText: prevData.mail,
+                                      hintText: customerData.mail,
                                     ),
                                   ),
                                 ),
@@ -152,11 +173,13 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                 Expanded(
                                   flex: 1,
                                   child: TextField(
+                                    obscureText: true,
+                                    enableSuggestions: false,
+                                    autocorrect: false,
                                     decoration:
                                       // This part will receive data from the database
                                       const InputDecoration(hintText: 'Password'),
                                     controller: password1,
-                                    onSubmitted: (text) {if(password1.text.isEmpty){password1.text = prevData.password!;}},
                                   ),
                                 ),
                                 SizedBox(
@@ -165,11 +188,13 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                 Expanded(
                                   flex: 1,
                                   child: TextField(
+                                    obscureText: true,
+                                    enableSuggestions: false,
+                                    autocorrect: false,
                                     decoration:
                                       // This part will receive data from the database
                                       const InputDecoration(hintText: 'Retype Password'),
                                     controller: password2,
-                                    onSubmitted: (text) {if(password2.text.isEmpty){password2.text = prevData.password!;}},
                                   ),
                                 ),
                               ],
@@ -185,7 +210,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                     enabled: false,
                                     decoration: InputDecoration(
                                       // This part will receive data from the database
-                                      hintText: prevData.phoneNumber,
+                                      hintText: customerData.phoneNumber,
                                     ),
                                   ),
                                 ),
@@ -242,7 +267,6 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                         // This part will receive data from the database
                                         InputDecoration(hintText: (_character == SingingCharacter.nationalNumber) ? 'National ID' : 'Passport ID'),
                                     controller: (_character == SingingCharacter.nationalNumber) ? nationalID : passportID,
-                                    onSubmitted: (text) {if(nationalID.text.isEmpty){nationalID.text = prevData.nationalId!;}else if(passportID.text.isEmpty){passportID.text = prevData.passportNumber!;}},
                                   ),
                                 ),
                               ],
@@ -259,7 +283,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                     ),
                                     controller: birthDateController,
                                     //onEditingComplete: () {if(birthDateController.text.isEmpty){birthDateController.text = prevData.birthday!;}},
-                                    onSubmitted: (text) {if(birthDateController.text.isEmpty){birthDateController.text = prevData.birthday!;}},
+                                    onSubmitted: (text) {if(birthDateController.text.isEmpty){birthDateController.text = customerData.birthday!;}},
                                   ),
                                 ),
                                 SizedBox(
@@ -324,40 +348,71 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                 0) {
                               WarningAlert.showWarningDialog(
                                 context,
-                                "Master Password must be same as confirmation ,but was different",
+                                "Master Password must be same as confirmation ,but was different!",
                                 () {
                                   Navigator.pop(context);
                                 },
-                              );
-                            } else {
-                              data.name = name.text;
-                              data.surname = surname.text;
-                              data.mail = prevData.mail;
-                              data.password = password1.text;
-                              data.phoneNumber = prevData.phoneNumber;
-                              data.birthday =
-                                  birthDateController.text;
-                              data.gender = genderDropdown;
-                              data.birthday =
-                                  birthDateController.text;
-                              data.nationalId = nationalID.text;
-                              data.passportNumber =
-                                  passportID.text;
+                               );
 
-                              if ((await AuthService.registerCustomer(data)) !=
+                            // Update Customer Info
+                            } else {
+
+                              Customer changedCustomerData = Customer();
+
+                              changedCustomerData.name = name.value.text.toString();
+                              changedCustomerData.surname = surname.value.text.toString();
+                              changedCustomerData.mail = customerData.mail;
+                              changedCustomerData.password = password1.value.text.toString();
+                              changedCustomerData.phoneNumber = customerData.phoneNumber;
+                              changedCustomerData.birthday = birthDateController.value.text.toString();
+                              changedCustomerData.gender = genderDropdown.toString();
+                              changedCustomerData.nationalId = nationalID.value.text.toString();
+                              changedCustomerData.passportNumber = passportID.value.text.toString();
+
+                              if(changedCustomerData.name.toString().isEmpty) {
+                                changedCustomerData.name = customerData.name;
+                              }
+
+                              if(changedCustomerData.surname.toString().isEmpty) {
+                                changedCustomerData.surname = customerData.surname;
+                              }
+
+                              if(changedCustomerData.password.toString().isEmpty) {
+                                changedCustomerData.password = customerData.password;
+                              }
+
+                              if(changedCustomerData.birthday.toString().isEmpty) {
+                                changedCustomerData.birthday = customerData.birthday;
+                              }
+
+                              if(changedCustomerData.gender.toString().isEmpty) {
+                                changedCustomerData.gender = customerData.gender;
+                              }
+
+                              if(changedCustomerData.nationalId.toString().isEmpty) {
+                                changedCustomerData.nationalId = customerData.nationalId;
+                              }
+
+                              if(changedCustomerData.passportNumber.toString().isEmpty) {
+                                changedCustomerData.passportNumber = customerData.passportNumber;
+                              }
+
+                              print(changedCustomerData.toString());
+
+                              if ((await ProfileService.editCustomer(changedCustomerData, "636658c908ae9ae84b4b7ea7")) !=
                                   200) {
                                 WarningAlert.showWarningDialog(
                                   context,
-                                  "We encountered a problem please try again",
-                                  () {
+                                  "We can not change your data!.",
+                                      () {
                                     Navigator.pop(context);
                                   },
                                 );
                               } else {
                                 WarningAlert.showWarningDialog(
                                   context,
-                                  "You have successfully updated your account!",
-                                  () {
+                                  "Congrulations! You have changed!",
+                                      () {
                                     Navigator.pushNamed(context, "/");
                                   },
                                 );
