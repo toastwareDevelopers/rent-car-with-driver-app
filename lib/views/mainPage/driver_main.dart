@@ -205,7 +205,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "${snapshot.data?[index].customerName} (${snapshot.data?[index].customerAge})",
+                                "${snapshot.data?[index].customerName} ${snapshot.data?[index].customerSurname} (${snapshot.data?[index].customerAge})",
                                 style: const TextStyle(
                                     fontFamily: "Arapey",
                                     color: Colors.white,
@@ -330,7 +330,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${snapshot.data?.customerName} (${snapshot.data?.customerAge})",
+                            "${snapshot.data?.customerName} ${snapshot.data?.customerSurname} (${snapshot.data?.customerAge})",
                             style: const TextStyle(
                                 fontFamily: "Arapey",
                                 color: Colors.white,

@@ -86,9 +86,13 @@ class MainService {
       Trip trip = Trip.fromJson(tripJson);
       response = await http.get(url, headers: headers);
       Customer customer = await getTripsCustomer(trip.customerId!);
+      DateTime dt = DateTime.parse(customer.birthDate!);
+      trip.customerAge = DateTime.now().year - dt.year;
       trip.customerName = customer.name;
+      trip.customerSurname = customer.surname;
       return trip;
     } catch (e) {
+      print("Error$e");
       return Trip();
     }
   }
