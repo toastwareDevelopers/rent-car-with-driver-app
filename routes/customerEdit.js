@@ -11,8 +11,8 @@ const customerEditRouter = express.Router();
 customerEditRouter.post('/api/edit/customer', async function (req, res) {
 
         try {
-
-            const { NewphoneNumber,_id, NewEmail, NewPassword, NewName, NewSurname, NewBirthDate, NewGender, NewNationalId, NewPassportNumber } = req.body;
+            const {_id} = req.query.ID;
+            const { NewphoneNumber,NewEmail, NewPassword, NewName, NewSurname, NewBirthDate, NewGender, NewNationalId, NewPassportNumber } = req.body;
     
             profile = await Customer.findOne(_id);
             
