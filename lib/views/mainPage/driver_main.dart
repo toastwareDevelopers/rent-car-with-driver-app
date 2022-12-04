@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rentcarmobile/models/trip.dart';
 import 'package:rentcarmobile/services/mains.dart';
 
+import '../../constants/assets_path.dart';
+
 class DriverMainScreen extends StatefulWidget {
   DriverMainScreen({super.key});
   List<Trip> trips = [];
@@ -63,6 +65,22 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                 ],
               ),
             ),
+          ),
+        ),
+        floatingActionButton: InkWell(
+          child: FloatingActionButton(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.asset(
+                "lib/assets/images/lock.png",
+                scale: 0.5,
+                height: 70,
+                width: 70,
+              ),
+            ),
+            onPressed: () {
+              setState(() {});
+            },
           ),
         ),
         backgroundColor: const Color(0xff282828),
