@@ -17,12 +17,12 @@ class CustomerProfileScreen extends StatefulWidget {
 
 class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
   List<Customer_Trip > trips = [
-    new Customer_Trip("Burak",35, "Samsun", "12-0-1", "15-0-20"),
-    new Customer_Trip("Harun",45, "Istanbul", "12-0-1", "15-0-20"),
-    new Customer_Trip("Eray",32, "Karabuk", "12-0-1", "15-0-20"),
-    new Customer_Trip("Taha",40, "Istanbul", "12-0-1", "15-0-20"),
-    new Customer_Trip("Alperen",50, "Eskisehir", "12-0-1", "15-0-20"),
-    new Customer_Trip("Berkan",50, "Manisa", "12-0-1", "15-0-20")];
+    new Customer_Trip("Burak Yasar",35, "Samsun", "12-0-1", "15-0-20"),
+    new Customer_Trip("Harun Albayrak",45, "Istanbul", "12-0-1", "15-0-20"),
+    new Customer_Trip("Eray Yasar",32, "Karabuk", "12-0-1", "15-0-20"),
+    new Customer_Trip("Taha Yasar",40, "Istanbul", "12-0-1", "15-0-20"),
+    new Customer_Trip("Alperen Acıkgoz",50, "Eskisehir", "12-0-1", "15-0-20"),
+    new Customer_Trip("Berkan Akin",50, "Manisa", "12-0-1", "15-0-20")];
 
 
   List<review_widget> reviews = [new review_widget("Levis Hemilton","Virajlara hızlı girmesi haricinde iyi bir sofor"),

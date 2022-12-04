@@ -65,7 +65,7 @@ class review_widget extends StatelessWidget {
                             child: Text(
                               name,
                               textAlign: TextAlign.left,
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.white,fontSize: 16),
                             ),
                           ),
 

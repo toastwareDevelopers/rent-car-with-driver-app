@@ -47,16 +47,16 @@ class Customer_Trip extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  "Berkan AKIN",
+                  name,
                   textAlign: TextAlign.left,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white,fontSize: 16),
                 ),
               ),
               Container(
                 color: Color.fromARGB(2, 3, 5, 7),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Manisa",
+                  city,
 
                   style:
                   TextStyle(color: Colors.white),
