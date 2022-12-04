@@ -17,28 +17,29 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
     double phoneWidth = MediaQuery.of(context).size.width;
     var drivers = [
       DriverListDriver(
-          driverName: "Ahmet Kasabalı",
-          driverAge: "20",
+          driverName: "Lewis Hamilton",
+          driverAge: "37",
           driverLocation: "Istanbul",
-          driverDescription: "selam",
+          driverDescription: "Guzel bir yolc..",
           driverPrice: "150"),
       DriverListDriver(
           driverName: "Ahmet Kasabalı",
           driverAge: "20",
           driverLocation: "Istanbul",
-          driverDescription: "selam",
+          driverDescription: "Selamlar benimle yolc..",
           driverPrice: "150"),
       DriverListDriver(
           driverName: "Ahmet Kasabalı",
           driverAge: "20",
           driverLocation: "Istanbul",
-          driverDescription: "selam",
+          driverDescription: "Ben süper bir..",
           driverPrice: "150")
     ];
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Rent Car App"),
+        centerTitle: true,
         actions: [
           CircleAvatar(
             backgroundColor: Theme.of(context).highlightColor,
@@ -49,6 +50,16 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Image.asset(
+          AssetPaths.chatIconPath,
+          scale: 0.1,
+          height: 35,
+          width: 35,
+          color: Colors.white,
+        ),
+        onPressed: () {},
       ),
       body: Container(
         child: Stack(

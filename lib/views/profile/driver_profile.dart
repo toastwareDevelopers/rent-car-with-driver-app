@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/widgets/driver_skill_widget.dart';
 
 import '../../constants/assets_path.dart';
+import '../../widgets/review_widget.dart';
 
 class DriverProfileScreen extends StatefulWidget {
   DriverProfileScreen({super.key});
@@ -24,10 +26,12 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
+    var reviews = [Review(driverId: "2342",customerId: "Harun Eren Ozkaya",rating: "9.9",reviewText: "Cok guzeldi"),Review(driverId: "2342",customerId: "Eray Yasar",rating: "9.9",reviewText: "Cok iyiydi"),Review(driverId: "2342",customerId: "Burak Yasar",rating: "9.9",reviewText: "Super"),];
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Driver Profile Screen"),
+        centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
         child: Image.asset(
@@ -37,7 +41,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
           width: 40,
           color: Colors.white,
         ),
-        onPressed: () {},
+        onPressed: () {Navigator.pushNamed(context, "/editDriverAuth");},
       ),
       body: Container(
         padding: EdgeInsets.only(bottom: phoneHeight * 0.02),
@@ -47,7 +51,9 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
             Positioned(
               top: phoneHeight * 0.2,
               child: InkWell(
-                onTap: () {Navigator.pushNamed(context, "/profileDriverCar");},
+                onTap: () {
+                  Navigator.pushNamed(context, "/profileDriverCar");
+                },
                 child: Container(
                   height: phoneHeight * 0.05,
                   width: phoneWidth * 0.15,
@@ -55,7 +61,10 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                     color: Theme.of(context).highlightColor,
                     borderRadius: BorderRadius.circular(3),
                   ),
-                  child: Image.asset(AssetPaths.carIconPath,color: Colors.white,),
+                  child: Image.asset(
+                    AssetPaths.carIconPath,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -323,6 +332,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                           ? 3
                           : 4,
                   child: Container(
+                    height: phoneHeight*0.1,
                     padding:
                         EdgeInsets.symmetric(horizontal: phoneWidth * 0.04),
                     child: Column(
@@ -352,12 +362,22 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                         Expanded(
                           flex: 4,
                           child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: phoneWidth*0.01,vertical: phoneHeight*0.01),
                             decoration: const BoxDecoration(
                               color: Color.fromARGB(255, 244, 243, 243),
                               borderRadius: BorderRadius.all(
                                 Radius.circular(5),
                               ),
                             ),
+                            child: ListView.separated(
+                                itemBuilder: ((context, index) {
+                                  return ReviewWidget(
+                                      name: reviews[index].customerId.toString(),
+                                      review: reviews[index].reviewText.toString(),
+                                      rating: reviews[index].rating.toString());
+                                }),
+                                separatorBuilder: ((context, index) => SizedBox(height: phoneHeight*0.01,)),
+                                itemCount: reviews.length),
                           ),
                         ),
                       ],

@@ -4,4 +4,5 @@ class AssetPaths{
   static String editIconPath = "lib/assets/images/edit-icon.png";
   static String carIconPath = "lib/assets/images/car-icon.png";
   static String personalIconPath = "lib/assets/images/personal-icon.png";
+  static String chatIconPath = "lib/assets/images/chat-icon.png";
 }
