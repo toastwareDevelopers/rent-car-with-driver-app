@@ -83,7 +83,7 @@ class RentVanApp extends StatelessWidget {
           cursorColor: Color.fromARGB(255, 167, 117, 77),
         ),
       ),
-      initialRoute: "/profileDriverPersonal",
+      initialRoute: "/customerMain",
       routes: {
         '/': (context) => LoginScreen(),
         '/forgotPassword': (context) => ForgotPasswordScreen(),
