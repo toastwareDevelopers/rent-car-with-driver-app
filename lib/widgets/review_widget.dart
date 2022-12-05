@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../constants/assets_path.dart';
 
 class ReviewWidget extends StatelessWidget {
@@ -90,3 +89,4 @@ class ReviewWidget extends StatelessWidget {
     );
   }
 }
+

@@ -13,7 +13,8 @@ class Customer {
   String? birthDate;
   String? gender;
   String? nationalId;
-  Customer({
+  List<String>? trips;
+  Customer( {
     this.mail = "null",
     this.password = "null",
     this.name = "null",
