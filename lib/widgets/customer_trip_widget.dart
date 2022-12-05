@@ -45,7 +45,7 @@ class CustomerTrip extends StatelessWidget {
             ),
           ),
           Column( // trips
-
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 alignment: Alignment.centerLeft,
@@ -90,10 +90,10 @@ class CustomerTrip extends StatelessWidget {
               )
             ],
           ),
+          SizedBox(width: phoneWidth*0.06,),
           Container(
             alignment: Alignment.centerRight,
             width: phoneWidth * 0.1,
-
             child: Column(
               children: [
                 Container(

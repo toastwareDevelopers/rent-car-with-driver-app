@@ -24,7 +24,10 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
-
+    
+    widget.emailController.text = "eray3@hotmail.com";
+    widget.phoneNumberController.text = "05394482231";
+  
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
@@ -40,7 +43,7 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                 child: Container(
                   padding: EdgeInsets.only(top: phoneHeight * 0.08),
                   child: Text(
-                    "Register as a Driver",
+                    "Edit Driver",
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),

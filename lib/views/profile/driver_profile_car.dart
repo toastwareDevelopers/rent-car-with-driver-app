@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:rentcarmobile/widgets/driver_skill_widget.dart';
 
 import '../../constants/assets_path.dart';
+import '../../main.dart';
 
 class DriverProfileCarScreen extends StatefulWidget {
   DriverProfileCarScreen({super.key});
@@ -33,17 +34,23 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Driver Profile Car Screen"),
+        title: const Text("Driver Profile Car"),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Image.asset(
+        child: RentVanApp.userType == "driver" ? Image.asset(
           AssetPaths.editIconPath,
           scale: 0.1,
           height: 40,
           width: 40,
           color: Colors.white,
-        ),
-        onPressed: () {},
+        ) : Image.asset(
+          AssetPaths.chatIconPath,
+          scale: 0.1,
+          height: 40,
+          width: 40,
+          color: Colors.white,
+        ) ,
+        onPressed: RentVanApp.userType == "driver" ? () {Navigator.pushNamed(context, "/editDriverAuth");} : () {Navigator.pushNamed(context, "/chat");} ,
       ),
       body: Container(
         padding: EdgeInsets.only(bottom: phoneHeight * 0.02),

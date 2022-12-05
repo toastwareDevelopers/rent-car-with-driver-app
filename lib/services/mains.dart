@@ -16,7 +16,7 @@ class MainService {
       'ID': id,
     };
     try {
-      var url = Uri.parse("http://192.168.1.104:3000/api/info")
+      var url = Uri.parse("http://192.168.1.68:3000/api/info")
           .replace(queryParameters: {
         'ID': id,
       });
@@ -56,7 +56,7 @@ class MainService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://192.168.1.104:3000/api/info")
+      var url = Uri.parse("http://192.168.1.68:3000/api/info")
           .replace(queryParameters: {
         'ID': id,
       });
@@ -77,7 +77,7 @@ class MainService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://192.168.1.104:3000/api/info")
+      var url = Uri.parse("http://192.168.1.68:3000/api/info")
           .replace(queryParameters: {
         'ID': id,
       });

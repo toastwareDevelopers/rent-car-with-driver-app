@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/services/profile.dart';
 
+import '../../constants/assets_path.dart';
+import '../../main.dart';
 import '../../models/customer.dart';
 import '../../widgets/customer_trip_widget.dart';
 import '../../widgets/review_widget_2.dart';
@@ -43,6 +45,30 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
     //Map<String, dynamic> map =  ProfileService.getCustomer("636802ba08ae9ae84b4b7eda") as Map<String, dynamic> ;
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: RentVanApp.userType == "customer"
+            ? Image.asset(
+                AssetPaths.editIconPath,
+                scale: 0.1,
+                height: 40,
+                width: 40,
+                color: Colors.white,
+              )
+            : Image.asset(
+                AssetPaths.chatIconPath,
+                scale: 0.1,
+                height: 40,
+                width: 40,
+                color: Colors.white,
+              ),
+        onPressed: RentVanApp.userType == "customer"
+            ? () {
+                Navigator.pushNamed(context, "/editCustomer");
+              }
+            : () {
+                Navigator.pushNamed(context, "/chat");
+              },
+      ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -55,7 +81,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     icon: const Icon(Icons.arrow_back),
                     color: const Color.fromARGB(255, 167, 117, 77),
                     onPressed: () {
-                      debugPrint("Butona tıklandı");
+                      Navigator.pop(context);
                     },
                     iconSize: 24,
                   )
@@ -73,6 +99,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         alignment: Alignment.center,
@@ -124,6 +151,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(5)),
                           child: ListView(
+                            padding: EdgeInsets.only(top: 10),
                             children: trips,
                           ),
                         ),
@@ -156,6 +184,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: ListView(
+                          padding: EdgeInsets.only(top: 10),
                           children: reviews,
                         ),
                       ),
@@ -163,29 +192,6 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Container(
-                      width: phoneWidth,
-                      height: phoneHeight * 0.15,
-                      padding: EdgeInsets.only(
-                          top: phoneHeight * 0.02, right: phoneWidth * 0.03),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            shape: CircleBorder(),
-                            padding: EdgeInsets.all(10),
-                            backgroundColor: const Color.fromARGB(
-                                255, 167, 117, 77), // <-- Button color
-                            foregroundColor: Colors.red, // <-- Splash color
-                          ),
-                          child: const Icon(pencil, color: Colors.white),
-                        ),
-                      ))
-                ],
-              )
             ],
           ),
         ),

@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/login.dart';
 import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
@@ -138,10 +139,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               //driver
                               if (json.decode(response.body)["role"] ==
                                   "driver") {
+                                    RentVanApp.userType = "driver";
                                 Navigator.pushNamed(context, "/driverMain");
                               }
                               //customer
                               else {
+                                RentVanApp.userType = "customer";
                                 Navigator.pushNamed(context, "/customerMain");
                               }
                             }

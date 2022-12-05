@@ -37,36 +37,27 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(50),
           child: AppBar(
+            centerTitle: true,
             backgroundColor: const Color(0xff282828),
-            title: Center(
-              child: Row(
-                children: [
-                  const Spacer(),
-                  const Text(
-                    "Rent Car App",
-                    style: TextStyle(fontFamily: "Arapey", fontSize: 25),
+            actions: [
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, "/profileDriverPersonal");
+                },
+                child: CircleAvatar(
+                  backgroundColor: Theme.of(context).highlightColor,
+                  radius: 24,
+                  child: CircleAvatar(
+                    backgroundImage:
+                        AssetImage(AssetPaths.blankProfilePhotoPath),
+                    radius: 21.0,
                   ),
-                  const Spacer(),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Material(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(context, "/profileDriver");
-                        },
-                        child: Ink.image(
-                          image: const AssetImage(
-                            "lib/assets/images/blank-profile-photo.png",
-                          ),
-                          height: 47,
-                          width: 47,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+                ),
               ),
+            ],
+            title: const Text(
+              "Rent Car App",
+              style: TextStyle(fontFamily: "Arapey", fontSize: 25),
             ),
           ),
         ),
@@ -76,15 +67,15 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: Image.asset(
-                "lib/assets/images/message-box-icon.png",
+                AssetPaths.chatIconPath,
                 scale: 0.5,
-                height: 70,
-                width: 70,
+                height: 40,
+                width: 40,
                 color: Colors.white,
               ),
             ),
             onPressed: () {
-              setState(() {});
+              Navigator.pushNamed(context, "/chat");
             },
           ),
         ),
@@ -121,25 +112,30 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
     );
   }
 
-  Container getActiveTrip(double phoneWidth, double phoneHeight) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xffA7754D),
-        border: Border.all(
-          width: 5,
+  Widget getActiveTrip(double phoneWidth, double phoneHeight) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, "/profileCustomer");
+      },
+      child: Container(
+        decoration: BoxDecoration(
           color: const Color(0xffA7754D),
+          border: Border.all(
+            width: 5,
+            color: const Color(0xffA7754D),
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
         ),
-        borderRadius: const BorderRadius.all(Radius.circular(5)),
-      ),
-      height: phoneHeight * 0.125,
-      width: phoneWidth * 0.91,
-      child: FittedBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            getActiveCustomerInfo(phoneWidth, phoneHeight),
-          ],
+        height: phoneHeight * 0.125,
+        width: phoneWidth * 0.91,
+        child: FittedBox(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              getActiveCustomerInfo(phoneWidth, phoneHeight),
+            ],
+          ),
         ),
       ),
     );

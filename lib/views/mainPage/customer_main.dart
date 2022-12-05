@@ -64,7 +64,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
           width: 35,
           color: Colors.white,
         ),
-        onPressed: () {},
+        onPressed: ()=>Navigator.pushNamed(context, "/chat"),
       ),
       body: Container(
         child: Stack(
@@ -97,70 +97,73 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                         ),
                         Expanded(
                           flex: 3,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).highlightColor,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
+                          child: InkWell(
+                            onTap: () => Navigator.pushNamed(context, "/profileDriverPersonal"),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).highlightColor,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
                               ),
-                            ),
-                            child: ListTile(
-                              style: ListTileStyle.list,
-                              title: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    radius: 30,
-                                    child: CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          AssetPaths.blankProfilePhotoPath),
-                                      radius: 27.0,
+                              child: ListTile(
+                                style: ListTileStyle.list,
+                                title: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      radius: 30,
+                                      child: CircleAvatar(
+                                        backgroundImage: AssetImage(
+                                            AssetPaths.blankProfilePhotoPath),
+                                        radius: 27.0,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: phoneWidth * 0.05,
-                                    height: phoneHeight * 0.05,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Lewis Hamilton (27)",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 17),
-                                      ),
-                                      Text(
-                                        "Istanbul",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 14),
-                                      ),
-                                      Text(
-                                        "Start : 25.05.22 - Finish : 27.05.22",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.topRight,
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(5),
-                                          ),
+                                    SizedBox(
+                                      width: phoneWidth * 0.05,
+                                      height: phoneHeight * 0.05,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Lewis Hamilton (27)",
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 17),
                                         ),
-                                        child: Text("150TL"),
-                                      ),
+                                        Text(
+                                          "Istanbul",
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 14),
+                                        ),
+                                        Text(
+                                          "Start : 25.05.22 - Finish : 27.05.22",
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 14),
+                                        ),
+                                      ],
                                     ),
-                                  )
-                                ],
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.topRight,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(5),
+                                            ),
+                                          ),
+                                          child: Text("150TL"),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),

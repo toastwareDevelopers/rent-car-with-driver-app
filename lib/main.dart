@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/views/chat/chat.dart';
 import 'package:rentcarmobile/views/loginRegister/forgotpassword_screen.dart';
 import 'package:rentcarmobile/views/loginRegister/login_screen.dart';
 import 'package:rentcarmobile/views/loginRegister/register_customer.dart';
@@ -23,6 +24,8 @@ void main() {
 
 class RentVanApp extends StatelessWidget {
   const RentVanApp({super.key});
+
+  static var userType = "customer";
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +86,7 @@ class RentVanApp extends StatelessWidget {
           cursorColor: Color.fromARGB(255, 167, 117, 77),
         ),
       ),
-      initialRoute: "/customerMain",
+      initialRoute: "/",
       routes: {
         '/': (context) => LoginScreen(),
         '/forgotPassword': (context) => ForgotPasswordScreen(),
@@ -102,6 +105,7 @@ class RentVanApp extends StatelessWidget {
         '/editDriverPersonal': (context) =>  EditDriverPersonalScreen(),
         '/editDriverSkills': (context) => EditDriverSkillsScreen(),
         '/editDriverCar': (context) => EditDriverCarScreen(),
+        '/chat': (context) => ChatScreen(),
       },
     );
   }

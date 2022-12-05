@@ -18,7 +18,7 @@ class AuthService {
     };
 
     try {
-      var url = Uri.parse("http://192.168.1.110:3000/api/signup/driverCheck");
+      var url = Uri.parse("http://192.168.1.68:3000/api/signup/driverCheck");
       var response = await http.post(url,
           body: json.encode(driverCheckBody), headers: driverCheckHeaders);
       return response.statusCode;
@@ -33,7 +33,7 @@ class AuthService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://192.168.1.110:3000/api/signup/driver");
+      var url = Uri.parse("http://192.168.1.68:3000/api/signup/driver");
       var response = await http.post(url,
           body: json.encode(driver.toJson()), headers: headers);
       return response.statusCode;
@@ -48,7 +48,7 @@ class AuthService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://192.168.1.110:3000/api/signup/customer");
+      var url = Uri.parse("http://192.168.1.68:3000/api/signup/customer");
       var response = await http.post(url,
           body: json.encode(
             {
@@ -76,7 +76,7 @@ class AuthService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://192.168.1.110:3000/api/signin");
+      var url = Uri.parse("http://192.168.1.68:3000/api/signin");
       var response = await http.post(url,
           body: json.encode(login.toJson()), headers: headers);
       debugPrint(response.body.toString());
