@@ -60,7 +60,7 @@ class RentVanApp extends StatelessWidget {
             ),
           ),
         ),
-        textTheme:  const TextTheme(
+        textTheme: const TextTheme(
           headlineMedium: TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -88,11 +88,11 @@ class RentVanApp extends StatelessWidget {
         '/': (context) => LoginScreen(),
         '/forgotPassword': (context) => ForgotPasswordScreen(),
         '/registerCustomer': (context) => const RegisterCustomerScreen(),
-        '/registerDriverAuth': (context) =>  RegisterDriverAuthScreen(),
-        '/registerDriverPersonal': (context) =>  RegisterDriverPersonalScreen(),
+        '/registerDriverAuth': (context) => RegisterDriverAuthScreen(),
+        '/registerDriverPersonal': (context) => RegisterDriverPersonalScreen(),
         '/registerDriverSkills': (context) => RegisterDriverSkillsScreen(),
-        '/registerDriverCar': (context) =>  RegisterDriverCarScreen(),
-        '/driverMain': (context) => const DriverMainScreen(),
+        '/registerDriverCar': (context) => RegisterDriverCarScreen(),
+        '/driverMain': (context) => DriverMainScreen(),
         '/customerMain': (context) => const CustomerMainScreen(),
         '/profileDriverPersonal' : (context) =>  DriverProfileScreen(),
         '/profileDriverCar' : (context) =>  DriverProfileCarScreen(),
@@ -101,7 +101,7 @@ class RentVanApp extends StatelessWidget {
         '/editDriverAuth': (context) =>  EditDriverAuthScreen(),
         '/editDriverPersonal': (context) =>  EditDriverPersonalScreen(),
         '/editDriverSkills': (context) => EditDriverSkillsScreen(),
-        '/editDriverCar': (context) =>  EditDriverCarScreen(),
+        '/editDriverCar': (context) => EditDriverCarScreen(),
       },
     );
   }

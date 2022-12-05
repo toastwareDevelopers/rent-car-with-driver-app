@@ -22,6 +22,7 @@ class Driver {
   int hourlyPrice = 0;
   String taxNumber = "null";
   Map<String, dynamic> carInfo = {};
+  List<String> trips = [];
 
   Driver({
     this.email = "null",
@@ -43,6 +44,7 @@ class Driver {
     this.hourlyPrice = 0,
     this.taxNumber = "null",
     this.carInfo = const {},
+    this.trips = const [],
   });
 
   factory Driver.fromJson(Map<String, dynamic> json) => _$DriverFromJson(json);
@@ -51,24 +53,65 @@ class Driver {
 
   @override
   String toString() {
-    return "email : " + email + "\n" +
-    "password : " + password + "\n" +
-    "name : " + name + "\n" +
-    "surname : " + surname + "\n" +
-    "birthDate : " + birthDate + "\n" +
-    "gender : " + gender + "\n" +
-    "phoneNumber : " + phoneNumber + "\n" +
-    "nationalId : " + nationalId + "\n" +
-    "passportNumber : " + passportNumber + "\n" +
-    "location : " + location + "\n" +
-    "info : " + info + "\n" +
-    "skills : " + skills.toString() + "\n" +
-    "languages : " + languages.toString() + "\n" +
-    "licenceNumber : " + licenceNumber + "\n" +
-    "licenceYear : " + licenceYear + "\n" +
-    "rating : " + rating.toString() + "\n" +
-    "hourlyPrice : " + hourlyPrice.toString() + "\n" +
-    "taxNumber : " + taxNumber + "\n" +
-    "carInfo : " + carInfo.toString() + "\n";
+    return "email : " +
+        email +
+        "\n" +
+        "password : " +
+        password +
+        "\n" +
+        "name : " +
+        name +
+        "\n" +
+        "surname : " +
+        surname +
+        "\n" +
+        "birthDate : " +
+        birthDate +
+        "\n" +
+        "gender : " +
+        gender +
+        "\n" +
+        "phoneNumber : " +
+        phoneNumber +
+        "\n" +
+        "nationalId : " +
+        nationalId +
+        "\n" +
+        "passportNumber : " +
+        passportNumber +
+        "\n" +
+        "location : " +
+        location +
+        "\n" +
+        "info : " +
+        info +
+        "\n" +
+        "skills : " +
+        skills.toString() +
+        "\n" +
+        "languages : " +
+        languages.toString() +
+        "\n" +
+        "licenceNumber : " +
+        licenceNumber +
+        "\n" +
+        "licenceYear : " +
+        licenceYear +
+        "\n" +
+        "rating : " +
+        rating.toString() +
+        "\n" +
+        "hourlyPrice : " +
+        hourlyPrice.toString() +
+        "\n" +
+        "taxNumber : " +
+        taxNumber +
+        "\n" +
+        "carInfo : " +
+        carInfo.toString() +
+        "\n" +
+        "trips : " +
+        trips.toString() +
+        "\n";
   }
 }
