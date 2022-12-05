@@ -4,11 +4,11 @@ import 'package:rentcarmobile/models/review.dart';
 import 'package:flutter/material.dart';
 import '../constants/assets_path.dart';
 
-class review_widget extends StatelessWidget {
+class ReviewWidget2 extends StatelessWidget {
   var name;
   var comment;
 
-  review_widget(var name,var comment){
+  ReviewWidget2(var name,var comment){
     this.name = name;
     this.comment = comment;
   }

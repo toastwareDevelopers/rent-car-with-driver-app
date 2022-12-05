@@ -5,7 +5,7 @@ import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/services/profile.dart';
 
 import '../../models/customer.dart';
-import '../../widgets/Customer_trip.dart';
+import '../../widgets/customer_trip_widget.dart';
 import '../../widgets/review_widget_2.dart';
 
 class CustomerProfileScreen extends StatefulWidget {
@@ -16,20 +16,20 @@ class CustomerProfileScreen extends StatefulWidget {
 }
 
 class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
-  List<Customer_Trip> trips = [
-    new Customer_Trip("Burak Yasar", 35, "Samsun", "12-0-1", "15-0-20"),
-    new Customer_Trip("Harun Albayrak", 45, "Istanbul", "12-0-1", "15-0-20"),
-    new Customer_Trip("Eray Yasar", 32, "Karabuk", "12-0-1", "15-0-20"),
-    new Customer_Trip("Taha Yasar", 40, "Istanbul", "12-0-1", "15-0-20"),
-    new Customer_Trip("Alperen Acıkgoz", 50, "Eskisehir", "12-0-1", "15-0-20"),
-    new Customer_Trip("Berkan Akin", 50, "Manisa", "12-0-1", "15-0-20")
+  List<CustomerTrip> trips = [
+    new CustomerTrip("Burak Yasar", 35, "Samsun", "12-0-1", "15-0-20"),
+    new CustomerTrip("Harun Albayrak", 45, "Istanbul", "12-0-1", "15-0-20"),
+    new CustomerTrip("Eray Yasar", 32, "Karabuk", "12-0-1", "15-0-20"),
+    new CustomerTrip("Taha Yasar", 40, "Istanbul", "12-0-1", "15-0-20"),
+    new CustomerTrip("Alperen Acıkgoz", 50, "Eskisehir", "12-0-1", "15-0-20"),
+    new CustomerTrip("Berkan Akin", 50, "Manisa", "12-0-1", "15-0-20")
   ];
   static const IconData pencil = IconData(0xf1d7, fontFamily: 'MaterialIcons');
 
-  List<review_widget> reviews = [
-    new review_widget(
+  List<ReviewWidget2> reviews = [
+    new ReviewWidget2(
         "Levis Hemilton", "Virajlara hızlı girmesi haricinde iyi bir sofor"),
-    new review_widget(
+    new ReviewWidget2(
         "Levis Hemilton", "Virajlara hızlı girmesi haricinde iyi bir sofor"),
   ];
   @override

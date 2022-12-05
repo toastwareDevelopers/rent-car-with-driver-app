@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class Customer_Trip extends StatelessWidget {
+class CustomerTrip extends StatelessWidget {
   var skillText = "null";
   var name;
   var age;
@@ -10,7 +10,7 @@ class Customer_Trip extends StatelessWidget {
   var start_time;
   var finish_time;
 
-  Customer_Trip(var name,var age,var city,var start_time,var finish_time){
+  CustomerTrip(var name,var age,var city,var start_time,var finish_time){
     this.name = name;
     this.age  = age;
     this.city = city;
