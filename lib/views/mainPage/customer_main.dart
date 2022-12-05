@@ -41,12 +41,17 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
         title: const Text("Rent Car App"),
         centerTitle: true,
         actions: [
-          CircleAvatar(
-            backgroundColor: Theme.of(context).highlightColor,
-            radius: 24,
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, "/profileCustomer");
+            },
             child: CircleAvatar(
-              backgroundImage: AssetImage(AssetPaths.blankProfilePhotoPath),
-              radius: 21.0,
+              backgroundColor: Theme.of(context).highlightColor,
+              radius: 24,
+              child: CircleAvatar(
+                backgroundImage: AssetImage(AssetPaths.blankProfilePhotoPath),
+                radius: 21.0,
+              ),
             ),
           ),
         ],
