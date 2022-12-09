@@ -4,18 +4,18 @@ const mongoose = require("mongoose");
 /* Creating a schema for the driver model. */
 const userSchema = mongoose.Schema({
 
-    role: {
+    role:{
         type: String,
-        default: "driver",
+        default:"driver",
     },
-
-    phoneNumber: {
+    
+    phoneNumber:{
         required: true,
         type: String,
         trim: true,
-
-        validate: {
-            validator: function (value) {
+        
+        validate:{
+            validator: function(value){
                 const phoneFormat = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
                 return value.match(phoneFormat);
             },
@@ -23,12 +23,12 @@ const userSchema = mongoose.Schema({
         }
     },
 
-    email: {
+    email:{
         require: true,
         type: String,
         trim: true,
-        validate: {
-            validator: function (value) {
+        validate:{
+            validator: function(value){
                 const emailFormat = /^[a-zA-Z0-9_.+]*[a-zA-Z][a-zA-Z0-9_.+]*@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
                 return value.match(emailFormat);
             },
@@ -36,129 +36,197 @@ const userSchema = mongoose.Schema({
         },
     },
 
-    password: {
+    password:{
         required: true,
         type: String,
         trim: true,
     },
 
-    name: {
+    name:{
         required: true,
         type: String,
         trim: false,
     },
 
-    surname: {
+    surname:{
         required: true,
         type: String,
         trim: true,
     },
 
-    birthDate: {
+    birthDate:{
         required: true,
         type: Date,
     },
 
-    gender: {
+    gender:{
         required: true,
         type: String,
-        enum: ["Female", "Male"],
+        enum: ["female","male"],
     },
 
-    nationalId: {
-        required: true,
-        type: String,
-        trim: true,
-
-    },
-
-    passportNumber: {
-        type: String,
-        trim: true,
-    },
-
-    location: {
+    nationalId:{
         required: true,
         type: String,
         trim: true,
+        validate:{
+            validator: function(value){
+                const nationalIdFormat = /^[1-9][0-9]{10}$/;
+                if(value.match(nationalIdFormat)){
+                    
+                    first = 0;
+                    for (let index = 0; index <= 8; index+=2) {
+                        first += Number(value.charAt(index));
+                    }
+                    first = first*7;
+                    second = 0;
+
+                    for (let index = 1; index <= 7; index+=2) {
+                        second += Number(value.charAt(index));
+                    }
+                    
+                    
+                    
+
+                    tenth = first-second;
+
+                    
+                    last = 0;
+                    for (let index = 0; index < value.length-1; index++) {
+                        last += Number(value.charAt(index));
+                        
+
+                    }
+
+
+                    if((tenth % 10 == Number(value.charAt(9))) && (last%10 == Number(value.charAt(10)))){
+                        return true;
+                    }
+                    
+                }
+                return false;
+                
+            },
+            message: "Please enter a valid National ID",
+        },
+        
     },
 
-    bio: {
+    passportNumber:{
+        type: String,
+        trim: true,
+    },
+
+    location:{
+        required: true,
+        type: String,
+        trim: true,
+    },
+    
+    bio:{
         type: String,
     },
-
-    skills: {
+    
+    skills:{
         type: [String],
     },
 
-    languages: {
+    languages:{
         type: [String],
 
     },
 
-    licenceNumber: {
+    licenseNumber:{
         //required: true,
         type: String,
         trim: true,
+        validate:{
+            validator: function(value){
+                const licenseNumberFormat = /^[0-9]{6}$/;
+                return value.match(licenseNumberFormat);
+            },
+            message: "Please enter a valid Lisence Number",
+        },
     },
 
-    licenceYear: {
-        type: Date,
+    licenseYear:{
+        type: Date, 
     },
 
-    carInfo: {
-
-        lisenceNumber: {
+    carInfo:{
+        
+        licenseNumber:{
             type: String,
+            validate:{
+                validator: function(value){
+                    const carlicenseFormat = /^[A-Z]{2}[0-9]{6}$/;
+                    return value.match(carlicenseFormat);
+                },
+                message: "Please enter a valid Car Lisence Number",
+            },
         },
 
-        lisenceYear: {
+        licenseYear:{
             type: Date,
         },
 
-        plateNumber: {
+        plateNumber:{
+            type: String,
+            validate:{
+                validator: function(value){
+                    const plateFormat = /^(0[1-9]|[1-7][0-9]|8[01])((\s?[a-zA-Z]\s?)(\d{4,5})|(\s?[a-zA-Z]{2}\s?)(\d{3,4})|(\s?[a-zA-Z]{3}\s?)(\d{2,3}))$/;
+                    return value.match(plateFormat);
+                },
+                message: "Please enter a valid Plate Number",
+            },
+        },
+        brand:{
             type: String,
         },
-        brand: {
+        model:{
             type: String,
         },
-        model: {
+        year:{
             type: String,
         },
-        year: {
+        color:{
             type: String,
         },
-        color: {
-            type: String,
-        },
-        photos: {
+        photos:{
             type: [Buffer],
         }
     },
 
-    rating: {
+    rating:{
+        type: Number,
+    },
+    
+    hourlyPrice:{
         type: Number,
     },
 
-    hourlyPrice: {
-        type: Number,
-    },
-
-    taxNumber: {
+    taxNumber:{
         type: String,
+        validate:{
+            validator: function(value){
+                const taxFormat = /^[0-9]{10}$/;
+                return value.match(taxFormat);
+            },
+            message: "Please enter a valid Tax Number",
+        },
     },
 
-    avatar: {
+    avatar:{
         type: Buffer,
     },
 
-    events: [mongoose.ObjectId],
+    trips:[mongoose.ObjectId], 
 
 });
 
 
 /* Creating a model for the driver schema. */
-const Driver = mongoose.model("Driver", userSchema);
+const Driver = mongoose.model("Driver",userSchema);
 
 /* Exporting the Driver model to be used in other files. */
 module.exports = Driver;
