@@ -1,5 +1,6 @@
 const express = require('express');
 const Customer = require("../models/customer");
+const Driver = require("../models/driver");
 
 const bcryptjs = require('bcryptjs');
 const { findOneAndUpdate } = require('../models/customer');
@@ -8,62 +9,61 @@ const customerEditRouter = express.Router();
 
 
 
-customerEditRouter.post('/customer/edit', async function (req, res) {
+customerEditRouter.post('/api/edit/customer', async function (req, res) {
 
         try {
-
-            const {_id} = req.query.ID;
-            const { NewphoneNumber, NewEmail, NewPassword, NewName, NewSurname, NewBirthDate, NewGender, NewNationalId, NewPassportNumber } = req.body;
+            const { NewphoneNumber,_id,NewEmail, NewPassword, NewName, NewSurname, NewBirthDate, NewGender, NewNationalId, NewPassportNumber } = req.body;
     
-            profile = await Customer.findOne(_id);
+            const person = await Customer.findById(_id);
             
-            if(!profile){
+            if(!person){
                 return res.status(400).json({msg: "There is not a person with this ID"});
             }
 
-            if((profile.phoneNumber !== NewphoneNumber)&&(NewphoneNumber !== undefined) ){
-                await Customer.findOneAndUpdate(_id,{phoneNumber : NewphoneNumber})
+            if((NewphoneNumber != undefined) && (NewphoneNumber != person.phoneNumber)){
 
+                await person.updateOne({phoneNumber:NewphoneNumber},{runValidators:true});
             }
 
-            if((profile.email !== NewEmail)&&(NewEmail !== undefined) ){
-                await Customer.findOneAndUpdate(_id,{email : NewEmail})
+
+            if((person.email !== NewEmail)&&(NewEmail !== undefined) ){
+                await person.updateOne({email:NewEmail},{runValidators:true});
 
             }
 
             if((NewPassword !== undefined) ){
                 const hashedPassword = await bcryptjs.hash(NewPassword, 8);
-                await Customer.findOneAndUpdate(_id,{password : hashedPassword})
+                await person.updateOne({password:hashedPassword},{runValidators:true});
 
             }
             
-            if((profile.name !== NewName)&&(NewName !== undefined) ){
-                await Customer.findOneAndUpdate(_id,{name : NewName})
+            if((person.name !== NewName)&&(NewName !== undefined) ){
+                await person.updateOne({name:NewName},{runValidators:true});
                 
             }
             
-            if((profile.surname !== NewSurname)&&(NewSurname !== undefined) ){
-                await Customer.findOneAndUpdate(_id,{surname : NewSurname})
+            if((person.surname !== NewSurname)&&(NewSurname !== undefined) ){
+                await person.updateOne({surname:NewSurname},{runValidators:true});
 
             }
 
-            if((profile.birthDate !== NewBirthDate)&&(NewBirthDate !== undefined) ){
-                await Customer.findOneAndUpdate(_id,{birthDate : NewBirthDate})
+            if((person.birthDate !== NewBirthDate)&&(NewBirthDate !== undefined) ){
+                await person.updateOne({birthDate:NewBirthDate},{runValidators:true});
 
             }
 
-            if((profile.gender !== NewGender)&&(NewGender !== undefined) ){
-                await Customer.findOneAndUpdate(_id,{gender : NewGender})
+            if((person.gender !== NewGender)&&(NewGender !== undefined) ){
+                await person.updateOne({gender:NewGender},{runValidators:true});
 
             }
 
-            if((profile.nationalId !== NewNationalId)&&(NewNationalId !== undefined) ){
-                await Customer.findOneAndUpdate(_id,{nationalId : NewNationalId})
+            if((person.nationalId !== NewNationalId)&&(NewNationalId !== undefined) ){
+                await person.updateOne({nationalId:NewNationalId},{runValidators:true});
 
             }
 
-            if((profile.passportNumber !== NewPassportNumber)&&(NewPassportNumber !== undefined) ){
-                await Customer.findOneAndUpdate(_id,{passportNumber : NewPassportNumber})
+            if((person.passportNumber !== NewPassportNumber)&&(NewPassportNumber !== undefined) ){
+                await person.updateOne({passportNumber:NewPassportNumber},{runValidators:true});
 
             }
                     
