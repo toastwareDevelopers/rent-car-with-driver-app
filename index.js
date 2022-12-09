@@ -24,6 +24,6 @@ app.use(customerMainRouter);
 connection()
 
 /* Listening to the port 3000. */
-app.listen(process.env.PORT, () =>{
-    console.log('connected ad port ' + process.env.PORT);
+app.listen(3000, () =>{
+    console.log('connected ad port ' + 3000);
 });
