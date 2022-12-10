@@ -66,7 +66,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 Navigator.pushNamed(context, "/editCustomer");
               }
             : () {
-                Navigator.pushNamed(context, "/chat");
+                Navigator.pushNamed(context, "/messaging");
               },
       ),
       body: Container(
