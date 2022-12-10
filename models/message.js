@@ -18,6 +18,10 @@ const msgSchema = mongoose.Schema({
         required: true ,
         type: mongoose.ObjectId
     },
+
+    roomID:{
+        type: String,
+    },
     
     createDate:{
         type: Date,

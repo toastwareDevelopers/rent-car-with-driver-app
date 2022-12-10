@@ -49,12 +49,37 @@ app.listen(PORT, () =>{
 });
 
 
+const Message = require("./models/message");
 
 io.on('connection',(socket) =>{
     console.log("User connected");
 
     socket.on('startChat', (msg)=>{
         console.log(msg);
+        roomID = msg.senderID + msg.reciverID;
+
+        socket.join(roomID);
+
+        Message.find({
+            roomId: msg.room_id
+          }).then((messages) => {
+            io.to(socket.id).emit('old_messages', messages);
+          }).catch((err) => {
+            console.log(err);
+          });
+
+    });
+
+    socket.on('send message',(msg) =>{
+        io.to(socket.id).emit('send message',msg);
+        let message = new Message({
+            content:msg.content,
+            senderID: msg.senderID,
+            reciverID: msg.reciverID,
+            roomID: socket.id
+        });
+            
+        
     });
 
 });
