@@ -1,43 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:rentcarmobile/services/auth.dart';
-import 'package:rentcarmobile/utils/input_validator.dart';
+import 'package:rentcarmobile/services/profile.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
 import '../../../models/driver.dart';
 
-
 class EditDriverAuthScreen extends StatefulWidget {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController repasswordController = TextEditingController();
-
-  EditDriverAuthScreen({super.key});
+  const EditDriverAuthScreen({super.key});
   @override
-  State<EditDriverAuthScreen> createState() =>
-      _EditDriverAuthScreenState();
+  State<EditDriverAuthScreen> createState() => _EditDriverAuthScreenState();
 }
 
 class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
+  late Future<Driver> myFuture;
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController repasswordController = TextEditingController();
+
+  // Provide existing driver ID
   @override
-  Widget build(BuildContext context) {
-    double phoneHeight = MediaQuery.of(context).size.height;
-    double phoneWidth = MediaQuery.of(context).size.width;
-    
-    widget.emailController.text = "eray3@hotmail.com";
-    widget.phoneNumberController.text = "05394482231";
-  
+  void initState() {
+    myFuture = ProfileService.getDriver("635400487075dc541cc72e63");
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: FutureBuilder<Driver>(
+          future: myFuture,
+          builder: (context, snapshot) {
+            Driver? driverData = snapshot.data;
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const Center(child: CircularProgressIndicator());
+              default:
+                if (snapshot.hasError) {
+                  return const Center(child: Text('Some error occurred!'));
+                } else {
+                  return buildDriverEditAuthScreen(driverData!);
+                }
+            }
+          },
+        ),
+      );
+
+  Widget buildDriverEditAuthScreen(Driver driverData) {
+    // double phoneHeight = MediaQuery.of(context).size.height;
+    // double phoneWidth = MediaQuery.of(context).size.width;
+    Size size = WidgetsBinding.instance.window.physicalSize;
+    double ratio = WidgetsBinding.instance.window.devicePixelRatio;
+    double phoneHeight = size.height / ratio;
+    double phoneWidth = size.width / ratio;
+
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: phoneHeight,
           width: phoneWidth,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              //Register as a Driver yazan başlık
               Expanded(
                 flex: 5,
                 child: Container(
@@ -48,7 +69,6 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                   ),
                 ),
               ),
-              //Form inputları alanı
               Expanded(
                 flex: 4,
                 child: Container(
@@ -57,51 +77,40 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      //Email
+                      //Email - Uneditable
                       Expanded(
                         flex: 3,
                         child: TextFormField(
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          decoration: const InputDecoration(
-                            hintText: "Email",
+                          autofocus: false,
+                          readOnly: true,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            hintText: driverData.email,
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) =>
-                              InputValidator.validateEmail(value),
-                          controller: widget.emailController,
                         ),
                       ),
-                      //Phone Number
+                      //Phone Number -Uneditable
                       Expanded(
                         flex: 3,
                         child: TextFormField(
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          decoration: const InputDecoration(
-                            hintText: "Phone Number",
+                          autofocus: false,
+                          readOnly: true,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            hintText: driverData.phoneNumber,
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) =>
-                              InputValidator.validatePhoneNumber(value),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp("[0-9]"),
-                            ),
-                          ],
-                          controller: widget.phoneNumberController,
                         ),
                       ),
-                      //Password - retype password
+                      //Password - Editable
                       Expanded(
                         flex: 2,
                         child: Row(
                           children: [
-                            //Password
+                            //Password - Editable
                             Expanded(
                               flex: 1,
                               child: TextField(
-                                controller: widget.passwordController,
+                                controller: passwordController,
                                 obscureText: true,
                                 enableSuggestions: false,
                                 autocorrect: false,
@@ -113,11 +122,11 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                             SizedBox(
                               width: phoneWidth * 0.04,
                             ),
-                            //Re-type password
+                            //Retype Password - Editable
                             Expanded(
                               flex: 1,
                               child: TextField(
-                                controller: widget.repasswordController,
+                                controller: repasswordController,
                                 obscureText: true,
                                 enableSuggestions: false,
                                 autocorrect: false,
@@ -136,7 +145,7 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
               SizedBox(
                 height: phoneHeight * 0.01,
               ),
-              //Continue butonu alanı
+              //Continue Button
               Expanded(
                 flex: 5,
                 child: Container(
@@ -145,46 +154,42 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                   child: ElevatedButton(
                     child: const Text("Continue"),
                     onPressed: () async {
-                      if (!controlInputsAreNotEmpty(
-                          widget.emailController.text,
-                          widget.phoneNumberController.text,
-                          widget.passwordController.text,
-                          widget.repasswordController.text)) {
-                        WarningAlert.showWarningDialog(
-                            context, "Please fill all inputs!",(){Navigator.pop(context);});
-                      }
-                      //If password and repassword is not equal
-                      else if (!controlIsSamePasswordAndRePassword(
-                          widget.passwordController.text,
-                          widget.repasswordController.text)) {
-                        WarningAlert.showWarningDialog(
-                            context, "Password and repassword must be same!",(){Navigator.pop(context);});
-                      }
-                      //If email format is not true
-                      else if (!RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(widget.emailController.text)) {
-                        WarningAlert.showWarningDialog(
-                            context, "Email format is wrong!",(){Navigator.pop(context);});
-                      }
-                      //Control email and phone number
-                      else {
-                        if ((await AuthService.controlEmailPhone(
-                                widget.emailController.text,
-                                widget.phoneNumberController.text)) !=
-                            200) {
-                          WarningAlert.showWarningDialog(context,
-                              "There is a user with same email or phone number",(){Navigator.pop(context);});
-                        } else {
-                          Navigator.of(context).pushNamed(
-                            "/registerDriverPersonal",
-                            arguments: Driver(
-                              email: widget.emailController.text,
-                              phoneNumber: widget.phoneNumberController.text,
-                              password: widget.passwordController.text,
-                            ),
-                          );
-                        }
+                      if (!controlIsSamePasswordAndRePassword(
+                          passwordController.text, repasswordController.text)) {
+                        WarningAlert.showWarningDialog(context,
+                            "Master Password must be same as confirmation ,but was different!",
+                            () {
+                          Navigator.pop(context);
+                        });
+                        // Get to the next screen
+                      } else {
+                        Navigator.of(context).pushNamed(
+                          "/editDriverPersonal",
+                          arguments: Driver(
+                            email: driverData.email,
+                            phoneNumber: driverData.phoneNumber,
+                            password: passwordController.text.isEmpty
+                                ? driverData.password
+                                : passwordController.text,
+                            name: driverData.name,
+                            surname: driverData.surname,
+                            birthDate: driverData.birthDate,
+                            gender: driverData.gender,
+                            nationalId: driverData.nationalId,
+                            passportNumber: driverData.passportNumber,
+                            location: driverData.location,
+                            info: driverData.info,
+                            skills: driverData.skills,
+                            languages: driverData.languages,
+                            licenceNumber: driverData.licenceNumber,
+                            licenceYear: driverData.licenceYear,
+                            rating: driverData.rating,
+                            hourlyPrice: driverData.hourlyPrice,
+                            taxNumber: driverData.taxNumber,
+                            carInfo: driverData.carInfo,
+                            trips: driverData.trips,
+                          ),
+                        );
                       }
                     },
                   ),
@@ -195,14 +200,6 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
         ),
       ),
     );
-  }
-
-  bool controlInputsAreNotEmpty(
-      String email, String phoneNumber, String password, String repassword) {
-    return email.isNotEmpty &&
-        phoneNumber.isNotEmpty &&
-        password.isNotEmpty &&
-        repassword.isNotEmpty;
   }
 
   bool controlIsSamePasswordAndRePassword(String password, String rePassword) {

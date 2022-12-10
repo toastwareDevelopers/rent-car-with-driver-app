@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rentcarmobile/constants/assets_path.dart';
 import 'package:rentcarmobile/models/driver.dart';
-import 'package:rentcarmobile/utils/warning_alert.dart';
 
 class EditDriverPersonalScreen extends StatefulWidget {
-  EditDriverPersonalScreen({super.key});
+  const EditDriverPersonalScreen({super.key});
+  @override
+  State<EditDriverPersonalScreen> createState() =>
+      _EditDriverPersonalScreenState();
+}
+
+class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController surnameController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
   TextEditingController nationalIdController = TextEditingController();
-  TextEditingController biogrophyController = TextEditingController();
+  TextEditingController biographyController = TextEditingController();
   String? locationDropdown = "Adana";
   String? genderDropdown = "Male";
+
   final List<String> cities = [
     "Adana",
     "Adiyaman",
@@ -99,38 +105,43 @@ class EditDriverPersonalScreen extends StatefulWidget {
   final List<String> genders = ["Male", "Female"];
 
   @override
-  State<EditDriverPersonalScreen> createState() =>
-      _EditDriverPersonalScreenState();
-}
-
-class _EditDriverPersonalScreenState
-    extends State<EditDriverPersonalScreen> {
-  @override
   Widget build(BuildContext context) {
-    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
-    double phoneHeight = MediaQuery.of(context).size.height;
-    double phoneWidth = MediaQuery.of(context).size.width;
-    
+    Driver driver = ModalRoute.of(context)!.settings.arguments
+        as Driver; // Receive driver data from previous page
+    // double phoneHeight = MediaQuery.of(context).size.height;
+    // double phoneWidth = MediaQuery.of(context).size.width;
+    Size size = WidgetsBinding.instance.window.physicalSize;
+    double ratio = WidgetsBinding.instance.window.devicePixelRatio;
+    double phoneHeight = size.height / ratio;
+    double phoneWidth = size.width / ratio;
+
+    nameController.text = driver.name;
+    surnameController.text = driver.surname;
+    birthDateController.text = driver.birthDate;
+    nationalIdController.text = driver.nationalId;
+    biographyController.text = driver.info;
+    locationDropdown = driver.location;
+    //genderDropdown = driver.gender;
+
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: phoneHeight,
           width: phoneWidth,
           child: Column(
             children: <Widget>[
-              //Register as a Driver yazan başlık
               Expanded(
                 flex: 2,
                 child: Container(
                   padding: EdgeInsets.only(top: phoneHeight * 0.08),
                   child: Text(
-                    "Register as a Driver",
+                    "Edit Driver",
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),
               ),
-              //Profil fotoğrafı yükleme alanı
+              //Profile Picture
               Expanded(
                 flex: 2,
                 child: Center(
@@ -159,7 +170,6 @@ class _EditDriverPersonalScreenState
                   ),
                 ),
               ),
-              //Form inputları alanı
               Expanded(
                 flex: 7,
                 child: Container(
@@ -171,11 +181,11 @@ class _EditDriverPersonalScreenState
                       //Name - Surname
                       Row(
                         children: [
-                          //Name
+                          //Name - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.nameController,
+                              controller: nameController,
                               decoration: const InputDecoration(
                                 hintText: "Name",
                               ),
@@ -189,11 +199,11 @@ class _EditDriverPersonalScreenState
                           SizedBox(
                             width: phoneWidth * 0.04,
                           ),
-                          //Surname
+                          //Surname - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.surnameController,
+                              controller: surnameController,
                               decoration:
                                   const InputDecoration(hintText: "Surname"),
                               inputFormatters: [
@@ -208,20 +218,20 @@ class _EditDriverPersonalScreenState
                       //Birthdate - Gender
                       Row(
                         children: [
-                          //Birthdate
+                          //Birthdate - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
                               decoration: const InputDecoration(
                                 hintText: "Birth Date",
                               ),
-                              controller: widget.birthDateController,
+                              controller: birthDateController,
                             ),
                           ),
                           SizedBox(
                             width: phoneWidth * 0.04,
                           ),
-                          //Gender
+                          //Gender - Editable
                           Expanded(
                             flex: 1,
                             child: Container(
@@ -230,22 +240,24 @@ class _EditDriverPersonalScreenState
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: DropdownButton(
-                                value: widget.genderDropdown,
-                                items: widget.genders
+                                value: genderDropdown,
+                                items: genders
                                     .map(
                                       (value) => DropdownMenuItem(
                                         value: value,
                                         child: Container(
-                                          padding: const EdgeInsets.only(left: 12),
+                                          padding:
+                                              const EdgeInsets.only(left: 12),
                                           child: Text(value,
-                                              style: const TextStyle(fontSize: 17)),
+                                              style: const TextStyle(
+                                                  fontSize: 17)),
                                         ),
                                       ),
                                     )
                                     .toList(),
                                 onChanged: (value) {
                                   setState(() {
-                                    widget.genderDropdown = value;
+                                    genderDropdown = value;
                                   });
                                 },
                                 dropdownColor:
@@ -260,13 +272,13 @@ class _EditDriverPersonalScreenState
                       //NationalID - Location
                       Row(
                         children: [
-                          //NationalID
+                          //NationalID - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.nationalIdController,
-                              decoration:
-                                  const InputDecoration(hintText: "National ID"),
+                              controller: nationalIdController,
+                              decoration: const InputDecoration(
+                                  hintText: "National ID"),
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
                                   RegExp("[0-9]"),
@@ -277,7 +289,7 @@ class _EditDriverPersonalScreenState
                           SizedBox(
                             width: phoneWidth * 0.04,
                           ),
-                          //Location
+                          //Location - Editable
                           Expanded(
                             flex: 1,
                             child: Container(
@@ -286,22 +298,24 @@ class _EditDriverPersonalScreenState
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: DropdownButton(
-                                value: widget.locationDropdown,
-                                items: widget.cities
+                                value: locationDropdown,
+                                items: cities
                                     .map(
                                       (value) => DropdownMenuItem(
                                         value: value,
                                         child: Container(
-                                          padding: const EdgeInsets.only(left: 12),
+                                          padding:
+                                              const EdgeInsets.only(left: 12),
                                           child: Text(value,
-                                              style: const TextStyle(fontSize: 17)),
+                                              style: const TextStyle(
+                                                  fontSize: 17)),
                                         ),
                                       ),
                                     )
                                     .toList(),
                                 onChanged: (value) {
                                   setState(() {
-                                    widget.locationDropdown = value;
+                                    locationDropdown = value;
                                   });
                                 },
                                 dropdownColor:
@@ -313,17 +327,19 @@ class _EditDriverPersonalScreenState
                           ),
                         ],
                       ),
+                      // Biography - Editable
                       TextField(
-                        controller: widget.biogrophyController,
+                        controller: biographyController,
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,
-                        decoration: InputDecoration(hintText: "Biography"),
+                        decoration:
+                            const InputDecoration(hintText: "Biography"),
                       )
                     ],
                   ),
                 ),
               ),
-              //Continue butonu alanı
+              //Continue Button
               Expanded(
                 flex: 2,
                 child: Container(
@@ -331,31 +347,41 @@ class _EditDriverPersonalScreenState
                   padding: const EdgeInsets.only(right: 20),
                   child: ElevatedButton(
                     child: const Text("Continue"),
+                    // Get to the  next screen
                     onPressed: () {
-                      if (!controlInputsAreNotEmpty(
-                          widget.nameController.text,
-                          widget.surnameController.text,
-                          widget.birthDateController.text,
-                          widget.nationalIdController.text,
-                          widget.biogrophyController.text)) {
-                        WarningAlert.showWarningDialog(
-                            context, "Please fill all inputs",(){Navigator.pop(context);});
-                      } else {
-                        Navigator.of(context).pushNamed(
-                          "/registerDriverSkills",
-                          arguments: Driver(
-                              email: driver.email,
-                              phoneNumber: driver.phoneNumber,
-                              password: driver.password,
-                              name: widget.nameController.text,
-                              surname: widget.surnameController.text,
-                              birthDate: widget.birthDateController.text,
-                              gender: widget.genderDropdown.toString(),
-                              nationalId: widget.nationalIdController.text,
-                              location: widget.locationDropdown.toString(),
-                              info: widget.biogrophyController.text),
-                        );
-                      }
+                      Navigator.of(context).pushNamed(
+                        "/editDriverSkills",
+                        arguments: Driver(
+                          email: driver.email,
+                          phoneNumber: driver.phoneNumber,
+                          password: driver.password,
+                          name: nameController.text.isEmpty
+                              ? driver.name
+                              : nameController.text,
+                          surname: surnameController.text.isEmpty
+                              ? driver.surname
+                              : surnameController.text,
+                          birthDate: birthDateController.text.isEmpty
+                              ? driver.birthDate
+                              : birthDateController.text,
+                          gender: genderDropdown.toString(),
+                          nationalId: nationalIdController.text.isEmpty
+                              ? driver.nationalId
+                              : nationalIdController.text,
+                          location: locationDropdown.toString(),
+                          info: biographyController.text.isEmpty
+                              ? driver.info
+                              : biographyController.text,
+                          languages: driver.languages,
+                          licenceNumber: driver.licenceNumber,
+                          licenceYear: driver.licenceYear,
+                          rating: driver.rating,
+                          hourlyPrice: driver.hourlyPrice,
+                          taxNumber: driver.taxNumber,
+                          carInfo: driver.carInfo,
+                          trips: driver.trips,
+                        ),
+                      );
                     },
                   ),
                 ),
@@ -365,14 +391,5 @@ class _EditDriverPersonalScreenState
         ),
       ),
     );
-  }
-
-  bool controlInputsAreNotEmpty(String name, String surname, String birthDate,
-      String nationalId, String bio) {
-    return name.isNotEmpty &&
-        surname.isNotEmpty &&
-        birthDate.isNotEmpty &&
-        nationalId.isNotEmpty &&
-        bio.isNotEmpty;
   }
 }
