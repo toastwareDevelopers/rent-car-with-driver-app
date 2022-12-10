@@ -21,6 +21,7 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
 
         let arrOfTrips = new Array();
 
+        if(!model) model = await Driver.findById(_id);
         
 
         if(model){
@@ -28,12 +29,13 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
                 x = await Trip.findById( model.trips[index]);
                 arrOfTrips.push(x);
                 
-                console.log(x);
+                //console.log(x);
             }
             
-            console.log(arrOfTrips);
+            //console.log(arrOfTrips);
             return res.send(arrOfTrips);
         }
+
         
         /* Returning a 400 status code and a message saying that there is not a model with the given
         id. */
