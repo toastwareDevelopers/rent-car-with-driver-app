@@ -20,7 +20,7 @@ class ProfileService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://192.168.1.68:3000/api/info?ID=" + id);
+      var url = Uri.parse("http://3.75.233.211:3000/api/info?ID=" + id);
       var response = await http.get(url);
       Customer customer = Customer.fromJson(jsonDecode(response.body));
 
@@ -49,7 +49,7 @@ class ProfileService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://192.168.1.68:3000/api/info")
+      var url = Uri.parse("http://3.75.233.211:3000/api/info")
           .replace(queryParameters: {
         'ID': id,
       });
@@ -76,7 +76,7 @@ class ProfileService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://192.168.1.68:3000/api/edit/customer");
+      var url = Uri.parse("http://3.75.233.211:3000/api/edit/customer");
       var response = await http.post(url,
           body: json.encode(
             {
