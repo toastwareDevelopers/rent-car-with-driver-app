@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/models/trip.dart';
+import '../constants/api_path.dart';
 import '../models/driver.dart';
 import 'package:rentcarmobile/models/customer.dart';
 import 'mains.dart';
@@ -20,7 +21,7 @@ class ProfileService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/info?ID=" + id);
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info?ID=" + id);
       var response = await http.get(url);
       Customer customer = Customer.fromJson(jsonDecode(response.body));
 
@@ -49,7 +50,7 @@ class ProfileService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/info")
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info")
           .replace(queryParameters: {
         'ID': id,
       });
@@ -76,7 +77,7 @@ class ProfileService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/edit/customer");
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/edit/customer");
       var response = await http.post(url,
           body: json.encode(
             {

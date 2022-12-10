@@ -5,6 +5,7 @@ import 'package:rentcarmobile/models/driverFilter.dart';
 import 'package:rentcarmobile/models/trip.dart';
 import 'package:rentcarmobile/models/customer.dart';
 
+import '../constants/api_path.dart';
 import '../models/driver.dart';
 
 class MainService {
@@ -16,7 +17,7 @@ class MainService {
       'ID': id,
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/info")
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info")
           .replace(queryParameters: {
         'ID': id,
       });
@@ -56,7 +57,7 @@ class MainService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/info")
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info")
           .replace(queryParameters: {
         'ID': id,
       });
@@ -77,7 +78,7 @@ class MainService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/info")
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info")
           .replace(queryParameters: {
         'ID': id,
       });
