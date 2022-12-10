@@ -55,7 +55,7 @@ class AuthService {
             {
               "name": data.name,
               "surname": data.surname,
-              "email": data.mail,
+              "email": data.email,
               "password": data.password,
               "passportNumber": data.passportNumber,
               "gender": data.gender,

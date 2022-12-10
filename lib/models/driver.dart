@@ -53,65 +53,6 @@ class Driver {
 
   @override
   String toString() {
-    return "email : " +
-        email +
-        "\n" +
-        "password : " +
-        password +
-        "\n" +
-        "name : " +
-        name +
-        "\n" +
-        "surname : " +
-        surname +
-        "\n" +
-        "birthDate : " +
-        birthDate +
-        "\n" +
-        "gender : " +
-        gender +
-        "\n" +
-        "phoneNumber : " +
-        phoneNumber +
-        "\n" +
-        "nationalId : " +
-        nationalId +
-        "\n" +
-        "passportNumber : " +
-        passportNumber +
-        "\n" +
-        "location : " +
-        location +
-        "\n" +
-        "info : " +
-        info +
-        "\n" +
-        "skills : " +
-        skills.toString() +
-        "\n" +
-        "languages : " +
-        languages.toString() +
-        "\n" +
-        "licenceNumber : " +
-        licenceNumber +
-        "\n" +
-        "licenceYear : " +
-        licenceYear +
-        "\n" +
-        "rating : " +
-        rating.toString() +
-        "\n" +
-        "hourlyPrice : " +
-        hourlyPrice.toString() +
-        "\n" +
-        "taxNumber : " +
-        taxNumber +
-        "\n" +
-        "carInfo : " +
-        carInfo.toString() +
-        "\n" +
-        "trips : " +
-        trips.toString() +
-        "\n";
+    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $info\nskills : $skills\nlanguages : $languages\nlicenceNumber : $licenceNumber\nlicenceYear : $licenceYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\n";
   }
 }

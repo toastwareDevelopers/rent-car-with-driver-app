@@ -21,6 +21,8 @@ enum SingingCharacter { nationalNumber, passportNumber }
 class _EditCustomerScreenState extends State<EditCustomerScreen> {
   late Future<Customer> myFuture;
 
+  static int flag = 0;
+
   SingingCharacter? _character = SingingCharacter.nationalNumber;
   TextEditingController name = TextEditingController();
   TextEditingController surname = TextEditingController();
@@ -30,13 +32,16 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
   TextEditingController passportID = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
   final List<String> genders = ["Male", "Female"];
-  String? genderDropdown = "Male";
-
+  String? genderDropdown;
+  Size size = WidgetsBinding.instance.window.physicalSize;
+  double ratio = WidgetsBinding.instance.window.devicePixelRatio;
+  double phoneHeight = 0.0;
+  double phoneWidth = 0.0;
 
   @override
   void initState() {
-    myFuture = ProfileService.getCustomer("636658c908ae9ae84b4b7ea7");
     super.initState();
+    myFuture = ProfileService.getCustomer("6356412cf0633b84a3a0ad8b");
   }
 
   @override
@@ -60,15 +65,32 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
   );
 
   Widget buildCustomerEditScreen(Customer customerData) {
-    double phoneHeight = MediaQuery.of(context).size.height;
-    double phoneWidth = MediaQuery.of(context).size.width;
+    // double phoneHeight = MediaQuery.of(context).size.height;
+    // double phoneWidth = MediaQuery.of(context).size.width;
+    if(flag == 0) { // Making sure initialization done once
+      name.text = customerData.name!;
+      surname.text = customerData.surname!;
+      if(customerData.nationalId?.compareTo("null") != 0) { // if null show hintText instead
+        nationalID.text = customerData.nationalId!;
+      }
+      if(customerData.passportNumber?.compareTo("null") != 0) { // if null show hintText instead
+        passportID.text = customerData.passportNumber!;
+      }
+      birthDateController.text = customerData.birthDate!.substring(0,10);
+      genderDropdown = customerData.gender;
+      // Initialize the phone height and width
+      phoneHeight = size.height / ratio;
+      phoneWidth = size.width / ratio;
+    }
+
+   flag++; // Update flag
 
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SafeArea(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
+          height: phoneHeight,
+          width: phoneWidth,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -112,8 +134,8 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 2,
-                      width: MediaQuery.of(context).size.width,
+                      height: phoneHeight / 2,
+                      width: phoneWidth,
                       child: Container(
                         padding: EdgeInsets.only(
                             left: phoneWidth * 0.07, right: phoneWidth * 0.07),
@@ -159,7 +181,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                     enabled: false,
                                     decoration: InputDecoration(
                                       // This part will receive data from the database
-                                      hintText: customerData.mail,
+                                      hintText: customerData.email,
                                     ),
                                   ),
                                 ),
@@ -281,7 +303,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                     ),
                                     controller: birthDateController,
                                     //onEditingComplete: () {if(birthDateController.text.isEmpty){birthDateController.text = prevData.birthday!;}},
-                                    onSubmitted: (text) {if(birthDateController.text.isEmpty){birthDateController.text = customerData.birthday!;}},
+                                    //onSubmitted: (text) {if(birthDateController.text.isEmpty){birthDateController.text = customerData.birthDate!;}},
                                   ),
                                 ),
                                 SizedBox(
@@ -332,8 +354,8 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                     ),
                     // Save button
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 2,
-                      width: MediaQuery.of(context).size.width,
+                      height: phoneHeight / 2,
+                      width: phoneWidth,
                       child: Container(
                         alignment: Alignment.topRight,
                         padding: const EdgeInsets.only(right: 15),
@@ -351,7 +373,6 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                   Navigator.pop(context);
                                 },
                                );
-
                             // Update Customer Info
                             } else {
 
@@ -359,10 +380,10 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
 
                               changedCustomerData.name = name.value.text.toString();
                               changedCustomerData.surname = surname.value.text.toString();
-                              changedCustomerData.mail = customerData.mail;
+                              changedCustomerData.email = customerData.email;
                               changedCustomerData.password = password1.value.text.toString();
                               changedCustomerData.phoneNumber = customerData.phoneNumber;
-                              changedCustomerData.birthday = birthDateController.value.text.toString();
+                              changedCustomerData.birthDate = birthDateController.value.text.toString();
                               changedCustomerData.gender = genderDropdown.toString();
                               changedCustomerData.nationalId = nationalID.value.text.toString();
                               changedCustomerData.passportNumber = passportID.value.text.toString();
@@ -375,12 +396,12 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                 changedCustomerData.surname = customerData.surname;
                               }
 
-                              if(changedCustomerData.password.toString().isEmpty) {
-                                changedCustomerData.password = customerData.password;
-                              }
+                              // if(changedCustomerData.password.toString().isEmpty) { // this part has to change!
+                              //   changedCustomerData.password = customerData.password;
+                              // }
 
-                              if(changedCustomerData.birthday.toString().isEmpty) {
-                                changedCustomerData.birthday = customerData.birthday;
+                              if(changedCustomerData.birthDate.toString().isEmpty) {
+                                changedCustomerData.birthDate = customerData.birthDate;
                               }
 
                               if(changedCustomerData.gender.toString().isEmpty) {
@@ -395,9 +416,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                 changedCustomerData.passportNumber = customerData.passportNumber;
                               }
 
-                              print(changedCustomerData.toString());
-
-                              if ((await ProfileService.editCustomer(changedCustomerData, "636658c908ae9ae84b4b7ea7")) !=
+                              if ((await ProfileService.editCustomer(changedCustomerData, "6356412cf0633b84a3a0ad8b")) !=
                                   200) {
                                 WarningAlert.showWarningDialog(
                                   context,
@@ -409,7 +428,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                               } else {
                                 WarningAlert.showWarningDialog(
                                   context,
-                                  "Congrulations! You have changed!",
+                                  "Congratulations! You have changed your data!",
                                       () {
                                     Navigator.pushNamed(context, "/");
                                   },
