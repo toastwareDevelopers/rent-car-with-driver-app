@@ -64,7 +64,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
           width: 35,
           color: Colors.white,
         ),
-        onPressed: ()=>Navigator.pushNamed(context, "/chat"),
+        onPressed: ()=>Navigator.pushNamed(context, "/allChats"),
       ),
       body: Container(
         child: Stack(

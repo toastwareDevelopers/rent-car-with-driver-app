@@ -48,7 +48,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
           width: 40,
           color: Colors.white,
         ) ,
-        onPressed: RentVanApp.userType == "driver" ? () {Navigator.pushNamed(context, "/editDriverAuth");} : () {Navigator.pushNamed(context, "/chat");} ,
+        onPressed: RentVanApp.userType == "driver" ? () {Navigator.pushNamed(context, "/editDriverAuth");} : () {Navigator.pushNamed(context, "/messaging");},
       ),
       body: Container(
         padding: EdgeInsets.only(bottom: phoneHeight * 0.02),

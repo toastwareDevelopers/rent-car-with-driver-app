@@ -75,7 +75,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
               ),
             ),
             onPressed: () {
-              Navigator.pushNamed(context, "/chat");
+              Navigator.pushNamed(context, "/allChats");
             },
           ),
         ),
