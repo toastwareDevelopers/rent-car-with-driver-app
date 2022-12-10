@@ -1,31 +1,36 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/models/trip.dart';
+import '../constants/api_path.dart';
 import '../models/driver.dart';
 import 'package:rentcarmobile/models/customer.dart';
-import 'mains.dart';
 
 class ProfileService {
   static Future<Driver> getDriver(String id) async {
-    return Driver();
-  }
-
-  static Future<Customer> getCustomer(String id) async {
-    Map<String, dynamic> map;
     final headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/info?ID=" + id);
-      var response = await http.get(url);
-      Customer customer = Customer.fromJson(jsonDecode(response.body));
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info?ID=" + id);
+      var response = await http.get(url, headers: headers);
+      Driver driver = Driver.fromJson(jsonDecode(response.body));
+      return driver;
+    } catch (e) {
+      return Driver();
+    }
+  }
 
+  static Future<Customer> getCustomer(String id) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info?ID=$id");
+      var response = await http.get(url, headers: headers);
+      Customer customer = Customer.fromJson(jsonDecode(response.body));
       return customer;
-      //return Customer.m(map['name'], map['surname'], map['password'], map['mail'], map['birthday'], map['gender'], map['phoneNumber'], map['passportNumber'], map['nationalId']);
     } catch (e) {
       return Customer();
     }
@@ -49,7 +54,7 @@ class ProfileService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/info")
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info")
           .replace(queryParameters: {
         'ID': id,
       });
@@ -64,11 +69,44 @@ class ProfileService {
     }
   }
 
-  /*
-  static Future<int> editDriver(Driver driver) async {
-    return 400;
-  }*/
-    
+  static Future<int> editDriver(Driver driver, String id) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("http://"+ ApiPaths.serverIP + "/api/edit/driver");
+      var response = await http.post(url,
+          body: json.encode(
+              {
+                "role": "driver",
+                "phoneNumber": driver.phoneNumber,
+                "email": driver.email,
+                driver.password.toString().isEmpty ? "" : "NewPassword": driver.password,
+                "name": driver.name,
+                "surname": driver.surname,
+                "birthDate": driver.birthDate,
+                "gender": driver.gender,
+                "nationalId": driver.nationalId,
+                "location": driver.location,
+                "skills": driver.skills,
+                "languages": driver.languages,
+                "licenseNumber": driver.licenceNumber,
+                "licenseYear": driver.licenceYear,
+                "carInfo" : driver.carInfo,
+                "hourlyPrice": driver.hourlyPrice,
+                "taxNumber" : driver.taxNumber,
+                "trips": driver.trips,
+                "_id": id,
+                "__v": 0 // what is this?
+              }
+          ),
+          headers: headers);
+      return response.statusCode;
+    } catch (e) {
+      return 400;
+    }
+  }
 
   static Future<int> editCustomer(Customer customer, String id) async {
     final headers = {
@@ -76,17 +114,17 @@ class ProfileService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/edit/customer");
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/edit/customer");
       var response = await http.post(url,
           body: json.encode(
             {
               "_id": id,
               "NewName": customer.name,
-              "NewPassword": customer.password,
+              customer.password.toString().isEmpty ? "" : "NewPassword": customer.password,
               "NewphoneNumber": customer.phoneNumber,
-              "NewEmail": customer.mail,
+              "NewEmail": customer.email,
               "NewSurname": customer.surname,
-              "NewBirthDate": customer.birthday,
+              "NewBirthDate": customer.birthDate,
               "NewGender": customer.gender,
               "NewNationalId": customer.nationalId,
               "NewPassportNumber": customer.passportNumber,
@@ -99,20 +137,10 @@ class ProfileService {
     }
   }
 
-  static Future<int> reviewDriver(Review review) async {
-    return 400;
-  }
-
-  // static Future<int> editDriver(Driver driver) async {
-  //   return 400;
-  // }
-  //
-
   //
   // static Future<int> reviewDriver(Review review) async {
   //   return 400;
   // }
-
 }
   
   

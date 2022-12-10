@@ -345,7 +345,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                           } else {
                             data.name = name.value.text.toString();
                             data.surname = surname.value.text.toString();
-                            data.mail = email.value.text.toString();
+                            data.email = email.value.text.toString();
                             data.password = password1.value.text.toString();
                             data.phoneNumber =
                                 phoneNumber.value.text.toString();

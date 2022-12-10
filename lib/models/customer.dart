@@ -5,7 +5,7 @@ part 'customer.g.dart';
 class Customer {
   String? name;
   String? surname;
-  String? mail;
+  String? email;
   String? password;
   String? phoneNumber;
   String? passportNumber;
@@ -15,7 +15,7 @@ class Customer {
   String? nationalId;
   List<String>? trips;
   Customer( {
-    this.mail = "null",
+    this.email = "null",
     this.password = "null",
     this.name = "null",
     this.surname = "null",

@@ -8,7 +8,7 @@ class MessageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chat Screen")),
+      appBar: AppBar(title: Text("Message Screen")),
       body: Center(child: Text("Chat Screen",style: TextStyle(color: Colors.white),)),
     );
   }

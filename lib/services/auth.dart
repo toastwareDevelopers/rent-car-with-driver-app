@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:rentcarmobile/constants/api_path.dart';
 import '../models/driver.dart';
 import 'package:rentcarmobile/models/customer.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,7 @@ class AuthService {
     };
 
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/signup/driverCheck");
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/signup/driverCheck");
       var response = await http.post(url,
           body: json.encode(driverCheckBody), headers: driverCheckHeaders);
       return response.statusCode;
@@ -33,7 +34,7 @@ class AuthService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/signup/driver");
+      var url = Uri.parse("http://" + ApiPaths.serverIP +"/api/signup/driver");
       var response = await http.post(url,
           body: json.encode(driver.toJson()), headers: headers);
       return response.statusCode;
@@ -48,13 +49,13 @@ class AuthService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/signup/customer");
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/signup/customer");
       var response = await http.post(url,
           body: json.encode(
             {
               "name": data.name,
               "surname": data.surname,
-              "email": data.mail,
+              "email": data.email,
               "password": data.password,
               "passportNumber": data.passportNumber,
               "gender": data.gender,
@@ -76,10 +77,11 @@ class AuthService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/signin");
+      var url = Uri.parse("http://"+ ApiPaths.serverIP +"/api/signin");
+      print(url);
       var response = await http.post(url,
           body: json.encode(login.toJson()), headers: headers);
-      debugPrint(response.body.toString());
+      print(response.body.toString());
       return response;
     } catch (e) {
       return Response("null", 400);
