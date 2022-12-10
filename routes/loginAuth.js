@@ -8,6 +8,7 @@ const loginAuthRouter = express.Router();
 /* Importing the customer and driver models from the models folder. */
 const Customer = require("../models/customer");
 const Driver = require("../models/driver");
+const { json } = require("express/lib/response");
 
 
 /* This is the code that is executed when the user clicks the sign in button. It checks if the user is
@@ -52,7 +53,8 @@ loginAuthRouter.post("/api/signin", async (req,res) =>{
             }
            
            /* Sending the driver object to the client. */
-           res.send(driver);
+
+           res.send(JSON.stringify({_id:driver.id,role:driver.role}));
  
         }
 
@@ -72,7 +74,8 @@ loginAuthRouter.post("/api/signin", async (req,res) =>{
             }
             
             /* Sending the customer object to the client. */
-            res.send(customer);
+            res.send(JSON.stringify({_id:customer.id,role:customer.role}));
+ 
         }
     }catch(e){
         /* Sending a 500 status code to the client and sending the error message to the client. */
