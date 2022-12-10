@@ -34,9 +34,18 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
             
             for (let index = 0; index < model.trips.length; index++) {
                 x = await Trip.findById( model.trips[index]);
-                arrOfTrips.push(x);
+
+                y = x.toObject();
                 
-                console.log(JSON.stringify(x));
+                temp = await Customer.findById(x.customerId);
+                y.customerName = temp.name;
+
+                temp = await Driver.findById(x.driverId);
+
+                y.driverName = temp.name;
+                arrOfTrips.push(y);
+                
+                console.log(temp.name);
             }
             
             //console.log(arrOfTrips);
