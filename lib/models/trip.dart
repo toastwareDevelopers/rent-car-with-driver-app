@@ -16,7 +16,6 @@ class Trip {
   String? endDate;
   String? tripDescription;
   String? reviewId;
-  String? deneme;
 
   Trip(
       {this.id = "0",
