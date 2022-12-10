@@ -16,8 +16,14 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
   TextEditingController birthDateController = TextEditingController();
   TextEditingController nationalIdController = TextEditingController();
   TextEditingController biographyController = TextEditingController();
-  String? locationDropdown = "Adana";
-  String? genderDropdown = "Male";
+  String? locationDropdown;
+  String? genderDropdown;
+  Size size = WidgetsBinding.instance.window.physicalSize;
+  double ratio = WidgetsBinding.instance.window.devicePixelRatio;
+  double phoneHeight = 0.0;
+  double phoneWidth = 0.0;
+
+  static int flag = 0;
 
   final List<String> cities = [
     "Adana",
@@ -110,18 +116,21 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
         as Driver; // Receive driver data from previous page
     // double phoneHeight = MediaQuery.of(context).size.height;
     // double phoneWidth = MediaQuery.of(context).size.width;
-    Size size = WidgetsBinding.instance.window.physicalSize;
-    double ratio = WidgetsBinding.instance.window.devicePixelRatio;
-    double phoneHeight = size.height / ratio;
-    double phoneWidth = size.width / ratio;
+    if(flag == 0) { // Making sure initialization done once
+      phoneHeight = size.height / ratio;
+      phoneWidth = size.width / ratio;
+      nameController.text = driver.name;
+      surnameController.text = driver.surname;
+      birthDateController.text = driver.birthDate;
+      nationalIdController.text = driver.nationalId;
+      if(driver.info?.compareTo("null") != 0) {
+        biographyController.text = driver.info;
+      }
+      locationDropdown = driver.location;
+      genderDropdown = driver.gender;
+    }
 
-    nameController.text = driver.name;
-    surnameController.text = driver.surname;
-    birthDateController.text = driver.birthDate;
-    nationalIdController.text = driver.nationalId;
-    biographyController.text = driver.info;
-    locationDropdown = driver.location;
-    //genderDropdown = driver.gender;
+    flag++;
 
     return Scaffold(
       appBar: AppBar(elevation: 0),

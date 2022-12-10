@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/services/profile.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
@@ -14,11 +15,15 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
   late Future<Driver> myFuture;
   TextEditingController passwordController = TextEditingController();
   TextEditingController repasswordController = TextEditingController();
+  Size size = WidgetsBinding.instance.window.physicalSize;
+  double ratio = WidgetsBinding.instance.window.devicePixelRatio;
+  double phoneHeight = 0.0;
+  double phoneWidth = 0.0;
 
   // Provide existing driver ID
   @override
   void initState() {
-    myFuture = ProfileService.getDriver("635400487075dc541cc72e63");
+    myFuture = ProfileService.getDriver(RentVanApp.userId);
     super.initState();
   }
 
@@ -45,10 +50,8 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
   Widget buildDriverEditAuthScreen(Driver driverData) {
     // double phoneHeight = MediaQuery.of(context).size.height;
     // double phoneWidth = MediaQuery.of(context).size.width;
-    Size size = WidgetsBinding.instance.window.physicalSize;
-    double ratio = WidgetsBinding.instance.window.devicePixelRatio;
-    double phoneHeight = size.height / ratio;
-    double phoneWidth = size.width / ratio;
+    phoneHeight = size.height / ratio;
+    phoneWidth = size.width / ratio;
 
     return Scaffold(
       appBar: AppBar(elevation: 0),
@@ -168,9 +171,7 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                           arguments: Driver(
                             email: driverData.email,
                             phoneNumber: driverData.phoneNumber,
-                            password: passwordController.text.isEmpty
-                                ? driverData.password
-                                : passwordController.text,
+                            password: passwordController.text,
                             name: driverData.name,
                             surname: driverData.surname,
                             birthDate: driverData.birthDate,

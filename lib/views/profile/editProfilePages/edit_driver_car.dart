@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
 import '../../../models/driver.dart';
@@ -24,6 +25,8 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
   TextEditingController hourlyPriceController = TextEditingController();
   TextEditingController taxNumberController = TextEditingController();
 
+  static int flag = 0;
+
   @override
   Widget build(BuildContext context) {
     Driver driver = ModalRoute.of(context)!.settings.arguments
@@ -35,16 +38,20 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
     double phoneHeight = size.height / ratio;
     double phoneWidth = size.width / ratio;
 
-    driverLicenceNumberController.text = driver.licenceNumber;
-    carLicenceNumberController.text = driver.carInfo["licenceNumber"];
-    carRegistrationPlateController = driver.carInfo["plateNumber"];
-    carBrandController = driver.carInfo["brand"];
-    carModelController = driver.carInfo["model"];
-    carColorController = driver.carInfo["color"];
-    modelYearController = driver.carInfo["year"];
-    driverLicenceYearController.text = driver.licenceYear;
-    hourlyPriceController.text = driver.hourlyPrice as String;
-    taxNumberController.text = driver.taxNumber;
+    if(flag == 0) {
+      //driverLicenceNumberController.text = driver.licenceNumber;
+      //carLicenceNumberController.text = driver.carInfo["lisenceNumber"];
+      //carRegistrationPlateController = driver.carInfo["plateNumber"];
+      //carBrandController = driver.carInfo["brand"];
+      //carModelController = driver.carInfo["model"];
+      //carColorController = driver.carInfo["color"];
+      //modelYearController = driver.carInfo["year"];
+      //driverLicenceYearController.text = driver.licenceYear;
+      //hourlyPriceController.text = driver.hourlyPrice as String;
+      //taxNumberController.text = driver.taxNumber;
+    }
+
+    flag++;
 
     return Scaffold(
       appBar: AppBar(elevation: 0),
@@ -278,7 +285,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                                   surname: driver.surname,
                                   taxNumber: taxNumberController.text,
                                   carInfo: {
-                                    "licenceNumber":
+                                    "lisenceNumber":
                                         carLicenceNumberController.text,
                                     "plateNumber":
                                         carRegistrationPlateController.text,
@@ -288,7 +295,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                                     "color": carColorController.text,
                                   },
                                 ),
-                                "635400487075dc541cc72e63")) !=
+                            RentVanApp.userId)) !=
                             200) {
                           WarningAlert.showWarningDialog(
                               context, "We can not change your data!.", () {
@@ -298,7 +305,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                           WarningAlert.showWarningDialog(context,
                               "Congratulations! You have changed your data!",
                               () {
-                            Navigator.pushNamed(context, "/");
+                            Navigator.pushNamed(context, "/profileDriverPerson");
                           });
                         }
                       }),

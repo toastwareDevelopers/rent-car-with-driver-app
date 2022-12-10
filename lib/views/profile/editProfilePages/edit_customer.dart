@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 import '../../../constants/assets_path.dart';
+import '../../../main.dart';
 import '../../../models/customer.dart';
 import '../../../services/profile.dart';
 
@@ -41,7 +43,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
   @override
   void initState() {
     super.initState();
-    myFuture = ProfileService.getCustomer("6356412cf0633b84a3a0ad8b");
+    myFuture = ProfileService.getCustomer(RentVanApp.userId);
   }
 
   @override
@@ -153,6 +155,11 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                       const InputDecoration(hintText: 'Name'),
                                     controller: name,
                                     // textInputAction: TextInputAction.next, this might come in handy with register pages
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                        RegExp("[a-zA-Z]"),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 SizedBox(
@@ -166,6 +173,11 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                       // This part will receive data from the database
                                       const InputDecoration(hintText: 'Surname'),
                                     controller: surname,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                        RegExp("[a-zA-Z]"),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -287,6 +299,11 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                         // This part will receive data from the database
                                         InputDecoration(hintText: (_character == SingingCharacter.nationalNumber) ? 'National ID' : 'Passport ID'),
                                     controller: (_character == SingingCharacter.nationalNumber) ? nationalID : passportID,
+                                    // inputFormatters: [
+                                    //   FilteringTextInputFormatter.allow(
+                                    //     RegExp("[0-9]"),
+                                    //   ),
+                                    // ],
                                   ),
                                 ),
                               ],
@@ -375,7 +392,6 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                );
                             // Update Customer Info
                             } else {
-
                               Customer changedCustomerData = Customer();
 
                               changedCustomerData.name = name.value.text.toString();
@@ -396,10 +412,6 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                 changedCustomerData.surname = customerData.surname;
                               }
 
-                              // if(changedCustomerData.password.toString().isEmpty) { // this part has to change!
-                              //   changedCustomerData.password = customerData.password;
-                              // }
-
                               if(changedCustomerData.birthDate.toString().isEmpty) {
                                 changedCustomerData.birthDate = customerData.birthDate;
                               }
@@ -416,7 +428,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                 changedCustomerData.passportNumber = customerData.passportNumber;
                               }
 
-                              if ((await ProfileService.editCustomer(changedCustomerData, "6356412cf0633b84a3a0ad8b")) !=
+                              if ((await ProfileService.editCustomer(changedCustomerData, RentVanApp.userId)) !=
                                   200) {
                                 WarningAlert.showWarningDialog(
                                   context,
@@ -430,7 +442,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                   context,
                                   "Congratulations! You have changed your data!",
                                       () {
-                                    Navigator.pushNamed(context, "/");
+                                    Navigator.pushNamed(context, "/profileCustomer");
                                   },
                                 );
                               }

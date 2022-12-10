@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../../../models/driver.dart';
 
 class EditDriverSkillsScreen extends StatefulWidget {
-  EditDriverSkillsScreen({super.key});
+  const EditDriverSkillsScreen({super.key});
   @override
   State<EditDriverSkillsScreen> createState() => _EditDriverSkillsScreenState();
 }
 
 class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
   List<String> skills = [];
-  var skillController = TextEditingController();
+  TextEditingController skillController = TextEditingController();
   final List<String> languages = [
     "Afrikaans",
     "Arabic",
@@ -91,7 +91,13 @@ class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
     "Wu"
   ];
   List<String> addedLanguages = [];
-  String? languageDropdown = "Turkish";
+  String? languageDropdown;
+  Size size = WidgetsBinding.instance.window.physicalSize;
+  double ratio = WidgetsBinding.instance.window.devicePixelRatio;
+  double phoneHeight = 0.0;
+  double phoneWidth = 0.0;
+
+  static int flag = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -99,13 +105,15 @@ class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
         as Driver; // Receive driver data from previous page
     // double phoneHeight = MediaQuery.of(context).size.height;
     // double phoneWidth = MediaQuery.of(context).size.width;
-    Size size = WidgetsBinding.instance.window.physicalSize;
-    double ratio = WidgetsBinding.instance.window.devicePixelRatio;
-    double phoneHeight = size.height / ratio;
-    double phoneWidth = size.width / ratio;
+    if(flag == 0) {
+      phoneHeight = size.height / ratio;
+      phoneWidth = size.width / ratio;
+      // skills = driver.skills;
+      addedLanguages = driver.languages;
+      languageDropdown = driver.languages[0];
+    }
 
-    skills = driver.skills;
-    addedLanguages = driver.languages;
+    flag++;
 
     return Scaffold(
       appBar: AppBar(elevation: 0),
