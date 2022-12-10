@@ -4,9 +4,9 @@ const mongoose = require("mongoose");
 /* Creating a schema for the customer model. */
 const customerSchema = mongoose.Schema({
 
-    role:{
+    role: {
         type: String,
-        default:"customer",
+        default: "customer",
     },
 
     phoneNumber: {
@@ -62,23 +62,73 @@ const customerSchema = mongoose.Schema({
     gender: {
         required: true,
         type: String,
-        enum: ["Female","Male"],
+        enum: ["Female", "female", "Male", "male",],
     },
 
     nationalId: {
         required: true,
         type: String,
         trim: true,
+        // validate: {
+        //     validator: function (value) {
+        //         const nationalIdFormat = /^[1-9][0-9]{10}$/;
+        //         if (value.match(nationalIdFormat)) {
+
+        //             first = 0;
+        //             for (let index = 0; index <= 8; index += 2) {
+        //                 first += Number(value.charAt(index));
+        //             }
+        //             first = first * 7;
+        //             second = 0;
+
+        //             for (let index = 1; index <= 7; index += 2) {
+        //                 second += Number(value.charAt(index));
+        //             }
+
+
+
+
+        //             tenth = first - second;
+
+
+        //             last = 0;
+        //             for (let index = 0; index < value.length - 1; index++) {
+        //                 last += Number(value.charAt(index));
+
+
+        //             }
+
+
+        //             if ((tenth % 10 == Number(value.charAt(9))) && (last % 10 == Number(value.charAt(10)))) {
+        //                 return true;
+        //             }
+
+        //         }
+        //         return false;
+
+        //     },
+        //     message: "Please enter a valid National ID",
+        // },
+
     },
 
     passportNumber: {
         type: String,
         trim: true,
+        // validate: {
+        //     validator: function (value) {
+        //         const passportNumber = /[a-zA-Z]{2}[0-9]{7}/;
+        //         return value.match(passportNumber);
+        //     },
+        //     message: "Please enter a valid Passport number",
+        // },
     },
+
     registerDate: {
         type: String,
     },
-    trips:[mongoose.ObjectId],
+
+    events: [mongoose.ObjectId],
 });
 
 
