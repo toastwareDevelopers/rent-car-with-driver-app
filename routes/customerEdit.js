@@ -15,6 +15,9 @@ customerEditRouter.post('/api/edit/customer', async function (req, res) {
             const { NewphoneNumber,_id,NewEmail, NewPassword, NewName, NewSurname, NewBirthDate, NewGender, NewNationalId, NewPassportNumber } = req.body;
     
             const person = await Customer.findById(_id);
+
+            console.log(NewPassword);
+            console.log(person.password);
             
             if(!person){
                 return res.status(400).json({msg: "There is not a person with this ID"});
