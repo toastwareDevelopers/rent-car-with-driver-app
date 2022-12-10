@@ -3,6 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/input_validator.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:convert';
+
+import 'package:image_picker/image_picker.dart';
 
 import '../../constants/assets_path.dart';
 import '../../models/customer.dart';
@@ -31,6 +36,9 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
   TextEditingController birthDateController = TextEditingController();
   String? genderDropdown = "Male";
   final List<String> genders = ["Male", "Female"];
+
+  String selectedImagePath = '';
+
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
@@ -56,33 +64,40 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    // profil resmi
-                    padding: EdgeInsets.only(
-                        top: phoneHeight * 0.04, bottom: phoneHeight * 0.04),
-                    child: Center(
-                      child: Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Theme.of(context).highlightColor,
-                            radius: 40,
-                            child: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage(AssetPaths.blankProfilePhotoPath),
-                              radius: 37.0,
+                  InkWell(
+                      onTap: () async {
+                        selectImage();
+                        setState(() {});
+                      },
+                    child: Container(
+                      // profil resmi
+                      padding: EdgeInsets.only(
+                          top: phoneHeight * 0.04, bottom: phoneHeight * 0.04),
+                      child: Center(
+                        child: Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Theme.of(context).highlightColor,
+                              radius: 40,
+                              child: CircleAvatar(
+                                backgroundImage:
+                                selectedImagePath == '' ? AssetImage(AssetPaths.blankProfilePhotoPath) :
+                                FileImage(File(selectedImagePath)) as ImageProvider,
+                                radius: 37.0,
+                              ),
                             ),
-                          ),
-                          CircleAvatar(
-                            backgroundColor: Theme.of(context).highlightColor,
-                            radius: 13,
-                            child: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage(AssetPaths.uploadPhotoIconPath),
-                              radius: 10.0,
+                            CircleAvatar(
+                              backgroundColor: Theme.of(context).highlightColor,
+                              radius: 13,
+                              child: CircleAvatar(
+                                backgroundImage:
+                                    AssetImage(AssetPaths.uploadPhotoIconPath),
+                                radius: 10.0,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -392,4 +407,119 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
       ),
     );
   }
+
+  Future selectImage() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Container(
+              height: 150,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Select Image From !',
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            selectedImagePath = await selectImageFromGallery();
+                            print('Image_Path:-');
+                            print(selectedImagePath);
+                            if (selectedImagePath != '') {
+                              Navigator.pop(context);
+                              setState(() {});
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text("No Image Selected !"),
+                              ));
+                            }
+                          },
+                          child: Card(
+                              elevation: 5,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      'lib/assets/images/upload-photo-icon.png',
+                                      height: 60,
+                                      width: 60,
+                                    ),
+                                    const Text('Gallery'),
+                                  ],
+                                ),
+                              )),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            selectedImagePath = await selectImageFromCamera();
+                            print('Image_Path:-');
+                            print(selectedImagePath);
+
+                            if (selectedImagePath != '') {
+                              Navigator.pop(context);
+                              setState(() {});
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text("No Image Captured !"),
+                              ));
+                            }
+                          },
+                          child: Card(
+                              elevation: 5,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      'lib/assets/images/upload-photo-icon.png',
+                                      height: 60,
+                                      width: 60,
+                                    ),
+                                    const Text('Camera'),
+                                  ],
+                                ),
+                              )),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  selectImageFromGallery() async {
+    XFile? file = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 10);
+    if (file != null) {
+      print(file.path);
+      return file.path;
+    } else {
+      return '';
+    }
+  }
+
+  selectImageFromCamera() async {
+    XFile? file = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 10);
+    if (file != null) {
+      print(file.path);
+      return file.path;
+    } else {
+      return '';
+    }
+  }
+
 }
