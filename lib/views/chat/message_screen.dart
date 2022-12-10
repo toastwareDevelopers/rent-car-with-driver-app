@@ -153,7 +153,110 @@ class _MessageScreenState extends State<MessageScreen> {
                   Icons.attach_money_sharp,
                   color: Colors.black45,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          titlePadding: EdgeInsets.all(10),
+                          title: Center(
+                              child: Text(
+                            "Make Offer",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                          content: Container(
+                            height: phoneHeight * 0.4,
+                            child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      padding: EdgeInsets.all(0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                              decoration: InputDecoration(
+                                                  hintText: "Start Date"),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: phoneWidth * 0.02,
+                                          ),
+                                          Expanded(
+                                            child: TextFormField(
+                                              decoration: InputDecoration(
+                                                  hintText: "End Date"),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                              decoration: InputDecoration(
+                                                  hintText: "Price"),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: phoneWidth * 0.02,
+                                          ),
+                                          Expanded(
+                                            child: TextFormField(
+                                              decoration: InputDecoration(
+                                                  hintText: "Location"),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: phoneHeight*0.008,),
+                                  Expanded(
+                                    flex: 3,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 10,
+                                      decoration:
+                                          InputDecoration(hintText: "Details"),
+                                    ),
+                                  ),
+                                ]),
+                          ),
+                          actions: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: phoneWidth * 0.25),
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.white),
+                                    textStyle: MaterialStatePropertyAll(
+                                        TextStyle(color: Colors.red))),
+                                onPressed: () {},
+                                child: Center(
+                                  child: Text(
+                                    "Offer",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: "Arapey"),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                          backgroundColor: Theme.of(context).highlightColor,
+                        );
+                      });
+                },
               ),
             )
           : null,
