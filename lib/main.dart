@@ -18,6 +18,7 @@ import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_auth.da
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_car.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_personal.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_skills.dart';
+import 'package:rentcarmobile/widgets/review_widget_2.dart';
 
 void main() {
   runApp(const RentVanApp());
@@ -88,9 +89,9 @@ class RentVanApp extends StatelessWidget {
           cursorColor: Color.fromARGB(255, 167, 117, 77),
         ),
       ),
-      initialRoute: "/",
+      initialRoute: "/profileCustomer",
       routes: {
-        '/': (context) => LoginScreen(),
+        '/profileCustomer': (context) => LoginScreen(),
         '/forgotPassword': (context) => ForgotPasswordScreen(),
         '/registerCustomer': (context) => const RegisterCustomerScreen(),
         '/registerDriverAuth': (context) => RegisterDriverAuthScreen(),
@@ -109,6 +110,7 @@ class RentVanApp extends StatelessWidget {
         '/editDriverCar': (context) => EditDriverCarScreen(),
         '/allChats': (context) => ChatScreen(),
         '/messaging' : (context) => MessageScreen(),
+
       },
     );
   }

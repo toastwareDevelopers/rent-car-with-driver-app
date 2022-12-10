@@ -10,12 +10,12 @@ class DriverMainScreen extends StatefulWidget {
   List<String> tripListString = [];
   List<Trip> tripsv2 = [
     Trip(
-        id: "1",
+        sId: "1",
         driverId: "1",
         customerId: "1",
         customerName: "eray1",
         customerSurname: "yaşar1",
-        customerAge: 21,
+        age: 21,
         location: "karabük",
         price: 100),
   ];
@@ -201,7 +201,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "${snapshot.data?[index].customerName} ${snapshot.data?[index].customerSurname} (${snapshot.data?[index].customerAge})",
+                                "${snapshot.data?[index].customerName} ${snapshot.data?[index].customerName} (${snapshot.data?[index].age})",
                                 style: const TextStyle(
                                     fontFamily: "Arapey",
                                     color: Colors.white,

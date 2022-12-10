@@ -7,27 +7,30 @@ part of 'trip.dart';
 // **************************************************************************
 
 Trip _$TripFromJson(Map<String, dynamic> json) => Trip(
-      id: json['id'] as String? ?? "0",
-      driverId: json['driverId'] as String? ?? "null",
-      customerId: json['customerId'] as String? ?? "null",
-      location: json['location'] as String? ?? "null",
-      price: json['price'] as int? ?? 0,
-      totalHour: (json['totalHour'] as num?)?.toDouble() ?? 0,
-      startDate: json['startDate'] as String? ?? "01-01-1900",
-      endDate: json['endDate'] as String? ?? "01-01-1900",
-      tripDescription: json['tripDescription'] as String? ?? "null",
-      reviewId: json['reviewId'] as String? ?? "null",
-    );
+      sId : json['_id'] as String? ?? "null",
+      driverId : json['driverId'] as String? ?? "null",
+      customerId : json['customerId'] as String? ?? "null",
+      startDate : json['startDate'] as String? ?? "null",
+      endDate : json['endDate'] as String? ?? "null",
+      location : json['location'] as String? ?? "null",
+      price : json['price']  ?? 0,
+      iV : json['__v'] as String? ?? "null",
+      customerName : json['customerName'] as String? ?? "null",
+      driverName : json['driverName']  as String? ?? "null",
+);
 
 Map<String, dynamic> _$TripToJson(Trip instance) => <String, dynamic>{
-      'id': instance.id,
-      'driverId': instance.driverId,
-      'customerId': instance.customerId,
-      'location': instance.location,
-      'price': instance.price,
-      'totalHour': instance.totalHour,
-      'startDate': instance.startDate,
+
+      '_id' : instance.sId,
+      'driverId' : instance.driverId,
+      'customerId' : instance.customerId,
+      'startDate' : instance.startDate,
       'endDate': instance.endDate,
-      'tripDescription': instance.tripDescription,
-      'reviewId': instance.reviewId,
-    };
+      'location' : instance.location,
+      'price' : instance.price,
+      '__v' : instance.iV,
+      'customerName' : instance.customerName,
+      'driverName' : instance.driverName,
+
+
+};

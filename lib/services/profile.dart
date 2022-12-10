@@ -30,37 +30,70 @@ class ProfileService {
       return Customer();
     }
   }
+  static Future<List<Review>> getCustomerReviews(String id) async {
 
-  /*static Future<List<Trip>> getCustomerTrips(List<String> tripsId ) async {
-      List<Trip> trips = [];
+      try{
 
-
-      for (int i = 1; i < tripsId.length; i++) {
-        trips.add(ProfileService.getTripsById(tripsId[i]));
+        var url = Uri.parse("http://3.75.233.211:3000/api/info?ID=" + id);
+        var response = await http.get(url);
+        List<Review> review  = jsonDecode(response.body);
+        return review;
       }
-      return trips;
-    }
-  */
+      catch(e){
+        List<Review> review2 = [];
+        return review2;
+      }
 
-  static Future<Trip> getTripsById(String id) async {
+
+
+    }
+
+
+  static Future<List<Trip>> getTripsById(String id) async {
     final headers = {
       'Content-type': 'application/json;charset=UTF-8',
       'Charset': 'utf-8',
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/info")
+      var url = Uri.parse("http://192.168.10.6:3000/api/getTrips?")
           .replace(queryParameters: {
         'ID': id,
       });
-
+      print("yyyyy");
       var response = await http.get(url, headers: headers);
+      var jsonData = json.decode(response.body);
+      print("json ${response.body}");
+      List<Trip> listTrip = [];
+      print("xxxxx");
 
-      Trip trip = jsonDecode(response.body);
+      for(var u in jsonData){
 
-      return trip;
+        print("aaaaaa");
+        Trip trip = Trip();
+        trip.sId = u["_id"];
+        print("ccccccc");
+        trip.customerName = u["customerName"];
+        print("dddddd");
+        trip.startDate = u["startDate"];
+        print("eeeeeee");
+        trip.endDate = u["endDate"];
+        print("fffffff");
+        trip.location = u["location"];
+        print("ggggg");
+
+
+        trip.price = u["price"];
+        print("bbbbbb");
+        listTrip.add(trip);
+        print("kkkkk");
+      }
+      print("lenght ${listTrip.length}");
+      return listTrip;
     } catch (e) {
-      return Trip();
+      List<Trip> listTrip2 =[];
+      print("buradamisin");
+      return listTrip2;
     }
   }
 
