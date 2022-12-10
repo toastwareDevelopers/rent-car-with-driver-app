@@ -128,7 +128,7 @@ const customerSchema = mongoose.Schema({
         type: String,
     },
 
-    events: [mongoose.ObjectId],
+    trips: [mongoose.ObjectId],
 });
 
 
