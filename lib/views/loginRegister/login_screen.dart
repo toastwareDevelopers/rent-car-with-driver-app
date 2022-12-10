@@ -139,12 +139,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               //driver
                               if (json.decode(response.body)["role"] ==
                                   "driver") {
-                                    RentVanApp.userType = "driver";
+                                RentVanApp.userId =
+                                    json.decode(response.body)["_id"];
+                                RentVanApp.userType = "driver";
                                 Navigator.pushNamed(context, "/driverMain");
                               }
                               //customer
                               else {
                                 RentVanApp.userType = "customer";
+                                RentVanApp.userId =
+                                    json.decode(response.body)["_id"];
                                 Navigator.pushNamed(context, "/customerMain");
                               }
                             }
