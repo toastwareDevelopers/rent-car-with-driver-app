@@ -32,6 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.5
+  flutter_chat_bubble: ^2.0.0
 
 
 
