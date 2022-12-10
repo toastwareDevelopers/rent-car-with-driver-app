@@ -1,8 +1,8 @@
 /* Importing the express and mongoose packages. */
 const express = require('express');
+const { createServer } = require("http");
+const {Server} = require("socket.io");
 const mongoose = require("mongoose");
-const http = require('http');
-const { Server } = require("socket.io");
 
 
 // IMPORTS FROM OTHER FILES
@@ -23,8 +23,8 @@ const PORT = 3000;
 
 /* Creating an instance of the express server. */
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+const httpServer = createServer(app);
+const io = new Server(httpServer);
 const connection = require('./db.js');
 
 // middleware
@@ -44,21 +44,19 @@ app.use(getTripsRouter);
 //connections
 connection()
 
-app.listen(PORT, () =>{
+httpServer.listen(PORT, () =>{
     console.log('connected ad port ' + PORT);
 });
 
 
 const Message = require("./models/message");
 
-io.on('connection',(socket) =>{
+io.on("connection",(socket) =>{
     console.log("User connected");
 
     socket.on('startChat', (msg)=>{
         console.log(msg);
-        roomID = msg.senderID + msg.reciverID;
-
-        socket.join(roomID);
+        socket.join(msg.roomID);
 
         Message.find({
             roomId: msg.room_id
@@ -70,18 +68,22 @@ io.on('connection',(socket) =>{
 
     });
 
-    socket.on('send message',(msg) =>{
-        io.to(socket.id).emit('send message',msg);
+    socket.on('sendmessage',(msg) =>{
+      console.log("sendmessage");
+      console.log(msg);
+
+      io.to(msg.roomID).emit('sendmessage',msg);
         let message = new Message({
             content:msg.content,
             senderID: msg.senderID,
-            reciverID: msg.reciverID,
-            roomID: socket.id
+            receiverID: msg.receiverID,
+            roomID: msg.roomID,
         });
+
+        message.save();
             
         
     });
 
 });
-
 

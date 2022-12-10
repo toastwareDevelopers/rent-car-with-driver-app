@@ -14,7 +14,7 @@ const msgSchema = mongoose.Schema({
         type: mongoose.ObjectId
     },
 
-    reciverID: {
+    receiverID: {
         required: true ,
         type: mongoose.ObjectId
     },
