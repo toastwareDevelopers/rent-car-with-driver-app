@@ -1,6 +1,9 @@
 /* Importing the express and mongoose packages. */
 const express = require('express');
 const mongoose = require("mongoose");
+const http = require('http');
+const { Server } = require("socket.io");
+
 
 // IMPORTS FROM OTHER FILES
 const loginAuthRouter = require("./routes/loginAuth");
@@ -20,7 +23,9 @@ const PORT = 3000;
 
 /* Creating an instance of the express server. */
 const app = express();
-const connection = require('./db.js')
+const server = http.createServer(app);
+const io = new Server(server);
+const connection = require('./db.js');
 
 // middleware
 app.use(express.json());
@@ -41,6 +46,17 @@ connection()
 
 app.listen(PORT, () =>{
     console.log('connected ad port ' + PORT);
+});
+
+
+
+io.on('connection',(socket) =>{
+    console.log("User connected");
+
+    socket.on('startChat', (msg)=>{
+        console.log(msg);
+    });
+
 });
 
 
