@@ -50,7 +50,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
           width: 40,
           color: Colors.white,
         ) ,
-        onPressed: RentVanApp.userType == "driver" ? () {Navigator.pushNamed(context, "/editDriverAuth");} : () {Navigator.pushNamed(context, "/chat");} ,
+        onPressed: RentVanApp.userType == "driver" ? () {Navigator.pushNamed(context, "/editDriverAuth");} : () {Navigator.pushNamed(context, "/messaging");} ,
       ),
       body: Container(
         padding: EdgeInsets.only(bottom: phoneHeight * 0.02),
@@ -223,6 +223,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                     ),
                                     SizedBox(height: 5,),
                                     TextField(
+                                      readOnly: true,
                                       controller: widget.carBrandController,
                                       decoration: const InputDecoration(
                                       ),
@@ -241,6 +242,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                     ),
                                     SizedBox(height: 5,),
                                     TextField(
+                                      readOnly: true,
                                       controller: widget.carModelController,
                                       decoration: const InputDecoration(
                                       ),
@@ -269,6 +271,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                     ),
                                     SizedBox(height: 5,),
                                     TextField(
+                                      readOnly: true,
                                       controller: widget.carColorController,
                                       decoration: const InputDecoration(
                                       ),
@@ -287,6 +290,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                     ),
                                     SizedBox(height: 5,),
                                     TextField(
+                                      readOnly: true,
                                       controller: widget.modelYearController,
                                       decoration: const InputDecoration(
                                       ),
