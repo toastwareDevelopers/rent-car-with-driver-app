@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_chat_bubble/bubble_type.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_10.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_2.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_3.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_4.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_6.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_7.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_8.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_9.dart';
 import 'package:rentcarmobile/main.dart';
+import 'package:rentcarmobile/models/offer.dart';
 import 'package:rentcarmobile/utils/message_type.dart';
 import 'package:rentcarmobile/widgets/message_bubble_widget.dart';
+import 'package:rentcarmobile/widgets/offer_box_widget.dart';
 
 import '../../constants/assets_path.dart';
 import '../../models/message.dart';
@@ -48,6 +36,16 @@ class MessageScreen extends StatefulWidget {
         "oıjıjıujıujerıwjırjweıdjıewjndıwjendıujnweıdjıweujdıuewjıudjuıwejuıhruıwehduıewh",
         MessageType.Received,
         "20:13"),
+    Offer(
+        id: "1212",
+        customerId: "12313",
+        driverId: "23423",
+        startDate: "21-02-2022",
+        endDate: "23-02-2022",
+        location: "Istanbul",
+        price: 290,
+        offerDescription: "djsfefıjeıfjeıfkıoekrfıoekrfe",
+        status: "Waiting"),
     Message(
         "jeıoj2ıojıojıojoıjıjıdjfnıwejncıuwencıuwencıuwnecıuwneıuncıuwejndf",
         MessageType.Received,
@@ -154,108 +152,7 @@ class _MessageScreenState extends State<MessageScreen> {
                   color: Colors.black45,
                 ),
                 onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          titlePadding: EdgeInsets.all(10),
-                          title: Center(
-                              child: Text(
-                            "Make Offer",
-                            style: TextStyle(color: Colors.white),
-                          )),
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                          content: Container(
-                            height: phoneHeight * 0.4,
-                            child: Column(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      padding: EdgeInsets.all(0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: TextFormField(
-                                              decoration: InputDecoration(
-                                                  hintText: "Start Date"),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: phoneWidth * 0.02,
-                                          ),
-                                          Expanded(
-                                            child: TextFormField(
-                                              decoration: InputDecoration(
-                                                  hintText: "End Date"),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: TextFormField(
-                                              decoration: InputDecoration(
-                                                  hintText: "Price"),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: phoneWidth * 0.02,
-                                          ),
-                                          Expanded(
-                                            child: TextFormField(
-                                              decoration: InputDecoration(
-                                                  hintText: "Location"),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: phoneHeight*0.008,),
-                                  Expanded(
-                                    flex: 3,
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: 10,
-                                      decoration:
-                                          InputDecoration(hintText: "Details"),
-                                    ),
-                                  ),
-                                ]),
-                          ),
-                          actions: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: phoneWidth * 0.25),
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStatePropertyAll(Colors.white),
-                                    textStyle: MaterialStatePropertyAll(
-                                        TextStyle(color: Colors.red))),
-                                onPressed: () {},
-                                child: Center(
-                                  child: Text(
-                                    "Offer",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: "Arapey"),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                          backgroundColor: Theme.of(context).highlightColor,
-                        );
-                      });
+                  showOffer(context, phoneHeight, phoneWidth);
                 },
               ),
             )
@@ -264,13 +161,39 @@ class _MessageScreenState extends State<MessageScreen> {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
+            //Messages area
             Container(
               child: ListView.separated(
                 itemBuilder: ((context, index) => Container(
-                      child: MessageBubble(
-                          content: widget.messages[index].content,
-                          time: widget.messages[index].time,
-                          messageType: widget.messages[index].messageType),
+                      child: widget.messages[index] is Message
+                          ? MessageBubble(
+                              content:
+                                  (widget.messages[index] as Message).content,
+                              time: (widget.messages[index] as Message).time,
+                              messageType: (widget.messages[index] as Message)
+                                  .messageType,
+                            )
+                          : OfferBox(
+                              id: (widget.messages[index] as Offer).id
+                                  as String,
+                              customerId: (widget.messages[index] as Offer)
+                                  .customerId as String,
+                              driverId: (widget.messages[index] as Offer)
+                                  .driverId as String,
+                              location: (widget.messages[index] as Offer)
+                                  .location as String,
+                              price: (widget.messages[index] as Offer).price
+                                  as int,
+                              startDate: (widget.messages[index] as Offer)
+                                  .startDate as String,
+                              endDate: (widget.messages[index] as Offer).endDate
+                                  as String,
+                              offerDescription:
+                                  (widget.messages[index] as Offer)
+                                      .offerDescription as String,
+                              status: (widget.messages[index] as Offer).status
+                                  as String,
+                            ),
                     )),
                 separatorBuilder: (context, index) => SizedBox(
                   height: phoneHeight * 0.015,
@@ -280,6 +203,7 @@ class _MessageScreenState extends State<MessageScreen> {
                     bottom: phoneHeight * 0.085, top: phoneHeight * 0.01),
               ),
             ),
+            //Text enter area
             Container(
               padding: EdgeInsets.all(5),
               decoration:
@@ -288,6 +212,7 @@ class _MessageScreenState extends State<MessageScreen> {
               width: phoneWidth,
               child: Row(
                 children: [
+                  //Text Enter area
                   Expanded(
                     flex: 12,
                     child: TextFormField(
@@ -300,6 +225,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       controller: widget.messageController,
                     ),
                   ),
+                  //Send button
                   Expanded(
                     flex: 2,
                     child: Container(
@@ -331,5 +257,121 @@ class _MessageScreenState extends State<MessageScreen> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> showOffer(
+      BuildContext context, double phoneHeight, double phoneWidth) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            titlePadding: EdgeInsets.all(10),
+            title: Center(
+              child: Text(
+                "Make Offer",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            content: Container(
+              height: phoneHeight * 0.4,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      padding: EdgeInsets.all(0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                hintText: "Start Date",
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: phoneWidth * 0.02,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                hintText: "End Date",
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                hintText: "Price",
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: phoneWidth * 0.02,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                hintText: "Location",
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: phoneHeight * 0.008,
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: TextFormField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 10,
+                      decoration: InputDecoration(
+                        hintText: "Details",
+                        fillColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.25),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      textStyle: MaterialStatePropertyAll(
+                          TextStyle(color: Colors.red))),
+                  onPressed: () {},
+                  child: Center(
+                    child: Text(
+                      "Offer",
+                      style:
+                          TextStyle(color: Colors.black, fontFamily: "Arapey"),
+                    ),
+                  ),
+                ),
+              )
+            ],
+            backgroundColor: Theme.of(context).highlightColor,
+          );
+        });
   }
 }

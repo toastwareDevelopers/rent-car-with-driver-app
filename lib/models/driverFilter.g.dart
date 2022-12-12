@@ -6,19 +6,21 @@ part of 'driverFilter.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DriverFilter _$DriverFilterFromJson(Map<String, dynamic> json) => DriverFilter(
-      location: json['location'] as String? ?? "null",
-      gender: json['gender'] as String? ?? "null",
-      language: json['language'] as String? ?? "null",
-      hourlyPriceStart: json['hourlyPriceStart'] as int? ?? 0,
-      hourlyPriceEnd: json['hourlyPriceEnd'] as int? ?? 1000,
-      ratingStart: (json['ratingStart'] as num?)?.toDouble() ?? 0.0,
-      ratingEnd: (json['ratingEnd'] as num?)?.toDouble() ?? 10.0,
-      ageStart: (json['ageStart'] as num?)?.toDouble() ?? 18,
-      ageEnd: (json['ageEnd'] as num?)?.toDouble() ?? 100,
-      carYearStart: (json['carYearStart'] as num?)?.toDouble() ?? 1900,
-      carYearEnd: (json['carYearEnd'] as num?)?.toDouble() ?? 2022,
-    );
+DriverFilter _$DriverFilterFromJson(Map<String, dynamic> json) {
+  return DriverFilter(
+    location: json['location'] as String?,
+    gender: json['gender'] as String?,
+    language: json['language'] as String?,
+    hourlyPriceStart: json['hourlyPriceStart'] as int?,
+    hourlyPriceEnd: json['hourlyPriceEnd'] as int?,
+    ratingStart: (json['ratingStart'] as num?)?.toDouble(),
+    ratingEnd: (json['ratingEnd'] as num?)?.toDouble(),
+    ageStart: (json['ageStart'] as num?)?.toDouble(),
+    ageEnd: (json['ageEnd'] as num?)?.toDouble(),
+    carYearStart: (json['carYearStart'] as num?)?.toDouble(),
+    carYearEnd: (json['carYearEnd'] as num?)?.toDouble(),
+  );
+}
 
 Map<String, dynamic> _$DriverFilterToJson(DriverFilter instance) =>
     <String, dynamic>{
