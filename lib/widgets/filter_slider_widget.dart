@@ -4,128 +4,102 @@ import 'package:another_xlider/another_xlider.dart';
 class FilterSlider extends StatefulWidget {
   final String title;
   final Function editValue;
+  double min = 0, max = 0;
+  double startValue = 0;
+  double endValue = 0;
 
-  FilterSlider(this.title, this.editValue);
+  FilterSlider(this.title, this.editValue,this.min,this.max,this.startValue,this.endValue);
   @override
   _FilterSliderState createState() => _FilterSliderState();
 }
 
 class _FilterSliderState extends State<FilterSlider> {
-  double min = 0, max = 0;
-  double startValue = 0;
-  double endValue = 0;
-
-  @override
-  void initState() {
-    if (widget.title == "Price") {
-      min = 0;
-      startValue = 0;
-      max = 10000;
-      endValue = 10000;
-    } else if (widget.title == "Rating") {
-      min = 0;
-      startValue = 0;
-      max = 10;
-      endValue = 10;
-    } else if (widget.title == "Age") {
-      min = 18;
-      startValue = 18;
-      max = 70;
-      endValue = 70;
-    }else{
-      min = 1990;
-      startValue = 1990;
-      max = DateTime.now().year.toDouble();
-      endValue = DateTime.now().year.toDouble();
-    }
-  }
-
+  
   @override
   Widget build(BuildContext context) {
+    double phoneHeight = MediaQuery.of(context).size.height;
+    double phoneWidth = MediaQuery.of(context).size.width;
     return Container(
       child: Column(
         children: [
           Expanded(
-            flex: 12,
+            flex: 4,
             child: Container(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text(
-                          widget.title,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 10,
-                      child: Container(
-                        child: FlutterSlider(
-                          values: [startValue, endValue],
-                          min: min,
-                          max: max,
-                          rangeSlider: true,
-                          decoration: BoxDecoration(),
-                          foregroundDecoration: BoxDecoration(),
-                          trackBar: FlutterSliderTrackBar(
-                            activeTrackBar: BoxDecoration(color: Colors.white),
-                            inactiveTrackBar:
-                                BoxDecoration(color: Colors.grey[600]),
-                          ),
-                          handler: FlutterSliderHandler(
-                            child: SizedBox(),
-                          ),
-                          rightHandler: FlutterSliderHandler(child: SizedBox()),
-                          handlerAnimation: FlutterSliderHandlerAnimation(
-                              scale: 1.1,
-                              duration: Duration(milliseconds: 200)),
-                          handlerHeight: 25,
-                          handlerWidth: 25,
-                          tooltip: FlutterSliderTooltip(
-                            format: (val) {
-                              if(widget.title == "Price"){
-                                return val.split(".")[0];
-                              }else{
-                                return val;
-                              }
-                            },
-                            alwaysShowTooltip: true,
-                            textStyle: TextStyle(color: Colors.black),
-                            boxStyle: FlutterSliderTooltipBox(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1,
-                                ),
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(50),
-                                  topRight: Radius.circular(50),
-                                  bottomLeft: Radius.circular(100),
-                                  bottomRight: Radius.circular(100),
-                                ),
-                              ),
-                            ),
-                          ),
-                          onDragCompleted: (val, x, y) {
-                            startValue = x;
-                            endValue = y;
-                            widget.editValue(startValue, endValue);
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.only(top: 0),
+              child: Text(
+                widget.title,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
                 ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 10,
+            child: Container(
+              child: FlutterSlider(
+                values: [widget.startValue, widget.endValue],
+                min: widget.min,
+                max: widget.max,
+                rangeSlider: true,
+                trackBar: FlutterSliderTrackBar(
+                  activeTrackBar: BoxDecoration(color: Colors.white),
+                  inactiveTrackBar: BoxDecoration(color: Colors.grey[600]),
+                ),
+                handler: FlutterSliderHandler(
+                  child: SizedBox(),
+                ),
+                rightHandler: FlutterSliderHandler(child: SizedBox()),
+                handlerAnimation: FlutterSliderHandlerAnimation(
+                    scale: 1.1, duration: Duration(milliseconds: 200)),
+                handlerHeight: 15,
+                handlerWidth: 15,
+                tooltip: FlutterSliderTooltip(
+                  format: (val) {
+                    switch (widget.title) {
+                      case "Price":
+                        {
+                          return val.split(".")[0];
+                        }
+                      case "Rating":
+                        {
+                          return val;
+                        }
+                      case "Age":
+                        {
+                          return val.split(".")[0];
+                        }
+                      case "Car Year":
+                        {
+                          return val.split(".")[0];
+                        }
+                      default:
+                        {
+                          return val;
+                        }
+                    }
+                  },
+                  alwaysShowTooltip: true,
+                  textStyle: TextStyle(color: Colors.black, fontSize: 12),
+                  boxStyle: FlutterSliderTooltipBox(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
+                        bottomLeft: Radius.circular(100),
+                        bottomRight: Radius.circular(100),
+                      ),
+                    ),
+                  ),
+                ),
+                onDragCompleted: (val, x, y) {
+                  widget.startValue = x;
+                  widget.endValue = y;
+                  widget.editValue(widget.startValue, widget.endValue);
+                },
               ),
             ),
           ),

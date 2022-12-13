@@ -19,12 +19,12 @@ class DriverFilter {
     this.gender = "null",
     this.language = "null",
     this.hourlyPriceStart= 0,
-    this.hourlyPriceEnd= 1000,
+    this.hourlyPriceEnd= 5000,
     this.ratingStart = 0.0,
     this.ratingEnd = 10.0,
     this.ageStart = 18,
-    this.ageEnd = 100,
-    this.carYearStart = 1900,
+    this.ageEnd = 70,
+    this.carYearStart = 1990,
     this.carYearEnd = 2022,
   });
 
