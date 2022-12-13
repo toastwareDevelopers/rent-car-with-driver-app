@@ -4,11 +4,11 @@ class Message {
   var content = "null";
   //var messageType = MessageType.Sent;
   String messageType = "null";
-  var time = "00:00";
-  String senderID = "-1";
-  String receiverID = "-1";
-  String roomID = "-1";
-  Message(this.content, this.messageType, this.time);
-  Message.msg(this.content, this.messageType, this.time, this.senderID,
+  String createDate = DateTime.now().toString();
+  String senderID = "null";
+  String receiverID = "null";
+  String roomID = "null";
+  Message(this.content, this.messageType, this.createDate);
+  Message.msg(this.content, this.messageType, this.createDate, this.senderID,
       this.receiverID, this.roomID);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/constants/api_path.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/offer.dart';
 import 'package:rentcarmobile/services/mains.dart';
@@ -11,7 +12,7 @@ import '../../constants/assets_path.dart';
 import '../../models/message.dart';
 
 class MessageScreen extends StatefulWidget {
-  var messages = [
+  List<Message> messages = [
     /*Message("asdasdasdas", MessageType.Received, "20:13"),
     Message("jwfıjnwefnewuhfuewhfuhewufhewhfuıewjhfıuewhfuıewhuıfhwe",
         MessageType.Sent, "20:13"),
@@ -112,15 +113,20 @@ class MessageScreen extends StatefulWidget {
 
 class _MessageScreenState extends State<MessageScreen> {
   IO.Socket? socket;
+  String roomID = "null";
+  String receiverId = "6353fff17075dc541cc72e60";
   List<Message> listMsg = [];
   @override
   void initState() {
     super.initState();
     connect();
+    RentVanApp.userType == "customer"
+        ? receiverId + RentVanApp.userId
+        : RentVanApp.userId + receiverId;
   }
 
   void connect() {
-    socket = IO.io('http://localhost:3000', <String?, dynamic>{
+    socket = IO.io('http://${ApiPaths.serverIP}', <String?, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
@@ -135,8 +141,8 @@ class _MessageScreenState extends State<MessageScreen> {
           setState(() {
             widget.messages.add(Message.msg(
               msg["content"],
-              msg["type"],
-              msg["time"],
+              "null",
+              msg["createDate"],
               msg["senderID"],
               msg["receiverID"],
               msg["roomID"],
@@ -149,23 +155,24 @@ class _MessageScreenState extends State<MessageScreen> {
 
   void startChat(String msg) {
     socket!.emit("startChat", {
-      "roomID": "12",
+      "roomID": roomID,
     });
   }
 
   void sendMsg(String msg) {
     Message ownMsg = Message.msg(msg, "message", DateTime.now().toString(),
-        RentVanApp.userId, "636850a987a195e737d3723f", "12");
+        RentVanApp.userId, receiverId, roomID);
     widget.messages.add(ownMsg);
     setState(() {
       widget.messages;
     });
     socket!.emit("sendmessage", {
       "type": "message",
+      "createDate": DateTime.now().toString(),
       "content": msg,
       "senderID": RentVanApp.userId,
-      "receiverID": "636850a987a195e737d3723f",
-      "roomID": "12",
+      "receiverID": receiverId,
+      "roomID": roomID,
     });
   }
 
@@ -229,7 +236,9 @@ class _MessageScreenState extends State<MessageScreen> {
                           ? MessageBubble(
                               content:
                                   (widget.messages[index] as Message).content,
-                              time: (widget.messages[index] as Message).time,
+                              time: (widget.messages[index] as Message)
+                                  .createDate
+                                  .toString(),
                               sender:
                                   (widget.messages[index] as Message).senderID,
                             )
