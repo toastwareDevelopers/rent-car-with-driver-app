@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/offer.dart';
+import 'package:rentcarmobile/services/mains.dart';
 import 'package:rentcarmobile/utils/message_type.dart';
 import 'package:rentcarmobile/widgets/message_bubble_widget.dart';
 import 'package:rentcarmobile/widgets/offer_box_widget.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../constants/assets_path.dart';
 import '../../models/message.dart';
 
 class MessageScreen extends StatefulWidget {
   var messages = [
-    Message("asdasdasdas", MessageType.Received, "20:13"),
+    /*Message("asdasdasdas", MessageType.Received, "20:13"),
     Message("jwfıjnwefnewuhfuewhfuhewufhewhfuıewjhfıuewhfuıewhuıfhwe",
         MessageType.Sent, "20:13"),
     Message(
@@ -100,7 +102,7 @@ class MessageScreen extends StatefulWidget {
         MessageType.Received,
         "20:13"),
     Message("efkjweujfılwejhrıfujwefr", MessageType.Sent, "20:13"),
-    Message("jıwejrıwjerıojweıorjıowjer", MessageType.Sent, "20:13"),
+    Message("jıwejrıwjerıojweıorjıowjer", MessageType.Sent, "20:13"),*/
   ];
   MessageScreen({super.key});
   State<MessageScreen> createState() => _MessageScreenState();
@@ -109,6 +111,64 @@ class MessageScreen extends StatefulWidget {
 }
 
 class _MessageScreenState extends State<MessageScreen> {
+  IO.Socket? socket;
+  List<Message> listMsg = [];
+  @override
+  void initState() {
+    super.initState();
+    connect();
+  }
+
+  void connect() {
+    socket = IO.io('http://localhost:3000', <String?, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
+    });
+    socket!.connect();
+    socket!.onConnect((_) {
+      print("connected frontend");
+
+      socket!.on("sendmessage", (msg) {
+        print(msg);
+
+        if (msg["senderID"] != RentVanApp.userId) {
+          setState(() {
+            widget.messages.add(Message.msg(
+              msg["content"],
+              msg["type"],
+              msg["time"],
+              msg["senderID"],
+              msg["receiverID"],
+              msg["roomID"],
+            ));
+          });
+        }
+      });
+    });
+  }
+
+  void startChat(String msg) {
+    socket!.emit("startChat", {
+      "roomID": "12",
+    });
+  }
+
+  void sendMsg(String msg) {
+    Message ownMsg = Message.msg(msg, "message", DateTime.now().toString(),
+        RentVanApp.userId, "636850a987a195e737d3723f", "12");
+    widget.messages.add(ownMsg);
+    setState(() {
+      widget.messages;
+    });
+    socket!.emit("sendmessage", {
+      "type": "message",
+      "content": msg,
+      "senderID": RentVanApp.userId,
+      "receiverID": "636850a987a195e737d3723f",
+      "roomID": "12",
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
@@ -170,8 +230,8 @@ class _MessageScreenState extends State<MessageScreen> {
                               content:
                                   (widget.messages[index] as Message).content,
                               time: (widget.messages[index] as Message).time,
-                              messageType: (widget.messages[index] as Message)
-                                  .messageType,
+                              sender:
+                                  (widget.messages[index] as Message).senderID,
                             )
                           : OfferBox(
                               id: (widget.messages[index] as Offer).id
@@ -230,7 +290,7 @@ class _MessageScreenState extends State<MessageScreen> {
                     flex: 2,
                     child: Container(
                       child: ElevatedButton(
-                        style: ButtonStyle(
+                        style: const ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.white),
                           shape: MaterialStatePropertyAll(
@@ -239,8 +299,14 @@ class _MessageScreenState extends State<MessageScreen> {
                           minimumSize:
                               MaterialStatePropertyAll(Size.fromHeight(45)),
                         ),
-                        onPressed: () {},
-                        child: Center(
+                        onPressed: () {
+                          String msg = widget.messageController.text;
+                          if (msg.isNotEmpty) {
+                            sendMsg(msg);
+                            widget.messageController.clear();
+                          }
+                        },
+                        child: const Center(
                           child: Icon(
                             Icons.send,
                             color: Colors.black45,
@@ -249,7 +315,17 @@ class _MessageScreenState extends State<MessageScreen> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  //for starting chat temporarily
+                  ElevatedButton(
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.black)),
+                    onPressed: () {
+                      startChat("msg");
+                    },
+                    child: const Text("start chat"),
+                  ),
                 ],
               ),
             ),

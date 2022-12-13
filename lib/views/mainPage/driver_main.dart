@@ -32,7 +32,8 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
             actions: [
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, "/profileDriverPersonal",arguments: RentVanApp.userId);
+                  Navigator.pushNamed(context, "/profileDriverPersonal",
+                      arguments: RentVanApp.userId);
                 },
                 child: CircleAvatar(
                   backgroundColor: Theme.of(context).highlightColor,
@@ -65,7 +66,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
               ),
             ),
             onPressed: () {
-              Navigator.pushNamed(context, "/allChats");
+              Navigator.pushNamed(context, "/messaging");
             },
           ),
         ),
