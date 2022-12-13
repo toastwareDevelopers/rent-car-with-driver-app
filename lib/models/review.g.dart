@@ -6,14 +6,16 @@ part of 'review.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Review _$ReviewFromJson(Map<String, dynamic> json) => Review(
-      id: json['id'] as String? ?? "0",
-      driverId: json['driverId'] as String? ?? "null",
-      customerId: json['customerId'] as String? ?? "null",
-      reviewText: json['reviewText'] as String? ?? "null",
-      rating: json['rating'] as String? ?? "null",
-      tripId: json['tripId'] as String? ?? "null",
-    );
+Review _$ReviewFromJson(Map<String, dynamic> json) {
+  return Review(
+    id: json['id'] as String?,
+    driverId: json['driverId'] as String?,
+    customerId: json['customerId'] as String?,
+    reviewText: json['reviewText'] as String?,
+    rating: json['rating'] as String?,
+    tripId: json['tripId'] as String?,
+  );
+}
 
 Map<String, dynamic> _$ReviewToJson(Review instance) => <String, dynamic>{
       'id': instance.id,

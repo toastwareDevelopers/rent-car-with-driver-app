@@ -24,6 +24,7 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
+    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
     
     widget.emailController.text = "eray3@hotmail.com";
     widget.phoneNumberController.text = "05394482231";
