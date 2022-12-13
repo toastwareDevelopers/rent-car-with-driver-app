@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/widgets/driver_list_driver_widget.dart';
+import 'package:rentcarmobile/widgets/filter_slider_widget.dart';
 
 import '../../constants/assets_path.dart';
 
@@ -172,6 +173,8 @@ class CustomerMainScreen extends StatefulWidget {
   ];
   List<String> addedLanguages = [];
   String? languageDropdown = "Turkish";
+  int startPrice = 0;
+  int endPrice = 10000;
 
   @override
   State<CustomerMainScreen> createState() => _CustomerMainScreenState();
@@ -443,12 +446,18 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
     );
   }
 
+  void editPrice(double startPrice,double endPrice){
+    widget.startPrice = startPrice.toInt();
+    widget.endPrice = endPrice.toInt();
+  }
+
   Future<dynamic> showFilters(BuildContext context, double phoneHeight) {
     return showModalBottomSheet(
+                  isScrollControlled: true,
                   context: context,
                   builder: ((BuildContext context) => Container(
+                    height: phoneHeight*0.75,
                     decoration: BoxDecoration(color: Theme.of(context).highlightColor),
-                    height: phoneHeight*0.5,
                         child: Column(
                           children: [
                             Expanded(
@@ -532,6 +541,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                             Expanded(
                               child: Row(
                                 children: [
+                                  //Language Dropdown
                                   Expanded(
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -575,7 +585,28 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                             Expanded(
                               child: Container(
                                 child: Column(
-                                  children: [],
+                                  children: [Expanded(child: FilterSlider("Price", editPrice))],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  children: [Expanded(child: FilterSlider("Rating", editPrice))],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  children: [Expanded(child: FilterSlider("Age", editPrice))],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  children: [Expanded(child: FilterSlider("Car Year", editPrice))],
                                 ),
                               ),
                             )

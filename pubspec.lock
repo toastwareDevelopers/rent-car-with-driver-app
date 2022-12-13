@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.2"
+  another_xlider:
+    dependency: "direct main"
+    description:
+      name: another_xlider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
   args:
     dependency: transitive
     description:
