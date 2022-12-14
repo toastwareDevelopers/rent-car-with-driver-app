@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rentcarmobile/constants/assets_path.dart';
 import 'package:rentcarmobile/models/driver.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
+
+import '../../../widgets/profile_icon_widget.dart';
 
 class EditDriverPersonalScreen extends StatefulWidget {
   EditDriverPersonalScreen({super.key});
@@ -110,7 +111,9 @@ class _EditDriverPersonalScreenState
     Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
-    
+
+    final ProfileIcon _profileIcon = ProfileIcon(key: null, selectedImage: driver.profileImage);
+
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
@@ -131,34 +134,7 @@ class _EditDriverPersonalScreenState
                 ),
               ),
               //Profil fotoğrafı yükleme alanı
-              Expanded(
-                flex: 2,
-                child: Center(
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Theme.of(context).highlightColor,
-                        radius: 40,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage(AssetPaths.blankProfilePhotoPath),
-                          radius: 37.0,
-                        ),
-                      ),
-                      CircleAvatar(
-                        backgroundColor: Theme.of(context).highlightColor,
-                        radius: 13,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage(AssetPaths.uploadPhotoIconPath),
-                          radius: 10.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              _profileIcon,
               //Form inputları alanı
               Expanded(
                 flex: 7,
@@ -353,7 +329,8 @@ class _EditDriverPersonalScreenState
                               gender: widget.genderDropdown.toString(),
                               nationalId: widget.nationalIdController.text,
                               location: widget.locationDropdown.toString(),
-                              info: widget.biogrophyController.text),
+                              info: widget.biogrophyController.text,
+                              profileImage: _profileIcon.selectedImage),
                         );
                       }
                     },
