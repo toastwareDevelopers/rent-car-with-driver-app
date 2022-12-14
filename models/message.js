@@ -1,7 +1,9 @@
+
 /* Importing the mongoose module. */
 const mongoose = require("mongoose");
 
-/* Creating a schema for the customer model. */
+
+/* Creating a schema for the message model. */
 const msgSchema = mongoose.Schema({
 
     content:{
@@ -33,8 +35,9 @@ const msgSchema = mongoose.Schema({
 });
 
 
-/* Creating a model named Customer with the schema customerSchema. */
+/* Creating a model for the message schema. */
 const Message = mongoose.model("Message", msgSchema);
 
-/* Exporting the Customer model to be used in other files. */
+
+/* Exporting the Message model so that it can be used in other files. */
 module.exports = Message;

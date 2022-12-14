@@ -8,7 +8,7 @@ const loginAuthRouter = express.Router();
 /* Importing the customer and driver models from the models folder. */
 const Customer = require("../models/customer");
 const Driver = require("../models/driver");
-const { json } = require("express/lib/response");
+
 
 
 /* This is the code that is executed when the user clicks the sign in button. It checks if the user is

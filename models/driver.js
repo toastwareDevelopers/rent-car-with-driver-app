@@ -220,7 +220,9 @@ const userSchema = mongoose.Schema({
         type: Buffer,
     },
 
-    trips:[mongoose.ObjectId], 
+    trips:[mongoose.ObjectId],
+
+    reviews:[mongoose.ObjectId],
 
 });
 
