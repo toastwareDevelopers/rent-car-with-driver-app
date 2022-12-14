@@ -16,7 +16,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         const person = await Customer.findById(_id);
 
         let drivers = await Driver.find({},
-            { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1 })
+            { _id: 1,name:1,surname:1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1 })
 
 
 
