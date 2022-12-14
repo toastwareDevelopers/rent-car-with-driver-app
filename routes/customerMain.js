@@ -5,20 +5,40 @@ const Driver = require("../models/driver");
 const CustomerProfileRouter = express.Router();
 
 
-CustomerProfileRouter.get('/customer/main', async function (req, res) {
+CustomerProfileRouter.post('/customer/main', async function (req, res) {
     
 
     try {
 
-        const { _id } = req.query.ID;
+        const{_id,location,gender,language,hourlyPriceStart,hourlyPriceEnd,ratingStart,ratingEnd,ageStart,
+            ageEnd,carYearStart,carYearEnd} = req.body;
 
-        profile = await Customer.findOne(_id);
+            const person = await Customer.findById(_id);
 
-        let drivers = await Driver.find()
+        let drivers = await Driver.find({ }, 
+            { _id : 1, birthDate : 1, gender: 1 , location :1, languages : 1, rating :1 , hourlyPrice: 1 , "carInfo.year" : 1})
 
-        if (profile) {
+              console.log("\n\n")
 
-            res.send(profile+drivers[Math.floor(Math.random() * drivers.length)]
+        for (let step = 0; step<drivers.length; step++) {
+
+            if(!(hourlyPriceStart <= drivers[step].hourlyPrice && drivers[step].hourlyPrice <= hourlyPriceEnd)){
+
+                drivers.splice(0,1)
+            }
+          }
+          
+          
+          console.log("\n\n")
+          for (let step = 0; step<drivers.length; step++) {
+
+  
+                  console.log(drivers[step].hourlyPrice)
+
+            }
+ 
+        if (person) {
+            res.send(person+drivers[Math.floor(Math.random() * drivers.length)]
             +drivers[Math.floor(Math.random() * drivers.length)]+drivers[Math.floor(Math.random() * drivers.length)])
         }
 
