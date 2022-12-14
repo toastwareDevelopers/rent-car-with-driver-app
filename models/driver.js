@@ -193,7 +193,7 @@ const userSchema = mongoose.Schema({
             type: String,
         },
         photos:{
-            type: [Buffer],
+            type: [String],
         }
     },
 
@@ -220,7 +220,11 @@ const userSchema = mongoose.Schema({
         type: Buffer,
     },
 
-    trips:[mongoose.ObjectId], 
+    trips:[mongoose.ObjectId],
+
+    profile_image64 : {
+        type: String,
+    },
 
 });
 

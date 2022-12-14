@@ -17,7 +17,7 @@ driverEditRouter.post('/api/edit/driver',async function(req,res){
         
 
         /* Destructuring the request body. */
-        const{phoneNumber,_id,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenseNumber,licenseYear,carInfo:{carlicenseNumber,carlicenseYear,plateNumber,brand,model,year,color,photos},hourlyPrice,taxNumber} = req.body;
+        const{phoneNumber,_id,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenseNumber,licenseYear,carInfo:{carlicenseNumber,carlicenseYear,plateNumber,brand,model,year,color,photos},hourlyPrice,taxNumber,profile_image64} = req.body;
 
         /* Finding the driver with the given ID. */
         const person = await Driver.findById(_id);
@@ -80,6 +80,12 @@ driverEditRouter.post('/api/edit/driver',async function(req,res){
             const hashedPassword = await bcryptjs.hash(password,8);
 
             await person.updateOne({password:hashedPassword},{runValidators:true});
+        }
+
+        /* Checking if the profile_image64 is not undefined and if it is not equal to the person's
+        profile_image64. If it is not, it is updating the person's profile_image64. */
+        if((profile_image64 != undefined) && (profile_image64 != person.profile_image64)){    
+            await person.updateOne({profile_image64:profile_image64},{runValidators:true});
         }
 
         /* Checking if the name is not undefined and if it is not equal to the person's name. If it is not,
