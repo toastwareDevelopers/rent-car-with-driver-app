@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rentcarmobile/constants/assets_path.dart';
 import 'package:rentcarmobile/models/driver.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
+
+import '../../widgets/profile_icon_widget.dart';
 
 class RegisterDriverPersonalScreen extends StatefulWidget {
   RegisterDriverPersonalScreen({super.key});
@@ -98,6 +99,8 @@ class RegisterDriverPersonalScreen extends StatefulWidget {
   ];
   final List<String> genders = ["Male", "Female"];
 
+  final ProfileIcon _profileIcon = ProfileIcon(key: null, selectedImage: "null");
+
   @override
   State<RegisterDriverPersonalScreen> createState() =>
       _RegisterDriverPersonalScreenState();
@@ -131,34 +134,7 @@ class _RegisterDriverPersonalScreenState
                 ),
               ),
               //Profil fotoğrafı yükleme alanı
-              Expanded(
-                flex: 2,
-                child: Center(
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Theme.of(context).highlightColor,
-                        radius: 40,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage(AssetPaths.blankProfilePhotoPath),
-                          radius: 37.0,
-                        ),
-                      ),
-                      CircleAvatar(
-                        backgroundColor: Theme.of(context).highlightColor,
-                        radius: 13,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage(AssetPaths.uploadPhotoIconPath),
-                          radius: 10.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              widget._profileIcon,
               //Form inputları alanı
               Expanded(
                 flex: 7,
@@ -354,7 +330,8 @@ class _RegisterDriverPersonalScreenState
                               gender: widget.genderDropdown.toString(),
                               nationalId: widget.nationalIdController.text,
                               location: widget.locationDropdown.toString(),
-                              info: widget.biogrophyController.text),
+                              info: widget.biogrophyController.text,
+                              profileImage: widget._profileIcon.selectedImage),
                         );
                       }
                     },
