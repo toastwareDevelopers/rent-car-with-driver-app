@@ -128,6 +128,8 @@ const customerSchema = mongoose.Schema({
         type: String,
     },
     trips: [mongoose.ObjectId],
+
+    reviews:[mongoose.ObjectId],
 });
 
 

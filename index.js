@@ -1,7 +1,7 @@
 /* Importing the express and mongoose packages. */
 const express = require('express');
 const { createServer } = require("http");
-const {Server} = require("socket.io");
+const { Server } = require("socket.io");
 const mongoose = require("mongoose");
 
 
@@ -16,8 +16,8 @@ const customerEditRouter = require("./routes/customerEdit");
 const customerProfileRouter = require("./routes/customerProfile");
 const tripCreateRouter = require("./routes/createTrip");
 const getModelRouter = require("./routes/getModel");
-const getTripsRouter= require("./routes/getTrips");
-const reviewCreateRouter= require("./routes/createReview");
+const getTripsRouter = require("./routes/getTrips");
+const reviewCreateRouter = require("./routes/createReview");
 
 /* Creating a server on port 3000. */
 const PORT = 3000;
@@ -46,46 +46,46 @@ app.use(reviewCreateRouter);
 //connections
 connection()
 
-httpServer.listen(PORT, () =>{
-    console.log('connected ad port ' + PORT);
+httpServer.listen(PORT, () => {
+	console.log('connected ad port ' + PORT);
 });
 
 
 const Message = require("./models/message");
 
-io.on("connection",(socket) =>{
-    console.log("User connected");
+io.on("connection", (socket) => {
+	console.log("User connected");
 
-    socket.on('startChat', (msg)=>{
-        console.log(msg);
-        socket.join(msg.roomID);
+	socket.on('startChat', (msg) => {
+			console.log(msg);
+		socket.join(msg.roomID);
 
-        Message.find({
-            roomId: msg.room_id
-          }).then((messages) => {
-            io.to(socket.id).emit('old_messages', messages);
-          }).catch((err) => {
-            console.log(err);
-          });
+		Message.find({
+			roomId: msg.room_id
+		}).then((messages) => {
+			io.to(socket.id).emit('old_messages', messages);
+		}).catch((err) => {
+			console.log(err);
+		});
 
-    });
+	});
 
-    socket.on('sendmessage',(msg) =>{
-      console.log("sendmessage");
-      console.log(msg);
+	socket.on('sendmessage', (msg) => {
+		console.log("sendmessage");
+		console.log(msg);
 
-      io.to(msg.roomID).emit('sendmessage',msg);
-        let message = new Message({
-            content:msg.content,
-            senderID: msg.senderID,
-            receiverID: msg.receiverID,
-            roomID: msg.roomID,
-        });
+		io.to(msg.roomID).emit('sendmessage', msg);
+		let message = new Message({
+			content: msg.content,
+			senderID: msg.senderID,
+			receiverID: msg.receiverID,
+			roomID: msg.roomID,
+		});
 
-        message.save();
-            
-        
-    });
+		message.save();
+
+
+	});
 
 });
 
