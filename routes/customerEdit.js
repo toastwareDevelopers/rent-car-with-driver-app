@@ -12,7 +12,7 @@ const customerEditRouter = express.Router();
 customerEditRouter.post('/api/edit/customer', async function (req, res) {
 
         try {
-            const { NewphoneNumber,_id,NewEmail, NewPassword, NewName, NewSurname, NewBirthDate, NewGender, NewNationalId, NewPassportNumber } = req.body;
+            const { NewphoneNumber,_id,NewEmail, NewPassword, NewName, NewSurname, NewBirthDate, NewGender, NewNationalId, NewPassportNumber,NewProfile_image64 } = req.body;
     
             const person = await Customer.findById(_id);
             
@@ -94,7 +94,11 @@ customerEditRouter.post('/api/edit/customer', async function (req, res) {
                 await person.updateOne({passportNumber:NewPassportNumber},{runValidators:true});
 
             }
-                    
+                
+            if((person.profile_image64 !== NewProfile_image64)&&(NewProfile_image64 !== undefined) ){
+                await person.updateOne({profile_image64:NewProfile_image64},{runValidators:true});
+
+            }        
 
             res.sendStatus(200)
         } catch (error) {
