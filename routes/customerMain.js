@@ -16,7 +16,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         const person = await Customer.findById(_id);
 
         let drivers = await Driver.find({},
-            { _id: 1,name:1,surname:1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1 })
+            { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1 })
 
 
 
@@ -38,8 +38,10 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
                 flag = 1;
             }
 
-            if (!flag && ((!((ageStart == undefined || ageStart <= (parseInt(todayDate) - parseInt(drivers[step].birthDate)))
-                && ((parseInt(todayDate) - parseInt(drivers[step].birthDate)) <= ageEnd || ageEnd == undefined))))) {
+            if (!flag && ((!((ageStart == undefined ||
+                ageStart <= (parseInt(todayDate) - drivers[step].birthDate.toLocaleDateString("en-US", { year: 'numeric' })))
+                && ((parseInt(todayDate) - drivers[step].birthDate.toLocaleDateString("en-US", { year: 'numeric' }))
+                    <= ageEnd || ageEnd == undefined))))) {
                 drivers.splice(step, 1)
                 flag = 1;
             }
@@ -88,8 +90,8 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
             }
         }
 
-        // FOR BACKEND TEST
-        // for (let step = 0; step < drivers.length; step++) {  
+        //FOR BACKEND TEST
+        // for (let step = 0; step < drivers.length; step++) {
 
 
         //     console.log(drivers[step].rating + " " + drivers[step].hourlyPrice + " " + drivers[step].carInfo.year +
@@ -99,13 +101,13 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         // }
 
         if (person) {
-            if(drivers.length <= 3){
+            if (drivers.length <= 3) {
                 res.send(person + drivers[0]
-                + drivers[1] + drivers[2])
+                    + drivers[1] + drivers[2])
             }
-            else{
+            else {
                 res.send(person + drivers[Math.floor(Math.random() * drivers.length)]
-                + drivers[Math.floor(Math.random() * drivers.length)] + drivers[Math.floor(Math.random() * drivers.length)])
+                    + drivers[Math.floor(Math.random() * drivers.length)] + drivers[Math.floor(Math.random() * drivers.length)])
             }
 
         }
