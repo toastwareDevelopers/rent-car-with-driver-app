@@ -32,6 +32,7 @@ Driver _$DriverFromJson(Map<String, dynamic> json) => Driver(
       hourlyPrice: json['hourlyPrice'] as int? ?? 0,
       taxNumber: json['taxNumber'] as String? ?? "null",
       carInfo: json['carInfo'] as Map<String, dynamic>? ?? const {},
+      profileImage: json['profile_image64'] as String? ?? "null",
     );
 
 Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
@@ -54,4 +55,5 @@ Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
       'hourlyPrice': instance.hourlyPrice,
       'taxNumber': instance.taxNumber,
       'carInfo': instance.carInfo,
+      'profile_image64': instance.profileImage,
     };

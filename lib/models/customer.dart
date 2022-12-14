@@ -13,8 +13,10 @@ class Customer {
   String? birthDate;
   String? gender;
   String? nationalId;
+  String? profileImage;
+
   List<String>? trips;
-  Customer( {
+  Customer({
     this.email = "null",
     this.password = "null",
     this.name = "null",
@@ -25,6 +27,7 @@ class Customer {
     this.phoneNumber = "null",
     this.passportNumber = "null",
     this.nationalId = "null",
+    this.profileImage = "null",
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) =>

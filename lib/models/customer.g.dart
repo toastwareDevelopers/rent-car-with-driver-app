@@ -17,6 +17,7 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
       passportNumber: json['passportNumber'] as String? ?? "null",
       nationalId: json['nationalId'] as String? ?? "null",
       birthDate: json['birthDate'] as String? ?? "null",
+      profileImage: json['profile_image64'] as String? ?? "null",
     );
 
 Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
@@ -30,4 +31,5 @@ Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
       'gender': instance.gender,
       'nationalId': instance.nationalId,
       'birthDate': instance.birthDate,
+      'profile_image64': instance.profileImage,
     };

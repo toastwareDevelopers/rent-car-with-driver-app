@@ -23,6 +23,7 @@ class Driver {
   String taxNumber = "null";
   Map<String, dynamic> carInfo = {};
   List<String> trips = [];
+  String profileImage = "null";
 
   Driver({
     this.email = "null",
@@ -45,6 +46,7 @@ class Driver {
     this.taxNumber = "null",
     this.carInfo = const {},
     this.trips = const [],
+    this.profileImage = "null",
   });
 
   factory Driver.fromJson(Map<String, dynamic> json) => _$DriverFromJson(json);
