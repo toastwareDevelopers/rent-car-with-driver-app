@@ -8,6 +8,10 @@ const customerSchema = mongoose.Schema({
         type: String,
         default: "customer",
     },
+    
+    profile_image64 : {
+        type: String,
+    },
 
     phoneNumber: {
         required: true,
