@@ -4,7 +4,6 @@ import 'package:http/http.dart';
 import 'package:rentcarmobile/constants/api_path.dart';
 import '../models/driver.dart';
 import 'package:rentcarmobile/models/customer.dart';
-import 'package:flutter/cupertino.dart';
 import '../models/login.dart';
 
 class AuthService {
@@ -19,7 +18,8 @@ class AuthService {
     };
 
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/signup/driverCheck");
+      var url =
+          Uri.parse("http://" + ApiPaths.serverIP + "/api/signup/driverCheck");
       var response = await http.post(url,
           body: json.encode(driverCheckBody), headers: driverCheckHeaders);
       return response.statusCode;
@@ -34,7 +34,7 @@ class AuthService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP +"/api/signup/driver");
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/signup/driver");
       var response = await http.post(url,
           body: json.encode(driver.toJson()), headers: headers);
       return response.statusCode;
@@ -43,28 +43,16 @@ class AuthService {
     }
   }
 
-  static Future<int> registerCustomer(Customer data) async {
+  static Future<int> registerCustomer(Customer customer) async {
     final headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/signup/customer");
+      var url =
+          Uri.parse("http://" + ApiPaths.serverIP + "/api/signup/customer");
       var response = await http.post(url,
-          body: json.encode(
-            {
-              "name": data.name,
-              "surname": data.surname,
-              "email": data.email,
-              "password": data.password,
-              "passportNumber": data.passportNumber,
-              "gender": data.gender,
-              "phoneNumber": data.phoneNumber,
-              "birthDate": data.birthday,
-              "nationalId": data.nationalId
-            },
-          ),
-          headers: headers);
+          body: json.encode(customer.toJson()), headers: headers);
       return response.statusCode;
     } catch (e) {
       return 400;
@@ -77,7 +65,7 @@ class AuthService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://"+ ApiPaths.serverIP +"/api/signin");
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/signin");
       print(url);
       var response = await http.post(url,
           body: json.encode(login.toJson()), headers: headers);
