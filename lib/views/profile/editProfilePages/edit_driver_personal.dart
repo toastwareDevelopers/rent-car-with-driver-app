@@ -119,12 +119,12 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
     if(flag == 0) { // Making sure initialization done once
       phoneHeight = size.height / ratio;
       phoneWidth = size.width / ratio;
-      nameController.text = driver.name;
-      surnameController.text = driver.surname;
-      birthDateController.text = driver.birthDate;
-      nationalIdController.text = driver.nationalId;
+      nameController.text = driver.name!;
+      surnameController.text = driver.surname!;
+      birthDateController.text = driver.birthDate!;
+      nationalIdController.text = driver.nationalId!;
       if(driver.info?.compareTo("null") != 0) {
-        biographyController.text = driver.info;
+        biographyController.text = driver.info!;
       }
       locationDropdown = driver.location;
       genderDropdown = driver.gender;
