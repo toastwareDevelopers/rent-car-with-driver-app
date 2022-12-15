@@ -23,37 +23,13 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
          /* Checking if the model is a customer. If it is, it returns the model. */
         model = await Customer.findById(_id);
 
+        if(!model) model = await Driver.findById(_id);
+
         //console.log( model)
 
         
 
         let arrOfReviews = new Array();
-
-        if(model){
-            
-            for (let index = 0; index < model.reviews.length; index++) {
-                
-                x = await Review.findById( model.reviews[index]);
-                y = x.toObject();
-                
-                temp = await Customer.findById(x.customerId);
-                y.customerName = temp.name;
-
-                temp = await Driver.findById(x.driverId);
-
-                y.driverName = temp.name;
-                arrOfReviews.push(y);
-                
-                console.log(temp.name);
-            }
-            
-            //console.log(arrOfReviews);
-            return res.send(arrOfReviews);
-        }
-
-        model = await Driver.findById(_id);
-
-        //console.log( model)
 
         if(model){
             
@@ -66,7 +42,13 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
                 temp = await Customer.findById(x.customerId);
                 y.customerName = temp.name;
                 y.customerSurname = temp.surname; 
-                y.profile_image64 = temp.profile_image64;
+                y.customerProfile_image64 = temp.profile_image64;
+
+                temp = await Driver.findById(x.driverId);
+
+                y.driverName = temp.name;
+                y.driverSurname = temp.surname; 
+                y.driverProfile_image64 = temp.profile_image64;
                
                 arrOfReviews.push(y);
                 
@@ -76,6 +58,12 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
             //console.log(arrOfReviews);
             return res.send(arrOfReviews);
         }
+
+       
+
+        //console.log( model)
+
+       
 
         
         /* Returning a 400 status code and a message saying that there is not a model with the given
