@@ -9,12 +9,14 @@ class Trip {
   String? customerName;
   String? customerSurname;
   int? customerAge;
+  String? customerProfileImage;
   String? location;
   int? price;
   String? startDate;
   String? endDate;
   String? tripDescription;
   String? reviewId;
+  // Add custoemr photo image
 
   Trip(
       {this.id = "0",
@@ -23,6 +25,7 @@ class Trip {
       this.customerName = "null",
       this.customerSurname = "null",
       this.customerAge = 0,
+      this.customerProfileImage = "null",
       this.location = "null",
       this.price = 0,
       this.startDate = "01-01-1900",
