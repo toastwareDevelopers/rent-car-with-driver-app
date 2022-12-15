@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rentcarmobile/constants/assets_path.dart';
 import 'package:rentcarmobile/models/driver.dart';
+
+import '../../../constants/assets_path.dart';
+import '../../../widgets/profile_icon_widget.dart';
 
 class EditDriverPersonalScreen extends StatefulWidget {
   const EditDriverPersonalScreen({super.key});
@@ -116,14 +118,15 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
         as Driver; // Receive driver data from previous page
     // double phoneHeight = MediaQuery.of(context).size.height;
     // double phoneWidth = MediaQuery.of(context).size.width;
-    if(flag == 0) { // Making sure initialization done once
+    if (flag == 0) {
+      // Making sure initialization done once
       phoneHeight = size.height / ratio;
       phoneWidth = size.width / ratio;
       nameController.text = driver.name!;
       surnameController.text = driver.surname!;
       birthDateController.text = driver.birthDate!;
       nationalIdController.text = driver.nationalId!;
-      if(driver.info?.compareTo("null") != 0) {
+      if (driver.info?.compareTo("null") != 0) {
         biographyController.text = driver.info!;
       }
       locationDropdown = driver.location;

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/services/profile.dart';
+import 'package:rentcarmobile/utils/base64_converter.dart';
+
 import 'package:rentcarmobile/widgets/driver_skill_widget.dart';
 
 import '../../constants/assets_path.dart';
@@ -52,7 +54,8 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                     ),
               onPressed: RentVanApp.userType == "driver"
                   ? () {
-                      Navigator.pushNamed(context, "/editDriverAuth",arguments: driver);
+                      Navigator.pushNamed(context, "/editDriverAuth",
+                          arguments: driver);
                     }
                   : () {
                       Navigator.pushNamed(context, "/messaging");
@@ -105,8 +108,16 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                             Theme.of(context).highlightColor,
                                         radius: 40,
                                         child: CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              AssetPaths.blankProfilePhotoPath),
+                                          // ADDED PROFILE IMAGE HERE!!!
+                                          backgroundImage: driver
+                                                      .profileImage !=
+                                                  "null"
+                                              ? Image.memory(Base64Converter
+                                                      .decodeImage64(
+                                                          driver.profileImage))
+                                                  .image
+                                              : AssetImage(AssetPaths
+                                                  .blankProfilePhotoPath),
                                           radius: 37.0,
                                         ),
                                       ),

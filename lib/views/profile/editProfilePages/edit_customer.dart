@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 import '../../../constants/assets_path.dart';
 import '../../../main.dart';
 import '../../../models/customer.dart';
 import '../../../services/profile.dart';
+import '../../../utils/base64_converter.dart';
+import '../../../widgets/profile_icon_widget.dart';
 
 ///  NOTES:
 ///
 ///
 
-class EditCustomerScreen extends StatefulWidget  {
+class EditCustomerScreen extends StatefulWidget {
   const EditCustomerScreen({super.key});
 
   @override
   State<EditCustomerScreen> createState() => _EditCustomerScreenState();
-
 }
 
 enum SingingCharacter { nationalNumber, passportNumber }
@@ -40,6 +42,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
   double phoneHeight = 0.0;
   double phoneWidth = 0.0;
 
+  final ProfileIcon _profileIcon =
+      ProfileIcon(key: null, selectedImage: "null");
+
   @override
   void initState() {
     super.initState();
@@ -48,44 +53,48 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: FutureBuilder<Customer>(
-      future: myFuture,
-      builder: (context, snapshot) {
-        Customer? customerData = snapshot.data;
-        switch(snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return const Center(child: CircularProgressIndicator());
-          default:
-            if(snapshot.hasError) {
-              return const Center(child: Text('Some error occurred!'));
-            } else {
-              return buildCustomerEditScreen(customerData!);
+        body: FutureBuilder<Customer>(
+          future: myFuture,
+          builder: (context, snapshot) {
+            Customer? customerData = snapshot.data;
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const Center(child: CircularProgressIndicator());
+              default:
+                if (snapshot.hasError) {
+                  return const Center(child: Text('Some error occurred!'));
+                } else {
+                  return buildCustomerEditScreen(customerData!);
+                }
             }
-        }
-      },
-    ),
-  );
+          },
+        ),
+      );
 
   Widget buildCustomerEditScreen(Customer customerData) {
     // double phoneHeight = MediaQuery.of(context).size.height;
     // double phoneWidth = MediaQuery.of(context).size.width;
-    if(flag == 0) { // Making sure initialization done once
+    if (flag == 0) {
+      // Making sure initialization done once
       name.text = customerData.name!;
       surname.text = customerData.surname!;
-      if(customerData.nationalId?.compareTo("null") != 0) { // if null show hintText instead
+      if (customerData.nationalId?.compareTo("null") != 0) {
+        // if null show hintText instead
         nationalID.text = customerData.nationalId!;
       }
-      if(customerData.passportNumber?.compareTo("null") != 0) { // if null show hintText instead
+      if (customerData.passportNumber?.compareTo("null") != 0) {
+        // if null show hintText instead
         passportID.text = customerData.passportNumber!;
       }
-      birthDateController.text = customerData.birthDate!.substring(0,10);
+      birthDateController.text = customerData.birthDate!.substring(0, 10);
       genderDropdown = customerData.gender;
       // Initialize the phone height and width
       phoneHeight = size.height / ratio;
       phoneWidth = size.width / ratio;
+      _profileIcon.selectedImage = customerData.profileImage!;
     }
 
-   flag++; // Update flag
+    flag++; // Update flag
 
     return Scaffold(
       appBar: AppBar(elevation: 0),
@@ -105,36 +114,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
-                    Container(
-                      // Profile Picture
-                      padding: EdgeInsets.only(
-                          top: phoneHeight * 0.04, bottom: phoneHeight * 0.04),
-                      child: Center(
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Theme.of(context).highlightColor,
-                              radius: 40,
-                              child: CircleAvatar(
-                                backgroundImage:
-                                    AssetImage(AssetPaths.blankProfilePhotoPath),
-                                radius: 37.0,
-                              ),
-                            ),
-                            CircleAvatar(
-                              backgroundColor: Theme.of(context).highlightColor,
-                              radius: 13,
-                              child: CircleAvatar(
-                                backgroundImage:
-                                    AssetImage(AssetPaths.uploadPhotoIconPath),
-                                radius: 10.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+
+                    _profileIcon,
+
                     SizedBox(
                       height: phoneHeight / 2,
                       width: phoneWidth,
@@ -152,7 +134,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                   child: TextField(
                                     // This part will receive the data from database
                                     decoration:
-                                      const InputDecoration(hintText: 'Name'),
+                                        const InputDecoration(hintText: 'Name'),
                                     controller: name,
                                     // textInputAction: TextInputAction.next, this might come in handy with register pages
                                     inputFormatters: [
@@ -170,8 +152,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                   flex: 1,
                                   child: TextField(
                                     decoration:
-                                      // This part will receive data from the database
-                                      const InputDecoration(hintText: 'Surname'),
+                                        // This part will receive data from the database
+                                        const InputDecoration(
+                                            hintText: 'Surname'),
                                     controller: surname,
                                     inputFormatters: [
                                       FilteringTextInputFormatter.allow(
@@ -209,8 +192,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                     enableSuggestions: false,
                                     autocorrect: false,
                                     decoration:
-                                      // This part will receive data from the database
-                                      const InputDecoration(hintText: 'Password'),
+                                        // This part will receive data from the database
+                                        const InputDecoration(
+                                            hintText: 'Password'),
                                     controller: password1,
                                   ),
                                 ),
@@ -224,8 +208,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                     enableSuggestions: false,
                                     autocorrect: false,
                                     decoration:
-                                      // This part will receive data from the database
-                                      const InputDecoration(hintText: 'Retype Password'),
+                                        // This part will receive data from the database
+                                        const InputDecoration(
+                                            hintText: 'Retype Password'),
                                     controller: password2,
                                   ),
                                 ),
@@ -258,7 +243,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                         const Color.fromRGBO(255, 167, 117, 77),
                                     title: const Text(
                                         style: TextStyle(color: Colors.white),
-                                         'National ID'),
+                                        'National ID'),
                                     value: SingingCharacter.nationalNumber,
                                     groupValue: _character,
                                     onChanged: (SingingCharacter? value) {
@@ -295,15 +280,18 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                 Expanded(
                                   flex: 1,
                                   child: TextField(
-                                      decoration:
+                                    decoration:
                                         // This part will receive data from the database
-                                        InputDecoration(hintText: (_character == SingingCharacter.nationalNumber) ? 'National ID' : 'Passport ID'),
-                                    controller: (_character == SingingCharacter.nationalNumber) ? nationalID : passportID,
-                                    // inputFormatters: [
-                                    //   FilteringTextInputFormatter.allow(
-                                    //     RegExp("[0-9]"),
-                                    //   ),
-                                    // ],
+                                        InputDecoration(
+                                            hintText: (_character ==
+                                                    SingingCharacter
+                                                        .nationalNumber)
+                                                ? 'National ID'
+                                                : 'Passport ID'),
+                                    controller: (_character ==
+                                            SingingCharacter.nationalNumber)
+                                        ? nationalID
+                                        : passportID,
                                   ),
                                 ),
                               ],
@@ -379,9 +367,8 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                         child: ElevatedButton(
                           child: const Text("Save"),
                           onPressed: () async {
-                            if (password1.value.text
-                                    .toString()
-                                    .compareTo(password2.value.text.toString()) !=
+                            if (password1.value.text.toString().compareTo(
+                                    password2.value.text.toString()) !=
                                 0) {
                               WarningAlert.showWarningDialog(
                                 context,
@@ -389,51 +376,38 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                 () {
                                   Navigator.pop(context);
                                 },
-                               );
-                            // Update Customer Info
+                              );
+                              // Update Customer Info
                             } else {
                               Customer changedCustomerData = Customer();
-
-                              changedCustomerData.name = name.value.text.toString();
-                              changedCustomerData.surname = surname.value.text.toString();
+                              changedCustomerData.name =
+                                  name.value.text.toString();
+                              changedCustomerData.surname =
+                                  surname.value.text.toString();
                               changedCustomerData.email = customerData.email;
-                              changedCustomerData.password = password1.value.text.toString();
-                              changedCustomerData.phoneNumber = customerData.phoneNumber;
-                              changedCustomerData.birthDate = birthDateController.value.text.toString();
-                              changedCustomerData.gender = genderDropdown.toString();
-                              changedCustomerData.nationalId = nationalID.value.text.toString();
-                              changedCustomerData.passportNumber = passportID.value.text.toString();
+                              changedCustomerData.password =
+                                  password1.value.text.toString();
+                              changedCustomerData.phoneNumber =
+                                  customerData.phoneNumber;
+                              changedCustomerData.birthDate =
+                                  birthDateController.value.text.toString();
+                              changedCustomerData.gender =
+                                  genderDropdown.toString();
+                              changedCustomerData.nationalId =
+                                  nationalID.value.text.toString();
+                              changedCustomerData.passportNumber =
+                                  passportID.value.text.toString();
+                              changedCustomerData.profileImage =
+                                  _profileIcon.selectedImage;
 
-                              if(changedCustomerData.name.toString().isEmpty) {
-                                changedCustomerData.name = customerData.name;
-                              }
-
-                              if(changedCustomerData.surname.toString().isEmpty) {
-                                changedCustomerData.surname = customerData.surname;
-                              }
-
-                              if(changedCustomerData.birthDate.toString().isEmpty) {
-                                changedCustomerData.birthDate = customerData.birthDate;
-                              }
-
-                              if(changedCustomerData.gender.toString().isEmpty) {
-                                changedCustomerData.gender = customerData.gender;
-                              }
-
-                              if(changedCustomerData.nationalId.toString().isEmpty) {
-                                changedCustomerData.nationalId = customerData.nationalId;
-                              }
-
-                              if(changedCustomerData.passportNumber.toString().isEmpty) {
-                                changedCustomerData.passportNumber = customerData.passportNumber;
-                              }
-
-                              if ((await ProfileService.editCustomer(changedCustomerData, RentVanApp.userId)) !=
+                              if ((await ProfileService.editCustomer(
+                                      changedCustomerData,
+                                      RentVanApp.userId)) !=
                                   200) {
                                 WarningAlert.showWarningDialog(
                                   context,
                                   "We can not change your data!.",
-                                      () {
+                                  () {
                                     Navigator.pop(context);
                                   },
                                 );
@@ -441,8 +415,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                 WarningAlert.showWarningDialog(
                                   context,
                                   "Congratulations! You have changed your data!",
-                                      () {
-                                    Navigator.pushNamed(context, "/profileCustomer");
+                                  () {
+                                    Navigator.pushNamed(
+                                        context, "/profileCustomer");
                                   },
                                 );
                               }
