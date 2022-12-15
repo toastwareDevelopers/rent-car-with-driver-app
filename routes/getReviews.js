@@ -11,7 +11,7 @@ const Review = require("../models/review");
 /* Creating a new router object. */
 const getReviewsRouter = express.Router();
 
-getTripsRouter.get('/api/getReviews',async function (req,res){
+getReviewsRouter.get('/api/getReviews',async function (req,res){
 
     try {
         console.log("hi");
