@@ -23,7 +23,6 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
     String driverID = ModalRoute.of(context)!.settings.arguments as String;
-    List<Review> reviews = [];
 
     return FutureBuilder(
       future: ProfileService.getDriver(driverID),
@@ -443,37 +442,19 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                       if (snapshot.connectionState ==
                                               ConnectionState.done &&
                                           snapshot.hasData) {
-                                        snapshot.data?.forEach((e) {
-                                          var reviewMap =
-                                              Map<String, dynamic>.from(e);
-                                          Review review = Review(
-                                              id: reviewMap["_id"],
-                                              driverId: reviewMap["driverId"],
-                                              customerId:
-                                                  reviewMap["customerId"],
-                                              rating:
-                                                  (reviewMap["rating"] as int)
-                                                      .toDouble(),
-                                              reviewText:
-                                                  reviewMap["reviewText"],
-                                              tripId: reviewMap["tripId"],
-                                              customerName:
-                                                  reviewMap["customerName"],
-                                              customerSurname:
-                                                  reviewMap["customerSurname"],
-                                              createDate:
-                                                  reviewMap["createDate"]);
-                                          reviews.add(review);
-                                        });
+                                        List<Review> reviews =
+                                            snapshot.data as List<Review>;
 
                                         return ListView.separated(
                                             itemBuilder: ((context, index) {
                                               return ReviewWidget(
                                                   name: reviews[index]
-                                                      .customerName
-                                                      .toString() + " " + reviews[index]
-                                                      .customerSurname
-                                                      .toString(),
+                                                          .customerName
+                                                          .toString() +
+                                                      " " +
+                                                      reviews[index]
+                                                          .customerSurname
+                                                          .toString(),
                                                   review: reviews[index]
                                                       .reviewText
                                                       .toString(),
