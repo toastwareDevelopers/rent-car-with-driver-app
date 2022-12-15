@@ -64,4 +64,4 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
 });
 
 /* Exporting the router object. */
-module.exports = getTripsRouter;
+module.exports = getReviewsRouter;
