@@ -39,10 +39,12 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
                 
                 temp = await Customer.findById(x.customerId);
                 y.customerName = temp.name;
+                y.customerSurname = temp.surname;
 
                 temp = await Driver.findById(x.driverId);
 
                 y.driverName = temp.name;
+                y.driverSurname = temp.surname;
                 arrOfTrips.push(y);
                 
                 console.log(temp.name);
