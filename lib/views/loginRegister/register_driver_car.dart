@@ -291,6 +291,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                                   "year": widget.modelYearController.text,
                                   "color": widget.carColorController.text,
                                 },
+                                profileImage: driver.profileImage,
                               ),
                             )) !=
                             200) {

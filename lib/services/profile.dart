@@ -80,25 +80,25 @@ class ProfileService {
           body: json.encode(
               {
                 "role": "driver",
-                "phoneNumber": driver.phoneNumber,
-                "email": driver.email,
+                // "phoneNumber": driver.phoneNumber, cant be changed
+                // "email": driver.email, cant be changed
                 driver.password.toString().isEmpty ? "" : "NewPassword": driver.password,
-                "name": driver.name,
-                "surname": driver.surname,
-                "birthDate": driver.birthDate,
+                driver.name.toString().isEmpty ? "" : "name": driver.name,
+                driver.surname.toString().isEmpty ? "" : "surname": driver.surname,
+                driver.birthDate.toString().isEmpty ? "" : "birthDate": driver.birthDate,
                 "gender": driver.gender,
-                "nationalId": driver.nationalId,
-                "location": driver.location,
-                "skills": driver.skills,
-                "languages": driver.languages,
-                "licenseNumber": driver.licenceNumber,
-                "licenseYear": driver.licenceYear,
-                "carInfo" : driver.carInfo,
-                "hourlyPrice": driver.hourlyPrice,
-                "taxNumber" : driver.taxNumber,
-                "trips": driver.trips,
+                driver.nationalId.toString().isEmpty ? "" : "nationalId": driver.nationalId,
+                driver.location.toString().isEmpty ? "" : "location": driver.location,
+                driver.skills.toString().isEmpty ? "" : "skills": driver.skills,
+                driver.languages.toString().isEmpty ? "" : "languages": driver.languages,
+                driver.licenceNumber.toString().isEmpty ? "" : "licenseNumber": driver.licenceNumber,
+                driver.licenceYear.toString().isEmpty ? "" : "licenseYear": driver.licenceYear,
+                driver.carInfo.toString().isEmpty ? "" : "carInfo" : driver.carInfo,
+                driver.hourlyPrice.toString().isEmpty ? "" : "hourlyPrice": driver.hourlyPrice,
+                driver.taxNumber.toString().isEmpty ? "" : "taxNumber" : driver.taxNumber,
+                //"trips": driver.trips, why is this here?
                 "_id": id,
-                "__v": 0 // what is this?
+                "profile_image64" : driver.profileImage,
               }
           ),
           headers: headers);
@@ -119,15 +119,17 @@ class ProfileService {
           body: json.encode(
             {
               "_id": id,
-              "NewName": customer.name,
+              customer.name.toString().isEmpty ? "" : "NewName": customer.name,
               customer.password.toString().isEmpty ? "" : "NewPassword": customer.password,
-              "NewphoneNumber": customer.phoneNumber,
-              "NewEmail": customer.email,
-              "NewSurname": customer.surname,
-              "NewBirthDate": customer.birthDate,
+              //"NewphoneNumber": customer.phoneNumber, cant be changed!
+              //"NewEmail": customer.email, cant be changed!
+              customer.surname.toString().isEmpty ? "" : "NewSurname": customer.surname,
+              customer.birthDate.toString().isEmpty ? "" : "NewBirthDate": customer.birthDate,
               "NewGender": customer.gender,
-              "NewNationalId": customer.nationalId,
-              "NewPassportNumber": customer.passportNumber,
+              customer.nationalId.toString().isEmpty ? "" : "NewNationalId": customer.nationalId,
+              customer.passportNumber.toString().isEmpty ? "" : "NewPassportNumber": customer.passportNumber,
+              "NewProfile_image64" : customer.profileImage,
+              // need to add part for profile image!
             },
           ),
           headers: headers);

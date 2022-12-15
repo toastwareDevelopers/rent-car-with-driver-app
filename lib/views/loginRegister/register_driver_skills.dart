@@ -289,6 +289,7 @@ class _RegisterDriverSkillsScreenState
                           info: driver.info,
                           skills: widget.skills,
                           languages: widget.addedLanguages,
+                          profileImage: driver.profileImage,
                         ),
                       );
                     },
