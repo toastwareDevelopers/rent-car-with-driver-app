@@ -6,7 +6,7 @@ const customerSchema = mongoose.Schema({
 
     role: {
         type: String,
-        default: "customer",
+        default: "customer", 
     },
     
     profile_image64 : {
