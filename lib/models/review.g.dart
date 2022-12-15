@@ -16,6 +16,10 @@ Review _$ReviewFromJson(Map<String, dynamic> json) {
     tripId: json['tripId'] as String?,
     customerName: json['customerName'] as String?,
     customerSurname: json['customerSurname'] as String?,
+    driverName: json['driverName'] as String?,
+    driverSurname: json['driverSurname'] as String?,
+    driverProfilePhoto: json['driverProfile_image64'] as String?,
+    customerProfilePhoto: json['customerProfile_image64'] as String?,
     createDate: json['createDate'] as String?,
   );
 }
@@ -29,5 +33,9 @@ Map<String, dynamic> _$ReviewToJson(Review instance) => <String, dynamic>{
       'tripId': instance.tripId,
       'customerName': instance.customerName,
       'customerSurname': instance.customerSurname,
+      'driverName': instance.driverName,
+      'driverSurname': instance.driverSurname,
+      'driverProfile_image64': instance.driverProfilePhoto,
+      'customerProfile_image64': instance.customerProfilePhoto,
       'createDate': instance.createDate,
     };

@@ -11,6 +11,10 @@ class Review {
   String? tripId;
   String? customerName;
   String? customerSurname;
+  String? driverName;
+  String? driverSurname;
+  String? driverProfilePhoto;
+  String? customerProfilePhoto;
   String? createDate;
   Review( {
     this.id = "0",
@@ -22,6 +26,10 @@ class Review {
     this.customerName = "null",
     this.customerSurname = "null",
     this.createDate = "2022-01-01",
+    this. driverName = "null",
+    this. driverSurname = "null",
+    this. driverProfilePhoto = "null",
+    this. customerProfilePhoto = "null"
   });
 
 
