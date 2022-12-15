@@ -12,7 +12,7 @@ class ProfileService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info?ID=" + id);
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info?ID=$id");
       var response = await http.get(url, headers: headers);
       Driver driver = Driver.fromJson(jsonDecode(response.body));
       return driver;

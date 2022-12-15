@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/trip.dart';
 import 'package:rentcarmobile/services/mains.dart';
 
@@ -8,17 +9,6 @@ class DriverMainScreen extends StatefulWidget {
   DriverMainScreen({super.key});
   List<Trip> trips = [];
   List<String> tripListString = [];
-  List<Trip> tripsv2 = [
-    Trip(
-        id: "1",
-        driverId: "1",
-        customerId: "1",
-        customerName: "eray1",
-        customerSurname: "yaşar1",
-        customerAge: 21,
-        location: "karabük",
-        price: 100),
-  ];
 
   @override
   State<DriverMainScreen> createState() => _DriverMainScreenState();
@@ -42,7 +32,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
             actions: [
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, "/profileDriverPersonal");
+                  Navigator.pushNamed(context, "/profileDriverPersonal",arguments: RentVanApp.userId);
                 },
                 child: CircleAvatar(
                   backgroundColor: Theme.of(context).highlightColor,

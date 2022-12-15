@@ -56,4 +56,5 @@ Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
       'taxNumber': instance.taxNumber,
       'carInfo': instance.carInfo,
       'profile_image64': instance.profileImage,
+      'trips': instance.trips,
     };
