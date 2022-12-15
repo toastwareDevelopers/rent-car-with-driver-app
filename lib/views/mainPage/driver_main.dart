@@ -402,7 +402,10 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
         } else {
           return FutureBuilder(
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return const Text("No active customer");
+              return const Text(
+                "No active customer",
+                style: TextStyle(color: Colors.white, fontFamily: "Arapey"),
+              );
             },
           );
         }
