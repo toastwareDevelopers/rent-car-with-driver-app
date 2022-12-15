@@ -37,6 +37,7 @@ class AuthService {
       var url = Uri.parse("http://" + ApiPaths.serverIP +"/api/signup/driver");
       var response = await http.post(url,
           body: json.encode(driver.toJson()), headers: headers);
+          print(response.body);
       return response.statusCode;
     } catch (e) {
       return 400;

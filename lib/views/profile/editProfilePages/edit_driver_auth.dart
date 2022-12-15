@@ -131,9 +131,9 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                           passwordController.text, repasswordController.text)) {
                         WarningAlert.showWarningDialog(context,
                             "Master Password must be same as confirmation ,but was different!",
-                                () {
-                              Navigator.pop(context);
-                            });
+                            () {
+                          Navigator.pop(context);
+                        });
                         // Get to the next screen
                       } else {
                         Navigator.of(context).pushNamed(

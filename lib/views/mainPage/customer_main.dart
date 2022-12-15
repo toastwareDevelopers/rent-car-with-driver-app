@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/widgets/driver_list_driver_widget.dart';
+import 'package:rentcarmobile/widgets/filter_slider_widget.dart';
 
 import '../../constants/assets_path.dart';
 
 class CustomerMainScreen extends StatefulWidget {
   CustomerMainScreen({super.key});
+
   String? locationDropdown = "Adana";
   String? genderDropdown = "Male";
+  String? languageDropdown = "Turkish";
   final List<String> cities = [
     "Adana",
     "Adiyaman",
@@ -170,8 +173,15 @@ class CustomerMainScreen extends StatefulWidget {
     "Gypsy",
     "Wu"
   ];
-  List<String> addedLanguages = [];
-  String? languageDropdown = "Turkish";
+
+  int startPrice = 0;
+  int endPrice = 500;
+  double startRating = 0.0;
+  double endRating = 10.0;
+  int startAge = 18;
+  int endAge = 70;
+  int startCarYear = 1990;
+  int endCarYear = DateTime.now().year;
 
   @override
   State<CustomerMainScreen> createState() => _CustomerMainScreenState();
@@ -182,6 +192,18 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
+
+    print("Language : " + (widget.languageDropdown as String));
+    print("Gender : " + (widget.genderDropdown as String));
+    print("Location : " + (widget.locationDropdown as String));
+    print("startPrice : " + widget.startPrice.toString());
+    print("endPrice : " + widget.endPrice.toString());
+    print("startRating : " + widget.startRating.toString());
+    print("endRating : " + widget.endRating.toString());
+    print("startAge : " + widget.startAge.toString());
+    print("endAge : " + widget.endAge.toString());
+    print("startCarYear : " + widget.startCarYear.toString());
+    print("endCarYear : " + widget.endCarYear.toString());
 
     var drivers = [
       DriverListDriver(
@@ -267,7 +289,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                           flex: 3,
                           child: InkWell(
                             onTap: () => Navigator.pushNamed(
-                                context, "/profileDriverPersonal"),
+                                context, "/profileDriverPersonal",arguments: "23323"),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Theme.of(context).highlightColor,
@@ -416,7 +438,8 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
               left: phoneWidth * 0.35,
               child: InkWell(
                 onTap: () {
-                  showFilters(context, phoneHeight);
+                  showFilters(
+                      context, refreshWithFilter, phoneHeight, phoneWidth);
                 },
                 child: Container(
                   width: phoneWidth * 0.3,
@@ -443,145 +466,292 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
     );
   }
 
-  Future<dynamic> showFilters(BuildContext context, double phoneHeight) {
+  void refreshWithFilter() {
+    setState(() {});
+  }
+
+  void editPrice(double startPrice, double endPrice) {
+    widget.startPrice = startPrice.toInt();
+    widget.endPrice = endPrice.toInt();
+  }
+
+  void editRating(double startRating, double endRating) {
+    widget.startRating = startRating;
+    widget.endRating = endRating;
+  }
+
+  void editAge(double startAge, double endAge) {
+    widget.startAge = startAge.toInt();
+    widget.endAge = endAge.toInt();
+  }
+
+  void editCarYear(double startCarYear, double endCarYear) {
+    widget.startCarYear = startCarYear.toInt();
+    widget.endCarYear = endCarYear.toInt();
+  }
+
+  Future<dynamic> showFilters(BuildContext context, Function refreshWithFilter,
+      double phoneHeight, double phoneWidth) {
     return showModalBottomSheet(
-                  context: context,
-                  builder: ((BuildContext context) => Container(
-                    decoration: BoxDecoration(color: Theme.of(context).highlightColor),
-                    height: phoneHeight*0.5,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  //Location Dropdown
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 218, 218, 218),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: DropdownButton(
-                                        value: widget.locationDropdown,
-                                        items: widget.cities
-                                            .map(
-                                              (value) => DropdownMenuItem(
-                                                value: value,
-                                                child: Container(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 12),
-                                                  child: Text(value,
-                                                      style: const TextStyle(
-                                                          fontSize: 17)),
-                                                ),
-                                              ),
-                                            )
-                                            .toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            widget.locationDropdown = value;
-                                          });
-                                        },
-                                        dropdownColor: const Color.fromARGB(
-                                            255, 218, 218, 218),
-                                        borderRadius: BorderRadius.circular(10),
-                                        isExpanded: true,
-                                      ),
-                                    ),
-                                  ),
-                                  //Gender Dropdown
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 218, 218, 218),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: DropdownButton(
-                                        value: widget.genderDropdown,
-                                        items: widget.genders
-                                            .map(
-                                              (value) => DropdownMenuItem(
-                                                value: value,
-                                                child: Container(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 12),
-                                                  child: Text(value,
-                                                      style: const TextStyle(
-                                                          fontSize: 17)),
-                                                ),
-                                              ),
-                                            )
-                                            .toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            widget.genderDropdown = value;
-                                          });
-                                        },
-                                        dropdownColor: const Color.fromARGB(
-                                            255, 218, 218, 218),
-                                        borderRadius: BorderRadius.circular(10),
-                                        isExpanded: true,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 218, 218, 218),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: DropdownButton(
-                                        value: widget.languageDropdown,
-                                        items: widget.languages
-                                            .map(
-                                              (value) => DropdownMenuItem(
-                                                value: value,
-                                                child: Container(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 12),
-                                                  child: Text(
-                                                    value,
-                                                    style: const TextStyle(
-                                                        fontSize: 17),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                            .toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            widget.languageDropdown = value;
-                                          });
-                                        },
-                                        dropdownColor: const Color.fromARGB(
-                                            255, 218, 218, 218),
-                                        borderRadius: BorderRadius.circular(10),
-                                        isExpanded: true,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                child: Column(
-                                  children: [],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+      isScrollControlled: true,
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      builder: ((BuildContext context) => StatefulBuilder(
+            builder: (context, setState) => Container(
+              padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.1),
+              height: phoneHeight * 0.75,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).highlightColor,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      child: Center(
+                          child: Text(
+                        "Filter Drivers",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
                       )),
-                );
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      children: [
+                        //Location Dropdown
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: DropdownButton(
+                              value: widget.locationDropdown,
+                              items: widget.cities
+                                  .map(
+                                    (value) => DropdownMenuItem(
+                                      value: value,
+                                      child: Container(
+                                        padding:
+                                            const EdgeInsets.only(left: 12),
+                                        child: Text(
+                                          value,
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  widget.locationDropdown = value;
+                                });
+                              },
+                              dropdownColor:Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              isExpanded: true,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: phoneWidth * 0.05),
+                        //Gender Dropdown
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: DropdownButton(
+                              value: widget.genderDropdown,
+                              items: widget.genders
+                                  .map(
+                                    (value) => DropdownMenuItem(
+                                      value: value,
+                                      child: Container(
+                                        padding:
+                                            const EdgeInsets.only(left: 12),
+                                        child: Text(value,
+                                            style:
+                                                const TextStyle(fontSize: 17)),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  widget.genderDropdown = value;
+                                });
+                              },
+                              dropdownColor:Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              isExpanded: true,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //Language Dropdown
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: phoneWidth * 0.2),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: DropdownButton(
+                                value: widget.languageDropdown,
+                                items: widget.languages
+                                    .map(
+                                      (value) => DropdownMenuItem(
+                                        value: value,
+                                        child: Container(
+                                          padding:
+                                              const EdgeInsets.only(left: 12),
+                                          child: Text(
+                                            value,
+                                            style:
+                                                const TextStyle(fontSize: 17),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    widget.languageDropdown = value;
+                                  });
+                                },
+                                dropdownColor:Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                isExpanded: true,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 7,
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: FilterSlider(
+                                      "Price",
+                                      editPrice,
+                                      0,
+                                      5000,
+                                      widget.startPrice.toDouble(),
+                                      widget.endPrice.toDouble()
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: FilterSlider(
+                                      "Rating",
+                                      editRating,
+                                      0.0,
+                                      10.0,
+                                      widget.startRating,
+                                      widget.endRating
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: FilterSlider(
+                                      "Age",
+                                      editAge,
+                                      18,
+                                      70,
+                                      widget.startAge.toDouble(),
+                                      widget.endAge.toDouble()
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: FilterSlider(
+                                      "Car Year",
+                                      editCarYear,
+                                      1990,
+                                      DateTime.now().year.toDouble(),
+                                      widget.startCarYear.toDouble(),
+                                      widget.endCarYear.toDouble()
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: phoneHeight * 0.01),
+                      child: Center(
+                        child: ElevatedButton(
+                          child: Text(
+                            "Filter",
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                              Colors.white,
+                            ),
+                            minimumSize: MaterialStatePropertyAll(
+                                Size.fromWidth(phoneWidth * 0.3)),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            refreshWithFilter();
+                          },
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )),
+    );
   }
 }
