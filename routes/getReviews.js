@@ -27,14 +27,11 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
 
         let arrOfReviews = new Array();
 
-        //if(!model) model = await Driver.findById(_id);
-        
-
         if(model){
             
             for (let index = 0; index < model.trips.length; index++) {
+                
                 x = await Review.findById( model.trips[index]);
-
                 y = x.toObject();
                 
                 temp = await Customer.findById(x.customerId);
@@ -43,6 +40,30 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
                 temp = await Driver.findById(x.driverId);
 
                 y.driverName = temp.name;
+                arrOfReviews.push(y);
+                
+                console.log(temp.name);
+            }
+            
+            //console.log(arrOfReviews);
+            return res.send(arrOfReviews);
+        }
+
+        model = await Driver.findById(_id);
+
+        if(model){
+            
+            for (let index = 0; index < model.trips.length; index++) {
+                
+                x = await Review.findById( model.trips[index]);
+
+                //y = x.toObject();
+                
+                temp = await Customer.findById(x.customerId);
+                y.customerName = temp.name;
+                y.customerSurname = temp.surname; 
+                //y.profile_image64 = temp.profile_image64;
+               
                 arrOfReviews.push(y);
                 
                 console.log(temp.name);
