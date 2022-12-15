@@ -3,26 +3,26 @@ part 'driver.g.dart';
 
 @JsonSerializable()
 class Driver {
-  String email = "null";
-  String password = "null";
-  String name = "null";
-  String surname = "null";
-  String birthDate = "1900-01-01";
-  String gender = "Male";
-  String phoneNumber = "5000000000";
-  String nationalId = "null";
-  String passportNumber = "null";
-  String location = "null";
-  String info = "null";
-  List<String> skills = [];
-  List<String> languages = [];
-  String licenceNumber = "null";
-  String licenceYear = "1900";
-  double rating = 0.0;
-  int hourlyPrice = 0;
-  String taxNumber = "null";
-  Map<String, dynamic> carInfo = {};
-  List<String> trips = [];
+  String? email = "null";
+  String? password = "null";
+  String? name = "null";
+  String? surname = "null";
+  String? birthDate = "1900-01-01";
+  String? gender = "Male";
+  String? phoneNumber = "5000000000";
+  String? nationalId = "null";
+  String? passportNumber = "null";
+  String? location = "null";
+  String? info = "null";
+  List<String>? skills = [];
+  List<String>? languages = [];
+  String? licenceNumber = "null";
+  String? licenceYear = "1900";
+  double? rating = 0.0;
+  int? hourlyPrice = 0;
+  String? taxNumber = "null";
+  Map<String, dynamic>? carInfo = {};
+  List<String>? trips = [];
 
   Driver({
     this.email = "null",
