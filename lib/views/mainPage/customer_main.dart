@@ -1,10 +1,187 @@
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/widgets/driver_list_driver_widget.dart';
+import 'package:rentcarmobile/widgets/filter_slider_widget.dart';
 
 import '../../constants/assets_path.dart';
 
 class CustomerMainScreen extends StatefulWidget {
-  const CustomerMainScreen({super.key});
+  CustomerMainScreen({super.key});
+
+  String? locationDropdown = "Adana";
+  String? genderDropdown = "Male";
+  String? languageDropdown = "Turkish";
+  final List<String> cities = [
+    "Adana",
+    "Adiyaman",
+    "Afyon",
+    "Agri",
+    "Aksaray",
+    "Amasya",
+    "Ankara",
+    "Antalya",
+    "Ardahan",
+    "Artvin",
+    "Aydin",
+    "Balikesir",
+    "Bartin",
+    "Batman",
+    "Bayburt",
+    "Bilecik",
+    "Bingol",
+    "Bitlis",
+    "Bolu",
+    "Burdur",
+    "Bursa",
+    "Canakkale",
+    "Cankiri",
+    "Corum",
+    "Denizli",
+    "Diyarbakir",
+    "Duzce",
+    "Edirne",
+    "Elazig",
+    "Erzincan",
+    "Erzurum",
+    "Eskisehir",
+    "Gaziantep",
+    "Giresun",
+    "Gumushane",
+    "Hakkari",
+    "Hatay",
+    "Igdir",
+    "Isparta",
+    "Istanbul",
+    "Izmir",
+    "Kahramanmaras",
+    "Karabuk",
+    "Karaman",
+    "Kars",
+    "Kastamonu",
+    "Kayseri",
+    "Kilis",
+    "Kirikkale",
+    "Kirklareli",
+    "Kirsehir",
+    "Kocaeli",
+    "Konya",
+    "Kutahya",
+    "Malatya",
+    "Manisa",
+    "Mardin",
+    "Mersin",
+    "Mugla",
+    "Mus",
+    "Nevsehir",
+    "Nigde",
+    "Ordu",
+    "Osmaniye",
+    "Rize",
+    "Sakarya",
+    "Samsun",
+    "Sanliurfa",
+    "Siirt",
+    "Sinop",
+    "Sirnak",
+    "Sivas",
+    "Tekirdag",
+    "Tokat",
+    "Trabzon",
+    "Tunceli",
+    "Usak",
+    "Van",
+    "Yalova",
+    "Yozgat",
+    "Zonguldak"
+  ];
+  final List<String> genders = ["Male", "Female"];
+  final List<String> languages = [
+    "Afrikaans",
+    "Arabic",
+    "Bengali",
+    "Bulgarian",
+    "Catalan",
+    "Cantonese",
+    "Croatian",
+    "Czech",
+    "Danish",
+    "Dutch",
+    "Lithuanian",
+    "Malay",
+    "Malayalam",
+    "Panjabi",
+    "Tamil",
+    "English",
+    "Finnish",
+    "French",
+    "German",
+    "Greek",
+    "Hebrew",
+    "Hindi",
+    "Hungarian",
+    "Indonesian",
+    "Italian",
+    "Japanese",
+    "Javanese",
+    "Korean",
+    "Norwegian",
+    "Polish",
+    "Portuguese",
+    "Romanian",
+    "Russian",
+    "Serbian",
+    "Slovak",
+    "Slovene",
+    "Spanish",
+    "Swedish",
+    "Telugu",
+    "Thai",
+    "Turkish",
+    "Ukrainian",
+    "Vietnamese",
+    "Welsh",
+    "Sign language",
+    "Algerian",
+    "Aramaic",
+    "Armenian",
+    "Berber",
+    "Burmese",
+    "Bosnian",
+    "Brazilian",
+    "Bulgarian",
+    "Cypriot",
+    "Corsica",
+    "Creole",
+    "Scottish",
+    "Egyptian",
+    "Esperanto",
+    "Estonian",
+    "Finn",
+    "Flemish",
+    "Georgian",
+    "Hawaiian",
+    "Indonesian",
+    "Inuit",
+    "Irish",
+    "Icelandic",
+    "Latin",
+    "Mandarin",
+    "Nepalese",
+    "Sanskrit",
+    "Tagalog",
+    "Tahitian",
+    "Tibetan",
+    "Gypsy",
+    "Wu"
+  ];
+
+  int startPrice = 0;
+  int endPrice = 500;
+  double startRating = 0.0;
+  double endRating = 10.0;
+  int startAge = 18;
+  int endAge = 70;
+  int startCarYear = 1990;
+  int endCarYear = DateTime.now().year;
 
   @override
   State<CustomerMainScreen> createState() => _CustomerMainScreenState();
@@ -15,6 +192,19 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
+
+    print("Language : " + (widget.languageDropdown as String));
+    print("Gender : " + (widget.genderDropdown as String));
+    print("Location : " + (widget.locationDropdown as String));
+    print("startPrice : " + widget.startPrice.toString());
+    print("endPrice : " + widget.endPrice.toString());
+    print("startRating : " + widget.startRating.toString());
+    print("endRating : " + widget.endRating.toString());
+    print("startAge : " + widget.startAge.toString());
+    print("endAge : " + widget.endAge.toString());
+    print("startCarYear : " + widget.startCarYear.toString());
+    print("endCarYear : " + widget.endCarYear.toString());
+
     var drivers = [
       DriverListDriver(
           driverName: "Lewis Hamilton",
@@ -64,7 +254,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
           width: 35,
           color: Colors.white,
         ),
-        onPressed: ()=>Navigator.pushNamed(context, "/allChats"),
+        onPressed: () => Navigator.pushNamed(context, "/allChats"),
       ),
       body: Container(
         child: Stack(
@@ -98,7 +288,8 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                         Expanded(
                           flex: 3,
                           child: InkWell(
-                            onTap: () => Navigator.pushNamed(context, "/profileDriverPersonal"),
+                            onTap: () => Navigator.pushNamed(
+                                context, "/profileDriverPersonal",arguments: "23323"),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Theme.of(context).highlightColor,
@@ -127,22 +318,26 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "Lewis Hamilton (27)",
                                           style: TextStyle(
-                                              color: Colors.white, fontSize: 17),
+                                              color: Colors.white,
+                                              fontSize: 17),
                                         ),
                                         Text(
                                           "Istanbul",
                                           style: TextStyle(
-                                              color: Colors.white, fontSize: 14),
+                                              color: Colors.white,
+                                              fontSize: 14),
                                         ),
                                         Text(
                                           "Start : 25.05.22 - Finish : 27.05.22",
                                           style: TextStyle(
-                                              color: Colors.white, fontSize: 14),
+                                              color: Colors.white,
+                                              fontSize: 14),
                                         ),
                                       ],
                                     ),
@@ -200,7 +395,9 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                           Expanded(
                             flex: 10,
                             child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: phoneWidth*0.02,vertical: phoneHeight*0.01),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: phoneWidth * 0.02,
+                                  vertical: phoneHeight * 0.01),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.all(
@@ -211,7 +408,9 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                     width: 5),
                               ),
                               child: ListView.separated(
-                                separatorBuilder: (context, index) => SizedBox(height: phoneHeight*0.01,),
+                                separatorBuilder: (context, index) => SizedBox(
+                                  height: phoneHeight * 0.01,
+                                ),
                                 itemCount: drivers.length,
                                 itemBuilder: ((context, index) {
                                   return DriverListDriver(
@@ -237,20 +436,26 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
             Positioned(
               top: phoneHeight * 0.84,
               left: phoneWidth * 0.35,
-              child: Container(
-                width: phoneWidth * 0.3,
-                height: phoneHeight * 0.045,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).highlightColor,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
+              child: InkWell(
+                onTap: () {
+                  showFilters(
+                      context, refreshWithFilter, phoneHeight, phoneWidth);
+                },
+                child: Container(
+                  width: phoneWidth * 0.3,
+                  height: phoneHeight * 0.045,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).highlightColor,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
+                    ),
+                    border: Border.all(color: Colors.white, width: 3),
                   ),
-                  border: Border.all(color: Colors.white, width: 3),
-                ),
-                child: Center(
-                  child: Text(
-                    "Filter",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  child: Center(
+                    child: Text(
+                      "Filter",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
                 ),
               ),
@@ -258,6 +463,295 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void refreshWithFilter() {
+    setState(() {});
+  }
+
+  void editPrice(double startPrice, double endPrice) {
+    widget.startPrice = startPrice.toInt();
+    widget.endPrice = endPrice.toInt();
+  }
+
+  void editRating(double startRating, double endRating) {
+    widget.startRating = startRating;
+    widget.endRating = endRating;
+  }
+
+  void editAge(double startAge, double endAge) {
+    widget.startAge = startAge.toInt();
+    widget.endAge = endAge.toInt();
+  }
+
+  void editCarYear(double startCarYear, double endCarYear) {
+    widget.startCarYear = startCarYear.toInt();
+    widget.endCarYear = endCarYear.toInt();
+  }
+
+  Future<dynamic> showFilters(BuildContext context, Function refreshWithFilter,
+      double phoneHeight, double phoneWidth) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      builder: ((BuildContext context) => StatefulBuilder(
+            builder: (context, setState) => Container(
+              padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.1),
+              height: phoneHeight * 0.75,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).highlightColor,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      child: Center(
+                          child: Text(
+                        "Filter Drivers",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      )),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      children: [
+                        //Location Dropdown
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: DropdownButton(
+                              value: widget.locationDropdown,
+                              items: widget.cities
+                                  .map(
+                                    (value) => DropdownMenuItem(
+                                      value: value,
+                                      child: Container(
+                                        padding:
+                                            const EdgeInsets.only(left: 12),
+                                        child: Text(
+                                          value,
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  widget.locationDropdown = value;
+                                });
+                              },
+                              dropdownColor:Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              isExpanded: true,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: phoneWidth * 0.05),
+                        //Gender Dropdown
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: DropdownButton(
+                              value: widget.genderDropdown,
+                              items: widget.genders
+                                  .map(
+                                    (value) => DropdownMenuItem(
+                                      value: value,
+                                      child: Container(
+                                        padding:
+                                            const EdgeInsets.only(left: 12),
+                                        child: Text(value,
+                                            style:
+                                                const TextStyle(fontSize: 17)),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  widget.genderDropdown = value;
+                                });
+                              },
+                              dropdownColor:Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              isExpanded: true,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //Language Dropdown
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: phoneWidth * 0.2),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: DropdownButton(
+                                value: widget.languageDropdown,
+                                items: widget.languages
+                                    .map(
+                                      (value) => DropdownMenuItem(
+                                        value: value,
+                                        child: Container(
+                                          padding:
+                                              const EdgeInsets.only(left: 12),
+                                          child: Text(
+                                            value,
+                                            style:
+                                                const TextStyle(fontSize: 17),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    widget.languageDropdown = value;
+                                  });
+                                },
+                                dropdownColor:Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                isExpanded: true,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 7,
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: FilterSlider(
+                                      "Price",
+                                      editPrice,
+                                      0,
+                                      5000,
+                                      widget.startPrice.toDouble(),
+                                      widget.endPrice.toDouble()
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: FilterSlider(
+                                      "Rating",
+                                      editRating,
+                                      0.0,
+                                      10.0,
+                                      widget.startRating,
+                                      widget.endRating
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: FilterSlider(
+                                      "Age",
+                                      editAge,
+                                      18,
+                                      70,
+                                      widget.startAge.toDouble(),
+                                      widget.endAge.toDouble()
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: FilterSlider(
+                                      "Car Year",
+                                      editCarYear,
+                                      1990,
+                                      DateTime.now().year.toDouble(),
+                                      widget.startCarYear.toDouble(),
+                                      widget.endCarYear.toDouble()
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: phoneHeight * 0.01),
+                      child: Center(
+                        child: ElevatedButton(
+                          child: Text(
+                            "Filter",
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                              Colors.white,
+                            ),
+                            minimumSize: MaterialStatePropertyAll(
+                                Size.fromWidth(phoneWidth * 0.3)),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            refreshWithFilter();
+                          },
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )),
     );
   }
 }
