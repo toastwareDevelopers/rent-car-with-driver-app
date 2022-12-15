@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rentcarmobile/models/driver.dart';
 
-import '../../../constants/assets_path.dart';
 import '../../../widgets/profile_icon_widget.dart';
 
 class EditDriverPersonalScreen extends StatefulWidget {
@@ -112,6 +111,8 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
   ];
   final List<String> genders = ["Male", "Female"];
 
+  final ProfileIcon _profileIcon = ProfileIcon(key: null, selectedImage: "null");
+
   @override
   Widget build(BuildContext context) {
     Driver driver = ModalRoute.of(context)!.settings.arguments
@@ -122,15 +123,16 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
       // Making sure initialization done once
       phoneHeight = size.height / ratio;
       phoneWidth = size.width / ratio;
-      nameController.text = driver.name!;
-      surnameController.text = driver.surname!;
-      birthDateController.text = driver.birthDate!;
-      nationalIdController.text = driver.nationalId!;
-      if (driver.info?.compareTo("null") != 0) {
-        biographyController.text = driver.info!;
+      nameController.text = driver.name;
+      surnameController.text = driver.surname;
+      birthDateController.text = driver.birthDate;
+      nationalIdController.text = driver.nationalId;
+      if (driver.info.compareTo("null") != 0) {
+        biographyController.text = driver.info;
       }
       locationDropdown = driver.location;
       genderDropdown = driver.gender;
+      _profileIcon.selectedImage = driver.profileImage!;
     }
 
     flag++;
@@ -153,35 +155,9 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                   ),
                 ),
               ),
-              //Profile Picture
-              Expanded(
-                flex: 2,
-                child: Center(
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Theme.of(context).highlightColor,
-                        radius: 40,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage(AssetPaths.blankProfilePhotoPath),
-                          radius: 37.0,
-                        ),
-                      ),
-                      CircleAvatar(
-                        backgroundColor: Theme.of(context).highlightColor,
-                        radius: 13,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage(AssetPaths.uploadPhotoIconPath),
-                          radius: 10.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+
+              _profileIcon,
+
               Expanded(
                 flex: 7,
                 child: Container(

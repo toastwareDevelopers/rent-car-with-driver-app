@@ -159,6 +159,7 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                             taxNumber: driver.taxNumber,
                             carInfo: driver.carInfo,
                             trips: driver.trips,
+                            profileImage: driver.profileImage,
                           ),
                         );
                       }
