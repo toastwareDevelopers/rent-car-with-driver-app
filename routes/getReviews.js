@@ -66,7 +66,7 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
                 temp = await Customer.findById(x.customerId);
                 y.customerName = temp.name;
                 y.customerSurname = temp.surname; 
-                //y.profile_image64 = temp.profile_image64;
+                y.profile_image64 = temp.profile_image64;
                
                 arrOfReviews.push(y);
                 

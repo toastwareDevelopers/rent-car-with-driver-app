@@ -40,6 +40,7 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
                 temp = await Customer.findById(x.customerId);
                 y.customerName = temp.name;
                 y.customerSurname = temp.surname;
+                y.customerProfile_image64 = temp.profile_image64;
 
                 temp = await Driver.findById(x.driverId);
 
