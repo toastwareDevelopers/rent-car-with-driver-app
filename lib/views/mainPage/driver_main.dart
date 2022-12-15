@@ -147,125 +147,122 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
       width: phoneWidth * 0.9,
       child: FutureBuilder(
         future: MainService.getFutureTrips(widget.tripListString),
-        builder: (context, snapshot) {
+        builder: (contextv2, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Container(
               child: ListView.builder(
+                physics: AlwaysScrollableScrollPhysics(),
                 itemCount: snapshot.data?.length,
-                itemBuilder: (context, index) => Container(
-                  margin: EdgeInsets.only(
-                      top: phoneHeight * 0.02,
-                      right: phoneWidth * 0.015,
-                      left: phoneWidth * 0.015),
-                  decoration: BoxDecoration(
-                    color: const Color(0xffA7754D),
-                    border: Border.all(
+                itemBuilder: (contextv2, index) => InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, "/profileCustomer");
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        top: phoneHeight * 0.02,
+                        right: phoneWidth * 0.015,
+                        left: phoneWidth * 0.015),
+                    decoration: BoxDecoration(
                       color: const Color(0xffA7754D),
+                      border: Border.all(
+                        color: const Color(0xffA7754D),
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  ),
-                  height: phoneHeight * 0.125,
-                  width: phoneWidth * 1,
-                  child: ListTile(
-                    style: ListTileStyle.list,
-                    title: FittedBox(
-                      alignment: Alignment.center,
-                      fit: BoxFit.fitHeight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image.asset(
-                              "lib/assets/images/blank-profile-photo.png",
-                              width: phoneHeight * .14,
-                              height: phoneHeight * .14,
+                    height: phoneHeight * 0.125,
+                    width: phoneWidth * 1,
+                    child: ListTile(
+                      style: ListTileStyle.list,
+                      title: FittedBox(
+                        alignment: Alignment.center,
+                        fit: BoxFit.fitHeight,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.asset(
+                                "lib/assets/images/blank-profile-photo.png",
+                                width: phoneHeight * .14,
+                                height: phoneHeight * .14,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: phoneWidth * 0.05,
-                            height: phoneHeight * 0.05,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${snapshot.data?[index].customerName} ${snapshot.data?[index].customerSurname} (${snapshot.data?[index].customerAge})",
-                                style: const TextStyle(
-                                    fontFamily: "Arapey",
-                                    color: Colors.white,
-                                    fontSize: 18),
-                              ),
-                              Text(
-                                "${snapshot.data?[index].location}",
-                                style: const TextStyle(
-                                    fontFamily: "Arapey",
-                                    color: Colors.white,
-                                    fontSize: 18),
-                              ),
-                              Text(
-                                "Start: ${snapshot.data?[index].startDate?.substring(0, 10)}",
-                                style: const TextStyle(
-                                    fontFamily: "Arapey",
-                                    color: Colors.white,
-                                    fontSize: 18),
-                              ),
-                              Text(
-                                "Finish: ${snapshot.data?[index].endDate?.substring(0, 10)}",
-                                style: const TextStyle(
-                                    fontFamily: "Arapey",
-                                    color: Colors.white,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          /*Text(
-                            "${snapshot.data?[index].customerName} (${snapshot.data?[index].customerAge}) \n"
-                            "${snapshot.data?[index].location} \n"
-                            "Start: ${snapshot.data?[index].startDate?.substring(0, 10)}\nFinish: ${snapshot.data?[index].endDate?.substring(0, 10)}",
-                            style: const TextStyle(
-                                fontFamily: "Arapey",
-                                color: Colors.white,
-                                fontSize: 17),
-                          ),*/
-                          SizedBox(
-                            width: phoneWidth * 0.3,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: phoneHeight * 0.05,
-                                width: phoneWidth * 0.25,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black,
-                                      blurRadius: 2,
-                                      offset: Offset(1, 1),
-                                    ),
-                                  ],
+                            SizedBox(
+                              width: phoneWidth * 0.05,
+                              height: phoneHeight * 0.05,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${snapshot.data?[index].customerName} ${snapshot.data?[index].customerSurname} (${snapshot.data?[index].customerAge})",
+                                  style: const TextStyle(
+                                      fontFamily: "Arapey",
+                                      color: Colors.white,
+                                      fontSize: 18),
                                 ),
-                                child: FittedBox(
-                                  child: Text(
-                                    "${snapshot.data?[index].price} TL",
-                                    style:
-                                        const TextStyle(fontFamily: "Arapey"),
+                                Text(
+                                  "${snapshot.data?[index].location}",
+                                  style: const TextStyle(
+                                      fontFamily: "Arapey",
+                                      color: Colors.white,
+                                      fontSize: 18),
+                                ),
+                                Text(
+                                  "Start: ${snapshot.data?[index].startDate?.substring(0, 10)}",
+                                  style: const TextStyle(
+                                      fontFamily: "Arapey",
+                                      color: Colors.white,
+                                      fontSize: 18),
+                                ),
+                                Text(
+                                  "Finish: ${snapshot.data?[index].endDate?.substring(0, 10)}",
+                                  style: const TextStyle(
+                                      fontFamily: "Arapey",
+                                      color: Colors.white,
+                                      fontSize: 18),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: phoneWidth * 0.3,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: phoneHeight * 0.05,
+                                  width: phoneWidth * 0.25,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(3)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black,
+                                        blurRadius: 2,
+                                        offset: Offset(1, 1),
+                                      ),
+                                    ],
+                                  ),
+                                  child: FittedBox(
+                                    child: Text(
+                                      "${snapshot.data?[index].price} TL",
+                                      style:
+                                          const TextStyle(fontFamily: "Arapey"),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: phoneHeight * 0.1,
-                              )
-                            ],
-                          ),
-                        ],
+                                SizedBox(
+                                  height: phoneHeight * 0.1,
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -346,15 +343,6 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                           ),
                         ],
                       ),
-                      /*Text(
-                            "${snapshot.data?[index].customerName} (${snapshot.data?[index].customerAge}) \n"
-                            "${snapshot.data?[index].location} \n"
-                            "Start: ${snapshot.data?[index].startDate?.substring(0, 10)}\nFinish: ${snapshot.data?[index].endDate?.substring(0, 10)}",
-                            style: const TextStyle(
-                                fontFamily: "Arapey",
-                                color: Colors.white,
-                                fontSize: 17),
-                          ),*/
                       SizedBox(
                         width: phoneWidth * 0.3,
                       ),
@@ -411,5 +399,9 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
         }
       },
     );
+  }
+
+  Future<void> pullRefresh() async {
+    setState(() {});
   }
 }
