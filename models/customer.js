@@ -10,7 +10,7 @@ const customerSchema = mongoose.Schema({
     },
     
     profile_image64 : {
-        type: String,
+        type: buffer,
     },
 
     phoneNumber: {
