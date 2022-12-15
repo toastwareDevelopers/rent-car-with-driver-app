@@ -132,7 +132,7 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
       }
       locationDropdown = driver.location;
       genderDropdown = driver.gender;
-      _profileIcon.selectedImage = driver.profileImage!;
+      _profileIcon.selectedImage = driver.profileImage;
     }
 
     flag++;
@@ -368,6 +368,7 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                           taxNumber: driver.taxNumber,
                           carInfo: driver.carInfo,
                           trips: driver.trips,
+                          profileImage: driver.profileImage,
                         ),
                       );
                     },

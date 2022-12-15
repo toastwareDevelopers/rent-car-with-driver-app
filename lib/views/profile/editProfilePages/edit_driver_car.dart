@@ -294,6 +294,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                                     "year": modelYearController.text,
                                     "color": carColorController.text,
                                   },
+                                  profileImage: driver.profileImage,
                                 ),
                             RentVanApp.userId)) !=
                             200) {

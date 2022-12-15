@@ -105,7 +105,7 @@ class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
         as Driver; // Receive driver data from previous page
     // double phoneHeight = MediaQuery.of(context).size.height;
     // double phoneWidth = MediaQuery.of(context).size.width;
-    if(flag == 0) {
+    if (flag == 0) {
       phoneHeight = size.height / ratio;
       phoneWidth = size.width / ratio;
       // skills = driver.skills;
@@ -310,6 +310,7 @@ class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
                           taxNumber: driver.taxNumber,
                           carInfo: driver.carInfo,
                           trips: driver.trips,
+                          profileImage: driver.profileImage,
                         ),
                       );
                     },
