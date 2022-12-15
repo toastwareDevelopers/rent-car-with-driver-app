@@ -289,7 +289,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                           flex: 3,
                           child: InkWell(
                             onTap: () => Navigator.pushNamed(
-                                context, "/profileDriverPersonal"),
+                                context, "/profileDriverPersonal",arguments: "23323"),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Theme.of(context).highlightColor,
@@ -522,7 +522,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 218, 218, 218),
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: DropdownButton(
@@ -549,8 +549,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                   widget.locationDropdown = value;
                                 });
                               },
-                              dropdownColor:
-                                  const Color.fromARGB(255, 218, 218, 218),
+                              dropdownColor:Colors.white,
                               borderRadius: BorderRadius.circular(10),
                               isExpanded: true,
                             ),
@@ -561,7 +560,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 218, 218, 218),
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: DropdownButton(
@@ -585,8 +584,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                   widget.genderDropdown = value;
                                 });
                               },
-                              dropdownColor:
-                                  const Color.fromARGB(255, 218, 218, 218),
+                              dropdownColor:Colors.white,
                               borderRadius: BorderRadius.circular(10),
                               isExpanded: true,
                             ),
@@ -607,7 +605,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                 horizontal: phoneWidth * 0.2),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 218, 218, 218),
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: DropdownButton(
@@ -633,8 +631,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                     widget.languageDropdown = value;
                                   });
                                 },
-                                dropdownColor:
-                                    const Color.fromARGB(255, 218, 218, 218),
+                                dropdownColor:Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                                 isExpanded: true,
                               ),
