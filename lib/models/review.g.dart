@@ -12,7 +12,7 @@ Review _$ReviewFromJson(Map<String, dynamic> json) {
     driverId: json['driverId'] as String?,
     customerId: json['customerId'] as String?,
     reviewText: json['reviewText'] as String?,
-    rating: json['rating'] as String?,
+    rating: json['rating'] as double?,
     tripId: json['tripId'] as String?,
   );
 }

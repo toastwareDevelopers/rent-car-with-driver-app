@@ -7,14 +7,14 @@ class Review {
   String? driverId;
   String? customerId;
   String? reviewText;
-  String? rating;
+  double? rating;
   String? tripId;
   Review( {
     this.id = "0",
     this.driverId = "null",
     this.customerId = "null",
     this.reviewText = "null",
-    this.rating = "null",
+    this.rating = 0.0,
     this.tripId = "null"
   });
 
