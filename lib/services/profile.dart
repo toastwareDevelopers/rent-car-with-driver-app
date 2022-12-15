@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/models/trip.dart';
 import '../constants/api_path.dart';
 import '../models/driver.dart';
@@ -66,6 +67,22 @@ class ProfileService {
       return trip;
     } catch (e) {
       return Trip();
+    }
+  }
+
+  static Future<List<dynamic>> getReviewsById(String userId) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/getReviews?ID=$userId");
+      var response= await http.get(url, headers: headers);
+      List<dynamic> reviews = jsonDecode(response.body);
+      print(response.body);
+      return reviews;
+    } catch (e) {
+      return [];
     }
   }
 

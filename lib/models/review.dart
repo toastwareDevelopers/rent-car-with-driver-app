@@ -9,13 +9,19 @@ class Review {
   String? reviewText;
   double? rating;
   String? tripId;
+  String? customerName;
+  String? customerSurname;
+  String? createDate;
   Review( {
     this.id = "0",
     this.driverId = "null",
     this.customerId = "null",
     this.reviewText = "null",
     this.rating = 0.0,
-    this.tripId = "null"
+    this.tripId = "null",
+    this.customerName = "null",
+    this.customerSurname = "null",
+    this.createDate = "2022-01-01",
   });
 
 

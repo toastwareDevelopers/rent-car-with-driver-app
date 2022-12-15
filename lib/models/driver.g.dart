@@ -33,6 +33,14 @@ Driver _$DriverFromJson(Map<String, dynamic> json) => Driver(
       taxNumber: json['taxNumber'] as String? ?? "null",
       carInfo: json['carInfo'] as Map<String, dynamic>? ?? const {},
       profileImage: json['profile_image64'] as String? ?? "null",
+      trips: (json['trips'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      reviews: (json['reviews'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
