@@ -1,6 +1,9 @@
 /* Importing the express and mongoose packages. */
 const express = require('express');
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 const mongoose = require("mongoose");
+
 
 // IMPORTS FROM OTHER FILES
 const loginAuthRouter = require("./routes/loginAuth");
@@ -13,14 +16,17 @@ const customerEditRouter = require("./routes/customerEdit");
 const customerProfileRouter = require("./routes/customerProfile");
 const tripCreateRouter = require("./routes/createTrip");
 const getModelRouter = require("./routes/getModel");
-const getTripsRouter= require("./routes/getTrips");
+const getTripsRouter = require("./routes/getTrips");
+const reviewCreateRouter = require("./routes/createReview");
 
 /* Creating a server on port 3000. */
 const PORT = 3000;
 
 /* Creating an instance of the express server. */
 const app = express();
-const connection = require('./db.js')
+const httpServer = createServer(app);
+const io = new Server(httpServer);
+const connection = require('./db.js');
 
 // middleware
 app.use(express.json());
@@ -35,12 +41,51 @@ app.use(driverProfileRouter);
 app.use(tripCreateRouter);
 app.use(getModelRouter);
 app.use(getTripsRouter);
+app.use(reviewCreateRouter);
 
 //connections
 connection()
 
-app.listen(PORT, () =>{
-    console.log('connected ad port ' + PORT);
+httpServer.listen(PORT, () => {
+	console.log('connected ad port ' + PORT);
 });
 
+
+const Message = require("./models/message");
+
+io.on("connection", (socket) => {
+	console.log("User connected");
+
+	socket.on('startChat', (msg) => {
+			console.log(msg);
+		socket.join(msg.roomID);
+
+		Message.find({
+			roomId: msg.room_id
+		}).then((messages) => {
+			io.to(socket.id).emit('old_messages', messages);
+		}).catch((err) => {
+			console.log(err);
+		});
+
+	});
+
+	socket.on('sendmessage', (msg) => {
+		console.log("sendmessage");
+		console.log(msg);
+
+		io.to(msg.roomID).emit('sendmessage', msg);
+		let message = new Message({
+			content: msg.content,
+			senderID: msg.senderID,
+			receiverID: msg.receiverID,
+			roomID: msg.roomID,
+		});
+
+		message.save();
+
+
+	});
+
+});
 

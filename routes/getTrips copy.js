@@ -5,13 +5,13 @@ const express = require('express');
 const Driver = require("../models/driver");
 const Customer = require('../models/customer');
 const Trip = require("../models/trip");
-const { type } = require('express/lib/response');
-const { JsonWebTokenError } = require('jsonwebtoken');
+const Review = require("../models/review");
+
 
 /* Creating a new router object. */
-const getTripsRouter = express.Router();
+const getReviewsRouter = express.Router();
 
-getTripsRouter.get('/api/getTrips',async function (req,res){
+getTripsRouter.get('/api/getReviews',async function (req,res){
 
     try {
         console.log("hi");
@@ -25,7 +25,7 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
 
         
 
-        let arrOfTrips = new Array();
+        let arrOfReviews = new Array();
 
         //if(!model) model = await Driver.findById(_id);
         
@@ -33,25 +33,23 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
         if(model){
             
             for (let index = 0; index < model.trips.length; index++) {
-                x = await Trip.findById( model.trips[index]);
+                x = await Review.findById( model.trips[index]);
 
                 y = x.toObject();
                 
                 temp = await Customer.findById(x.customerId);
                 y.customerName = temp.name;
-                y.customerSurname = temp.surname;
 
                 temp = await Driver.findById(x.driverId);
 
                 y.driverName = temp.name;
-                y.driverSurname = temp.surname;
-                arrOfTrips.push(y);
+                arrOfReviews.push(y);
                 
                 console.log(temp.name);
             }
             
-            //console.log(arrOfTrips);
-            return res.send(arrOfTrips);
+            //console.log(arrOfReviews);
+            return res.send(arrOfReviews);
         }
 
         

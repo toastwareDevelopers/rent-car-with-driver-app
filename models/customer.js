@@ -131,8 +131,9 @@ const customerSchema = mongoose.Schema({
     registerDate: {
         type: String,
     },
-
     trips: [mongoose.ObjectId],
+
+    reviews:[mongoose.ObjectId],
 });
 
 

@@ -225,6 +225,7 @@ const userSchema = mongoose.Schema({
     profile_image64 : {
         type: String,
     },
+    reviews:[mongoose.ObjectId],
 
 });
 
