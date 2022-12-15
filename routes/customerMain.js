@@ -32,7 +32,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
                 flag = 1;
             }
 
-            if (!flag && ((!((ratingStart == undefined || ratingStart <= drivers[step].rating)
+            if (drivers[step].rating != undefined && !flag && ((!((ratingStart == undefined || ratingStart <= drivers[step].rating)
                 && (drivers[step].rating <= ratingEnd || ratingEnd == undefined))))) {
                 drivers.splice(step, 1)
                 flag = 1;
@@ -99,19 +99,28 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         //         + " " + drivers[step].languages + " " + drivers[step].gender + " " + (drivers[step].location).toLowerCase())
 
         // }
+        var rand_number = []
+        for (var i = 0; i < drivers.length; ++i) {
 
-        if (person) {
-            if (drivers.length <= 3) {
-                res.send(person + drivers[0]
-                    + drivers[1] + drivers[2])
-            }
-            else {
-                res.send(person + drivers[Math.floor(Math.random() * drivers.length)]
-                    + drivers[Math.floor(Math.random() * drivers.length)] + drivers[Math.floor(Math.random() * drivers.length)])
-            }
-
+            var temp = Math.floor(Math.random() * drivers.length)
+            if (rand_number.indexOf(temp) === -1) rand_number.push(temp);
+            else i = i - 1;
         }
 
+        if (person) {
+                res.send(person + 
+                    drivers[(rand_number[0])] + drivers[(rand_number[1])]+ 
+                    drivers[(rand_number[2])] + drivers[(rand_number[3])]+ 
+                    drivers[(rand_number[4])] + drivers[(rand_number[5])]+ 
+                    drivers[(rand_number[6])] + drivers[(rand_number[7])]+ 
+                    drivers[(rand_number[8])] + drivers[(rand_number[9])]+ 
+                    drivers[(rand_number[10])] + drivers[(rand_number[11])]+ 
+                    drivers[(rand_number[12])] + drivers[(rand_number[13])]+ 
+                    drivers[(rand_number[14])] + drivers[(rand_number[15])]+ 
+                    drivers[(rand_number[16])] + drivers[(rand_number[17])]+ 
+                    drivers[(rand_number[18])] + drivers[(rand_number[19])])
+         }
+  
         else {
 
             return res.status(404).json({ msg: "Page not found" });
