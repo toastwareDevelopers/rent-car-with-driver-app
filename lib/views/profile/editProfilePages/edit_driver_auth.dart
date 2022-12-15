@@ -46,6 +46,7 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
           },
         ),
       );
+  Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
 
   Widget buildDriverEditAuthScreen(Driver driverData) {
     // double phoneHeight = MediaQuery.of(context).size.height;

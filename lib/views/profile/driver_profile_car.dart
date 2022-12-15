@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:rentcarmobile/widgets/driver_skill_widget.dart';
-
 import '../../constants/assets_path.dart';
 import '../../main.dart';
+import '../../models/driver.dart';
 
 class DriverProfileCarScreen extends StatefulWidget {
   DriverProfileCarScreen({super.key});
-  var name = "Lewis Hamilton";
-  var price = 150;
-  var rating = 7.8;
-  var location = "Istanbul";
-  var gender = "Male";
-  var age = 37;
-  TextEditingController modelYearController = TextEditingController();
-  TextEditingController carBrandController = TextEditingController();
-  TextEditingController carModelController = TextEditingController();
-  TextEditingController carColorController = TextEditingController();
 
   @override
   State<DriverProfileCarScreen> createState() => _DriverProfileCarScreenState();
@@ -27,10 +15,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
-    widget.modelYearController.text = "2022";
-    widget.carBrandController.text = "Citroen";
-    widget.carModelController.text = "C4";
-    widget.carColorController.text = "White";
+    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
 
     return Scaffold(
       appBar: AppBar(
@@ -50,7 +35,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
           width: 40,
           color: Colors.white,
         ) ,
-        onPressed: RentVanApp.userType == "driver" ? () {Navigator.pushNamed(context, "/editDriverAuth");} : () {Navigator.pushNamed(context, "/chat");} ,
+        onPressed: RentVanApp.userType == "driver" ? () {Navigator.pushNamed(context, "/editDriverAuth");} : () {Navigator.pushNamed(context, "/messaging");} ,
       ),
       body: Container(
         padding: EdgeInsets.only(bottom: phoneHeight * 0.02),
@@ -111,7 +96,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                     backgroundColor: Colors.green.shade700,
                                     radius: 11,
                                     child: Text(
-                                      widget.rating.toString(),
+                                      driver.rating.toString(),
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
@@ -129,12 +114,12 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${widget.name} (${widget.age})",
+                                  "${driver.name} ${driver.surname} (${DateTime.now().year - int.parse(driver.birthDate.toString().substring(0, 4))})",
                                   style: TextStyle(
                                       fontSize: 22, color: Colors.white),
                                 ),
                                 Text(
-                                  "${widget.location}, ${widget.gender}",
+                                  "${driver.location}, ${driver.gender}",
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.white),
                                 ),
@@ -146,7 +131,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                   width: phoneWidth * 0.20,
                                   child: Center(
                                     child: Text(
-                                      "${widget.price}TL",
+                                      "${driver.hourlyPrice}TL",
                                       style: const TextStyle(
                                           color: Colors.white, fontSize: 17),
                                     ),
@@ -222,8 +207,9 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                       style: TextStyle(color: Colors.white,fontSize: 17),
                                     ),
                                     SizedBox(height: 5,),
-                                    TextField(
-                                      controller: widget.carBrandController,
+                                    TextFormField(
+                                      readOnly: true,
+                                      initialValue: driver.carInfo?["brand"],
                                       decoration: const InputDecoration(
                                       ),
                                     ),
@@ -240,8 +226,9 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                       style: TextStyle(color: Colors.white,fontSize: 17),
                                     ),
                                     SizedBox(height: 5,),
-                                    TextField(
-                                      controller: widget.carModelController,
+                                    TextFormField(
+                                      readOnly: true,
+                                      initialValue: driver.carInfo?["model"],
                                       decoration: const InputDecoration(
                                       ),
                                     ),
@@ -268,8 +255,9 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                       style: TextStyle(color: Colors.white,fontSize: 17),
                                     ),
                                     SizedBox(height: 5,),
-                                    TextField(
-                                      controller: widget.carColorController,
+                                    TextFormField(
+                                      readOnly: true,
+                                      initialValue: driver.carInfo?["color"],
                                       decoration: const InputDecoration(
                                       ),
                                     ),
@@ -286,8 +274,9 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                       style: TextStyle(color: Colors.white,fontSize: 17),
                                     ),
                                     SizedBox(height: 5,),
-                                    TextField(
-                                      controller: widget.modelYearController,
+                                    TextFormField(
+                                      readOnly: true,
+                                      initialValue: driver.carInfo?["year"],
                                       decoration: const InputDecoration(
                                       ),
                                     ),
