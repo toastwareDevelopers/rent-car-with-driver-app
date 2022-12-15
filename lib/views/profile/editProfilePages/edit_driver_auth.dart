@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rentcarmobile/main.dart';
-import 'package:rentcarmobile/services/profile.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
 import '../../../models/driver.dart';
@@ -12,7 +10,6 @@ class EditDriverAuthScreen extends StatefulWidget {
 }
 
 class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
-  late Future<Driver> myFuture;
   TextEditingController passwordController = TextEditingController();
   TextEditingController repasswordController = TextEditingController();
   Size size = WidgetsBinding.instance.window.physicalSize;
@@ -20,37 +17,9 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
   double phoneHeight = 0.0;
   double phoneWidth = 0.0;
 
-  // Provide existing driver ID
   @override
-  void initState() {
-    myFuture = ProfileService.getDriver(RentVanApp.userId);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: FutureBuilder<Driver>(
-          future: myFuture,
-          builder: (context, snapshot) {
-            Driver? driverData = snapshot.data;
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return const Center(child: CircularProgressIndicator());
-              default:
-                if (snapshot.hasError) {
-                  return const Center(child: Text('Some error occurred!'));
-                } else {
-                  return buildDriverEditAuthScreen(driverData!);
-                }
-            }
-          },
-        ),
-      );
-  Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
-
-  Widget buildDriverEditAuthScreen(Driver driverData) {
-    // double phoneHeight = MediaQuery.of(context).size.height;
-    // double phoneWidth = MediaQuery.of(context).size.width;
+  Widget build(BuildContext context) {
+    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
     phoneHeight = size.height / ratio;
     phoneWidth = size.width / ratio;
 
@@ -89,7 +58,7 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                           readOnly: true,
                           enabled: false,
                           decoration: InputDecoration(
-                            hintText: driverData.email,
+                            hintText: driver.email,
                           ),
                         ),
                       ),
@@ -101,7 +70,7 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                           readOnly: true,
                           enabled: false,
                           decoration: InputDecoration(
-                            hintText: driverData.phoneNumber,
+                            hintText: driver.phoneNumber,
                           ),
                         ),
                       ),
@@ -162,34 +131,34 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                           passwordController.text, repasswordController.text)) {
                         WarningAlert.showWarningDialog(context,
                             "Master Password must be same as confirmation ,but was different!",
-                            () {
-                          Navigator.pop(context);
-                        });
+                                () {
+                              Navigator.pop(context);
+                            });
                         // Get to the next screen
                       } else {
                         Navigator.of(context).pushNamed(
                           "/editDriverPersonal",
                           arguments: Driver(
-                            email: driverData.email,
-                            phoneNumber: driverData.phoneNumber,
+                            email: driver.email,
+                            phoneNumber: driver.phoneNumber,
                             password: passwordController.text,
-                            name: driverData.name,
-                            surname: driverData.surname,
-                            birthDate: driverData.birthDate,
-                            gender: driverData.gender,
-                            nationalId: driverData.nationalId,
-                            passportNumber: driverData.passportNumber,
-                            location: driverData.location,
-                            info: driverData.info,
-                            skills: driverData.skills,
-                            languages: driverData.languages,
-                            licenceNumber: driverData.licenceNumber,
-                            licenceYear: driverData.licenceYear,
-                            rating: driverData.rating,
-                            hourlyPrice: driverData.hourlyPrice,
-                            taxNumber: driverData.taxNumber,
-                            carInfo: driverData.carInfo,
-                            trips: driverData.trips,
+                            name: driver.name,
+                            surname: driver.surname,
+                            birthDate: driver.birthDate,
+                            gender: driver.gender,
+                            nationalId: driver.nationalId,
+                            passportNumber: driver.passportNumber,
+                            location: driver.location,
+                            info: driver.info,
+                            skills: driver.skills,
+                            languages: driver.languages,
+                            licenceNumber: driver.licenceNumber,
+                            licenceYear: driver.licenceYear,
+                            rating: driver.rating,
+                            hourlyPrice: driver.hourlyPrice,
+                            taxNumber: driver.taxNumber,
+                            carInfo: driver.carInfo,
+                            trips: driver.trips,
                           ),
                         );
                       }
