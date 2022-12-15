@@ -51,7 +51,7 @@ class MessageBubble extends StatelessWidget {
       child: Container(
         constraints: BoxConstraints(maxWidth: phoneWidth * 0.8),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               content,
@@ -60,7 +60,7 @@ class MessageBubble extends StatelessWidget {
                       ? Colors.white
                       : Colors.black),
             ),
-            Text(time,
+            Text(time.substring(0, 16),
                 style: TextStyle(
                     color: RentVanApp.userId == sender
                         ? Colors.white70
