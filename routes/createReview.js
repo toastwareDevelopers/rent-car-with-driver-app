@@ -14,7 +14,7 @@ const reviewCreateRouter = express.Router();
 
 
 /* This is creating a new trip. */
-tripCreateRouter.post('/api/createReview',async function(req,res){
+reviewCreateRouter.post('/api/createReview',async function(req,res){
 
     try { 
         
