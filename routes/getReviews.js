@@ -14,14 +14,16 @@ const getReviewsRouter = express.Router();
 getReviewsRouter.get('/api/getReviews',async function (req,res){
 
     try {
-        console.log("hi");
+        //console.log("hi");
         /* Getting the id from the query string. */
         const _id = req.query.ID;
 
-        console.log(_id)
+        //console.log(_id)
 
          /* Checking if the model is a customer. If it is, it returns the model. */
         model = await Customer.findById(_id);
+
+        //console.log( model)
 
         
 
@@ -29,9 +31,9 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
 
         if(model){
             
-            for (let index = 0; index < model.trips.length; index++) {
+            for (let index = 0; index < model.reviews.length; index++) {
                 
-                x = await Review.findById( model.trips[index]);
+                x = await Review.findById( model.reviews[index]);
                 y = x.toObject();
                 
                 temp = await Customer.findById(x.customerId);
@@ -51,13 +53,15 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
 
         model = await Driver.findById(_id);
 
+        //console.log( model)
+
         if(model){
             
-            for (let index = 0; index < model.trips.length; index++) {
+            for (let index = 0; index < model.reviews.length; index++) {
                 
-                x = await Review.findById( model.trips[index]);
+                x = await Review.findById( model.reviews[index]);
 
-                //y = x.toObject();
+                y = x.toObject();
                 
                 temp = await Customer.findById(x.customerId);
                 y.customerName = temp.name;
@@ -66,7 +70,7 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
                
                 arrOfReviews.push(y);
                 
-                console.log(temp.name);
+                //console.log(temp.name);
             }
             
             //console.log(arrOfReviews);

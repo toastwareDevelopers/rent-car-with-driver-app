@@ -17,6 +17,7 @@ const customerProfileRouter = require("./routes/customerProfile");
 const tripCreateRouter = require("./routes/createTrip");
 const getModelRouter = require("./routes/getModel");
 const getTripsRouter = require("./routes/getTrips");
+const getReviewsRouter = require("./routes/getReviews");
 const reviewCreateRouter = require("./routes/createReview");
 
 /* Creating a server on port 3000. */
@@ -42,6 +43,7 @@ app.use(tripCreateRouter);
 app.use(getModelRouter);
 app.use(getTripsRouter);
 app.use(reviewCreateRouter);
+app.use(getReviewsRouter);
 
 //connections
 connection()
