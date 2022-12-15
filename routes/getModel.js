@@ -6,6 +6,7 @@ const express = require('express');
 const Driver = require("../models/driver");
 const Customer = require('../models/customer');
 const Trip = require("../models/trip");
+const Review = require('../models/review');
 
 /* Creating a new router object. */
 const getModelRouter = express.Router();
@@ -41,6 +42,13 @@ getModelRouter.get('/api/info',async function (req,res){
         
         /* Checking if the model is a trip. If it is, it returns the model. */
         model = await Trip.findById(_id);
+
+        if(model){
+            return res.send(model);
+        }
+
+
+        model = await Review.findById(_id);
 
         if(model){
             return res.send(model);
