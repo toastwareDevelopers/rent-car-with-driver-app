@@ -1,7 +1,7 @@
 /* Importing the mongoose module. */
 const mongoose = require("mongoose");
 
-/* Creating a schema for the customer model. */
+/* Creating a schema for the admin model. */
 const adminSchema = mongoose.Schema({
 
     role: {
