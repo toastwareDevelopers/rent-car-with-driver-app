@@ -8,18 +8,13 @@ const CustomerProfileRouter = express.Router();
 
 CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
-
     try {
         var todayDate = new Date().toISOString()
-        const { _id, location, gender, language, hourlyPriceStart, hourlyPriceEnd, ratingStart, ratingEnd, ageStart,
+        const { location, gender, language, hourlyPriceStart, hourlyPriceEnd, ratingStart, ratingEnd, ageStart,
             ageEnd, carYearStart, carYearEnd } = req.body;
 
-        const person = await Customer.findById(_id);
-
         let drivers = await Driver.find({},
-            { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1 })
-
-
+            { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1,name:1,surname:1,bio:1,hourlyPrice:1,profile_image64:1 ,info:1})
 
         var flag
         var flag_l
@@ -57,7 +52,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
                 flag_l = 0
                 for (let i = 0; i < drivers[step].languages.length; ++i) {
                     if (language != undefined) {
-                        if (!flag_l && (drivers[step].languages[i] == language)) {
+                        if (!flag_l && (drivers[step].languages[i] == language || language == "null")) {
                             flag_l = 1
                         }
                     }
@@ -70,7 +65,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
             if (!flag) {
                 if (gender != undefined)
-                    if (!((drivers[step].gender).toLowerCase() == gender.toLowerCase())) {
+                    if (!((drivers[step].gender).toLowerCase() == gender.toLowerCase() || gender == "null")) {
 
                         drivers.splice(step, 1)
                         flag = 1;
@@ -79,7 +74,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
             if (!flag) {
                 if (location != undefined)
-                    if (!((drivers[step].location).toLowerCase() == location.toLowerCase())) {
+                    if (!((drivers[step].location).toLowerCase() == location.toLowerCase() || location == "null")) {
 
                         drivers.splice(step, 1)
                         flag = 1;
@@ -100,33 +95,22 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         //         + " " + drivers[step].languages + " " + drivers[step].gender + " " + (drivers[step].location).toLowerCase())
 
         // }
-        var rand_number = []
-        for (var i = 0; i < drivers.length; ++i) {
 
-            var temp = Math.floor(Math.random() * drivers.length)
-            if (rand_number.indexOf(temp) === -1) rand_number.push(temp);
-            else i = i - 1;
+        if(drivers.length < 20)
+            res.send(drivers)
+        else{
+            var sentDrivers = []
+
+            while(sentDrivers.length < 20) {
+                tempDriver = drivers[drivers.length * Math.random() | 0];
+                if (!sentDrivers.includes(tempDriver)){
+                    sentDrivers.push(tempDriver);
+                }
+            }
+
+            res.send(sentDrivers)
         }
-
-        if (person) {
-                res.send(person + 
-                    drivers[(rand_number[0])] + drivers[(rand_number[1])]+ 
-                    drivers[(rand_number[2])] + drivers[(rand_number[3])]+ 
-                    drivers[(rand_number[4])] + drivers[(rand_number[5])]+ 
-                    drivers[(rand_number[6])] + drivers[(rand_number[7])]+ 
-                    drivers[(rand_number[8])] + drivers[(rand_number[9])]+ 
-                    drivers[(rand_number[10])] + drivers[(rand_number[11])]+ 
-                    drivers[(rand_number[12])] + drivers[(rand_number[13])]+ 
-                    drivers[(rand_number[14])] + drivers[(rand_number[15])]+ 
-                    drivers[(rand_number[16])] + drivers[(rand_number[17])]+ 
-                    drivers[(rand_number[18])] + drivers[(rand_number[19])])
-         }
-  
-        else {
-
-            return res.status(404).json({ msg: "Page not found" });
-        }
-
+    
     } catch (error) {
 
         res.status(500).json({ error: error.message });

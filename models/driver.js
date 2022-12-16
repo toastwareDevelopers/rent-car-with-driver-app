@@ -226,6 +226,11 @@ const userSchema = mongoose.Schema({
         type: String,
     },
     reviews:[mongoose.ObjectId],
+    
+    isActive:{
+        default:"false",
+        type: Boolean,
+    },
 
 });
 
