@@ -11,7 +11,7 @@ class RegisterDriverPersonalScreen extends StatefulWidget {
   TextEditingController surnameController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
   TextEditingController nationalIdController = TextEditingController();
-  TextEditingController biogrophyController = TextEditingController();
+  TextEditingController biographyController = TextEditingController();
   String? locationDropdown = "Adana";
   String? genderDropdown = "Male";
   final List<String> cities = [
@@ -291,7 +291,7 @@ class _RegisterDriverPersonalScreenState
                       ),
                       //Biography
                       TextField(
-                        controller: widget.biogrophyController,
+                        controller: widget.biographyController,
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,
                         decoration: InputDecoration(hintText: "Biography"),
@@ -314,7 +314,7 @@ class _RegisterDriverPersonalScreenState
                           widget.surnameController.text,
                           widget.birthDateController.text,
                           widget.nationalIdController.text,
-                          widget.biogrophyController.text)) {
+                          widget.biographyController.text)) {
                         WarningAlert.showWarningDialog(
                             context, "Please fill all inputs",(){Navigator.pop(context);});
                       } else {
@@ -330,7 +330,7 @@ class _RegisterDriverPersonalScreenState
                               gender: widget.genderDropdown.toString(),
                               nationalId: widget.nationalIdController.text,
                               location: widget.locationDropdown.toString(),
-                              info: widget.biogrophyController.text,
+                              info: widget.biographyController.text,
                               profileImage: widget._profileIcon.selectedImage),
                         );
                       }

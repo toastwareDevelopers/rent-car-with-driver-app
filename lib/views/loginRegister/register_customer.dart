@@ -25,8 +25,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController password1 = TextEditingController();
   TextEditingController password2 = TextEditingController();
-  TextEditingController idNumber = TextEditingController();
-  TextEditingController idtype = TextEditingController();
+  TextEditingController nationalID = TextEditingController();
+  TextEditingController passportID = TextEditingController();
   TextEditingController gender = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
   String? genderDropdown = "Male";
@@ -42,8 +42,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: phoneHeight,
+        width: phoneWidth,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -61,9 +61,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                   _profileIcon,
 
                   Container(
-                    // form elamanları
-                    height: MediaQuery.of(context).size.height / 2,
-                    width: MediaQuery.of(context).size.width,
+                    height: phoneHeight / 2,
+                    width: phoneWidth,
                     child: Container(
                       padding: EdgeInsets.only(
                           left: phoneWidth * 0.07, right: phoneWidth * 0.07),
@@ -77,8 +76,13 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               Expanded(
                                 flex: 1,
                                 child: TextField(
-                                  decoration: InputDecoration(hintText: "Name"),
+                                  decoration: const InputDecoration(hintText: "Name"),
                                   controller: name,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                      RegExp("[a-zA-Z]"),
+                                    ),
+                                  ],
                                 ),
                               ),
                               SizedBox(
@@ -89,8 +93,13 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                 flex: 1,
                                 child: TextField(
                                   decoration:
-                                      InputDecoration(hintText: "Surname"),
+                                      const InputDecoration(hintText: "Surname"),
                                   controller: surname,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                      RegExp("[a-zA-Z]"),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -118,12 +127,14 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                           //Password
                           Row(
                             children: [
-                              //passwordler
                               Expanded(
                                 flex: 1,
                                 child: TextField(
+                                  obscureText: true,
+                                  enableSuggestions: false,
+                                  autocorrect: false,
                                   decoration:
-                                      InputDecoration(hintText: "Password"),
+                                      const InputDecoration(hintText: "Password"),
                                   controller: password1,
                                 ),
                               ),
@@ -133,8 +144,11 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               Expanded(
                                 flex: 1,
                                 child: TextField(
+                                  obscureText: true,
+                                  enableSuggestions: false,
+                                  autocorrect: false,
                                   decoration:
-                                      InputDecoration(hintText: "Password"),
+                                      const InputDecoration(hintText: "Retype Password"),
                                   controller: password2,
                                 ),
                               ),
@@ -168,11 +182,10 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                           Row(
                             children: [
                               Expanded(
-                                // radio button id number icin
                                 flex: 1,
                                 child: RadioListTile<SingingCharacter>(
                                   activeColor:
-                                      Color.fromRGBO(255, 167, 117, 77),
+                                      const Color.fromRGBO(255, 167, 117, 77),
                                   title: const Text(
                                       style: TextStyle(color: Colors.white),
                                       'National ID'),
@@ -189,10 +202,10 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                 flex: 1,
                                 child: RadioListTile<SingingCharacter>(
                                   activeColor:
-                                      Color.fromRGBO(255, 167, 117, 77),
+                                      const Color.fromRGBO(255, 167, 117, 77),
                                   title: const Text(
                                       style: TextStyle(color: Colors.white),
-                                      'Passpord ID'),
+                                      'Passport ID'),
                                   value: SingingCharacter.passportNumber,
                                   groupValue: _character,
                                   onChanged: (SingingCharacter? value) {
@@ -206,13 +219,27 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                           ),
                           Row(
                             children: [
-                              //NationalID
+                              //National ID & Passport ID
                               Expanded(
                                 flex: 1,
                                 child: TextField(
                                   decoration:
-                                      InputDecoration(hintText: "National ID"),
-                                  controller: idNumber,
+                                  InputDecoration(
+                                      hintText: (_character ==
+                                          SingingCharacter
+                                              .nationalNumber)
+                                          ? 'National ID'
+                                          : 'Passport ID'),
+                                  controller: (_character ==
+                                      SingingCharacter.nationalNumber)
+                                      ? nationalID
+                                      : passportID,
+                                  inputFormatters: [
+                                    // Should national id and passport id only consist of numbers?
+                                    FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9]"),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -259,7 +286,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                         .toList(),
                                     onChanged: (value) {
                                       setState(() {
-                                        genderDropdown = value as String?;
+                                        genderDropdown = value;
                                       });
                                     },
                                     dropdownColor: const Color.fromARGB(
@@ -274,10 +301,10 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                         ],
                       ),
                     ),
-                  ), //form elemanları
+                  ),
                   Container(
-                    height: MediaQuery.of(context).size.height / 2,
-                    width: MediaQuery.of(context).size.width,
+                    height: phoneHeight / 2,
+                    width: phoneWidth,
                     child: Container(
                       alignment: Alignment.topRight,
                       padding: const EdgeInsets.only(right: 15),
@@ -290,7 +317,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               password1.value.text.toString().isEmpty ||
                               password2.value.text.toString().isEmpty ||
                               phoneNumber.value.text.toString().isEmpty ||
-                              idNumber.value.text.toString().isEmpty) {
+                              (nationalID.value.text.toString().isEmpty && passportID.value.text.toString().isEmpty)) {
                             WarningAlert.showWarningDialog(
                               context,
                               "Please fill all inputs!",
@@ -304,7 +331,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               0) {
                             WarningAlert.showWarningDialog(
                               context,
-                              "Password and repassword must be same!",
+                              "Master Password must be same as confirmation ,but was different!",
                               () {
                                 Navigator.pop(context);
                               },
@@ -323,25 +350,22 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                             data.password = password1.value.text.toString();
                             data.phoneNumber =
                                 phoneNumber.value.text.toString();
-                            data.birthday =
+                            data.birthDate =
                                 birthDateController.value.text.toString();
                             data.gender = genderDropdown.toString();
-                            data.birthday =
-                                birthDateController.value.text.toString();
-                            data.profileImage = _profileIcon.selectedImage;
-
-                            if (_character?.index == 0) {
-                              data.nationalId = idNumber.value.text.toString();
-                            } else {
-                              data.passportNumber =
-                                  idNumber.value.text.toString();
+                            if(nationalID.value.text.toString().isNotEmpty) {
+                              data.nationalId = nationalID.value.text.toString();
                             }
+                            if(passportID.value.text.toString().isNotEmpty) {
+                              data.passportNumber = passportID.value.text.toString();
+                            }
+                            data.profileImage = _profileIcon.selectedImage;
 
                             if ((await AuthService.registerCustomer(data)) !=
                                 200) {
                               WarningAlert.showWarningDialog(
                                 context,
-                                "We can not register you. Try again please.",
+                                "We can not register you. Please Try Again!",
                                 () {
                                   Navigator.pop(context);
                                 },
@@ -349,7 +373,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                             } else {
                               WarningAlert.showWarningDialog(
                                 context,
-                                "Congrulations! You have registered succesfully!",
+                                "Congratulations! You have registered successfully!",
                                 () {
                                   Navigator.pushNamed(context, "/");
                                 },
