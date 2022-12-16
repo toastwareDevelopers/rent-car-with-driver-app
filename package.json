@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nodemon": "^2.0.20",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.32.0",
     "dotenv": "^16.0.3",
@@ -21,6 +20,8 @@
     "moment": "^2.29.4",
     "mongoose": "^6.7.5",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.20",
     "path": "^0.12.7"
   }
 }

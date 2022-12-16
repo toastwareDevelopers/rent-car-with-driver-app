@@ -12,7 +12,7 @@ CustomerProfileRouter.get('/customer/profile', async function (req, res) {
         profile = await Customer.findOne(_id);
 
         if (profile) {
-
+            
             res.send(profile)
         }
 
