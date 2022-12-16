@@ -10,10 +10,8 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
     try {
         var todayDate = new Date().toISOString()
-        const { _id, location, gender, language, hourlyPriceStart, hourlyPriceEnd, ratingStart, ratingEnd, ageStart,
+        const {location, gender, language, hourlyPriceStart, hourlyPriceEnd, ratingStart, ratingEnd, ageStart,
             ageEnd, carYearStart, carYearEnd } = req.body;
-
-        const person = await Customer.findById(_id);
 
         let drivers = await Driver.find({},
             { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1 })
@@ -99,32 +97,30 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         //         + " " + drivers[step].languages + " " + drivers[step].gender + " " + (drivers[step].location).toLowerCase())
 
         // }
+        var arr = []
+        arr[20] = undefined
         var rand_number = []
-        for (var i = 0; i < drivers.length; ++i) {
+        for (var i = 0; i < (drivers.length); ++i) {
 
             var temp = Math.floor(Math.random() * drivers.length)
-            if (rand_number.indexOf(temp) === -1) rand_number.push(temp);
+            if (rand_number.indexOf(temp) === -1) {
+                rand_number.push(temp);
+                arr[i] = drivers[i]._id
+            }
             else i = i - 1;
         }
 
-        if (person) {
-                res.send(person + 
-                    drivers[(rand_number[0])] + drivers[(rand_number[1])]+ 
-                    drivers[(rand_number[2])] + drivers[(rand_number[3])]+ 
-                    drivers[(rand_number[4])] + drivers[(rand_number[5])]+ 
-                    drivers[(rand_number[6])] + drivers[(rand_number[7])]+ 
-                    drivers[(rand_number[8])] + drivers[(rand_number[9])]+ 
-                    drivers[(rand_number[10])] + drivers[(rand_number[11])]+ 
-                    drivers[(rand_number[12])] + drivers[(rand_number[13])]+ 
-                    drivers[(rand_number[14])] + drivers[(rand_number[15])]+ 
-                    drivers[(rand_number[16])] + drivers[(rand_number[17])]+ 
-                    drivers[(rand_number[18])] + drivers[(rand_number[19])])
-         }
-  
-        else {
-
-            return res.status(404).json({ msg: "Page not found" });
-        }
+        
+            res.send(drivers[(rand_number[0])] + drivers[(rand_number[1])] +
+                drivers[(rand_number[2])] + drivers[(rand_number[3])] +
+                drivers[(rand_number[4])] + drivers[(rand_number[5])] +
+                drivers[(rand_number[6])] + drivers[(rand_number[7])] +
+                drivers[(rand_number[8])] + drivers[(rand_number[9])] +
+                drivers[(rand_number[10])] + drivers[(rand_number[11])] +
+                drivers[(rand_number[12])] + drivers[(rand_number[13])] +
+                drivers[(rand_number[14])] + drivers[(rand_number[15])] +
+                drivers[(rand_number[16])] + drivers[(rand_number[17])] +
+                drivers[(rand_number[18])] + drivers[(rand_number[19])])
 
     } catch (error) {
 
