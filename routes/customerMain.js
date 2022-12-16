@@ -9,11 +9,11 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
     try {
         var todayDate = new Date().toISOString()
-        const {location, gender, language, hourlyPriceStart, hourlyPriceEnd, ratingStart, ratingEnd, ageStart,
+        const { location, gender, language, hourlyPriceStart, hourlyPriceEnd, ratingStart, ratingEnd, ageStart,
             ageEnd, carYearStart, carYearEnd } = req.body;
 
         let drivers = await Driver.find({},
-            { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1 })
+            { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1,name:1,surname:1,bio:1,hourlyPrice:1,profile_image64:1 })
 
         var flag
         var flag_l
@@ -99,7 +99,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         for (var i = 0; i < 20 && i < drivers.length; ++i) {
             sentDrivers.push(drivers[drivers.length * Math.random() | 0]);
         }
-        
+
         res.send(sentDrivers)
 
     } catch (error) {
