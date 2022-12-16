@@ -8,6 +8,11 @@ const userSchema = mongoose.Schema({
         type: String,
         default:"driver",
     },
+
+    isActive:{
+
+        type: Boolean,
+    },
     
     phoneNumber:{
         required: true,
