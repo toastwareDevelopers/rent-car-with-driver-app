@@ -94,7 +94,11 @@ class ProfileService {
             tripId: reviewMap["tripId"],
             customerName: reviewMap["customerName"],
             customerSurname: reviewMap["customerSurname"],
-            createDate: reviewMap["createDate"]);
+            createDate: reviewMap["createDate"],
+            driverName: reviewMap["driverName"],
+            driverSurname: reviewMap["driverSurname"],
+            customerProfilePhoto: reviewMap["customerProfile_image64"],
+            driverProfilePhoto: reviewMap["driverProfile_image64"]);
         reviews.add(review);
       });
 
