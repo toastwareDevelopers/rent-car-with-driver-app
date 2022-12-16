@@ -19,6 +19,7 @@ const getModelRouter = require("./routes/getModel");
 const getTripsRouter = require("./routes/getTrips");
 const getReviewsRouter = require("./routes/getReviews");
 const reviewCreateRouter = require("./routes/createReview");
+const adminDriverRequestRouter = require('./routes/adminDriverRequest.js');
 
 /* Creating a server on port 3000. */
 const PORT = 3000;
@@ -44,6 +45,7 @@ app.use(getModelRouter);
 app.use(getTripsRouter);
 app.use(reviewCreateRouter);
 app.use(getReviewsRouter);
+app.use(adminDriverRequestRouter);
 
 //connections
 connection()
