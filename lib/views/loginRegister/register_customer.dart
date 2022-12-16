@@ -323,11 +323,9 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                             data.password = password1.value.text.toString();
                             data.phoneNumber =
                                 phoneNumber.value.text.toString();
-                            data.birthday =
+                            data.birthDate =
                                 birthDateController.value.text.toString();
                             data.gender = genderDropdown.toString();
-                            data.birthday =
-                                birthDateController.value.text.toString();
                             data.profileImage = _profileIcon.selectedImage;
 
                             if (_character?.index == 0) {
