@@ -115,8 +115,7 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Driver driver = ModalRoute.of(context)!.settings.arguments
-        as Driver; // Receive driver data from previous page
+    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver; // Receive driver data from previous page
     // double phoneHeight = MediaQuery.of(context).size.height;
     // double phoneWidth = MediaQuery.of(context).size.width;
     if (flag == 0) {
@@ -369,6 +368,7 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                           carInfo: driver.carInfo,
                           trips: driver.trips,
                           profileImage: driver.profileImage,
+                          skills: driver.skills,
                         ),
                       );
                     },

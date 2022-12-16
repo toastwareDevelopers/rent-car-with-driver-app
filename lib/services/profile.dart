@@ -79,7 +79,6 @@ class ProfileService {
       var response = await http.post(url,
           body: json.encode(
               {
-                "role": "driver",
                 // "phoneNumber": driver.phoneNumber, cant be changed
                 // "email": driver.email, cant be changed
                 driver.password.toString().isEmpty ? "" : "NewPassword": driver.password,
@@ -87,16 +86,16 @@ class ProfileService {
                 driver.surname.toString().isEmpty ? "" : "surname": driver.surname,
                 driver.birthDate.toString().isEmpty ? "" : "birthDate": driver.birthDate,
                 "gender": driver.gender,
+                "info": driver.info,
                 driver.nationalId.toString().isEmpty ? "" : "nationalId": driver.nationalId,
                 driver.location.toString().isEmpty ? "" : "location": driver.location,
-                driver.skills.toString().isEmpty ? "" : "skills": driver.skills,
-                driver.languages.toString().isEmpty ? "" : "languages": driver.languages,
+                //driver.skills.toString().isEmpty ? "" : "skills": driver.skills, // problem!
+                //driver.languages.toString().isEmpty ? "" : "languages": driver.languages, // problem!
                 driver.licenceNumber.toString().isEmpty ? "" : "licenseNumber": driver.licenceNumber,
                 driver.licenceYear.toString().isEmpty ? "" : "licenseYear": driver.licenceYear,
-                driver.carInfo.toString().isEmpty ? "" : "carInfo" : driver.carInfo,
-                driver.hourlyPrice.toString().isEmpty ? "" : "hourlyPrice": driver.hourlyPrice,
+                //driver.carInfo.toString().isEmpty ? "" : "carInfo" : driver.carInfo, // problem!
+                //driver.hourlyPrice.toString().isEmpty ? "" : "hourlyPrice": driver.hourlyPrice, // problem!
                 driver.taxNumber.toString().isEmpty ? "" : "taxNumber" : driver.taxNumber,
-                //"trips": driver.trips, why is this here?
                 "_id": id,
                 "profile_image64" : driver.profileImage,
               }

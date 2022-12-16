@@ -108,7 +108,7 @@ class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
     if (flag == 0) {
       phoneHeight = size.height / ratio;
       phoneWidth = size.width / ratio;
-      // skills = driver.skills;
+      skills = driver.skills;
       addedLanguages = driver.languages;
       languageDropdown = driver.languages[0];
     }

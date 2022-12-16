@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
-import '../../../constants/assets_path.dart';
-import '../../../main.dart';
 import '../../../models/customer.dart';
 import '../../../services/profile.dart';
-import '../../../utils/base64_converter.dart';
 import '../../../widgets/profile_icon_widget.dart';
 
 ///  NOTES:
@@ -71,7 +68,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
         ),
       );
 
-  Widget buildCustomerEditScreen(Customer customerData) {
+    Widget buildCustomerEditScreen(Customer customerData) {
     // double phoneHeight = MediaQuery.of(context).size.height;
     // double phoneWidth = MediaQuery.of(context).size.width;
     if (flag == 0) {
@@ -99,7 +96,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SafeArea(
-        child: SizedBox(
+        child: Container(
           height: phoneHeight,
           width: phoneWidth,
           child: SingleChildScrollView(
@@ -117,7 +114,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
 
                     _profileIcon,
 
-                    SizedBox(
+                    Container(
                       height: phoneHeight / 2,
                       width: phoneWidth,
                       child: Container(
@@ -274,7 +271,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                               ],
                             ),
                             // National ID || Passport ID - Editable
-                            // As of now we can only change national ID or passport ID but not both
+                            // Both national id and passport id data an be changed
                             Row(
                               children: [
                                 Expanded(
@@ -358,7 +355,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                       ),
                     ),
                     // Save button
-                    SizedBox(
+                    Container(
                       height: phoneHeight / 2,
                       width: phoneWidth,
                       child: Container(
@@ -412,14 +409,8 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                   },
                                 );
                               } else {
-                                WarningAlert.showWarningDialog(
-                                  context,
-                                  "Congratulations! You have changed your data!",
-                                  () {
                                     Navigator.pushNamed(
                                         context, "/profileCustomer");
-                                  },
-                                );
                               }
                             }
                           },

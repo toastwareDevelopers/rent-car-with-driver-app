@@ -38,17 +38,17 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
     double phoneHeight = size.height / ratio;
     double phoneWidth = size.width / ratio;
 
-    if(flag == 0) {
-      //driverLicenceNumberController.text = driver.licenceNumber;
-      //carLicenceNumberController.text = driver.carInfo["lisenceNumber"];
-      //carRegistrationPlateController = driver.carInfo["plateNumber"];
-      //carBrandController = driver.carInfo["brand"];
-      //carModelController = driver.carInfo["model"];
-      //carColorController = driver.carInfo["color"];
-      //modelYearController = driver.carInfo["year"];
-      //driverLicenceYearController.text = driver.licenceYear;
-      //hourlyPriceController.text = driver.hourlyPrice as String;
-      //taxNumberController.text = driver.taxNumber;
+    if(flag >= 0) {
+      driverLicenceNumberController.text = driver.licenceNumber;
+      carLicenceNumberController.text = driver.carInfo["licenseYear"];
+      carRegistrationPlateController.text = driver.carInfo["plateNumber"];
+      carBrandController.text = driver.carInfo["brand"];
+      carModelController.text = driver.carInfo["model"];
+      carColorController.text = driver.carInfo["color"];
+      modelYearController.text = driver.carInfo["year"];
+      driverLicenceYearController.text = driver.licenceYear;
+      hourlyPriceController.text = driver.hourlyPrice.toString();
+      taxNumberController.text = driver.taxNumber;
     }
 
     flag++;
@@ -280,12 +280,11 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                                   passportNumber: driver.passportNumber,
                                   password: driver.password,
                                   phoneNumber: driver.phoneNumber,
-                                  rating: 0,
                                   skills: driver.skills,
                                   surname: driver.surname,
                                   taxNumber: taxNumberController.text,
                                   carInfo: {
-                                    "lisenceNumber":
+                                    "licenseNumber":
                                         carLicenceNumberController.text,
                                     "plateNumber":
                                         carRegistrationPlateController.text,
