@@ -122,7 +122,7 @@ CustomerProfileRouter.get('/customer/activeTrip' ,async function (req, res) {
 
     const _id = req.query.ID;
 
-    console.log(_id);
+    //console.log(_id);
 
     const model = await Customer.findById(_id);
 
@@ -132,13 +132,16 @@ CustomerProfileRouter.get('/customer/activeTrip' ,async function (req, res) {
     
     const currentDate = Date.now();
 
+    //console.log(currentDate);
+
     for (let index = 0; index < model.trips.length; index++) {
         
-        if(model.trips[index].startDate > currentDate && element.trips[index].endDate < currentDate){
+        const activeTrip = await Trip.findById(model.trips[index]);
+        if(activeTrip.startDate < currentDate && activeTrip.endDate > currentDate){
+            //console.log(currentDate);
             
-            const activeTrip = await Trip.findById(model.trips[index]);
-            console.log(model.trips[index]);
-            const activeDriver = await Driver.findById(activeTrip.customerId);
+            
+            const activeDriver = await Driver.findById(activeTrip.driverId);
             respond = activeTrip.toObject();
             respond.driverName = activeDriver.name;
             respond.driverSurname = activeDriver.surname;
