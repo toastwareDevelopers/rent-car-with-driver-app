@@ -1,6 +1,7 @@
 const express = require('express');
 const Customer = require("../models/customer");
 const Driver = require("../models/driver");
+const Trip = require('../models/trip');
 
 const CustomerProfileRouter = express.Router();
 
@@ -129,6 +130,35 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
     } catch (error) {
 
         res.status(500).json({ error: error.message });
+    }
+
+});
+
+CustomerProfileRouter.get('/customer/activeTrip' ,async function (req, res) {
+
+    const _id = req.query.ID;
+
+    const model = await Customer.findById(_id);
+
+    if(!model) return  res.status(400).json({msg: "There is not a model with this id"});
+
+    const currentDate = Date.now();
+
+    for (let index = 0; index < model.trips.length; index++) {
+
+        if(model.trips[index].startDate > currentDate && element.trips[index].endDate < currentDate){
+            
+            const activeTrip = await Trip.findById(model.trips[index]);
+            const activeDriver = await Driver.findById(activeTrip.customerId);
+            respond = activeTrip.toObject();
+            respond.driverName = activeDriver.name;
+            respond.driverSurname = activeDriver.surname;
+            respond.profile_image64 = activeDriver.profile_image64;
+            respond.birthDate = activeDriver.birthDate;
+
+            return res.send(respond);
+        }
+        
     }
 
 });
