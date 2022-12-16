@@ -138,17 +138,22 @@ CustomerProfileRouter.get('/customer/activeTrip' ,async function (req, res) {
 
     const _id = req.query.ID;
 
+    console.log(_id);
+
     const model = await Customer.findById(_id);
 
-    if(!model) return  res.status(400).json({msg: "There is not a model with this id"});
+    
 
+    if(!model) return  res.status(400).json({msg: "There is not a model with this id"});
+    
     const currentDate = Date.now();
 
     for (let index = 0; index < model.trips.length; index++) {
-
+        
         if(model.trips[index].startDate > currentDate && element.trips[index].endDate < currentDate){
             
             const activeTrip = await Trip.findById(model.trips[index]);
+            console.log(model.trips[index]);
             const activeDriver = await Driver.findById(activeTrip.customerId);
             respond = activeTrip.toObject();
             respond.driverName = activeDriver.name;
@@ -160,6 +165,8 @@ CustomerProfileRouter.get('/customer/activeTrip' ,async function (req, res) {
         }
         
     }
+
+    return res.status(400).json({msg:"There is no active trip"});
 
 });
 
