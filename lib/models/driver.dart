@@ -3,6 +3,7 @@ part 'driver.g.dart';
 
 @JsonSerializable()
 class Driver {
+  String id = "null";
   String email = "null";
   String password = "null";
   String name = "null";
@@ -27,6 +28,7 @@ class Driver {
   List<String> reviews = [];
 
   Driver({
+    this.id = "null",
     this.email = "null",
     this.password = "null",
     this.name = "null",

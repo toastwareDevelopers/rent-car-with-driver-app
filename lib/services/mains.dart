@@ -104,6 +104,28 @@ class MainService {
 
   static Future<List<Driver>> getFilteredDrivers(
       DriverFilter driverFilter) async {
-    return [];
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+
+    try {
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/customer/main");
+      var response = await http.post(url,
+          body: json.encode(driverFilter), headers: headers);
+      
+      List<dynamic> driversD = jsonDecode(response.body);
+      List<Driver> drivers = [];
+
+      for(int i = 0; i < driversD.length; i++){
+        Driver driver = Driver.fromJson(driversD[i]);
+        drivers.add(driver);
+      }
+
+      return drivers;
+    } catch (e) {
+      print("Error : $e");
+      return [];
+    }
   }
 }

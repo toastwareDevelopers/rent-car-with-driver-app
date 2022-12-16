@@ -7,6 +7,7 @@ part of 'driver.dart';
 // **************************************************************************
 
 Driver _$DriverFromJson(Map<String, dynamic> json) => Driver(
+      id :json['_id'] as String? ?? "null",
       email: json['email'] as String? ?? "null",
       password: json['password'] as String? ?? "null",
       name: json['name'] as String? ?? "null",
@@ -44,6 +45,7 @@ Driver _$DriverFromJson(Map<String, dynamic> json) => Driver(
     );
 
 Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
+      '_id': instance.id,
       'email': instance.email,
       'password': instance.password,
       'name': instance.name,

@@ -10,10 +10,10 @@ class DriverFilter {
   int? hourlyPriceEnd;
   double? ratingStart;
   double? ratingEnd;
-  double? ageStart;
-  double? ageEnd;
-  double? carYearStart;
-  double? carYearEnd;
+  int? ageStart;
+  int? ageEnd;
+  int? carYearStart;
+  int? carYearEnd;
   DriverFilter( {
     this.location = "null",
     this.gender = "null",

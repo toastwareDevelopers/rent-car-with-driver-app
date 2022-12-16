@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../constants/assets_path.dart';
 
 class DriverListDriver extends StatelessWidget {
+  var driverId = "null";
+  var driverPhoto = "null";
   var driverName = "null";
   var driverAge = "00";
   var driverLocation = "null";
@@ -12,6 +16,8 @@ class DriverListDriver extends StatelessWidget {
 
   DriverListDriver(
       {super.key,
+      this.driverId = "null",
+      this.driverPhoto = "null",
       this.driverName = "null",
       this.driverAge = "00",
       this.driverLocation = "",
@@ -25,7 +31,7 @@ class DriverListDriver extends StatelessWidget {
     double phoneWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: (() {
-        Navigator.pushNamed(context, "/profileDriverPersonal");
+        Navigator.pushNamed(context, "/profileDriverPersonal",arguments: driverId);
       }),
       child: Stack(
         alignment: Alignment.bottomRight,
@@ -42,59 +48,60 @@ class DriverListDriver extends StatelessWidget {
               title: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 30,
+                  Expanded(
+                    flex: 1,
                     child: CircleAvatar(
-                      backgroundImage:
-                          AssetImage(AssetPaths.blankProfilePhotoPath),
-                      radius: 27.0,
+                      backgroundColor: Colors.white,
+                      radius: 30,
+                      child: CircleAvatar(
+                        backgroundImage: driverPhoto == "null" ? 
+                            AssetImage(AssetPaths.blankProfilePhotoPath) : Image.memory(base64Decode(driverPhoto)).image,
+                        radius: 27.0,
+                      ),
                     ),
                   ),
                   SizedBox(
-                    width: phoneWidth * 0.05,
+                    width: phoneWidth * 0.02,
                     height: phoneHeight * 0.05,
                   ),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "${driverName} (${driverAge})",
-                          style: TextStyle(color: Colors.white, fontSize: 17),
-                        ),
-                        Text(
-                          "${driverLocation}",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                        Text(
-                          "${driverDescription}",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                      ],
-                    ),
-                  ),
                   Expanded(
-                    flex: 1,
+                    flex: 3,
                     child: Container(
-                      padding: EdgeInsets.only(bottom: phoneHeight * 0.03),
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${driverName} (${driverAge})",
+                            style: TextStyle(color: Colors.white, fontSize: 17),
                           ),
-                        ),
-                        child: Text("${driverPrice}TL"),
+                          Text(
+                            "${driverLocation}",
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          ),
+                          Text(
+                            "${driverDescription}",
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          ),
+                        ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: phoneHeight*0.06,right: phoneWidth*0.01),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5),
+                ),
+              ),
+              child: Text("${driverPrice}TL"),
             ),
           ),
           Container(
@@ -108,7 +115,7 @@ class DriverListDriver extends StatelessWidget {
             child: Center(
                 child: Text(
               driverRating,
-              style: TextStyle(color: Colors.grey.shade900),
+              style: TextStyle(color: Colors.white),
             )),
           ),
         ],

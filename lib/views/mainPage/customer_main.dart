@@ -1,16 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/main.dart';
+import 'package:rentcarmobile/models/customer.dart';
+import 'package:rentcarmobile/models/driver.dart';
+import 'package:rentcarmobile/services/mains.dart';
+import 'package:rentcarmobile/services/profile.dart';
 import 'package:rentcarmobile/widgets/driver_list_driver_widget.dart';
 import 'package:rentcarmobile/widgets/filter_slider_widget.dart';
 
 import '../../constants/assets_path.dart';
+import '../../models/driverFilter.dart';
 
 class CustomerMainScreen extends StatefulWidget {
-  CustomerMainScreen({super.key});
-
-  String? locationDropdown = "Adana";
-  String? genderDropdown = "Male";
-  String? languageDropdown = "Turkish";
+  String locationDropdown = "Select";
+  String genderDropdown = "Select";
+  String languageDropdown = "Select";
   final List<String> cities = [
+    "Select",
     "Adana",
     "Adiyaman",
     "Afyon",
@@ -93,8 +100,9 @@ class CustomerMainScreen extends StatefulWidget {
     "Yozgat",
     "Zonguldak"
   ];
-  final List<String> genders = ["Male", "Female"];
+  final List<String> genders = ["Select", "Male", "Female"];
   final List<String> languages = [
+    "Select",
     "Afrikaans",
     "Arabic",
     "Bengali",
@@ -175,13 +183,27 @@ class CustomerMainScreen extends StatefulWidget {
   ];
 
   int startPrice = 0;
-  int endPrice = 500;
+  int endPrice = 5000;
   double startRating = 0.0;
   double endRating = 10.0;
   int startAge = 18;
   int endAge = 70;
   int startCarYear = 1990;
   int endCarYear = DateTime.now().year;
+  DriverFilter filter = DriverFilter(
+      ageStart: 18,
+      ageEnd: 70,
+      carYearStart: 1990,
+      carYearEnd: DateTime.now().year,
+      gender: "null",
+      location: "null",
+      language: "null",
+      hourlyPriceStart: 0,
+      hourlyPriceEnd: 5000,
+      ratingEnd: 10.0,
+      ratingStart: 0.0);
+
+  CustomerMainScreen({super.key}) {}
 
   @override
   State<CustomerMainScreen> createState() => _CustomerMainScreenState();
@@ -192,8 +214,8 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
-
-    print("Language : " + (widget.languageDropdown as String));
+    /*
+    print("a Language : " + (widget.languageDropdown as String));
     print("Gender : " + (widget.genderDropdown as String));
     print("Location : " + (widget.locationDropdown as String));
     print("startPrice : " + widget.startPrice.toString());
@@ -204,45 +226,38 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
     print("endAge : " + widget.endAge.toString());
     print("startCarYear : " + widget.startCarYear.toString());
     print("endCarYear : " + widget.endCarYear.toString());
-
-    var drivers = [
-      DriverListDriver(
-          driverName: "Lewis Hamilton",
-          driverAge: "37",
-          driverLocation: "Istanbul",
-          driverDescription: "Guzel bir yolc..",
-          driverPrice: "150"),
-      DriverListDriver(
-          driverName: "Ahmet Kasabalı",
-          driverAge: "20",
-          driverLocation: "Istanbul",
-          driverDescription: "Selamlar benimle yolc..",
-          driverPrice: "150"),
-      DriverListDriver(
-          driverName: "Ahmet Kasabalı",
-          driverAge: "20",
-          driverLocation: "Istanbul",
-          driverDescription: "Ben süper bir..",
-          driverPrice: "150")
-    ];
+    */
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Rent Car App"),
         centerTitle: true,
         actions: [
-          InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, "/profileCustomer");
+          FutureBuilder(
+            future: ProfileService.getCustomer(RentVanApp.userId),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                    String customerPhoto = (snapshot.data as Customer).profileImage as String;
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, "/profileCustomer",arguments: RentVanApp.userId);
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Theme.of(context).highlightColor,
+                    radius: 24,
+                    child: CircleAvatar(
+                      backgroundImage: 
+                          customerPhoto == "null" ? 
+                            AssetImage(AssetPaths.blankProfilePhotoPath) : Image.memory(base64Decode(customerPhoto)).image,
+                      radius: 21.0,
+                    ),
+                  ),
+                );
+              } else {
+                return Container();
+              }
             },
-            child: CircleAvatar(
-              backgroundColor: Theme.of(context).highlightColor,
-              radius: 24,
-              child: CircleAvatar(
-                backgroundImage: AssetImage(AssetPaths.blankProfilePhotoPath),
-                radius: 21.0,
-              ),
-            ),
           ),
         ],
       ),
@@ -285,83 +300,103 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                         SizedBox(
                           height: phoneHeight * 0.005,
                         ),
-                        Expanded(
-                          flex: 3,
-                          child: InkWell(
-                            onTap: () => Navigator.pushNamed(
-                                context, "/profileDriverPersonal",arguments: "23323"),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).highlightColor,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: ListTile(
-                                style: ListTileStyle.list,
-                                title: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      radius: 30,
-                                      child: CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            AssetPaths.blankProfilePhotoPath),
-                                        radius: 27.0,
+                        FutureBuilder(
+                          future: ProfileService.getCustomer(RentVanApp.userId),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                    ConnectionState.done &&
+                                snapshot.hasData) {
+                              return Expanded(
+                                flex: 3,
+                                child: InkWell(
+                                  onTap: () => Navigator.pushNamed(
+                                      context, "/profileDriverPersonal",
+                                      arguments: "23323"),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).highlightColor,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: phoneWidth * 0.05,
-                                      height: phoneHeight * 0.05,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Lewis Hamilton (27)",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 17),
-                                        ),
-                                        Text(
-                                          "Istanbul",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14),
-                                        ),
-                                        Text(
-                                          "Start : 25.05.22 - Finish : 27.05.22",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14),
-                                        ),
-                                      ],
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        alignment: Alignment.topRight,
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 5),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(5),
+                                    child: ListTile(
+                                      style: ListTileStyle.list,
+                                      title: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor: Colors.white,
+                                            radius: 30,
+                                            child: CircleAvatar(
+                                              backgroundImage: AssetImage(
+                                                  AssetPaths
+                                                      .blankProfilePhotoPath),
+                                              radius: 27.0,
                                             ),
                                           ),
-                                          child: Text("150TL"),
-                                        ),
+                                          SizedBox(
+                                            width: phoneWidth * 0.05,
+                                            height: phoneHeight * 0.05,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Lewis Hamilton (27)",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 17),
+                                              ),
+                                              Text(
+                                                "Istanbul",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14),
+                                              ),
+                                              Text(
+                                                "Start : 25.05.22 - Finish : 27.05.22",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              alignment: Alignment.topRight,
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 5),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(5),
+                                                  ),
+                                                ),
+                                                child: Text("150TL"),
+                                              ),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                    )
-                                  ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
+                              );
+                            } else {
+                              return Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    color: Theme.of(context).highlightColor,
+                                  ));
+                            }
+                          },
                         )
                       ],
                     ),
@@ -394,36 +429,62 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                           ),
                           Expanded(
                             flex: 10,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: phoneWidth * 0.02,
-                                  vertical: phoneHeight * 0.01),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                                border: Border.all(
-                                    color: Theme.of(context).highlightColor,
-                                    width: 5),
-                              ),
-                              child: ListView.separated(
-                                separatorBuilder: (context, index) => SizedBox(
-                                  height: phoneHeight * 0.01,
-                                ),
-                                itemCount: drivers.length,
-                                itemBuilder: ((context, index) {
-                                  return DriverListDriver(
-                                    driverName: drivers[index].driverName,
-                                    driverAge: drivers[index].driverAge,
-                                    driverLocation:
-                                        drivers[index].driverLocation,
-                                    driverDescription:
-                                        drivers[index].driverDescription,
-                                    driverPrice: drivers[index].driverPrice,
+                            child: FutureBuilder(
+                              future:
+                                  MainService.getFilteredDrivers(widget.filter),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                        ConnectionState.done &&
+                                    snapshot.hasData) {
+                                  List<Driver> drivers =
+                                      snapshot.data as List<Driver>;
+                                  return Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: phoneWidth * 0.02,
+                                        vertical: phoneHeight * 0.01),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                      border: Border.all(
+                                          color:
+                                              Theme.of(context).highlightColor,
+                                          width: 5),
+                                    ),
+                                    child: ListView.separated(
+                                      separatorBuilder: (context, index) =>
+                                          SizedBox(
+                                        height: phoneHeight * 0.01,
+                                      ),
+                                      itemCount: drivers.length,
+                                      itemBuilder: ((context, index) {
+                                        return DriverListDriver(
+                                          driverId: drivers[index].id,
+                                          driverName: drivers[index].name +
+                                              " " +
+                                              drivers[index].surname,
+                                          driverAge:
+                                              "${DateTime.now().year - int.parse(drivers[index].birthDate.toString().substring(0, 4))}",
+                                          driverLocation:
+                                              drivers[index].location,
+                                          driverDescription:
+                                              drivers[index].info,
+                                          driverPrice: drivers[index]
+                                              .hourlyPrice
+                                              .toString(),
+                                          driverRating:
+                                              drivers[index].rating.toString(),
+                                          driverPhoto:
+                                              drivers[index].profileImage,
+                                        );
+                                      }),
+                                    ),
                                   );
-                                }),
-                              ),
+                                } else {
+                                  return Container();
+                                }
+                              },
                             ),
                           ),
                         ],
@@ -546,10 +607,10 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                   .toList(),
                               onChanged: (value) {
                                 setState(() {
-                                  widget.locationDropdown = value;
+                                  widget.locationDropdown = value.toString();
                                 });
                               },
-                              dropdownColor:Colors.white,
+                              dropdownColor: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                               isExpanded: true,
                             ),
@@ -581,10 +642,11 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                   .toList(),
                               onChanged: (value) {
                                 setState(() {
-                                  widget.genderDropdown = value;
+                                  print(value);
+                                  widget.genderDropdown = value.toString();
                                 });
                               },
-                              dropdownColor:Colors.white,
+                              dropdownColor: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                               isExpanded: true,
                             ),
@@ -628,10 +690,10 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                     .toList(),
                                 onChanged: (value) {
                                   setState(() {
-                                    widget.languageDropdown = value;
+                                    widget.languageDropdown = value.toString();
                                   });
                                 },
-                                dropdownColor:Colors.white,
+                                dropdownColor: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                                 isExpanded: true,
                               ),
@@ -652,13 +714,12 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                 children: [
                                   Expanded(
                                     child: FilterSlider(
-                                      "Price",
-                                      editPrice,
-                                      0,
-                                      5000,
-                                      widget.startPrice.toDouble(),
-                                      widget.endPrice.toDouble()
-                                    ),
+                                        "Price",
+                                        editPrice,
+                                        0,
+                                        5000,
+                                        widget.startPrice.toDouble(),
+                                        widget.endPrice.toDouble()),
                                   )
                                 ],
                               ),
@@ -670,13 +731,12 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                 children: [
                                   Expanded(
                                     child: FilterSlider(
-                                      "Rating",
-                                      editRating,
-                                      0.0,
-                                      10.0,
-                                      widget.startRating,
-                                      widget.endRating
-                                    ),
+                                        "Rating",
+                                        editRating,
+                                        0.0,
+                                        10.0,
+                                        widget.startRating,
+                                        widget.endRating),
                                   )
                                 ],
                               ),
@@ -688,13 +748,12 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                 children: [
                                   Expanded(
                                     child: FilterSlider(
-                                      "Age",
-                                      editAge,
-                                      18,
-                                      70,
-                                      widget.startAge.toDouble(),
-                                      widget.endAge.toDouble()
-                                    ),
+                                        "Age",
+                                        editAge,
+                                        18,
+                                        70,
+                                        widget.startAge.toDouble(),
+                                        widget.endAge.toDouble()),
                                   )
                                 ],
                               ),
@@ -706,13 +765,12 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                 children: [
                                   Expanded(
                                     child: FilterSlider(
-                                      "Car Year",
-                                      editCarYear,
-                                      1990,
-                                      DateTime.now().year.toDouble(),
-                                      widget.startCarYear.toDouble(),
-                                      widget.endCarYear.toDouble()
-                                    ),
+                                        "Car Year",
+                                        editCarYear,
+                                        1990,
+                                        DateTime.now().year.toDouble(),
+                                        widget.startCarYear.toDouble(),
+                                        widget.endCarYear.toDouble()),
                                   )
                                 ],
                               ),
@@ -742,6 +800,28 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                           ),
                           onPressed: () {
                             Navigator.of(context).pop();
+
+                            widget.filter.ageStart = widget.startAge;
+                            widget.filter.ageEnd = widget.endAge;
+                            widget.filter.carYearStart = widget.startCarYear;
+                            widget.filter.carYearEnd = widget.endCarYear;
+                            widget.filter.gender =
+                                widget.genderDropdown != "Select"
+                                    ? widget.genderDropdown.toString()
+                                    : "null";
+                            widget.filter.language =
+                                widget.languageDropdown != "Select"
+                                    ? widget.languageDropdown.toString()
+                                    : "null";
+                            widget.filter.location =
+                                widget.locationDropdown != "Select"
+                                    ? widget.locationDropdown.toString()
+                                    : "null";
+                            widget.filter.ratingStart = widget.startRating;
+                            widget.filter.ratingEnd = widget.endRating;
+                            widget.filter.hourlyPriceStart = widget.startPrice;
+                            widget.filter.hourlyPriceEnd = widget.endPrice;
+
                             refreshWithFilter();
                           },
                         ),
