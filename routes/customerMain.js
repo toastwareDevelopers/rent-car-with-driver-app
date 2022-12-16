@@ -51,7 +51,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
                 flag_l = 0
                 for (let i = 0; i < drivers[step].languages.length; ++i) {
                     if (language != undefined) {
-                        if (!flag_l && (drivers[step].languages[i] == language)) {
+                        if (!flag_l && (drivers[step].languages[i] == language || language == "null")) {
                             flag_l = 1
                         }
                     }
@@ -64,7 +64,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
             if (!flag) {
                 if (gender != undefined)
-                    if (!((drivers[step].gender).toLowerCase() == gender.toLowerCase())) {
+                    if (!((drivers[step].gender).toLowerCase() == gender.toLowerCase() || gender == "null")) {
 
                         drivers.splice(step, 1)
                         flag = 1;
@@ -73,7 +73,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
             if (!flag) {
                 if (location != undefined)
-                    if (!((drivers[step].location).toLowerCase() == location.toLowerCase())) {
+                    if (!((drivers[step].location).toLowerCase() == location.toLowerCase() || location == "null")) {
 
                         drivers.splice(step, 1)
                         flag = 1;
