@@ -94,14 +94,22 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         //         + " " + drivers[step].languages + " " + drivers[step].gender + " " + (drivers[step].location).toLowerCase())
 
         // }
-        var sentDrivers = []
 
-        for (var i = 0; i < 20 && i < drivers.length; ++i) {
-            sentDrivers.push(drivers[drivers.length * Math.random() | 0]);
+        if(drivers.length < 20)
+            res.send(drivers)
+        else{
+            var sentDrivers = []
+
+            while(sentDrivers.length < 20) {
+                tempDriver = drivers[drivers.length * Math.random() | 0];
+                if (!sentDrivers.includes(tempDriver)){
+                    sentDrivers.push(tempDriver);
+                }
+            }
+
+            res.send(sentDrivers)
         }
-
-        res.send(sentDrivers)
-
+    
     } catch (error) {
 
         res.status(500).json({ error: error.message });
