@@ -27,8 +27,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
                 flag = 1;
             }
 
-            if (drivers[step].rating != undefined && !flag && ((!((ratingStart == undefined || ratingStart <= drivers[step].rating)
-                && (drivers[step].rating <= ratingEnd || ratingEnd == undefined))))) {
+           if (!flag && (!(ratingStart <= drivers[step].rating && drivers[step].rating <= ratingEnd))){
                 drivers.splice(step, 1)
                 flag = 1;
             }
