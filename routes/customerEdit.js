@@ -105,6 +105,6 @@ customerEditRouter.post('/api/edit/customer', async function (req, res) {
             res.status(500).json({error: error.message});
         }
 });
-
+ 
 
 module.exports = customerEditRouter; 

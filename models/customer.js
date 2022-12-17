@@ -8,10 +8,6 @@ const customerSchema = mongoose.Schema({
         type: String,
         default: "customer", 
     },
-    
-    profile_image64 : {
-        type: String,
-    },
 
     phoneNumber: {
         required: true,
@@ -128,9 +124,24 @@ const customerSchema = mongoose.Schema({
         // },
     },
 
+    profile_image64 : {
+        type: String,
+    },
+    
+    mailActivision: {
+
+        activisionKey: {
+            type: Number,
+        },
+        activisionStatus: {
+            type: Boolean,
+        },
+    },
+
     registerDate: {
         type: String,
     },
+
     trips: [mongoose.ObjectId],
 
     reviews:[mongoose.ObjectId],

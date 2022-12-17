@@ -27,7 +27,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
                 flag = 1;
             }
 
-           if (!flag && (!(ratingStart <= drivers[step].rating && drivers[step].rating <= ratingEnd))){
+            if (!flag && (!(ratingStart <= drivers[step].rating && drivers[step].rating <= ratingEnd))) {
                 drivers.splice(step, 1)
                 flag = 1;
             }
@@ -91,23 +91,17 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         // }
         // console.log("\n")
 
+        var sentDrivers = []
 
-        if (drivers.length < 20) {
 
-            res.send(drivers)
-        }
-        else {
-            var sentDrivers = []
-
-            while (sentDrivers.length < 20) {
-                tempDriver = drivers[drivers.length * Math.random() | 0];
-                if (!sentDrivers.includes(tempDriver)) {
-                    sentDrivers.push(tempDriver);
-                }
+        while (sentDrivers.length < 20 && sentDrivers.length < drivers.length) {
+            tempDriver = drivers[drivers.length * Math.random() | 0];
+            if (!sentDrivers.includes(tempDriver)) {
+                sentDrivers.push(tempDriver);
             }
-
-            res.send(sentDrivers)
         }
+
+        res.send(sentDrivers)
 
     } catch (error) {
 
