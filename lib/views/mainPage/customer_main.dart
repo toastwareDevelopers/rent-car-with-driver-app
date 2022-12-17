@@ -380,7 +380,9 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                         ),
                                         Expanded(
                                           child: Container(
-                                            margin: EdgeInsets.only(right: phoneWidth*0.01,top: phoneHeight*0.005),
+                                            margin: EdgeInsets.only(
+                                                right: phoneWidth * 0.01,
+                                                top: phoneHeight * 0.005),
                                             alignment: Alignment.topRight,
                                             child: Container(
                                               padding: EdgeInsets.symmetric(
@@ -401,7 +403,15 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                 return Expanded(
                                   flex: 3,
                                   child: Container(
-                                    color: Theme.of(context).highlightColor,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).highlightColor,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text("There is no active renting" ,style: TextStyle(color:Colors.white),),
+                                    ),
                                   ),
                                 );
                               }
@@ -409,7 +419,18 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                               return Expanded(
                                 flex: 3,
                                 child: Container(
-                                  color: Theme.of(context).highlightColor,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).highlightColor,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: snapshot.connectionState ==
+                                            ConnectionState.waiting
+                                        ? Text("Active renting is laoding..." ,style: TextStyle(color:Colors.white),)
+                                        : Text("There is no active renting" ,style: TextStyle(color:Colors.white),),
+                                  ),
                                 ),
                               );
                             }
@@ -446,62 +467,70 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                           ),
                           Expanded(
                             flex: 10,
-                            child: FutureBuilder(
-                              future:
-                                  MainService.getFilteredDrivers(widget.filter),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                        ConnectionState.done &&
-                                    snapshot.hasData) {
-                                  List<Driver> drivers =
-                                      snapshot.data as List<Driver>;
-                                  return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: phoneWidth * 0.02,
-                                        vertical: phoneHeight * 0.01),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(5),
-                                      ),
-                                      border: Border.all(
-                                          color:
-                                              Theme.of(context).highlightColor,
-                                          width: 5),
-                                    ),
-                                    child: ListView.separated(
-                                      separatorBuilder: (context, index) =>
-                                          SizedBox(
-                                        height: phoneHeight * 0.01,
-                                      ),
-                                      itemCount: drivers.length,
-                                      itemBuilder: ((context, index) {
-                                        return DriverListDriver(
-                                          driverId: drivers[index].id,
-                                          driverName: drivers[index].name +
-                                              " " +
-                                              drivers[index].surname,
-                                          driverAge:
-                                              "${DateTime.now().year - int.parse(drivers[index].birthDate.toString().substring(0, 4))}",
-                                          driverLocation:
-                                              drivers[index].location,
-                                          driverDescription:
-                                              drivers[index].info,
-                                          driverPrice: drivers[index]
-                                              .hourlyPrice
-                                              .toString(),
-                                          driverRating:
-                                              drivers[index].rating.toString(),
-                                          driverPhoto:
-                                              drivers[index].profileImage,
-                                        );
-                                      }),
-                                    ),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: phoneWidth * 0.02,
+                                  vertical: phoneHeight * 0.01),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                                border: Border.all(
+                                    color: Theme.of(context).highlightColor,
+                                    width: 5),
+                              ),
+                              child: FutureBuilder(
+                                  future: MainService.getFilteredDrivers(
+                                      widget.filter),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                            ConnectionState.done &&
+                                        (snapshot.data as List<Driver>).length >
+                                            0) {
+                                      List<Driver> drivers =
+                                          snapshot.data as List<Driver>;
+                                      return ListView.separated(
+                                        separatorBuilder: (context, index) =>
+                                            SizedBox(
+                                          height: phoneHeight * 0.01,
+                                        ),
+                                        itemCount: drivers.length,
+                                        itemBuilder: ((context, index) {
+                                          return DriverListDriver(
+                                            driverId: drivers[index].id,
+                                            driverName: drivers[index].name +
+                                                " " +
+                                                drivers[index].surname,
+                                            driverAge:
+                                                "${DateTime.now().year - int.parse(drivers[index].birthDate.toString().substring(0, 4))}",
+                                            driverLocation:
+                                                drivers[index].location,
+                                            driverDescription:
+                                                drivers[index].info,
+                                            driverPrice: drivers[index]
+                                                .hourlyPrice
+                                                .toString(),
+                                            driverRating: drivers[index]
+                                                .rating
+                                                .toString(),
+                                            driverPhoto:
+                                                drivers[index].profileImage,
+                                          );
+                                        }),
+                                      );
+                                    } else {
+                                      return Container(
+                                        child: Center(
+                                            child: snapshot.connectionState ==
+                                                    ConnectionState.waiting
+                                                ? Text(
+                                                    "Drivers are loading ...")
+                                                : Text(
+                                                    "We couldn't find any driver")),
+                                      );
+                                    }
+                                  }),
                             ),
                           ),
                         ],
