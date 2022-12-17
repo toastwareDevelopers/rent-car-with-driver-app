@@ -37,6 +37,12 @@ reviewCreateRouter.post('/api/createReview',async function(req,res){
             return res.status(400).json({msg: "There is not a customer with this customerID"}); 
         }
 
+        const existTrip = await Trip.findById(tripId);
+
+        if(!existTrip){
+            return res.status(400).json({msg: "There is not a trip with this Trip ID"}); 
+        }
+
         /* This is creating a new trip object with the data that was passed in the request body. */
         let review = Review({
             reviewText,
@@ -56,6 +62,8 @@ reviewCreateRouter.post('/api/createReview',async function(req,res){
         /* This is updating the driver and customer objects with the trip id. */
         await existDriver.updateOne({ $push: { reviews: [review.id] }});
         await existCustomer.updateOne({ $push: { reviews: [review.id] }});
+        await existTrip.updateOne({reviewId:review.id});
+    
 
         /* This is sending the trip object to the client. */
         res.send(review);

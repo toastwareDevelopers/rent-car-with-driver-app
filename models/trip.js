@@ -12,7 +12,9 @@ const tripSchema = ({
 
     location: String,
 
-    price: Number
+    price: Number,
+
+    reviewId: mongoose.ObjectId
     
 });
 
