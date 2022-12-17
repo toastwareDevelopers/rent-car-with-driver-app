@@ -38,11 +38,14 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
                 y = x.toObject();
                 
                 temp = await Customer.findById(x.customerId);
+
+                if(!temp) return res.status(400).json({msg:"Customeri silmisler databaseden"});
                 y.customerName = temp.name;
                 y.customerSurname = temp.surname;
                 y.customerProfile_image64 = temp.profile_image64;
 
                 temp = await Driver.findById(x.driverId);
+                if(!temp) return res.status(400).json({msg:"Driveri silmisler databaseden"});
 
                 y.driverName = temp.name;
                 y.driverSurname = temp.surname;

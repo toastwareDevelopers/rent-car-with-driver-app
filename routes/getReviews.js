@@ -14,11 +14,11 @@ const getReviewsRouter = express.Router();
 getReviewsRouter.get('/api/getReviews',async function (req,res){
 
     try {
-        //console.log("hi");
+        
         /* Getting the id from the query string. */
         const _id = req.query.ID;
 
-        //console.log(_id)
+        console.log(_id)
 
          /* Checking if the model is a customer. If it is, it returns the model. */
         model = await Customer.findById(_id);
@@ -40,11 +40,18 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
                 y = x.toObject();
                 
                 temp = await Customer.findById(x.customerId);
+
+                if(!temp) return res.status(400).json({msg:"Customeri silmisler databaseden"});
+
                 y.customerName = temp.name;
                 y.customerSurname = temp.surname; 
                 y.customerProfile_image64 = temp.profile_image64;
 
+                
+
                 temp = await Driver.findById(x.driverId);
+
+                if(!temp) return res.status(400).json({msg:"Driveri silmisler databaseden"});
 
                 y.driverName = temp.name;
                 y.driverSurname = temp.surname; 
