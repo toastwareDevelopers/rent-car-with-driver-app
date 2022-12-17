@@ -245,6 +245,16 @@ const userSchema = mongoose.Schema({
         type: Boolean,
     },
 
+    mailActivision: {
+
+        activisionKey: {
+            type: Number,
+        },
+        activisionStatus: {
+            type: Boolean,
+        },
+    },
+
 });
 
 
