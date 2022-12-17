@@ -3,6 +3,7 @@ part 'driver.g.dart';
 
 @JsonSerializable()
 class Driver {
+  String id = "null";
   String email = "null";
   String password = "null";
   String name = "null";
@@ -24,15 +25,17 @@ class Driver {
   Map<String, dynamic> carInfo = {};
   List<String> trips = [];
   String profileImage = "null";
+  List<String> reviews = [];
 
   Driver({
+    this.id = "null",
     this.email = "null",
     this.password = "null",
     this.name = "null",
     this.surname = "null",
-    this.birthDate = "null",
-    this.gender = "null",
-    this.phoneNumber = "null",
+    this.birthDate = "1900-01-01",
+    this.gender = "Male",
+    this.phoneNumber = "5000000000",
     this.nationalId = "null",
     this.passportNumber = "null",
     this.location = "null",
@@ -47,6 +50,7 @@ class Driver {
     this.carInfo = const {},
     this.trips = const [],
     this.profileImage = "null",
+    this.reviews = const[]
   });
 
   factory Driver.fromJson(Map<String, dynamic> json) => _$DriverFromJson(json);
@@ -55,6 +59,6 @@ class Driver {
 
   @override
   String toString() {
-    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $info\nskills : $skills\nlanguages : $languages\nlicenceNumber : $licenceNumber\nlicenceYear : $licenceYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\n";
+    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $info\nskills : $skills\nlanguages : $languages\nlicenceNumber : $licenceNumber\nlicenceYear : $licenceYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\nreviews : $reviews";
   }
 }

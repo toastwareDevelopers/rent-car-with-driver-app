@@ -15,10 +15,10 @@ DriverFilter _$DriverFilterFromJson(Map<String, dynamic> json) {
     hourlyPriceEnd: json['hourlyPriceEnd'] as int?,
     ratingStart: (json['ratingStart'] as num?)?.toDouble(),
     ratingEnd: (json['ratingEnd'] as num?)?.toDouble(),
-    ageStart: (json['ageStart'] as num?)?.toDouble(),
-    ageEnd: (json['ageEnd'] as num?)?.toDouble(),
-    carYearStart: (json['carYearStart'] as num?)?.toDouble(),
-    carYearEnd: (json['carYearEnd'] as num?)?.toDouble(),
+    ageStart: (json['ageStart'] as int?),
+    ageEnd: (json['ageEnd'] as int?),
+    carYearStart: (json['carYearStart'] as int?),
+    carYearEnd: (json['carYearEnd'] as int?),
   );
 }
 

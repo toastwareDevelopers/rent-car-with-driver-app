@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/review.dart';
@@ -12,7 +14,6 @@ import '../../widgets/review_widget.dart';
 
 class DriverProfileScreen extends StatefulWidget {
   DriverProfileScreen({super.key});
-  var reviews = [];
 
   @override
   State<DriverProfileScreen> createState() => _DriverProfileScreenState();
@@ -226,11 +227,11 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                       ),
                       //Skills and Languages
                       Expanded(
-                        flex: ((driver.languages?.length as int) / 4 > 1 &&
-                                (driver.skills?.length as int) / 4 > 1)
+                        flex: ((driver.languages.length as int) / 4 > 1 &&
+                                (driver.skills.length as int) / 4 > 1)
                             ? 5
-                            : ((driver.languages?.length as int) / 4 > 1 ||
-                                    (driver.skills?.length as int) / 4 > 1)
+                            : ((driver.languages.length as int) / 4 > 1 ||
+                                    (driver.skills.length as int) / 4 > 1)
                                 ? 4
                                 : 3,
                         child: Container(
@@ -241,12 +242,12 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                           child: Column(
                             children: [
                               Expanded(
-                                flex: (driver.skills?.length as int) / 4 > 1 &&
-                                        (driver.languages?.length as int) / 4 <=
+                                flex: (driver.skills.length as int) / 4 > 1 &&
+                                        (driver.languages.length as int) / 4 <=
                                             1
                                     ? 3
-                                    : (driver.skills?.length as int) / 4 <= 1 &&
-                                            (driver.languages?.length as int) /
+                                    : (driver.skills.length as int) / 4 <= 1 &&
+                                            (driver.languages.length as int) /
                                                     4 >
                                                 1
                                         ? 2
@@ -257,26 +258,26 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
-                                        flex: (driver.skills?.length as int) / 4 >
+                                        flex: (driver.skills.length as int) / 4 >
                                                     1 &&
-                                                (driver.languages?.length
+                                                (driver.languages.length
                                                             as int) /
                                                         4 <=
                                                     1
                                             ? 16
-                                            : (driver.skills?.length as int) /
+                                            : (driver.skills.length as int) /
                                                             4 <=
                                                         1 &&
-                                                    (driver.languages?.length
+                                                    (driver.languages.length
                                                                 as int) /
                                                             4 >
                                                         1
                                                 ? 25
-                                                : (driver.skills?.length
+                                                : (driver.skills.length
                                                                     as int) /
                                                                 4 >
                                                             1 &&
-                                                        (driver.languages?.length
+                                                        (driver.languages.length
                                                                     as int) /
                                                                 4 >
                                                             1
@@ -302,12 +303,12 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                                   mainAxisSpacing: 10,
                                                   crossAxisSpacing: 10,
                                                   childAspectRatio: 3),
-                                          itemCount: driver.skills?.length,
+                                          itemCount: driver.skills.length,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context, index) =>
                                               DriverSkillBar(
                                             skillText:
-                                                driver.skills?[index] as String,
+                                                driver.skills[index] as String,
                                           ),
                                         ),
                                       ),
@@ -316,12 +317,12 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                 ),
                               ),
                               Expanded(
-                                flex: (driver.skills?.length as int) / 4 > 1 &&
-                                        (driver.languages?.length as int) / 4 <=
+                                flex: (driver.skills.length as int) / 4 > 1 &&
+                                        (driver.languages.length as int) / 4 <=
                                             1
                                     ? 2
-                                    : (driver.skills?.length as int) / 4 <= 1 &&
-                                            (driver.languages?.length as int) /
+                                    : (driver.skills.length as int) / 4 <= 1 &&
+                                            (driver.languages.length as int) /
                                                     4 >
                                                 1
                                         ? 3
@@ -332,26 +333,26 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
-                                        flex: (driver.skills?.length as int) / 4 >
+                                        flex: (driver.skills.length as int) / 4 >
                                                     1 &&
-                                                (driver.languages?.length
+                                                (driver.languages.length
                                                             as int) /
                                                         4 <=
                                                     1
                                             ? 25
-                                            : (driver.skills?.length as int) /
+                                            : (driver.skills.length as int) /
                                                             4 <=
                                                         1 &&
-                                                    (driver.languages?.length
+                                                    (driver.languages.length
                                                                 as int) /
                                                             4 >
                                                         1
                                                 ? 16
-                                                : (driver.skills?.length
+                                                : (driver.skills.length
                                                                     as int) /
                                                                 4 >
                                                             1 &&
-                                                        (driver.languages?.length
+                                                        (driver.languages.length
                                                                     as int) /
                                                                 4 >
                                                             1
@@ -377,11 +378,11 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                                   mainAxisSpacing: 10,
                                                   crossAxisSpacing: 10,
                                                   childAspectRatio: 3),
-                                          itemCount: driver.languages?.length,
+                                          itemCount: driver.languages.length,
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context, index) =>
                                               DriverSkillBar(
-                                            skillText: driver.languages?[index]
+                                            skillText: driver.languages[index]
                                                 as String,
                                           ),
                                         ),
@@ -396,11 +397,11 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                       ),
                       //Reviews
                       Expanded(
-                        flex: ((driver.languages?.length as int) / 4 > 1 &&
-                                (driver.skills?.length as int) / 4 > 1)
+                        flex: ((driver.languages.length as int) / 4 > 1 &&
+                                (driver.skills.length as int) / 4 > 1)
                             ? 4
-                            : ((driver.languages?.length as int) / 4 > 1 ||
-                                    (driver.skills?.length as int) / 4 > 1)
+                            : ((driver.languages.length as int) / 4 > 1 ||
+                                    (driver.skills.length as int) / 4 > 1)
                                 ? 3
                                 : 4,
                         child: Container(
@@ -444,23 +445,53 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                       Radius.circular(5),
                                     ),
                                   ),
-                                  child: ListView.separated(
-                                      itemBuilder: ((context, index) {
-                                        return ReviewWidget(
-                                            name: widget
-                                                .reviews[index].customerId
-                                                .toString(),
-                                            review: widget
-                                                .reviews[index].reviewText
-                                                .toString(),
-                                            rating: widget.reviews[index].rating
-                                                .toString());
-                                      }),
-                                      separatorBuilder: ((context, index) =>
-                                          SizedBox(
-                                            height: phoneHeight * 0.01,
-                                          )),
-                                      itemCount: widget.reviews.length),
+                                  child: FutureBuilder(
+                                    future:
+                                        ProfileService.getReviewsById(driverID),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                              ConnectionState.done &&
+                                          (snapshot.data as List<Review>)
+                                                  .length >
+                                              0) {
+                                        List<Review> reviews =
+                                            snapshot.data as List<Review>;
+                                        return ListView.separated(
+                                            itemBuilder: ((context, index) {
+                                              return ReviewWidget(
+                                                  name: reviews[index]
+                                                          .customerName
+                                                          .toString() +
+                                                      " " +
+                                                      reviews[index]
+                                                          .customerSurname
+                                                          .toString(),
+                                                  review: reviews[index]
+                                                      .reviewText
+                                                      .toString(),
+                                                  rating: reviews[index]
+                                                      .rating
+                                                      .toString());
+                                            }),
+                                            separatorBuilder: ((context,
+                                                    index) =>
+                                                SizedBox(
+                                                  height: phoneHeight * 0.01,
+                                                )),
+                                            itemCount: reviews.length);
+                                      } else {
+                                        return Container(
+                                          child: Center(
+                                              child: snapshot.connectionState ==
+                                                      ConnectionState.waiting
+                                                  ? Text(
+                                                      "Reviews are loading..")
+                                                  : Text(
+                                                      "We couldn't find any review")),
+                                        );
+                                      }
+                                    },
+                                  ),
                                 ),
                               ),
                             ],

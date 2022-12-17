@@ -47,7 +47,7 @@ class ReviewWidget extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: phoneWidth * 0.05,
+                        width: phoneWidth * 0.03,
                         height: phoneHeight * 0.05,
                       ),
                       Container(

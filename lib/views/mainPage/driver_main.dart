@@ -72,32 +72,32 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
           ),
         ),
         backgroundColor: const Color(0xff282828),
-        body: SizedBox(
-          width: phoneWidth,
-          height: phoneHeight,
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(
-                    top: phoneHeight * 0.06, bottom: phoneHeight * 0.01),
-                width: phoneWidth * 0.91,
-                child: const Text(
-                  "Active Customer",
-                  style: TextStyle(color: Colors.white, fontFamily: 'Arapey'),
+        body: Container(
+          child: Center(
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                      top: phoneHeight * 0.03, bottom: phoneHeight * 0.01),
+                  width: phoneWidth * 0.91,
+                  child: const Text(
+                    "Active Customer",
+                    style: TextStyle(color: Colors.white, fontFamily: 'Arapey'),
+                  ),
                 ),
-              ),
-              getActiveTrip(phoneWidth, phoneHeight),
-              Container(
-                margin: EdgeInsets.only(
-                    top: phoneHeight * 0.03, bottom: phoneHeight * 0.01),
-                width: phoneWidth * 0.9,
-                child: const Text(
-                  "Future Appointments",
-                  style: TextStyle(color: Colors.white, fontFamily: 'Arapey'),
+                getActiveTrip(phoneWidth, phoneHeight),
+                Container(
+                  margin: EdgeInsets.only(
+                      top: phoneHeight * 0.03, bottom: phoneHeight * 0.01),
+                  width: phoneWidth * 0.9,
+                  child: const Text(
+                    "Future Appointments",
+                    style: TextStyle(color: Colors.white, fontFamily: 'Arapey'),
+                  ),
                 ),
-              ),
-              listTrips(phoneWidth, phoneHeight),
-            ],
+                listTrips(phoneWidth, phoneHeight),
+              ],
+            ),
           ),
         ),
       ),
@@ -416,7 +416,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
         } else {
           return FutureBuilder(
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return const Text("No active customer");
+              return Container(child: Center(child: const Text("No active customer")));
             },
           );
         }

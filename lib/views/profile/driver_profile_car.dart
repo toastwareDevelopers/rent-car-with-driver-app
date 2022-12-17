@@ -218,7 +218,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                     SizedBox(height: 5,),
                                     TextFormField(
                                       readOnly: true,
-                                      initialValue: driver.carInfo?["brand"],
+                                      initialValue: driver.carInfo["brand"],
                                       decoration: const InputDecoration(
                                       ),
                                     ),
@@ -237,7 +237,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                     SizedBox(height: 5,),
                                     TextFormField(
                                       readOnly: true,
-                                      initialValue: driver.carInfo?["model"],
+                                      initialValue: driver.carInfo["model"],
                                       decoration: const InputDecoration(
                                       ),
                                     ),
@@ -266,7 +266,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                     SizedBox(height: 5,),
                                     TextFormField(
                                       readOnly: true,
-                                      initialValue: driver.carInfo?["color"],
+                                      initialValue: driver.carInfo["color"],
                                       decoration: const InputDecoration(
                                       ),
                                     ),
@@ -285,7 +285,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                     SizedBox(height: 5,),
                                     TextFormField(
                                       readOnly: true,
-                                      initialValue: driver.carInfo?["year"],
+                                      initialValue: driver.carInfo["year"],
                                       decoration: const InputDecoration(
                                       ),
                                     ),

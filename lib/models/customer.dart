@@ -9,7 +9,6 @@ class Customer {
   String? password;
   String? phoneNumber;
   String? passportNumber;
-  String? birthday;
   String? birthDate;
   String? gender;
   String? nationalId;
@@ -21,7 +20,6 @@ class Customer {
     this.password = "null",
     this.name = "null",
     this.surname = "null",
-    this.birthday = "null",
     this.birthDate = "null",
     this.gender = "null",
     this.phoneNumber = "null",
