@@ -9,17 +9,18 @@ const mongoose = require("mongoose");
 const loginAuthRouter = require("./routes/loginAuth");
 const driverAuthRouter = require("./routes/driverAuth");
 const driverEditRouter = require("./routes/driverEdit");
-const driverProfileRouter = require("./routes/driverProfile");
+//const driverProfileRouter = require("./routes/driverProfile");
 const customerAuthRouter = require("./routes/customerAuth");
 const customerMainRouter = require("./routes/customerMain");
 const customerEditRouter = require("./routes/customerEdit");
-const customerProfileRouter = require("./routes/customerProfile");
+//const customerProfileRouter = require("./routes/customerProfile");
 const tripCreateRouter = require("./routes/createTrip");
 const getModelRouter = require("./routes/getModel");
 const getTripsRouter = require("./routes/getTrips");
 const getReviewsRouter = require("./routes/getReviews");
 const reviewCreateRouter = require("./routes/createReview");
 const adminDriverRequestRouter = require('./routes/adminDriverRequest.js');
+const passwordResetRouter = require("./routes/passwordReset");
 
 /* Creating a server on port 3000. */
 const PORT = 3000;
@@ -36,16 +37,17 @@ app.use(loginAuthRouter);
 app.use(customerAuthRouter);
 app.use(customerEditRouter);
 app.use(customerMainRouter);
-app.use(customerProfileRouter);
+//app.use(customerProfileRouter);
 app.use(driverEditRouter);
 app.use(driverAuthRouter);
-app.use(driverProfileRouter);
+//app.use(driverProfileRouter);
 app.use(tripCreateRouter);
 app.use(getModelRouter);
 app.use(getTripsRouter);
 app.use(reviewCreateRouter);
 app.use(getReviewsRouter);
 app.use(adminDriverRequestRouter);
+app.use(passwordResetRouter);
 
 //connections
 connection()
