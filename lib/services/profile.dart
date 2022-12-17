@@ -104,6 +104,7 @@ class ProfileService {
 
       return reviews;
     } catch (e) {
+      print("Error getReviewsById() : " + e.toString());
       return [];
     }
   }

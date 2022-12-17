@@ -441,10 +441,11 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                               ConnectionState.done &&
-                                          snapshot.hasData) {
+                                          (snapshot.data as List<Review>)
+                                                  .length >
+                                              0) {
                                         List<Review> reviews =
                                             snapshot.data as List<Review>;
-
                                         return ListView.separated(
                                             itemBuilder: ((context, index) {
                                               return ReviewWidget(
@@ -469,7 +470,15 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                                 )),
                                             itemCount: reviews.length);
                                       } else {
-                                        return Container();
+                                        return Container(
+                                          child: Center(
+                                              child: snapshot.connectionState ==
+                                                      ConnectionState.waiting
+                                                  ? Text(
+                                                      "Reviews are loading..")
+                                                  : Text(
+                                                      "We couldn't find any review")),
+                                        );
                                       }
                                     },
                                   ),

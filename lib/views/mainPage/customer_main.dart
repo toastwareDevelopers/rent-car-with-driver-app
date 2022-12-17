@@ -688,7 +688,6 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                   .toList(),
                               onChanged: (value) {
                                 setState(() {
-                                  print(value);
                                   widget.genderDropdown = value.toString();
                                 });
                               },
