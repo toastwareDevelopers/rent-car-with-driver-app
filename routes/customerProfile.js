@@ -1,25 +1,26 @@
 const express = require('express');
 const Customer = require("../models/customer");
-
+const sMail = require("../middlewares/sendMail.js");
+const { getMaxListeners } = require('../models/customer');
 const CustomerProfileRouter = express.Router();
 
-CustomerProfileRouter.get('/customer/profile', async function (req, res) {
+CustomerProfileRouter.post('/customer/profile', async function (req, res) {
 
     try {
 
-        const { _id } = req.query.ID;
+        // const id = req.body._id;
 
-        profile = await Customer.findOne(_id);
+        // const profile = await Customer.findById(id);
+        // console.log(profile)
+        // if (profile) {
+        //     await profile.updateOne({ $unset: { mailActivision: 1 } })
+            //await sMail("toastwaredevelopers@gmail.com",profile)
+        //     res.sendStatus(200)
+        // }
+        // else {
 
-        if (profile) {
-            
-            res.send(profile)
-        }
-
-        else {
-
-            return res.status(404).json({ msg: "Page not found" });
-        }
+        //     return res.status(404).json({ msg: "Page not found" });
+        // }
 
     } catch (error) {
 

@@ -7,6 +7,8 @@ const loginAuthRouter = require("./routes/loginAuth");
 const customerMainRouter = require("./routes/customerMain");
 const customerEditRouter = require("./routes/customerEdit");
 const customerProfileRouter = require("./routes/customerProfile");
+const passwordResetRouter = require("./routes/passwordReset");
+
 const connection = require('./db.js')
 
 dotenv.config()
@@ -19,6 +21,7 @@ app.use(customerEditRouter);
 app.use(customerProfileRouter);
 app.use(loginAuthRouter);
 app.use(customerMainRouter);
+app.use(passwordResetRouter)
 
 /* Connecting to the MongoDB Atlas cluster. */
 connection()

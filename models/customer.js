@@ -6,7 +6,7 @@ const customerSchema = mongoose.Schema({
 
     role: {
         type: String,
-        default: "customer",
+        default: "customer", 
     },
 
     phoneNumber: {
@@ -124,11 +124,27 @@ const customerSchema = mongoose.Schema({
         // },
     },
 
+    profile_image64 : {
+        type: String,
+    },
+    
+    mailActivision: {
+
+        activisionKey: {
+            type: Number,
+        },
+        activisionStatus: {
+            type: Boolean,
+        },
+    },
+
     registerDate: {
         type: String,
     },
 
-    events: [mongoose.ObjectId],
+    trips: [mongoose.ObjectId],
+
+    reviews:[mongoose.ObjectId],
 });
 
 

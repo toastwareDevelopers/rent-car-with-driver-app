@@ -7,16 +7,13 @@ const CustomerProfileRouter = express.Router();
 
 CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
-
     try {
         var todayDate = new Date().toISOString()
-        const {location, gender, language, hourlyPriceStart, hourlyPriceEnd, ratingStart, ratingEnd, ageStart,
+        const { location, gender, language, hourlyPriceStart, hourlyPriceEnd, ratingStart, ratingEnd, ageStart,
             ageEnd, carYearStart, carYearEnd } = req.body;
 
         let drivers = await Driver.find({},
-            { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1 })
-
-
+            { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1, name: 1, surname: 1, bio: 1, hourlyPrice: 1, profile_image64: 1, info: 1 })
 
         var flag
         var flag_l
@@ -24,28 +21,24 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         for (let step = 0; step < drivers.length; step++) {
             flag = 0;
 
-            if (!flag && ((!((hourlyPriceStart == undefined | hourlyPriceStart <= drivers[step].hourlyPrice)
-                && (drivers[step].hourlyPrice <= hourlyPriceEnd | hourlyPriceEnd == undefined))))) {
+            if (!flag && (!(hourlyPriceStart <= drivers[step].hourlyPrice
+                && drivers[step].hourlyPrice <= hourlyPriceEnd))) {
                 drivers.splice(step, 1)
                 flag = 1;
             }
 
-            if (drivers[step].rating != undefined && !flag && ((!((ratingStart == undefined || ratingStart <= drivers[step].rating)
-                && (drivers[step].rating <= ratingEnd || ratingEnd == undefined))))) {
+            if (!flag && (!(ratingStart <= drivers[step].rating && drivers[step].rating <= ratingEnd))) {
                 drivers.splice(step, 1)
                 flag = 1;
             }
 
-            if (!flag && ((!((ageStart == undefined ||
-                ageStart <= (parseInt(todayDate) - drivers[step].birthDate.toLocaleDateString("en-US", { year: 'numeric' })))
-                && ((parseInt(todayDate) - drivers[step].birthDate.toLocaleDateString("en-US", { year: 'numeric' }))
-                    <= ageEnd || ageEnd == undefined))))) {
+            if (!flag && ((!(ageStart <= (parseInt(todayDate) - drivers[step].birthDate.toLocaleDateString("en-US", { year: 'numeric' }))
+                && (parseInt(todayDate) - drivers[step].birthDate.toLocaleDateString("en-US", { year: 'numeric' })) <= ageEnd)))) {
                 drivers.splice(step, 1)
                 flag = 1;
             }
 
-            if (!flag && ((!((carYearStart == undefined || carYearStart <= parseInt(drivers[step].carInfo.year))
-                && (parseInt(drivers[step].carInfo.year) <= carYearEnd || carYearEnd == undefined))))) {
+            if (!flag && ((!(carYearStart <= parseInt(drivers[step].carInfo.year) && parseInt(drivers[step].carInfo.year) <= carYearEnd)))) {
                 drivers.splice(step, 1)
                 flag = 1;
             }
@@ -53,10 +46,8 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
             if (!flag) {
                 flag_l = 0
                 for (let i = 0; i < drivers[step].languages.length; ++i) {
-                    if (language != undefined) {
-                        if (!flag_l && (drivers[step].languages[i] == language)) {
-                            flag_l = 1
-                        }
+                    if (!flag_l && (drivers[step].languages[i] == language || language == "null")) {
+                        flag_l = 1
                     }
                 }
                 if (!flag_l) {
@@ -66,21 +57,22 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
             }
 
             if (!flag) {
-                if (gender != undefined)
-                    if (!((drivers[step].gender).toLowerCase() == gender.toLowerCase())) {
 
-                        drivers.splice(step, 1)
-                        flag = 1;
-                    }
+                if (!((drivers[step].gender).toLowerCase() == gender.toLowerCase() || gender == "null")) {
+
+                    drivers.splice(step, 1)
+                    flag = 1;
+                }
             }
 
             if (!flag) {
-                if (location != undefined)
-                    if (!((drivers[step].location).toLowerCase() == location.toLowerCase())) {
 
-                        drivers.splice(step, 1)
-                        flag = 1;
-                    }
+                if (!((drivers[step].location).toLowerCase() == location.toLowerCase() || location == "null")) {
+
+                    drivers.splice(step, 1)
+                    flag = 1;
+                }
+
             }
 
             if (flag) {
@@ -92,35 +84,24 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
         // for (let step = 0; step < drivers.length; step++) {
 
 
-        //     console.log(drivers[step].rating + " " + drivers[step].hourlyPrice + " " + drivers[step].carInfo.year +
+        //     console.log(drivers[step].name + " " + drivers[step].rating + " " + drivers[step].hourlyPrice + " " + drivers[step].carInfo.year +
         //         " " + (parseInt(todayDate) - drivers[step].birthDate.toLocaleDateString("en-US", { year: 'numeric' }))
         //         + " " + drivers[step].languages + " " + drivers[step].gender + " " + (drivers[step].location).toLowerCase())
 
         // }
-        var arr = []
-        arr[20] = undefined
-        var rand_number = []
-        for (var i = 0; i < (drivers.length); ++i) {
+        // console.log("\n")
 
-            var temp = Math.floor(Math.random() * drivers.length)
-            if (rand_number.indexOf(temp) === -1) {
-                rand_number.push(temp);
-                arr[i] = drivers[i]._id
+        var sentDrivers = []
+
+
+        while (sentDrivers.length < 20 && sentDrivers.length < drivers.length) {
+            tempDriver = drivers[drivers.length * Math.random() | 0];
+            if (!sentDrivers.includes(tempDriver)) {
+                sentDrivers.push(tempDriver);
             }
-            else i = i - 1;
         }
 
-        
-            res.send(drivers[(rand_number[0])] + drivers[(rand_number[1])] +
-                drivers[(rand_number[2])] + drivers[(rand_number[3])] +
-                drivers[(rand_number[4])] + drivers[(rand_number[5])] +
-                drivers[(rand_number[6])] + drivers[(rand_number[7])] +
-                drivers[(rand_number[8])] + drivers[(rand_number[9])] +
-                drivers[(rand_number[10])] + drivers[(rand_number[11])] +
-                drivers[(rand_number[12])] + drivers[(rand_number[13])] +
-                drivers[(rand_number[14])] + drivers[(rand_number[15])] +
-                drivers[(rand_number[16])] + drivers[(rand_number[17])] +
-                drivers[(rand_number[18])] + drivers[(rand_number[19])])
+        res.send(sentDrivers)
 
     } catch (error) {
 

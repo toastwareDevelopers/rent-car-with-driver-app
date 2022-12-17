@@ -14,7 +14,7 @@ customerAuthRouter.post('/api/signup/customer', async function (req, res) {
         const existingCustomerWithNationalId = await Customer.findOne({ nationalId });
         const existingCustomerWithMail = await Customer.findOne({ email });
         const existingCustomerWithPhone = await Customer.findOne({ phoneNumber });
-        
+
         if (existingCustomerWithNationalId) {
             return res.status(400).json({ msg: "There is a person with same National Id already" });
         }
@@ -25,8 +25,8 @@ customerAuthRouter.post('/api/signup/customer', async function (req, res) {
 
         if (existingCustomerWithPhone) {
             return res.status(400).json({ msg: "There is a person with same phone number already" });
-        }   
-        
+        }
+
         const hashedPassword = await bcryptjs.hash(password, 8);
 
         let customer = new Customer({
@@ -40,7 +40,7 @@ customerAuthRouter.post('/api/signup/customer', async function (req, res) {
             nationalId,
             passportNumber,
             registerDate: moment().format('L, HH:mm')
-        });
+        }); 
 
         customer = await customer.save()
         res.send(customer);
