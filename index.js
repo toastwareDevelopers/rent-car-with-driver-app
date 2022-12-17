@@ -20,6 +20,7 @@ const getTripsRouter = require("./routes/getTrips");
 const getReviewsRouter = require("./routes/getReviews");
 const reviewCreateRouter = require("./routes/createReview");
 const adminDriverRequestRouter = require('./routes/adminDriverRequest.js');
+const passwordResetRouter = require("./routes/passwordReset");
 
 /* Creating a server on port 3000. */
 const PORT = 3000;
@@ -46,6 +47,7 @@ app.use(getTripsRouter);
 app.use(reviewCreateRouter);
 app.use(getReviewsRouter);
 app.use(adminDriverRequestRouter);
+app.use(passwordResetRouter);
 
 //connections
 connection()
