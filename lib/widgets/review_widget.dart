@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/utils/base64_converter.dart';
 import '../constants/assets_path.dart';
 
 class ReviewWidget extends StatelessWidget {
   var name = "null";
   var review = "null";
   var rating = "0.0";
+  var customerProfileImage = "null";
 
   ReviewWidget({
     super.key,
     this.name = "null",
     this.review = "null",
     this.rating = "0.0",
+    this.customerProfileImage = "null",
   });
 
   @override
@@ -42,7 +45,13 @@ class ReviewWidget extends StatelessWidget {
                         radius: 18,
                         child: CircleAvatar(
                           backgroundImage:
-                              AssetImage(AssetPaths.blankProfilePhotoPath),
+                          customerProfileImage !=
+                              "null"
+                              ? Image.memory(Base64Converter
+                              .decodeImage64(customerProfileImage))
+                              .image
+                              : AssetImage(AssetPaths
+                              .blankProfilePhotoPath),
                           radius: 15.0,
                         ),
                       ),
