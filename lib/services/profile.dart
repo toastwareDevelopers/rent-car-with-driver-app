@@ -16,6 +16,7 @@ class ProfileService {
     try {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info?ID=" + id);
       var response = await http.get(url, headers: headers);
+
       Driver driver = Driver.fromJson(jsonDecode(response.body));
       return driver;
     } catch (e) {
@@ -34,22 +35,64 @@ class ProfileService {
       Customer customer = Customer.fromJson(jsonDecode(response.body));
       return customer;
     } catch (e) {
+
       return Customer();
     }
   }
 
   static Future<List<Review>> getCustomerReviews(String id) async {
     try {
-      var url = Uri.parse("http://3.75.233.211:3000/api/info?ID=" + id);
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/getReviews?ID=" + id);
       var response = await http.get(url);
-      List<Review> review = jsonDecode(response.body);
-      return review;
+      print("istekten sonra");
+      List<Review> reviewList = [];
+      var jsonData = jsonDecode(response.body);
+
+      for (var u in jsonData) {
+        Review review = Review();
+        review.id = u["_id"];
+        review.customerId = u["customerId"];
+        review.customerName = u["customerName"];
+        review.customerSurname = u["customerSurname"];
+        review.driverId = u["driverId"];
+        review.driverName = u["driverName"];
+        review.driverSurname = u["driverSurname"];
+        review.reviewText = u["reviewText"];
+        review.tripId = u["tripId"];
+        review.driverProfile_image64 = u["driverProfile_image64"];
+        review.rating = u["rating"].toString();
+
+        print("rw: ${review.reviewText}");
+        reviewList.add(review);
+      }
+      print("cutomer revies");
+      return reviewList;
     } catch (e) {
       List<Review> review2 = [];
+      print("review error");
       return review2;
     }
   }
+  static Future<int> postCustomerReview(String customerId,String driverId,String reviewText,String rating,String tripId) async {
+    final headers = {
+      'Content-type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8',
+      'Accept': 'application/json',
+    };
+    try{
+      var url = Uri.parse( "http://" +ApiPaths.serverIP + "api/createReview");
+      Map<String,String> bodyReview = {"customerId": customerId,"driverId" : driverId, "reviewText": reviewText,
+                                        "rating": rating, "tripId": tripId};
+      var reviewBody = json.encode(bodyReview);
 
+      var response = await http.post(url,headers: headers,
+      body: reviewBody);
+      return response.statusCode;
+    }
+    catch(e){
+    return 400;
+    }
+  }
   static Future<List<Trip>> getTripsById(String id) async {
     final headers = {
       'Content-type': 'application/json;charset=UTF-8',
@@ -57,41 +100,37 @@ class ProfileService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info")
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/getTrips")
           .replace(queryParameters: {
         'ID': id,
       });
       print("yyyyy");
       var response = await http.get(url, headers: headers);
       var jsonData = json.decode(response.body);
-      print("json ${response.body}");
+      //print("json ${response.body}");
       List<Trip> listTrip = [];
-      print("xxxxx");
+
 
       for (var u in jsonData) {
-        print("aaaaaa");
         Trip trip = Trip();
         trip.sId = u["_id"];
-        print("ccccccc");
         trip.customerName = u["customerName"];
-        print("dddddd");
+        trip.customerSurname =u["customerSurname"];
+        trip.driverName = u["driverName"];
+        trip.driverSurname = u["driverSurname"];
         trip.startDate = u["startDate"];
-        print("eeeeeee");
         trip.endDate = u["endDate"];
-        print("fffffff");
         trip.location = u["location"];
-        print("ggggg");
-
         trip.price = u["price"];
-        print("bbbbbb");
+        trip.customerId =u["customerId"];
+        trip.driverId = u["driverId"];
         listTrip.add(trip);
-        print("kkkkk");
       }
       print("lenght ${listTrip.length}");
       return listTrip;
     } catch (e) {
       List<Trip> listTrip2 = [];
-      print("buradamisin");
+      print("Gettrip error");
       return listTrip2;
     }
   }

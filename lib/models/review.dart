@@ -7,17 +7,26 @@ class Review {
   String? driverId;
   String? customerId;
   String? driverName;
+  String? driverSurname;
   String? customerName;
+  String? customerSurname;
   String? reviewText;
   String? rating;
   String? tripId;
+  String? driverProfile_image64;
+
   Review( {
     this.id = "0",
     this.driverId = "null",
     this.customerId = "null",
+    this.driverName = "null",
+    this.customerName = "null",
+    this.driverSurname = "null",
+    this.customerSurname = "null",
     this.reviewText = "null",
     this.rating = "null",
-    this.tripId = "null"
+    this.tripId = "null",
+    this.driverProfile_image64,
   });
 
 

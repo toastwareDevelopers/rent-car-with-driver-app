@@ -2,20 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+import '../models/trip.dart';
+import 'make_review.dart';
+
 class CustomerTrip extends StatelessWidget {
   var skillText = "null";
-  var name;
+  var DriverName;
   var age;
   var city;
   var start_time;
   var finish_time;
+  var tripId;
+  var driverId;
+  var customerId;
 
-  CustomerTrip(var name,var age,var city,var start_time,var finish_time){
-    this.name = name;
+  CustomerTrip(var DriverName,var age,var city,var start_time,var finish_time,var tripId, var customerId, var driverId){
+    this.DriverName = DriverName;
     this.age  = age;
     this.city = city;
     this.start_time = start_time;
     this.finish_time =finish_time;
+    this.tripId = tripId;
+    this.customerId = customerId;
+    this.driverId = driverId;
+
+
   }
 
   @override
@@ -50,7 +61,7 @@ class CustomerTrip extends StatelessWidget {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  name,
+                  DriverName,
                   textAlign: TextAlign.left,
                   style: TextStyle(color: Colors.white,fontSize: 16),
                 ),
@@ -90,10 +101,10 @@ class CustomerTrip extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(width: phoneWidth*0.06,),
+
           Container(
             alignment: Alignment.centerRight,
-            width: phoneWidth * 0.1,
+            width: phoneWidth * 0.18,
             child: Column(
               children: [
                 Container(
@@ -104,14 +115,31 @@ class CustomerTrip extends StatelessWidget {
                   child: const Text("200 TL",style: TextStyle(backgroundColor: Colors.white),
                   ),
                 ),
+
+
                 Container(
-                  padding: EdgeInsets.only(
-                      top: phoneHeight * 0.02),
-                  height: phoneHeight * 0.05,
-                  //width: phoneWidth * 0.01,
-                  child: Text("Review",style: TextStyle(backgroundColor: Colors.white,),
+                  margin: EdgeInsets.only(
+                  top: phoneHeight * 0.03,
+                  bottom: phoneHeight*0.01,
+                  right: phoneWidth*0.01),
+                  height: phoneHeight * 0.025,
+                  //width: phoneWidth * 0.4,
+                  child: ElevatedButton(
+                    style:ElevatedButton.styleFrom( backgroundColor: Colors.white),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        "/reviewScreen",
+                        arguments: this,
+                      );
+
+                    },
+                    child: const Text("Review",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.black,fontSize: 12),),
                   ),
-                )
+                ),
+
+
               ],
             ),
           ) // en sagdaki butonlar

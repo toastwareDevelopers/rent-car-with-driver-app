@@ -16,7 +16,10 @@ Trip _$TripFromJson(Map<String, dynamic> json) => Trip(
       price : json['price']  ?? 0,
       iV : json['__v'] as String? ?? "null",
       customerName : json['customerName'] as String? ?? "null",
+      customerSurname: json['customerSurname'] as String? ?? "null",
       driverName : json['driverName']  as String? ?? "null",
+      driverSurname : json['driverSurname'] as String? ?? "null",
+
 );
 
 Map<String, dynamic> _$TripToJson(Trip instance) => <String, dynamic>{
@@ -30,7 +33,9 @@ Map<String, dynamic> _$TripToJson(Trip instance) => <String, dynamic>{
       'price' : instance.price,
       '__v' : instance.iV,
       'customerName' : instance.customerName,
+      'customerSurname' : instance.customerSurname,
       'driverName' : instance.driverName,
+      'driverSurname' : instance.driverSurname,
 
 
 };
