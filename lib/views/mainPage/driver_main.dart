@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/trip.dart';
 import 'package:rentcarmobile/services/mains.dart';
+import 'package:rentcarmobile/services/profile.dart';
 import 'package:rentcarmobile/utils/base64_converter.dart';
 
 
 import '../../constants/assets_path.dart';
+import '../../models/driver.dart';
 
 class DriverMainScreen extends StatefulWidget {
   DriverMainScreen({super.key});
@@ -23,28 +25,41 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
   Widget build(BuildContext context) {
     double phoneWidth = MediaQuery.of(context).size.width;
     double phoneHeight = MediaQuery.of(context).size.height - 60;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(50),
           child: AppBar(
             centerTitle: true,
             backgroundColor: const Color(0xff282828),
             actions: [
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, "/profileDriverPersonal",arguments: RentVanApp.userId);
+              FutureBuilder(
+                future: ProfileService.getDriver(RentVanApp.userId),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.hasData) {
+                    String customerPhoto =
+                    (snapshot.data as Driver).profileImage;
+                    return InkWell(
+                      onTap: () {
+                        // THIS PART MIGHT HAVE AN ISSUE!!!
+                        Navigator.pushNamed(context, '/profileDriverPersonal',arguments: RentVanApp.userId);
+                        //Navigator.of(context, rootNavigator: true).pushNamed("/profileDriverPersonal", arguments: RentVanApp.userId);
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Theme.of(context).highlightColor,
+                        radius: 24,
+                        child: CircleAvatar(
+                          backgroundImage: customerPhoto == "null"
+                              ? AssetImage(AssetPaths.blankProfilePhotoPath)
+                              : Image.memory(Base64Converter.decodeImage64(customerPhoto)).image,
+                          radius: 21.0,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
                 },
-                child: CircleAvatar(
-                  backgroundColor: Theme.of(context).highlightColor,
-                  radius: 24,
-                  child: CircleAvatar(
-                    // ADDED PROFILE IMAGE HERE!!! this is problematic because driver image data is not present
-                    backgroundImage: AssetImage(AssetPaths.blankProfilePhotoPath),
-                    radius: 21.0,
-                  ),
-                ),
               ),
             ],
             title: const Text(
@@ -100,7 +115,6 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
             ),
           ),
         ),
-      ),
     );
   }
 
@@ -311,15 +325,17 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        // ADDED PROFILE IMAGE HERE!!!
-                        child: Image(image: snapshot.data?.customerProfileImage !=
+                        child: Image(
+                          image: snapshot.data?.customerProfileImage !=
                             "null"
                             ? Image.memory(Base64Converter
                             .decodeImage64(
-                            snapshot.data?.customerProfileImage))
+                              snapshot.data?.customerProfileImage))
                             .image
                             : AssetImage(AssetPaths
                             .blankProfilePhotoPath),
+                          width: phoneHeight * .15,
+                          height: phoneHeight * .15,
                         ),
                       ),
                       SizedBox(
@@ -382,7 +398,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                             decoration: const BoxDecoration(
                               color: Colors.white,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(3)),
+                              BorderRadius.all(Radius.circular(3)),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black,
