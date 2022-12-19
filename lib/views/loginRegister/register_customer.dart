@@ -317,7 +317,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               password1.value.text.toString().isEmpty ||
                               password2.value.text.toString().isEmpty ||
                               phoneNumber.value.text.toString().isEmpty ||
-                              (nationalID.value.text.toString().isEmpty && passportID.value.text.toString().isEmpty)) {
+                              nationalID.value.text.toString().isEmpty) {
                             WarningAlert.showWarningDialog(
                               context,
                               "Please fill all inputs!",
