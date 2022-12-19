@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/input_validator.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
+import 'package:rentcarmobile/widgets/profile_icon_widget.dart';
 
-import '../../constants/assets_path.dart';
 import '../../models/customer.dart';
 
 class RegisterCustomerScreen extends StatefulWidget {
@@ -31,6 +31,9 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
   TextEditingController birthDateController = TextEditingController();
   String? genderDropdown = "Male";
   final List<String> genders = ["Male", "Female"];
+
+  final ProfileIcon _profileIcon = ProfileIcon(key: null, selectedImage: "null");
+
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
@@ -47,45 +50,16 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
               Column(
                 children: [
                   Container(
-                    // ismin bulunduğu alan
-                    child: Container(
-                      padding: EdgeInsets.only(top: phoneHeight * 0.06),
-                      child: Text(
-                        "Register as a Customer",
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
+                    padding: EdgeInsets.only(top: phoneHeight * 0.06),
+                    child: Text(
+                      "Register as a Customer",
+                      style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ),
-                  Container(
-                    // profil resmi
-                    padding: EdgeInsets.only(
-                        top: phoneHeight * 0.04, bottom: phoneHeight * 0.04),
-                    child: Center(
-                      child: Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Theme.of(context).highlightColor,
-                            radius: 40,
-                            child: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage(AssetPaths.blankProfilePhotoPath),
-                              radius: 37.0,
-                            ),
-                          ),
-                          CircleAvatar(
-                            backgroundColor: Theme.of(context).highlightColor,
-                            radius: 13,
-                            child: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage(AssetPaths.uploadPhotoIconPath),
-                              radius: 10.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+
+                  // Profile Icon
+                  _profileIcon,
+
                   Container(
                     // form elamanları
                     height: MediaQuery.of(context).size.height / 2,
@@ -349,11 +323,10 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                             data.password = password1.value.text.toString();
                             data.phoneNumber =
                                 phoneNumber.value.text.toString();
-                            data.birthday =
+                            data.birthDate =
                                 birthDateController.value.text.toString();
                             data.gender = genderDropdown.toString();
-                            data.birthday =
-                                birthDateController.value.text.toString();
+                            data.profileImage = _profileIcon.selectedImage;
 
                             if (_character?.index == 0) {
                               data.nationalId = idNumber.value.text.toString();
@@ -361,6 +334,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               data.passportNumber =
                                   idNumber.value.text.toString();
                             }
+
                             if ((await AuthService.registerCustomer(data)) !=
                                 200) {
                               WarningAlert.showWarningDialog(

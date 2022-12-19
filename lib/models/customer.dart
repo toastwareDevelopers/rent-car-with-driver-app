@@ -9,22 +9,23 @@ class Customer {
   String? password;
   String? phoneNumber;
   String? passportNumber;
-  String? birthday;
   String? birthDate;
   String? gender;
   String? nationalId;
+  String? profileImage;
+
   List<String>? trips;
-  Customer( {
+  Customer({
     this.email = "null",
     this.password = "null",
     this.name = "null",
     this.surname = "null",
-    this.birthday = "null",
     this.birthDate = "null",
     this.gender = "null",
     this.phoneNumber = "null",
     this.passportNumber = "null",
     this.nationalId = "null",
+    this.profileImage = "null",
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) =>
