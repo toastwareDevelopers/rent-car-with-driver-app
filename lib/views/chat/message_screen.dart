@@ -105,6 +105,7 @@ class MessageScreen extends StatefulWidget {
     Message("efkjweujfılwejhrıfujwefr", MessageType.Sent, "20:13"),
     Message("jıwejrıwjerıojweıorjıowjer", MessageType.Sent, "20:13"),*/
   ];
+
   MessageScreen({super.key});
   State<MessageScreen> createState() => _MessageScreenState();
 
@@ -113,6 +114,7 @@ class MessageScreen extends StatefulWidget {
 
 class _MessageScreenState extends State<MessageScreen> {
   IO.Socket? socket;
+
   String roomID = "null";
   String receiverId = "6353fff17075dc541cc72e60";
   List<Message> listMsg = [];
@@ -180,6 +182,9 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    //receiverId = arguments['receiverId'];
 
     return Scaffold(
       appBar: AppBar(

@@ -106,16 +106,18 @@ class MainService {
       'Accept': 'application/json',
     };
 
-    try{
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "/customer/activeTrip")
-          .replace(queryParameters: {
+    try {
+      var url =
+          Uri.parse("http://" + ApiPaths.serverIP + "/customer/activeTrip")
+              .replace(queryParameters: {
         'ID': id,
       });
 
       var response = await http.get(url, headers: headers);
-      ActiveRentingCustomer renting = ActiveRentingCustomer.fromJson(jsonDecode(response.body));
+      ActiveRentingCustomer renting =
+          ActiveRentingCustomer.fromJson(jsonDecode(response.body));
       return renting;
-    }catch (e) {
+    } catch (e) {
       return ActiveRentingCustomer();
     }
   }
@@ -129,13 +131,14 @@ class MainService {
 
     try {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/customer/main");
+      print("response:");
       var response = await http.post(url,
           body: json.encode(driverFilter), headers: headers);
-            
+      print(response.body);
       List<dynamic> driversD = jsonDecode(response.body);
       List<Driver> drivers = [];
 
-      for(int i = 0; i < driversD.length; i++){
+      for (int i = 0; i < driversD.length; i++) {
         Driver driver = Driver.fromJson(driversD[i]);
         drivers.add(driver);
       }
