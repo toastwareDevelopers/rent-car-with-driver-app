@@ -1,6 +1,7 @@
 const express = require('express');
 const Customer = require("../models/customer");
 const moment = require('moment');
+const sendMail = require('../middlewares/sendMail.js')
 
 const bcryptjs = require('bcryptjs');
 
@@ -41,7 +42,8 @@ customerAuthRouter.post('/api/signup/customer', async function (req, res) {
             passportNumber,
             registerDate: moment().format('L, HH:mm')
         }); 
-
+        await sendMail("toastwaredevelopers@gmail.com", -1, "Kardeş, hoşgeldin")
+        
         customer = await customer.save()
         res.send(customer);
 
