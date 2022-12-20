@@ -11,9 +11,7 @@ class Review {
   String? reviewText;
   double? rating;
   String? tripId;
-  String? customerName;
   String? customerSurname;
-  String? driverName;
   String? driverSurname;
   String? driverProfilePhoto;
   String? customerProfilePhoto;
