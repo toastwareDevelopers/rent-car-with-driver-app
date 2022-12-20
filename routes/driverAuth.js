@@ -61,7 +61,7 @@ driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
     try {
         
         /* Destructuring the request body. */
-        const{phoneNumber,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenseNumber,licenseYear,carInfo,hourlyPrice,taxNumber,profile_image64} = req.body;
+        const{phoneNumber,email,password,name,surname,birthDate,gender,nationalId,location,bio,skills,languages,licenseNumber,licenseYear,carInfo,hourlyPrice,taxNumber,profile_image64} = req.body;
         
         
 
@@ -86,7 +86,7 @@ driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
             gender,
             nationalId,
             location,
-            info,
+            bio,
             skills,
             languages,
             licenseNumber,

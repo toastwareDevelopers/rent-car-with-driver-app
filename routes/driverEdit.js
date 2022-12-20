@@ -17,7 +17,7 @@ driverEditRouter.post('/api/edit/driver',async function(req,res){
         
 
         /* Destructuring the request body. */
-        const{phoneNumber,_id,email,password,name,surname,birthDate,gender,nationalId,location,info,skills,languages,licenseNumber,licenseYear,carInfo:{carlicenseNumber,carlicenseYear,plateNumber,brand,model,year,color,photos},hourlyPrice,taxNumber,profile_image64} = req.body;
+        const{phoneNumber,_id,email,password,name,surname,birthDate,gender,nationalId,location,bio,skills,languages,licenseNumber,licenseYear,carInfo:{carlicenseNumber,carlicenseYear,plateNumber,brand,model,year,color,photos},hourlyPrice,taxNumber,profile_image64} = req.body;
 
         /* Finding the driver with the given ID. */
         const person = await Driver.findById(_id);
@@ -121,8 +121,8 @@ driverEditRouter.post('/api/edit/driver',async function(req,res){
 
 
         /* Checking if the info is not undefined. If it is not, it is updating the person's info. */
-        if(info != undefined){        
-            await person.updateOne({info:info},{runValidators:true});
+        if(bio != undefined){        
+            await person.updateOne({bio:bio},{runValidators:true});
         }
 
         /* Checking if the location is not undefined and if it is not equal to the person's location.
