@@ -89,7 +89,7 @@ class MainService {
       response = await http.get(url, headers: headers);
       Customer customer = await getTripsCustomer(trip.customerId!);
       DateTime dt = DateTime.parse(customer.birthDate!);
-      trip.customerAge = DateTime.now().year - dt.year;
+      trip.age = DateTime.now().year - dt.year;
       trip.customerName = customer.name;
       trip.customerSurname = customer.surname;
       return trip;

@@ -6,6 +6,8 @@ import '../constants/api_path.dart';
 import '../models/driver.dart';
 import 'package:rentcarmobile/models/customer.dart';
 
+import '../models/review.dart';
+
 class ProfileService {
   static Future<Driver> getDriver(String id) async {
     final headers = {
@@ -37,18 +39,19 @@ class ProfileService {
     }
   }
 
-  /*static Future<List<Trip>> getCustomerTrips(List<String> tripsId ) async {
-      List<Trip> trips = [];
-
-
-      for (int i = 1; i < tripsId.length; i++) {
-        trips.add(ProfileService.getTripsById(tripsId[i]));
-      }
-      return trips;
+  static Future<List<Review>> getCustomerReviews(String id) async {
+    try {
+      var url = Uri.parse("http://"+ ApiPaths.serverIP +"/api/info?ID=" + id);
+      var response = await http.get(url);
+      List<Review> review = jsonDecode(response.body);
+      return review;
+    } catch (e) {
+      List<Review> review2 = [];
+      return review2;
     }
-  */
+  }
 
-  static Future<Trip> getTripsById(String id) async {
+  static Future<List<Trip>> getTripsById(String id) async {
     final headers = {
       'Content-type': 'application/json;charset=UTF-8',
       'Charset': 'utf-8',
@@ -61,12 +64,23 @@ class ProfileService {
       });
 
       var response = await http.get(url, headers: headers);
+      var jsonData = json.decode(response.body);
+      List<Trip> listTrip = [];
 
-      Trip trip = jsonDecode(response.body);
-
-      return trip;
+      for (var u in jsonData) {
+        Trip trip = Trip();
+        trip.id = u["_id"];
+        trip.customerName = u["customerName"];
+        trip.startDate = u["startDate"];
+        trip.endDate = u["endDate"];
+        trip.location = u["location"];
+        trip.price = u["price"];
+        listTrip.add(trip);
+      }
+      return listTrip;
     } catch (e) {
-      return Trip();
+      List<Trip> listTrip2 = [];
+      return listTrip2;
     }
   }
 

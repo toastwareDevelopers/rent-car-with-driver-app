@@ -6,6 +6,8 @@ class Review {
   String? id;
   String? driverId;
   String? customerId;
+  String? driverName;
+  String? customerName;
   String? reviewText;
   double? rating;
   String? tripId;
