@@ -62,13 +62,14 @@ io.on("connection", (socket) => {
 
 	socket.on('startChat', (msg) => {
 		
-		console.log(msg);
+		//console.log(msg);
 		socket.join(msg.roomID);
 
 		Message.find({
 			roomId: msg.roomID
 		}).then((messages) => {
 			io.to(socket.id).emit('old_messages', messages);
+			console.log(messages);
 		}).catch((err) => {
 			console.log(err);
 		});
@@ -80,14 +81,14 @@ io.on("connection", (socket) => {
 		console.log(msg);
 
 		io.to(msg.roomID).emit('sendmessage', msg);
-		console.log("ben burda patliyorum");
+		//console.log("ben burda patliyorum");
 		let message = new Message({
 			content: msg.content,
 			senderID: msg.senderID,
 			receiverID: msg.receiverID,
 			roomID: msg.roomID,
 		});
-		console.log("hayir burda");
+		//console.log("hayir burda");
 
 		message.save();
 
