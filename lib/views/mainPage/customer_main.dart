@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/activeRentingCustomer.dart';
@@ -250,6 +250,17 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
             },
           ),
         ],
+        leading: InkWell(
+              onTap: () {
+                RentVanApp.userId = "null";
+                Navigator.pop(context);
+              },
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(math.pi),
+                child: Icon(Icons.exit_to_app,size: 30,),
+              ),
+            ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Image.asset(

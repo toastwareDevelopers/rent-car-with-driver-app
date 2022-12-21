@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/trip.dart';
 import 'package:rentcarmobile/services/mains.dart';
+import 'dart:math' as math;
 
 import '../../constants/assets_path.dart';
 
@@ -32,7 +33,8 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
             actions: [
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, "/profileDriverPersonal",arguments: RentVanApp.userId);
+                  Navigator.pushNamed(context, "/profileDriverPersonal",
+                      arguments: RentVanApp.userId);
                 },
                 child: CircleAvatar(
                   backgroundColor: Theme.of(context).highlightColor,
@@ -48,6 +50,17 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
             title: const Text(
               "Rent Car App",
               style: TextStyle(fontFamily: "Arapey", fontSize: 25),
+            ),
+            leading: InkWell(
+              onTap: () {
+                RentVanApp.userId = "null";
+                Navigator.pop(context);
+              },
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(math.pi),
+                child: Icon(Icons.exit_to_app,size: 30,),
+              ),
             ),
           ),
         ),
@@ -401,7 +414,8 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
         } else {
           return FutureBuilder(
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return Container(child: Center(child: const Text("No active customer")));
+              return Container(
+                  child: Center(child: const Text("No active customer")));
             },
           );
         }
