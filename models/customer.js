@@ -97,6 +97,7 @@ const customerSchema = mongoose.Schema({
 
     profile_image64 : {
         type: String,
+        default:"null"
     },
     
     mailActivision: {
