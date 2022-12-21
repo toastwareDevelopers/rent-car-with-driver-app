@@ -90,11 +90,11 @@ io.on("connection", (socket) => {
 
 		message.save();
 
-		console.log("yo");
+		console.log("yo")
+	});
 
-		
-		
-
+	socket.on('disconnect', ()=>{
+		console.log("User disconnected");
 	});
 
 });
