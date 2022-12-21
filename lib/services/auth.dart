@@ -44,7 +44,7 @@ class AuthService {
     }
   }
 
-  static Future<int> registerCustomer(Customer customer) async {
+  static Future<Response> registerCustomer(Customer customer) async {
     final headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json'
@@ -54,9 +54,9 @@ class AuthService {
           Uri.parse("http://" + ApiPaths.serverIP + "/api/signup/customer");
       var response = await http.post(url,
           body: json.encode(customer.toJson()), headers: headers);
-      return response.statusCode;
+      return response;
     } catch (e) {
-      return 400;
+      return Response("null", 400);;
     }
   }
 
@@ -67,10 +67,8 @@ class AuthService {
     };
     try {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/signin");
-      print(url);
       var response = await http.post(url,
           body: json.encode(login.toJson()), headers: headers);
-      print(response.body.toString());
       return response;
     } catch (e) {
       return Response("null", 400);

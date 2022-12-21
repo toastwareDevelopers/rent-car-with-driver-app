@@ -17,8 +17,8 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
       nationalId: json['nationalId'] as String? ?? "null",
       birthDate: json['birthDate'] as String? ?? "null",
       profileImage: json['profile_image64'] as String? ?? "null",
-    )..trips =
-      (json['trips'] as List<dynamic>?)?.map((e) => e as String).toList();
+      trips: (json['trips'] as List<dynamic>?)?.map((e) => e as String).toList()
+    );
 
 Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
       'name': instance.name,
