@@ -70,7 +70,7 @@ io.on("connection", (socket) => {
 		console.log(arr);
 
 		
-		console.log(msgArr);
+		
 		//io.to(socket.id).emit('old_messages', messages);
 			
 
