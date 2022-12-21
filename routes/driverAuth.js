@@ -1,7 +1,7 @@
 /* The above code is importing the express and bcryptjs modules. */
 const express = require('express');
 const bcryptjs = require('bcryptjs');
-
+const sendMail = require('../middlewares/sendMail.js')
 
 /* Importing the driver and customer models. */
 const Driver = require("../models/driver");
@@ -99,6 +99,8 @@ driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
 
        /* Saving the driver object to the database. */
         driver = await driver.save()
+
+        await sendMail("toastwaredevelopers@gmail.com", -1, "Uzun ince kivrim kivrim yollar bazen deler geçer yüreğimi, sitem ederim yollara, sevmesini bilen yüreğimi boş koydunuz diye.")
 
         /* Sending the driver object to the client. */
         res.send(driver);

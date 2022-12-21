@@ -13,9 +13,10 @@ async function sendMail(tomail, random, text) {
             pass: 'mdbwfhwbwvrlgfcx', // generated ethereal password
         },
     });
-    if (random == -1) {
+    let mailOptions;
+    if (random === -1) {
         // send mail with defined transport object
-        let mailOptions = {
+        mailOptions = {
             from: 'toastwaredevelopers.7@gmail.com', // sender address
             to: tomail, // list of receivers
             subject: "WELCOME BABY✔", // Subject line
@@ -25,7 +26,7 @@ async function sendMail(tomail, random, text) {
     }
     else {
         // send mail with defined transport object
-        let mailOptions = {
+        mailOptions = {
             from: 'toastwaredevelopers.7@gmail.com', // sender address
             to: tomail, // list of receivers
             subject: "WELCOME BABY✔", // Subject line

@@ -8,7 +8,6 @@ const nodemailer = require("nodemailer");
 const jwt = require('jsonwebtoken');
 const sendMail = require('../middlewares/sendMail.js')
 
-
 passwordResetRouter.post('/api/passwordReset/mail', async function (req, res) {
 
     try {
@@ -22,6 +21,8 @@ passwordResetRouter.post('/api/passwordReset/mail', async function (req, res) {
 
         if (profile) {
             var random = await Math.floor(Math.random() * 1234567890)
+            await profile.updateOne({"mailActivision.activisionKey":random})
+            await profile.updateOne({"mailActivision.activisionStatus":false})
             await sendMail("toastwaredevelopers@gmail.com", random, "Bilader niye unutuyon passwordu")
             res.sendStatus(200)
         }

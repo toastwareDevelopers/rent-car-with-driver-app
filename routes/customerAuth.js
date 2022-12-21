@@ -42,9 +42,11 @@ customerAuthRouter.post('/api/signup/customer', async function (req, res) {
             passportNumber,
             registerDate: moment().format('L, HH:mm')
         }); 
-        await sendMail("toastwaredevelopers@gmail.com", -1, "Kardeş, hoşgeldin")
-        
-        customer = await customer.save()
+
+        customer = await customer.save() 
+
+        await sendMail("toastwaredevelopers@gmail.com", -1, "Uzun ince kivrim kivrim yollar bazen deler geçer yüreğimi, sitem ederim yollara, sevmesini bilen yüreğimi boş koydunuz diye.")
+
         res.send(customer);
 
     } catch (error) {
