@@ -66,13 +66,13 @@ const customerSchema = mongoose.Schema({
     },
 
     nationalId: {
-        required: true,
         type: String,
         trim: true,
         validate: {
             validator: function (value) {
                 const nationalIdFormat = /^[1-9][0-9]{10}/;
-
+                if(value == "null")
+                    return value.match("null");
                 return value.match(nationalIdFormat);
 
             },
@@ -87,8 +87,8 @@ const customerSchema = mongoose.Schema({
         validate: {
             validator: function (value) {
                 const passportNumber = /[a-zA-Z]{2}[0-9]{7}/;
-                if(value == "")
-                    return value.match("");
+                if(value == "null")
+                    return value.match("null");
                 return value.match(passportNumber);
             },
             message: "Please enter a valid Passport number",
