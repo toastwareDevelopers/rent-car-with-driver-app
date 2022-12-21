@@ -116,7 +116,7 @@ class _MessageScreenState extends State<MessageScreen> {
   IO.Socket? socket;
 
   String roomID = "null";
-  String receiverId = "6353fff17075dc541cc72e60";
+  String receiverId = "null";
   List<Message> listMsg = [];
   @override
   void initState() {
@@ -207,7 +207,7 @@ class _MessageScreenState extends State<MessageScreen> {
             SizedBox(
               width: phoneWidth * 0.03,
             ),
-            const Text("Harun Eren Ozkaya"),
+            const Text("Receiver Name"),
           ],
         ),
       ),
