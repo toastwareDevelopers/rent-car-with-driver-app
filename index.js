@@ -92,9 +92,7 @@ io.on("connection", (socket) => {
 
 		console.log("yo");
 
-		socket.on('disconnect',()=>{
-			console.log("User disconnected");
-		});
+		
 		
 
 	});
