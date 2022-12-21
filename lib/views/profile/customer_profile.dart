@@ -1,6 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/models/CustomerAllData.dart';
 import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/services/profile.dart';
 
@@ -19,22 +18,35 @@ class CustomerProfileScreen extends StatefulWidget {
 }
 
 class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
-  List<CustomerTrip> customerListTrips= [];
-  static const IconData pencil = IconData(0xf1d7, fontFamily: 'MaterialIcons');
+  List<CustomerTrip> customerListTrips  = [];
+  List<ReviewWidget2> customerListReview = [];
+  
+  Future<CustomerData> getData( String customerID) async {
+    var customer = Customer();
+    List<Trip> trip = [];
+    List<Review> review = [];
+    await Future.wait([
+       ProfileService.getTripsById(customerID).then((value) => trip = value),
 
-  List<ReviewWidget2> reviews = [
-    new ReviewWidget2(
-        "Levis Hemilton", "Virajlara hızlı girmesi haricinde iyi bir sofor"),
-    new ReviewWidget2(
-        "Levis Hemilton", "Virajlara hızlı girmesi haricinde iyi bir sofor"),
-  ];
+    ]);
+
+    await Future.wait([
+      ProfileService.getCustomer(customerID).then((value) => customer = value),
+    ]);
+    await Future.wait([
+      ProfileService.getCustomerReviews(customerID).then((value) => review = value),
+    ]);
+    final customerData = CustomerData(customer, trip,review);
+    return customerData;
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: FutureBuilder<List<Trip>>(
-      future: ProfileService.getTripsById("63661b9f08ae9ae84b4b7e7d"),
+    body: FutureBuilder<CustomerData>(
+      future: getData("63681efb1c99321220956725"),
       builder: (context, snapshot) {
-        List<Trip>? listTrips = snapshot.data;
+        CustomerData? customerData = snapshot.data;
+
         switch(snapshot.connectionState) {
           case ConnectionState.waiting:
             return const Center(child: CircularProgressIndicator());
@@ -43,30 +55,38 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
               return const Center(child: Text('Some error occurred!'));
             } else {
 
-              return customerTrips(listTrips!);
+              return customerTrips(customerData!);
             }
         }
       },
     ),
   );
   @override
-  Widget customerTrips(List<Trip> listTrips){
+  Widget customerTrips(CustomerData customerData){
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
     int i = 0;
-    int count = 2;
-    Customer tmp;
-    if(listTrips.isNotEmpty == true){
-      for(i=0;i<listTrips.length;i++){
-        customerListTrips.add(CustomerTrip(listTrips[i].customerName,
-            listTrips[i].age ,listTrips[i].location,
-            listTrips[i].startDate, listTrips[i].endDate));
-
+    customerListTrips.clear();
+    if(customerData.listTrips.isNotEmpty == true){
+      for(i=0;i<customerData.listTrips.length;i++){
+        customerListTrips.add(CustomerTrip('${customerData.listTrips[i].driverName.toString()} ${customerData.listTrips[i].driverSurname.toString()}',
+            customerData.listTrips[i].age.toString() ,customerData.listTrips[i].location.toString(),
+            customerData.listTrips[i].startDate.toString(), customerData.listTrips[i].endDate.toString(),
+            customerData.listTrips[i].id.toString(),
+            customerData.listTrips[i].customerId.toString(),customerData.listTrips[i].driverId.toString()));
       }
+    }
 
+    if(customerData.listReview.isNotEmpty == true){
+      customerListReview.clear();
+      for(i=0;i<customerData.listReview.length;i++){
+
+        customerListReview.add(ReviewWidget2("${customerData.listReview[i].driverName} ${customerData.listReview[i].driverSurname}",
+            customerData.listReview[i].reviewText.toString()));
+      }
     }
     //Map<String, dynamic> map =  ProfileService.getCustomer("636802ba08ae9ae84b4b7eda") as Map<String, dynamic> ;
-
+    String nameAge = '${customerData.customer.name} ${customerData.customer.surname} (${ 2022 -DateTime.parse(customerData.customer.birthDate.toString()).year})';
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: RentVanApp.userType == "customer"
@@ -126,15 +146,15 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     children: [
                       Container(
                         alignment: Alignment.center,
-                        child: const Text(
-                          "Austin Exel (37)",
+                        child: Text(
+                          nameAge,
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
                       Container(
                         alignment: Alignment.center,
-                        child: const Text(
-                          "Istanbul Male",
+                        child: Text(
+                          "${customerData.customer.gender}",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -208,7 +228,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         ),
                         child: ListView(
                           padding: EdgeInsets.only(top: 10),
-                          children: reviews,
+                          children: customerListReview,
                         ),
                       ),
                     ],

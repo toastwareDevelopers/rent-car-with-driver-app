@@ -18,6 +18,7 @@ import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_auth.da
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_car.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_personal.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_skills.dart';
+import 'package:rentcarmobile/views/profile/review_screen.dart';
 
 void main() {
   runApp(const RentVanApp());
@@ -109,6 +110,7 @@ class RentVanApp extends StatelessWidget {
         '/editDriverCar': (context) => EditDriverCarScreen(),
         '/allChats': (context) => ChatScreen(),
         '/messaging': (context) => MessageScreen(),
+        '/reviewScreen': (context) => ReviewScreen(),
       },
     );
   }
