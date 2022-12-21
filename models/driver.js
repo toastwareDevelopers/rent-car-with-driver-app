@@ -219,16 +219,6 @@ const userSchema = mongoose.Schema({
         },
     },
 
-    mailActivision: {
-
-        activisionKey: {
-            type: Number,
-        },
-        activisionStatus: {
-            type: Boolean,
-        },
-    },
-
     avatar:{
         type: Buffer,
     },
