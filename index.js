@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
 
 		messages =  Message.find({
 			roomId: msg.roomID
-		});
+		}).exec();
 
 		console.log(messages);
 		io.to(socket.id).emit('old_messages', messages);
