@@ -87,8 +87,11 @@ io.on("connection", (socket) => {
 			receiverID: msg.receiverID,
 			roomID: msg.roomID,
 		});
+		console.log("hayir burda");
 
 		message.save();
+
+		console.log("yo");
 
 
 	});
