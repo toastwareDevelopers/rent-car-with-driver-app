@@ -65,14 +65,13 @@ io.on("connection", (socket) => {
 		//console.log(msg);
 		socket.join(msg.roomID);
 
-		Message.find({
+		messages =  Message.find({
 			roomId: msg.roomID
-		}).then((messages) => {
-			io.to(socket.id).emit('old_messages', messages);
-			console.log(messages);
-		}).catch((err) => {
-			console.log(err);
 		});
+
+		console.log(messages);
+		io.to(socket.id).emit('old_messages', messages);
+			
 
 	});
 
