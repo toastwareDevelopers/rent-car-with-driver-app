@@ -518,7 +518,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                             driverLocation:
                                                 drivers[index].location,
                                             driverDescription:
-                                                drivers[index].info,
+                                                drivers[index].bio,
                                             driverPrice: drivers[index]
                                                 .hourlyPrice
                                                 .toString(),

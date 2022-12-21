@@ -28,7 +28,7 @@ class AuthService {
     }
   }
 
-  static Future<int> registerDriver(Driver driver) async {
+  static Future<Response> registerDriver(Driver driver) async {
     final headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json'
@@ -37,10 +37,9 @@ class AuthService {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/signup/driver");
       var response = await http.post(url,
           body: json.encode(driver.toJson()), headers: headers);
-          print(response.body);
-      return response.statusCode;
+      return response;
     } catch (e) {
-      return 400;
+      return Response("null", 400);
     }
   }
 
@@ -56,7 +55,7 @@ class AuthService {
           body: json.encode(customer.toJson()), headers: headers);
       return response;
     } catch (e) {
-      return Response("null", 400);;
+      return Response("null", 400);
     }
   }
 

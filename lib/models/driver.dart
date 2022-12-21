@@ -14,7 +14,7 @@ class Driver {
   String nationalId;
   String passportNumber;
   String location;
-  String info;
+  String bio;
   List<String> skills;
   List<String> languages;
   String licenceNumber;
@@ -39,7 +39,7 @@ class Driver {
     this.nationalId = "null",
     this.passportNumber = "null",
     this.location = "null",
-    this.info = "null",
+    this.bio = "null",
     this.skills = const [],
     this.languages = const [],
     this.licenceNumber = "null",
@@ -59,6 +59,6 @@ class Driver {
 
   @override
   String toString() {
-    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $info\nskills : $skills\nlanguages : $languages\nlicenceNumber : $licenceNumber\nlicenceYear : $licenceYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\nreviews : $reviews";
+    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $bio\nskills : $skills\nlanguages : $languages\nlicenceNumber : $licenceNumber\nlicenceYear : $licenceYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\nreviews : $reviews";
   }
 }
