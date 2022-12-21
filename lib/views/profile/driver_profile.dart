@@ -57,7 +57,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                           arguments: driver);
                     }
                   : () {
-                      Navigator.pushNamed(context, "/messaging");
+                      Navigator.pushNamed(context, "/messaging",arguments: driverID);
                     },
             ),
             body: Container(

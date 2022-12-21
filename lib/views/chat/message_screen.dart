@@ -182,8 +182,7 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+    receiverId = ModalRoute.of(context)!.settings.arguments as String;
     //receiverId = arguments['receiverId'];
 
     return Scaffold(

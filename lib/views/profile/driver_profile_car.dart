@@ -22,20 +22,29 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
         title: const Text("Driver Profile Car"),
       ),
       floatingActionButton: FloatingActionButton(
-        child: RentVanApp.userType == "driver" ? Image.asset(
-          AssetPaths.editIconPath,
-          scale: 0.1,
-          height: 40,
-          width: 40,
-          color: Colors.white,
-        ) : Image.asset(
-          AssetPaths.chatIconPath,
-          scale: 0.1,
-          height: 40,
-          width: 40,
-          color: Colors.white,
-        ) ,
-        onPressed: RentVanApp.userType == "driver" ? () {Navigator.pushNamed(context, "/editDriverAuth");} : () {Navigator.pushNamed(context, "/messaging");} ,
+        child: RentVanApp.userType == "driver"
+            ? Image.asset(
+                AssetPaths.editIconPath,
+                scale: 0.1,
+                height: 40,
+                width: 40,
+                color: Colors.white,
+              )
+            : Image.asset(
+                AssetPaths.chatIconPath,
+                scale: 0.1,
+                height: 40,
+                width: 40,
+                color: Colors.white,
+              ),
+        onPressed: RentVanApp.userType == "driver"
+            ? () {
+                Navigator.pushNamed(context, "/editDriverAuth");
+              }
+            : () {
+                Navigator.pushNamed(context, "/messaging",
+                    arguments: driver.id);
+              },
       ),
       body: Container(
         padding: EdgeInsets.only(bottom: phoneHeight * 0.02),
@@ -204,14 +213,16 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                   children: [
                                     Text(
                                       "Car Brand",
-                                      style: TextStyle(color: Colors.white,fontSize: 17),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 17),
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     TextFormField(
                                       readOnly: true,
                                       initialValue: driver.carInfo["brand"],
-                                      decoration: const InputDecoration(
-                                      ),
+                                      decoration: const InputDecoration(),
                                     ),
                                   ],
                                 ),
@@ -223,14 +234,16 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                   children: [
                                     Text(
                                       "Car Model",
-                                      style: TextStyle(color: Colors.white,fontSize: 17),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 17),
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     TextFormField(
                                       readOnly: true,
                                       initialValue: driver.carInfo["model"],
-                                      decoration: const InputDecoration(
-                                      ),
+                                      decoration: const InputDecoration(),
                                     ),
                                   ],
                                 ),
@@ -252,14 +265,16 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                   children: [
                                     Text(
                                       "Car Color",
-                                      style: TextStyle(color: Colors.white,fontSize: 17),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 17),
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     TextFormField(
                                       readOnly: true,
                                       initialValue: driver.carInfo["color"],
-                                      decoration: const InputDecoration(
-                                      ),
+                                      decoration: const InputDecoration(),
                                     ),
                                   ],
                                 ),
@@ -271,14 +286,16 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                   children: [
                                     Text(
                                       "Car Year",
-                                      style: TextStyle(color: Colors.white,fontSize: 17),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 17),
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     TextFormField(
                                       readOnly: true,
                                       initialValue: driver.carInfo["year"],
-                                      decoration: const InputDecoration(
-                                      ),
+                                      decoration: const InputDecoration(),
                                     ),
                                   ],
                                 ),
