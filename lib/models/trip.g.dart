@@ -40,5 +40,7 @@ Map<String, dynamic> _$TripToJson(Trip instance) => <String, dynamic>{
       'price' : instance.price,
       '__v' : instance.iV,
       'customerName' : instance.customerName,
+      'customerSurname' : instance.customerSurname,
       'driverName' : instance.driverName,
+      'driverSurname' : instance.driverSurname,
 };
