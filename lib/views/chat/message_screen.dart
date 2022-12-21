@@ -105,8 +105,9 @@ class MessageScreen extends StatefulWidget {
     Message("efkjweujfılwejhrıfujwefr", MessageType.Sent, "20:13"),
     Message("jıwejrıwjerıojweıorjıowjer", MessageType.Sent, "20:13"),*/
   ];
-
-  MessageScreen({super.key});
+  List<Message> oldMsgs = [];
+  String receiverId;
+  MessageScreen({super.key, this.receiverId = "null"});
   State<MessageScreen> createState() => _MessageScreenState();
 
   TextEditingController messageController = TextEditingController();
@@ -116,15 +117,15 @@ class _MessageScreenState extends State<MessageScreen> {
   IO.Socket? socket;
 
   String roomID = "null";
-  String receiverId = "null";
   List<Message> listMsg = [];
   @override
   void initState() {
     super.initState();
     connect();
-    RentVanApp.userType == "customer"
-        ? receiverId + RentVanApp.userId
-        : RentVanApp.userId + receiverId;
+    roomID = RentVanApp.userType == "customer"
+        ? widget.receiverId + RentVanApp.userId
+        : RentVanApp.userId + widget.receiverId;
+    startChat(roomID);
   }
 
   void connect() {
@@ -152,18 +153,32 @@ class _MessageScreenState extends State<MessageScreen> {
           });
         }
       });
+      socket!.on("old_messages", (messages) {
+        for (var msg in messages) {
+          setState(() {
+            widget.messages.add(Message.msg(
+              msg["content"],
+              "null",
+              msg["createDate"],
+              msg["senderID"],
+              msg["receiverID"],
+              msg["roomID"],
+            ));
+          });
+        }
+      });
     });
   }
 
   void startChat(String msg) {
     socket!.emit("startChat", {
-      "roomID": roomID,
+      "roomID": msg,
     });
   }
 
   void sendMsg(String msg) {
     Message ownMsg = Message.msg(msg, "message", DateTime.now().toString(),
-        RentVanApp.userId, receiverId, roomID);
+        RentVanApp.userId, widget.receiverId, roomID);
     widget.messages.add(ownMsg);
     setState(() {
       widget.messages;
@@ -173,7 +188,7 @@ class _MessageScreenState extends State<MessageScreen> {
       "createDate": DateTime.now().toString(),
       "content": msg,
       "senderID": RentVanApp.userId,
-      "receiverID": receiverId,
+      "receiverID": widget.receiverId,
       "roomID": roomID,
     });
   }
@@ -182,7 +197,7 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
-    receiverId = ModalRoute.of(context)!.settings.arguments as String;
+    // receiverId = ModalRoute.of(context)!.settings.arguments as String;
     //receiverId = arguments['receiverId'];
 
     return Scaffold(
@@ -330,7 +345,7 @@ class _MessageScreenState extends State<MessageScreen> {
                     ),
                   ),
                   //for starting chat temporarily
-                  ElevatedButton(
+                  /* ElevatedButton(
                     style: const ButtonStyle(
                         backgroundColor:
                             MaterialStatePropertyAll(Colors.black)),
@@ -338,7 +353,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       startChat("msg");
                     },
                     child: const Text("start chat"),
-                  ),
+                  ),*/
                 ],
               ),
             ),

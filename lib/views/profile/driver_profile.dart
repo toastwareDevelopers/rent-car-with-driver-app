@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/services/profile.dart';
+import 'package:rentcarmobile/views/chat/message_screen.dart';
 import 'package:rentcarmobile/widgets/driver_skill_widget.dart';
 
 import '../../constants/assets_path.dart';
@@ -57,7 +58,11 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                           arguments: driver);
                     }
                   : () {
-                      Navigator.pushNamed(context, "/messaging",arguments: driverID);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MessageScreen(
+                                receiverId: driverID,
+                              )));
+                      //Navigator.pushNamed(context, "/messaging",arguments: driverID);
                     },
             ),
             body: Container(
