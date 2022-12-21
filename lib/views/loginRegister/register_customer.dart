@@ -356,6 +356,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
 
                               WarningAlert.showWarningDialog(
                                 context,
+                                errorMessages[0] == "null" ? jsonDecode(res.body)["msg"] :
                                 errorMessages
                                     .toString()
                                     .replaceAll("[", "")

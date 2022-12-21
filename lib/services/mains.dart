@@ -116,7 +116,8 @@ class MainService {
       ActiveRentingCustomer renting = ActiveRentingCustomer.fromJson(jsonDecode(response.body));
       return renting;
     }catch (e) {
-      return ActiveRentingCustomer();
+      print("Error!");
+      throw Error();
     }
   }
 

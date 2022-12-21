@@ -299,7 +299,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                 snapshot.hasData) {
                               ActiveRentingCustomer renting =
                                   snapshot.data as ActiveRentingCustomer;
-                              if (renting.id != "null") {
+                              if (renting.driverId.toString() != "null") {
                                 return Expanded(
                                   flex: 3,
                                   child: Stack(
