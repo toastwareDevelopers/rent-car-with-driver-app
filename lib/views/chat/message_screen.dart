@@ -102,7 +102,8 @@ class MessageScreen extends StatefulWidget {
     Message("efkjweujfılwejhrıfujwefr", MessageType.Sent, "20:13"),
     Message("jıwejrıwjerıojweıorjıowjer", MessageType.Sent, "20:13"),
   ];
-  MessageScreen({super.key});
+  String receiverId = "null";
+  MessageScreen({super.key,this.receiverId = "null"});
   State<MessageScreen> createState() => _MessageScreenState();
 
   TextEditingController messageController = TextEditingController();
