@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
 		//console.log(msg);
 		socket.join(msg.roomID);
 
-		Message.find({roomId: msg.roomID}).then(arr =>{
+		Message.find({roomID: msg.roomID}).then(arr =>{
 			io.to(socket.id).emit('old_messages', arr);
 		});
 	});
