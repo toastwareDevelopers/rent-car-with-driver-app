@@ -105,8 +105,7 @@ class MessageScreen extends StatefulWidget {
     Message("efkjweujfılwejhrıfujwefr", MessageType.Sent, "20:13"),
     Message("jıwejrıwjerıojweıorjıowjer", MessageType.Sent, "20:13"),*/
   ];
-  List<Message> oldMsgs = [];
-  String receiverId;
+  String receiverId = "null";
   MessageScreen({super.key, this.receiverId = "null"});
   State<MessageScreen> createState() => _MessageScreenState();
 
