@@ -14,11 +14,11 @@ const getTripsRouter = express.Router();
 getTripsRouter.get('/api/getTrips',async function (req,res){
 
     try {
-        console.log("hi");
+        //console.log("hi");
         /* Getting the id from the query string. */
         const _id = req.query.ID;
 
-        console.log(_id)
+        //console.log(_id)
 
          /* Checking if the model is a customer. If it is, it returns the model. */
         model = await Customer.findById(_id);
@@ -51,7 +51,7 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
                 y.driverSurname = temp.surname;
                 arrOfTrips.push(y);
                 
-                console.log(temp.name);
+                //console.log(temp.name);
             }
             
             //console.log(arrOfTrips);
