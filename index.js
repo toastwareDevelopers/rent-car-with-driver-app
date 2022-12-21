@@ -69,6 +69,7 @@ io.on("connection", (socket) => {
 			roomId: msg.roomID
 		}).exec();
 
+		console.log("gazoz");
 		console.log(messages);
 		io.to(socket.id).emit('old_messages', messages);
 			
