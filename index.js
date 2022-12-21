@@ -65,12 +65,12 @@ io.on("connection", (socket) => {
 		//console.log(msg);
 		socket.join(msg.roomID);
 
-		messages =  Message.find({
+		mssArr =  Message.find({
 			roomId: msg.roomID
-		}).exec();
+		}).lean();
 
-		console.log("gazoz");
-		console.log(messages);
+		
+		console.log(msgArr);
 		io.to(socket.id).emit('old_messages', messages);
 			
 
