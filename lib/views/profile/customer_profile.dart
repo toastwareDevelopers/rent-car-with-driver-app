@@ -18,75 +18,83 @@ class CustomerProfileScreen extends StatefulWidget {
 }
 
 class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
-  List<CustomerTrip> customerListTrips  = [];
+  List<CustomerTrip> customerListTrips = [];
   List<ReviewWidget2> customerListReview = [];
-  
-  Future<CustomerData> getData( String customerID) async {
+
+  Future<CustomerData> getData(String customerID) async {
     var customer = Customer();
     List<Trip> trip = [];
     List<Review> review = [];
     await Future.wait([
-       ProfileService.getTripsById(customerID).then((value) => trip = value),
-
+      ProfileService.getTripsById(customerID).then((value) => trip = value),
     ]);
 
     await Future.wait([
       ProfileService.getCustomer(customerID).then((value) => customer = value),
     ]);
     await Future.wait([
-      ProfileService.getCustomerReviews(customerID).then((value) => review = value),
+      ProfileService.getCustomerReviews(customerID)
+          .then((value) => review = value),
     ]);
-    final customerData = CustomerData(customer, trip,review);
+    final customerData = CustomerData(customer, trip, review);
     return customerData;
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: FutureBuilder<CustomerData>(
-      future: getData("63681efb1c99321220956725"),
-      builder: (context, snapshot) {
-        CustomerData? customerData = snapshot.data;
+  Widget build(BuildContext context) {
+    String customerID = ModalRoute.of(context)!.settings.arguments as String;
+    return Scaffold(
+      body: FutureBuilder<CustomerData>(
+        future: getData(customerID),
+        builder: (context, snapshot) {
+          CustomerData? customerData = snapshot.data;
 
-        switch(snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return const Center(child: CircularProgressIndicator());
-          default:
-            if(snapshot.hasError) {
-              return const Center(child: Text('Some error occurred!'));
-            } else {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(child: CircularProgressIndicator());
+            default:
+              if (snapshot.hasError) {
+                return const Center(child: Text('Some error occurred!'));
+              } else {
+                return customerTrips(customerData!);
+              }
+          }
+        },
+      ),
+    );
+  }
 
-              return customerTrips(customerData!);
-            }
-        }
-      },
-    ),
-  );
   @override
-  Widget customerTrips(CustomerData customerData){
+  Widget customerTrips(CustomerData customerData) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
     int i = 0;
     customerListTrips.clear();
-    if(customerData.listTrips.isNotEmpty == true){
-      for(i=0;i<customerData.listTrips.length;i++){
-        customerListTrips.add(CustomerTrip('${customerData.listTrips[i].driverName.toString()} ${customerData.listTrips[i].driverSurname.toString()}',
-            customerData.listTrips[i].age.toString() ,customerData.listTrips[i].location.toString(),
-            customerData.listTrips[i].startDate.toString(), customerData.listTrips[i].endDate.toString(),
+    if (customerData.listTrips.isNotEmpty == true) {
+      for (i = 0; i < customerData.listTrips.length; i++) {
+        customerListTrips.add(CustomerTrip(
+            '${customerData.listTrips[i].driverName.toString()} ${customerData.listTrips[i].driverSurname.toString()}',
+            customerData.listTrips[i].age.toString(),
+            customerData.listTrips[i].location.toString(),
+            customerData.listTrips[i].startDate.toString(),
+            customerData.listTrips[i].endDate.toString(),
             customerData.listTrips[i].id.toString(),
-            customerData.listTrips[i].customerId.toString(),customerData.listTrips[i].driverId.toString()));
+            customerData.listTrips[i].customerId.toString(),
+            customerData.listTrips[i].driverId.toString()));
       }
     }
 
-    if(customerData.listReview.isNotEmpty == true){
+    if (customerData.listReview.isNotEmpty == true) {
       customerListReview.clear();
-      for(i=0;i<customerData.listReview.length;i++){
-
-        customerListReview.add(ReviewWidget2("${customerData.listReview[i].driverName} ${customerData.listReview[i].driverSurname}",
+      for (i = 0; i < customerData.listReview.length; i++) {
+        customerListReview.add(ReviewWidget2(
+            "${customerData.listReview[i].driverName} ${customerData.listReview[i].driverSurname}",
             customerData.listReview[i].reviewText.toString()));
       }
     }
     //Map<String, dynamic> map =  ProfileService.getCustomer("636802ba08ae9ae84b4b7eda") as Map<String, dynamic> ;
-    String nameAge = '${customerData.customer.name} ${customerData.customer.surname} (${ 2022 -DateTime.parse(customerData.customer.birthDate.toString()).year})';
+    String nameAge =
+        '${customerData.customer.name} ${customerData.customer.surname} (${2022 - DateTime.parse(customerData.customer.birthDate.toString()).year})';
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: RentVanApp.userType == "customer"
@@ -195,7 +203,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                               borderRadius: BorderRadius.circular(5)),
                           child: ListView(
                             padding: EdgeInsets.only(top: 10),
-                            children:   customerListTrips,
+                            children: customerListTrips,
                           ),
                         ),
                       ],
