@@ -72,7 +72,7 @@ io.on("connection", (socket) => {
 
 	socket.on('sendmessage', (msg) => {
 		console.log("sendmessage");
-		console.log(msg);
+		//console.log(msg);
 
 		io.to(msg.roomID).emit('sendmessage', msg);
 		//console.log("ben burda patliyorum");
