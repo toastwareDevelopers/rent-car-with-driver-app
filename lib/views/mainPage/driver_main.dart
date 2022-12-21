@@ -21,82 +21,78 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
   Widget build(BuildContext context) {
     double phoneWidth = MediaQuery.of(context).size.width;
     double phoneHeight = MediaQuery.of(context).size.height - 60;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: AppBar(
-            centerTitle: true,
-            backgroundColor: const Color(0xff282828),
-            actions: [
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, "/profileDriverPersonal",
-                      arguments: RentVanApp.userId);
-                },
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50),
+        child: AppBar(
+          centerTitle: true,
+          backgroundColor: const Color(0xff282828),
+          actions: [
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, "/profileDriverPersonal",
+                    arguments: RentVanApp.userId);
+              },
+              child: CircleAvatar(
+                backgroundColor: Theme.of(context).highlightColor,
+                radius: 24,
                 child: CircleAvatar(
-                  backgroundColor: Theme.of(context).highlightColor,
-                  radius: 24,
-                  child: CircleAvatar(
-                    backgroundImage:
-                        AssetImage(AssetPaths.blankProfilePhotoPath),
-                    radius: 21.0,
-                  ),
+                  backgroundImage: AssetImage(AssetPaths.blankProfilePhotoPath),
+                  radius: 21.0,
                 ),
               ),
+            ),
+          ],
+          title: const Text(
+            "Rent Car App",
+            style: TextStyle(fontFamily: "Arapey", fontSize: 25),
+          ),
+        ),
+      ),
+      floatingActionButton: InkWell(
+        child: FloatingActionButton(
+          backgroundColor: const Color(0xffA7754D),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: Image.asset(
+              AssetPaths.chatIconPath,
+              scale: 0.5,
+              height: 40,
+              width: 40,
+              color: Colors.white,
+            ),
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, "/allChats");
+          },
+        ),
+      ),
+      backgroundColor: const Color(0xff282828),
+      body: Container(
+        child: Center(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(
+                    top: phoneHeight * 0.03, bottom: phoneHeight * 0.01),
+                width: phoneWidth * 0.91,
+                child: const Text(
+                  "Active Customer",
+                  style: TextStyle(color: Colors.white, fontFamily: 'Arapey'),
+                ),
+              ),
+              getActiveTrip(phoneWidth, phoneHeight),
+              Container(
+                margin: EdgeInsets.only(
+                    top: phoneHeight * 0.03, bottom: phoneHeight * 0.01),
+                width: phoneWidth * 0.9,
+                child: const Text(
+                  "Future Appointments",
+                  style: TextStyle(color: Colors.white, fontFamily: 'Arapey'),
+                ),
+              ),
+              listTrips(phoneWidth, phoneHeight),
             ],
-            title: const Text(
-              "Rent Car App",
-              style: TextStyle(fontFamily: "Arapey", fontSize: 25),
-            ),
-          ),
-        ),
-        floatingActionButton: InkWell(
-          child: FloatingActionButton(
-            backgroundColor: const Color(0xffA7754D),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Image.asset(
-                AssetPaths.chatIconPath,
-                scale: 0.5,
-                height: 40,
-                width: 40,
-                color: Colors.white,
-              ),
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, "/allChats");
-            },
-          ),
-        ),
-        backgroundColor: const Color(0xff282828),
-        body: Container(
-          child: Center(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                      top: phoneHeight * 0.03, bottom: phoneHeight * 0.01),
-                  width: phoneWidth * 0.91,
-                  child: const Text(
-                    "Active Customer",
-                    style: TextStyle(color: Colors.white, fontFamily: 'Arapey'),
-                  ),
-                ),
-                getActiveTrip(phoneWidth, phoneHeight),
-                Container(
-                  margin: EdgeInsets.only(
-                      top: phoneHeight * 0.03, bottom: phoneHeight * 0.01),
-                  width: phoneWidth * 0.9,
-                  child: const Text(
-                    "Future Appointments",
-                    style: TextStyle(color: Colors.white, fontFamily: 'Arapey'),
-                  ),
-                ),
-                listTrips(phoneWidth, phoneHeight),
-              ],
-            ),
           ),
         ),
       ),
@@ -146,7 +142,6 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
           if (snapshot.connectionState == ConnectionState.done) {
             return Container(
               child: ListView.builder(
-                physics: AlwaysScrollableScrollPhysics(),
                 itemCount: snapshot.data?.length,
                 itemBuilder: (contextv2, index) => InkWell(
                   onTap: () {
