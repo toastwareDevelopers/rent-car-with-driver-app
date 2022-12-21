@@ -61,7 +61,8 @@ io.on("connection", (socket) => {
 	console.log("User connected");
 
 	socket.on('startChat', (msg) => {
-			console.log(msg);
+		
+		console.log(msg);
 		socket.join(msg.roomID);
 
 		Message.find({
@@ -79,6 +80,7 @@ io.on("connection", (socket) => {
 		console.log(msg);
 
 		io.to(msg.roomID).emit('sendmessage', msg);
+		console.log("ben burda patliyorum");
 		let message = new Message({
 			content: msg.content,
 			senderID: msg.senderID,
