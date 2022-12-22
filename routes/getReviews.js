@@ -18,20 +18,19 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
         /* Getting the id from the query string. */
         const _id = req.query.ID;
 
-        //console.log(_id)
-
-         /* Checking if the model is a customer. If it is, it returns the model. */
+        /* Checking if the model is a customer. If it is, it returns the model. */
         model = await Customer.findById(_id);
 
+       /* Checking if the model is a customer. If it is, it returns the model. */
         if(!model) model = await Driver.findById(_id);
 
-        //console.log( model)
+        /* Checking if the model is null. If it is, it returns a 400 status code and a message. */
+        if(!model) return res.status(400).json({msg: "There is not a model with this id"});
 
         
-
-        let arrOfReviews = new Array();
-
         if(model){
+
+            let arrOfReviews = new Array();
             
             for (let index = 0; index < model.reviews.length; index++) {
                 
@@ -59,23 +58,10 @@ getReviewsRouter.get('/api/getReviews',async function (req,res){
                
                 arrOfReviews.push(y);
                 
-                //console.log(temp.name);
             }
             
-            //console.log(arrOfReviews);
             return res.send(arrOfReviews);
         }
-
-       
-
-        //console.log( model)
-
-       
-
-        
-        /* Returning a 400 status code and a message saying that there is not a model with the given
-        id. */
-        return res.status(400).json({msg: "There is not a model with this id"});
 
     } catch (error) {
         res.status(500).json({error: error.message});

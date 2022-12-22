@@ -25,13 +25,18 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
 
         
 
-        let arrOfTrips = new Array();
+        
 
-        //if(!model) model = await Driver.findById(_id);
+        if(!model) model = await Driver.findById(_id);
+        
+        /* Checking if the model is null. If it is, it returns a 400 status code and a message. */
+        if(!model) return res.status(400).json({msg: "There is not a model with this id"});
         
 
         if(model){
             
+            let arrOfTrips = new Array();
+
             for (let index = 0; index < model.trips.length; index++) {
                 x = await Trip.findById( model.trips[index]);
 
@@ -50,18 +55,10 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
                 y.driverName = temp.name;
                 y.driverSurname = temp.surname;
                 arrOfTrips.push(y);
-                
-                //console.log(temp.name);
             }
             
-            //console.log(arrOfTrips);
             return res.send(arrOfTrips);
         }
-
-        
-        /* Returning a 400 status code and a message saying that there is not a model with the given
-        id. */
-        return res.status(400).json({msg: "There is not a model with this id"});
 
     } catch (error) {
         res.status(500).json({error: error.message});
