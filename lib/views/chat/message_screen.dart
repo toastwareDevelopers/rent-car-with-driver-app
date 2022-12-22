@@ -49,210 +49,10 @@ class _MessageScreenState extends State<MessageScreen> {
     });
   }
 
-  void getReceiverName() async {
-    if (RentVanApp.userType == "driver") {
-      Driver driver = await ProfileService.getDriver(widget.receiverId);
-      widget.receiverName = driver.name;
-    } else {
-      Customer customer = await ProfileService.getCustomer(widget.receiverId);
-      widget.receiverName = customer.name;
-    }
-  }
-
-  void connect() {
-    socket = IO.io('http://${ApiPaths.serverIP}', <String?, dynamic>{
-      "transports": ["websocket"],
-      "autoConnect": false,
-      'forceNew': true,
-    });
-    socket!.connect();
-
-    socket!.onConnect((_) {
-      print("connected frontend");
-
-      socket!.on("sendmessage", (msg) {
-        print(msg);
-
-        if (msg["senderID"] != RentVanApp.userId) {
-          setState(() {
-            widget.messages.add(Message.msg(
-              msg["content"],
-              "null",
-              msg["createDate"],
-              msg["senderID"],
-              msg["receiverID"],
-              msg["roomID"],
-            ));
-            /*SchedulerBinding.instance.addPostFrameCallback((_) {
-              _scrollController.animateTo(
-                  _scrollController.position.maxScrollExtent,
-                  duration: const Duration(milliseconds: 400),
-                  curve: Curves.fastOutSlowIn);
-            });*/
-            Timer(
-              Duration(milliseconds: 500),
-              () => {
-                _scrollController
-                    .jumpTo(_scrollController.position.maxScrollExtent)
-              },
-            );
-          });
-        }
-      });
-      socket!.on("respondOffer", (response) {
-        print(response);
-
-        if (true) {
-          setState(() {
-            String offerId = response["offerId"];
-            String newStatus = response["status"];
-            for (var msg in widget.messages) {
-              if (msg is Offer) {
-                if (msg.id == offerId) {
-                  msg.status = newStatus;
-                }
-              }
-            }
-          });
-        }
-      });
-
-      socket!.on("offer", (offer) {
-        print(offer);
-        if (offer["customerId"] == RentVanApp.userId) {
-          setState(() {
-            widget.messages.add(Offer.get(
-              offer["_id"],
-              offer["startDate"],
-              offer["endDate"],
-              offer["price"],
-              offer["location"],
-              offer["offerDescription"],
-              offer["driverId"],
-              offer["customerId"],
-              offer["status"],
-            ));
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOut,
-            );
-          });
-        }
-      });
-
-      print("connection completed");
-    });
-  }
-
-  @override
-  void dispose() {
-    if (socket != null) {
-      socket!.disconnect();
-    }
-    super.dispose();
-  }
-
-  void startChat(String msg) {
-    socket!.emit("startChat", {
-      "roomID": msg,
-    });
-
-    socket!.on("old_messages", (messages) {
-      for (var msg in messages) {
-        if (msg["type"] == "message") {
-          widget.messages.add(Message.msg(
-            msg["content"],
-            "messsage",
-            msg["createDate"],
-            msg["senderID"],
-            msg["receiverID"],
-            msg["roomID"],
-          ));
-        } else {
-          print(msg);
-
-          widget.messages.add(Offer.get(
-            msg["_id"],
-            msg["startDate"],
-            msg["endDate"],
-            msg["price"],
-            msg["location"],
-            msg["offerDescription"],
-            msg["driverId"],
-            msg["customerId"],
-            msg["status"],
-          ));
-        }
-      }
-      setState(() {
-        widget.messages;
-      });
-    });
-  }
-
-  void respondOffer(Offer offer) {
-    socket!.emit("respondOffer", {
-      "roomID": roomID,
-      "status": offer.status,
-      "offerId": offer.id,
-    });
-  }
-
-  void sendOffer(String startDate, String endDate, int price, String location,
-      String offerDescription, String status) {
-    Offer ownOffer = Offer(
-        startDate: startDate,
-        endDate: endDate,
-        price: price,
-        location: location,
-        offerDescription: offerDescription,
-        status: status);
-    widget.messages.add(ownOffer);
-    setState(() {
-      widget.messages;
-    });
-    socket!.emit("offer", {
-      "startDate": startDate,
-      "endDate": endDate,
-      "price": price,
-      "location": location,
-      "offerDescription": offerDescription,
-      "status": status,
-      "driverId": RentVanApp.userId,
-      "customerId": widget.receiverId,
-      "roomID": roomID,
-    });
-  }
-
-  void sendMsg(String msg) {
-    Message ownMsg = Message.msg(msg, "message", DateTime.now().toString(),
-        RentVanApp.userId, widget.receiverId, roomID);
-    widget.messages.add(ownMsg);
-    setState(() {
-      widget.messages;
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    });
-    socket!.emit("sendmessage", {
-      "type": "message",
-      "createDate": DateTime.now().toString(),
-      "content": msg,
-      "senderID": RentVanApp.userId,
-      "receiverID": widget.receiverId,
-      "roomID": roomID,
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
-    // receiverId = ModalRoute.of(context)!.settings.arguments as String;
-    //receiverId = arguments['receiverId'];
 
     return Scaffold(
       appBar: AppBar(
@@ -287,7 +87,7 @@ class _MessageScreenState extends State<MessageScreen> {
               child: FloatingActionButton(
                 mini: true,
                 backgroundColor: Colors.white,
-                child: Icon(
+                child: const Icon(
                   Icons.attach_money_sharp,
                   color: Colors.black45,
                 ),
@@ -306,11 +106,6 @@ class _MessageScreenState extends State<MessageScreen> {
               child: ListView.separated(
                 controller: _scrollController,
                 itemBuilder: ((context, index) {
-                  if (index == widget.messages.length) {
-                    return Container(
-                      height: 1,
-                    );
-                  }
                   return Container(
                     child: widget.messages[index] is Message
                         ? MessageBubble(
@@ -347,7 +142,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 separatorBuilder: (context, index) => SizedBox(
                   height: phoneHeight * 0.015,
                 ),
-                itemCount: widget.messages.length + 1,
+                itemCount: widget.messages.length,
                 padding: EdgeInsets.only(
                     bottom: phoneHeight * 0.085, top: phoneHeight * 0.01),
               ),
@@ -390,6 +185,7 @@ class _MessageScreenState extends State<MessageScreen> {
                               MaterialStatePropertyAll(Size.fromHeight(45)),
                         ),
                         onPressed: () {
+                          scrollControl();
                           String msg = widget.messageController.text;
                           if (msg.isNotEmpty) {
                             sendMsg(msg);
@@ -548,5 +344,202 @@ class _MessageScreenState extends State<MessageScreen> {
             backgroundColor: Theme.of(context).highlightColor,
           );
         });
+  }
+
+  // when a message is sent or received, scroll the screen to see the new message
+  void scrollControl() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      double prev = 0;
+      do {
+        prev = _scrollController.position.maxScrollExtent;
+        if (_scrollController.hasClients) {
+          _scrollController.position
+              .jumpTo(_scrollController.position.maxScrollExtent);
+        }
+      } while (prev != _scrollController.position.maxScrollExtent);
+    });
+  }
+
+  // get the receiver name to display on sender's screen
+  void getReceiverName() async {
+    if (RentVanApp.userType == "driver") {
+      Driver driver = await ProfileService.getDriver(widget.receiverId);
+      widget.receiverName = driver.name;
+    } else {
+      Customer customer = await ProfileService.getCustomer(widget.receiverId);
+      widget.receiverName = customer.name;
+    }
+  }
+
+  // connect to socket
+  void connect() {
+    socket = IO.io('http://${ApiPaths.serverIP}', <String?, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
+      'forceNew': true,
+    });
+    socket!.connect();
+
+    socket!.onConnect((_) {
+      print("connected frontend");
+      //get the messages
+      socket!.on("sendmessage", (msg) {
+        print(msg);
+
+        if (msg["senderID"] != RentVanApp.userId) {
+          setState(() {
+            widget.messages.add(Message.msg(
+              msg["content"],
+              "null",
+              msg["createDate"],
+              msg["senderID"],
+              msg["receiverID"],
+              msg["roomID"],
+            ));
+          });
+          scrollControl();
+        }
+      });
+      // get the response of the offer
+      socket!.on("respondOffer", (response) {
+        print(response);
+
+        if (true) {
+          setState(() {
+            String offerId = response["offerId"];
+            String newStatus = response["status"];
+            for (var msg in widget.messages) {
+              if (msg is Offer) {
+                if (msg.id == offerId) {
+                  msg.status = newStatus;
+                }
+              }
+            }
+          });
+        }
+      });
+      // get the offer
+      socket!.on("offer", (offer) {
+        print(offer);
+        if (offer["customerId"] == RentVanApp.userId) {
+          setState(() {
+            widget.messages.add(Offer.get(
+              offer["_id"],
+              offer["startDate"],
+              offer["endDate"],
+              offer["price"],
+              offer["location"],
+              offer["offerDescription"],
+              offer["driverId"],
+              offer["customerId"],
+              offer["status"],
+            ));
+          });
+          scrollControl();
+        }
+      });
+
+      print("connection completed");
+    });
+  }
+
+  @override
+  void dispose() {
+    if (socket != null) {
+      socket!.disconnect();
+    }
+    super.dispose();
+  }
+
+  void startChat(String msg) {
+    socket!.emit("startChat", {
+      "roomID": msg,
+    });
+    // load old messages when chat is started
+    socket!.on("old_messages", (messages) {
+      for (var msg in messages) {
+        if (msg["type"] == "message") {
+          widget.messages.add(Message.msg(
+            msg["content"],
+            "messsage",
+            msg["createDate"],
+            msg["senderID"],
+            msg["receiverID"],
+            msg["roomID"],
+          ));
+        } else {
+          widget.messages.add(Offer.get(
+            msg["_id"],
+            msg["startDate"],
+            msg["endDate"],
+            msg["price"],
+            msg["location"],
+            msg["offerDescription"],
+            msg["driverId"],
+            msg["customerId"],
+            msg["status"],
+          ));
+        }
+      }
+      setState(() {
+        widget.messages;
+      });
+      scrollControl();
+    });
+  }
+
+  // send the response to the offer to backend
+  void respondOffer(Offer offer) {
+    socket!.emit("respondOffer", {
+      "roomID": roomID,
+      "status": offer.status,
+      "offerId": offer.id,
+    });
+  }
+
+  // save the offer and send to backed
+  void sendOffer(String startDate, String endDate, int price, String location,
+      String offerDescription, String status) {
+    Offer ownOffer = Offer(
+        startDate: startDate,
+        endDate: endDate,
+        price: price,
+        location: location,
+        offerDescription: offerDescription,
+        status: status);
+    widget.messages.add(ownOffer);
+    setState(() {
+      widget.messages;
+    });
+    scrollControl();
+    socket!.emit("offer", {
+      "startDate": startDate,
+      "endDate": endDate,
+      "price": price,
+      "location": location,
+      "offerDescription": offerDescription,
+      "status": status,
+      "driverId": RentVanApp.userId,
+      "customerId": widget.receiverId,
+      "roomID": roomID,
+    });
+  }
+
+  // save the message and send to backed
+  void sendMsg(String msg) {
+    Message ownMsg = Message.msg(msg, "message", DateTime.now().toString(),
+        RentVanApp.userId, widget.receiverId, roomID);
+    widget.messages.add(ownMsg);
+    setState(() {
+      widget.messages;
+    });
+    socket!.emit("sendmessage", {
+      "type": "message",
+      "createDate": DateTime.now().toString(),
+      "content": msg,
+      "senderID": RentVanApp.userId,
+      "receiverID": widget.receiverId,
+      "roomID": roomID,
+    });
   }
 }
