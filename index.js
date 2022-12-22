@@ -72,7 +72,7 @@ io.on("connection", (socket) => {
 
 		arr2 = Offer.find({});
 
-		arr3 = arr2.concat(arr1);
+		arr3 = [...arr1,...arr2];
 
 		io.to(socket.id).emit('old_messages', arr3);
 
