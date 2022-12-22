@@ -57,6 +57,7 @@ httpServer.listen(PORT, () => {
 
 const Message = require("./models/message");
 const Offer = require("./models/offer");
+const Trip = require('./models/trip');
 
 
 Array.prototype.pushSorted = function(el, compareFn) {
@@ -177,7 +178,29 @@ io.on("connection", (socket) => {
 		
 		console.log(response);
 
-		Offer.findByIdAndUpdate({status:response.status});
+		tempOffer = Offer.findById(response.offerId);
+		
+		tempOffer.updateOne({status:response.status});
+
+		if(response.status == "Accepted"){
+			let newTrip = new Trip({
+				driverId: tempOffer.driverId,
+
+				customerId: tempOffer.customerId,
+
+				startDate: tempOffer.startDate,
+
+				endDate: tempOffer.endDate,
+
+				location: tempOffer.location,
+
+				price: tempOffer.price,
+			})
+
+			newTrip.save();
+		}
+
+		
 	
 		io.to(response.roomID).emit('respondOffer',response);
 	})
