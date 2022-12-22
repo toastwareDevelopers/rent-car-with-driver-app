@@ -6,14 +6,14 @@ import 'package:rentcarmobile/utils/warning_alert.dart';
 import '../../models/driver.dart';
 
 class RegisterDriverCarScreen extends StatefulWidget {
-  TextEditingController driverLisenceNumberController = TextEditingController();
-  TextEditingController carLisenceNumberController = TextEditingController();
-  TextEditingController driverLisenceYearController = TextEditingController();
+  TextEditingController driverLicenseNumberController = TextEditingController();
+  TextEditingController carLicenseNumberController = TextEditingController();
+  TextEditingController driverLicenseYearController = TextEditingController();
   TextEditingController modelYearController = TextEditingController();
   TextEditingController carBrandController = TextEditingController();
   TextEditingController carModelController = TextEditingController();
   TextEditingController carColorController = TextEditingController();
-  TextEditingController carRegistirationPlateController =
+  TextEditingController carRegistrationPlateController =
       TextEditingController();
   TextEditingController hourlyPriceController = TextEditingController();
   TextEditingController taxNumberController = TextEditingController();
@@ -65,7 +65,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.driverLisenceNumberController,
+                              controller: widget.driverLicenseNumberController,
                               decoration: const InputDecoration(
                                 hintText: "Driver Lisence Number ",
                                 hintMaxLines: 2,
@@ -80,7 +80,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.carLisenceNumberController,
+                              controller: widget.carLicenseNumberController,
                               decoration: const InputDecoration(
                                 hintText: "Car Lisence Number",
                                 hintMaxLines: 2,
@@ -97,7 +97,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.driverLisenceYearController,
+                              controller: widget.driverLicenseYearController,
                               maxLengthEnforcement:
                                   MaxLengthEnforcement.enforced,
                               maxLength: 4,
@@ -184,7 +184,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                             flex: 1,
                             child: TextField(
                               controller:
-                                  widget.carRegistirationPlateController,
+                                  widget.carRegistrationPlateController,
                               decoration: const InputDecoration(
                                 hintText: "Car Registration Plate",
                                 hintMaxLines: 2,
@@ -243,14 +243,14 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                     child: const Text("Register"),
                     onPressed: () async {
                       if (!controlInputsAreNotEmpty(
-                          widget.driverLisenceNumberController.text,
-                          widget.carLisenceNumberController.text,
-                          widget.driverLisenceYearController.text,
+                          widget.driverLicenseNumberController.text,
+                          widget.carLicenseNumberController.text,
+                          widget.driverLicenseYearController.text,
                           widget.modelYearController.text,
                           widget.carBrandController.text,
                           widget.carModelController.text,
                           widget.carColorController.text,
-                          widget.carRegistirationPlateController.text,
+                          widget.carRegistrationPlateController.text,
                           widget.hourlyPriceController.text,
                           widget.taxNumberController.text)) {
                         WarningAlert.showWarningDialog(
@@ -267,10 +267,10 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                                 hourlyPrice: int.parse(
                                     widget.hourlyPriceController.text),
                                 languages: driver.languages,
-                                licenceNumber:
-                                    widget.carLisenceNumberController.text,
-                                licenceYear:
-                                    widget.driverLisenceYearController.text,
+                                licenseNumber:
+                                    widget.driverLicenseNumberController.text,
+                                licenseYear:
+                                    widget.driverLicenseYearController.text,
                                 location: driver.location,
                                 name: driver.name,
                                 nationalId: driver.nationalId,
@@ -282,10 +282,10 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                                 surname: driver.surname,
                                 taxNumber: widget.taxNumberController.text,
                                 carInfo: {
-                                  "lisenceNumber":
-                                      widget.carLisenceNumberController.text,
+                                  "licenseNumber":
+                                      widget.carLicenseNumberController.text,
                                   "plateNumber": widget
-                                      .carRegistirationPlateController.text,
+                                      .carRegistrationPlateController.text,
                                   "brand": widget.carBrandController.text,
                                   "model": widget.carModelController.text,
                                   "year": widget.modelYearController.text,
@@ -319,24 +319,24 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
   }
 
   bool controlInputsAreNotEmpty(
-      String driverLisenceNumber,
-      String carLisenceNumber,
-      String driverLisenceYear,
+      String driverLicenseNumber,
+      String carLicenseNumber,
+      String driverLicenseYear,
       String modelYear,
       String carBrand,
       String carModelName,
       String carColor,
-      String carRegistirationPlate,
+      String carRegistrationPlate,
       String price,
       String taxNumber) {
-    return driverLisenceNumber.isNotEmpty &&
-        carLisenceNumber.isNotEmpty &&
-        driverLisenceYear.isNotEmpty &&
+    return driverLicenseNumber.isNotEmpty &&
+        carLicenseNumber.isNotEmpty &&
+        driverLicenseYear.isNotEmpty &&
         modelYear.isNotEmpty &&
         carBrand.isNotEmpty &&
         carModelName.isNotEmpty &&
         carColor.isNotEmpty &&
-        carRegistirationPlate.isNotEmpty &&
+        carRegistrationPlate.isNotEmpty &&
         price.isNotEmpty &&
         taxNumber.isNotEmpty;
   }
