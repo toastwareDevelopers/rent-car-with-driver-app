@@ -368,7 +368,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                     SnackBar snackbar = const SnackBar(content: Text("Profile updated!"), duration: Duration(seconds: 2),);
                                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                                     Navigator.of(context).pushReplacementNamed(
-                                        "/profileCustomer");
+                                        "/profileCustomer",arguments: RentVanApp.userId);
                                   }
                                 }
                               },
