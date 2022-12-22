@@ -179,8 +179,12 @@ io.on("connection", (socket) => {
 		
 
 		Offer.findById(response.offerId).then((tempOffer) =>{
+			
+			console.log(tempOffer);
 
 			tempOffer.updateOne({status:response.status});
+
+			console.log(tempOffer);
 
 			if(response.status == "Accepted"){
 				let newTrip = new Trip({
