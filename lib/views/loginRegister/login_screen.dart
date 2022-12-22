@@ -21,6 +21,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   Login login = Login();
+  @override
+  void initState() {
+    super.initState();
+    widget.emailController = new TextEditingController(text: 'hh@gmail.com');
+    widget.passwordController = new TextEditingController(text: '123');
+  }
 
   @override
   Widget build(BuildContext context) {

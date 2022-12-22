@@ -3,6 +3,8 @@ import 'package:rentcarmobile/constants/api_path.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/offer.dart';
 import 'package:rentcarmobile/services/mains.dart';
+import 'package:rentcarmobile/services/profile.dart';
+
 import 'package:rentcarmobile/utils/message_type.dart';
 import 'package:rentcarmobile/widgets/message_bubble_widget.dart';
 import 'package:rentcarmobile/widgets/offer_box_widget.dart';
@@ -64,20 +66,21 @@ class _MessageScreenState extends State<MessageScreen> {
           });
         }
       });
-      socket!.on("offer", (msg) {
-        print(msg);
+      print("socketin başı ");
 
-        if (true) {
+      socket!.on("offer", (offer) {
+        print(offer);
+        if (offer["customerId"] == RentVanApp.userId) {
           setState(() {
             widget.messages.add(Offer.get(
-              msg["startDate"],
-              msg["endDate"],
-              msg["price"],
-              msg["location"],
-              msg["details"],
-              msg["driverId"],
-              msg["customerId"],
-              msg["status"],
+              offer["startDate"],
+              offer["endDate"],
+              offer["price"],
+              offer["location"],
+              offer["offerDescription"],
+              offer["driverId"],
+              offer["customerId"],
+              offer["status"],
             ));
           });
         }
@@ -99,16 +102,32 @@ class _MessageScreenState extends State<MessageScreen> {
     socket!.emit("startChat", {
       "roomID": msg,
     });
+
     socket!.on("old_messages", (messages) {
       for (var msg in messages) {
-        widget.messages.add(Message.msg(
-          msg["content"],
-          "null",
-          msg["createDate"],
-          msg["senderID"],
-          msg["receiverID"],
-          msg["roomID"],
-        ));
+        if (msg["type"] == "message") {
+          widget.messages.add(Message.msg(
+            msg["content"],
+            "messsage",
+            msg["createDate"],
+            msg["senderID"],
+            msg["receiverID"],
+            msg["roomID"],
+          ));
+        } else {
+          print(msg);
+
+          widget.messages.add(Offer.get(
+            msg["startDate"],
+            msg["endDate"],
+            msg["price"],
+            msg["location"],
+            msg["offerDescription"],
+            msg["driverId"],
+            msg["customerId"],
+            msg["status"],
+          ));
+        }
       }
       setState(() {
         widget.messages;
@@ -117,25 +136,24 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   void sendOffer(String startDate, String endDate, int price, String location,
-      String details, String status) {
+      String offerDescription, String status) {
     Offer ownOffer = Offer(
         startDate: startDate,
         endDate: endDate,
         price: price,
         location: location,
-        offerDescription: details,
+        offerDescription: offerDescription,
         status: status);
     widget.messages.add(ownOffer);
     setState(() {
       widget.messages;
     });
     socket!.emit("offer", {
-      "id": roomID,
       "startDate": startDate,
       "endDate": endDate,
       "price": price,
       "location": location,
-      "details": details,
+      "offerDescription": offerDescription,
       "status": status,
       "driverId": RentVanApp.userId,
       "customerId": widget.receiverId,
@@ -189,7 +207,7 @@ class _MessageScreenState extends State<MessageScreen> {
             SizedBox(
               width: phoneWidth * 0.03,
             ),
-            const Text("Receiver Name"),
+            showReceiverName(),
           ],
         ),
       ),
@@ -391,6 +409,7 @@ class _MessageScreenState extends State<MessageScreen> {
                           ),
                           Expanded(
                             child: TextFormField(
+                              controller: offerLocationController,
                               decoration: InputDecoration(
                                 hintText: "Location",
                                 fillColor: Colors.white,
@@ -450,5 +469,31 @@ class _MessageScreenState extends State<MessageScreen> {
             backgroundColor: Theme.of(context).highlightColor,
           );
         });
+  }
+
+  FutureBuilder showReceiverName() {
+    if (RentVanApp.userType == "driver") {
+      return FutureBuilder(
+          future: ProfileService.getDriver(widget.receiverId),
+          builder: ((contextv2, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              print(snapshot.data!.name);
+              return Text(snapshot.data!.name);
+            } else {
+              return const Text("...");
+            }
+          }));
+    } else {
+      return FutureBuilder(
+          future: ProfileService.getCustomer(widget.receiverId),
+          builder: ((contextv2, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              print(snapshot.data!.name);
+              return Text(snapshot.data!.name);
+            } else {
+              return const Text("...");
+            }
+          }));
+    }
   }
 }
