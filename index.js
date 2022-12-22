@@ -178,32 +178,30 @@ io.on("connection", (socket) => {
 		
 		
 
-		tempOffer = Offer.findById(response.offerId);
+		Offer.findById(response.offerId).then((tempOffer) =>{
 
-		console.log(tempOffer);
-		
-		tempOffer.updateOne({status:response.status});
+			tempOffer.updateOne({status:response.status});
 
-		if(response.status == "Accepted"){
-			let newTrip = new Trip({
-				driverId: tempOffer.driverId,
-
-				customerId: tempOffer.customerId,
-
-				startDate: tempOffer.startDate,
-
-				endDate: tempOffer.endDate,
-
-				location: tempOffer.location,
-
-				price: tempOffer.price,
-			})
-
-			newTrip.save();
-		}
-
-		
+			if(response.status == "Accepted"){
+				let newTrip = new Trip({
+					driverId: tempOffer.driverId,
 	
+					customerId: tempOffer.customerId,
+	
+					startDate: tempOffer.startDate,
+	
+					endDate: tempOffer.endDate,
+	
+					location: tempOffer.location,
+	
+					price: tempOffer.price,
+				})
+	
+				newTrip.save();
+			}
+		
+		
+		});	
 		io.to(response.roomID).emit('respondOffer',response);
 	})
 
