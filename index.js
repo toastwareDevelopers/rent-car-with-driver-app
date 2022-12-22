@@ -55,9 +55,42 @@ httpServer.listen(PORT, () => {
 });
 
 
-
-const Offer = require("./models/offer");
 const Message = require("./models/message");
+const Offer = require("./models/offer");
+
+
+Array.prototype.pushSorted = function(el, compareFn) {
+	let index = (function(arr) {
+	  var m = 0;
+	  var n = arr.length - 1;
+  
+	  while(m <= n) {
+		var k = (n + m) >> 1;
+		var cmp = compareFn(el, arr[k]);
+  
+		if(cmp > 0) m = k + 1;
+		  else if(cmp < 0) n = k - 1;
+		  else {
+			console.log(`m=${m} k=${k}`)
+			return k;
+		  };
+	  }
+  
+  
+	  return -m - 1;
+	})(this);
+  
+	if (index >= 0)
+	  this.splice(index, 0, el);
+	else if (index < 0)
+	  this.splice((index * -1) - 1, 0, el);
+  
+	return this.length;
+  };
+
+
+
+
 
 
 io.on("connection", (socket) => {
@@ -68,32 +101,34 @@ io.on("connection", (socket) => {
 		//console.log(msg);
 		socket.join(msg.roomID);
 
-		arr1 = Message.find({});
-
-		arr2 = Offer.find({});
-
-		arr3 = [...arr1,...arr2];
-
-		io.to(socket.id).emit('old_messages', arr3);
-
-		/* Message.find({
+		Message.find({
 			roomID: msg.roomID
 		  }).then((messages) => {
 
-			let arr = new Array();
-			arr.push(messages);
+			Offer.find({roomID: msg.roomID}).then((offers)=>{
+
+				for (let index = 0; index < offers.length; index++) {
+					const element = offers[index];
+					messages.pushSorted(offers[index], (a,b) => a.createDate - b.createDate);
+				}
+				
+				//console.log(messages);
+
+				io.to(socket.id).emit('old_messages', messages);
+			}).catch((err) => {
+				console.log(err);
+			  });
+			
 			
 
-			arr.push(Offer.find({roomID: msg.roomID}))
-			console.log(messages)
-			io.to(socket.id).emit('old_messages', arr);
+
 		  }).catch((err) => {
 			console.log(err);
-		  }); */
+		  }); 
 	});
 
 	socket.on('sendmessage', (msg) => {
-		console.log("sendmessage");
+		//console.log("sendmessage");
 		//console.log(msg);
 
 		io.to(msg.roomID).emit('sendmessage', msg);
@@ -110,13 +145,11 @@ io.on("connection", (socket) => {
 		message.save().catch((err) =>{
 			console.log(err);
 		});
-
-		console.log("yo")
 	});
 
 	socket.on('offer', (offer) => {
-		console.log(offer);
-		io.to(offer.roomID).emit('offer',offer);
+		//console.log(offer);
+		
 
 		let of = new Offer({
 			driverId: offer.driverId,
@@ -126,7 +159,8 @@ io.on("connection", (socket) => {
 			location: offer.location,
 			price: offer.price,
 			offerDescription: offer.offerDescription,
-    		status: offer.status
+    		status: offer.status,
+			roomID: offer.roomID,
 
 		});
 
@@ -134,12 +168,18 @@ io.on("connection", (socket) => {
 			console.log(err);
 		});
 
+		io.to(offer.roomID).emit('offer',of);
+
 	})
 	//console.log("hayir burda");
 
-	socket.on('respond',(status) =>{
-		console.log(status);
-		io.to(socket.id).emit('status',status);
+	socket.on('respondOffer',(response) =>{
+		
+		console.log(response);
+
+		Offer.findByIdAndUpdate({status:response.status});
+	
+		io.to(response.roomID).emit('respondOffer',response);
 	})
 
 	socket.on('disconnect', ()=>{
@@ -147,4 +187,8 @@ io.on("connection", (socket) => {
 	});
 
 });
+
+
+
+
 

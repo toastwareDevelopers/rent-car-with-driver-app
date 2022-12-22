@@ -22,7 +22,14 @@ const offerSch = new mongoose.Schema({
 
     offerDescription: String,
     
-    status: String
+    status: String,
+
+    roomID: String,
+    
+    createDate:{
+        default: Date.now,
+        type: Date
+    }
 });
 
 const Offer = mongoose.model("Offer",offerSch);
