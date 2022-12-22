@@ -67,7 +67,15 @@ io.on("connection", (socket) => {
 		//console.log(msg);
 		socket.join(msg.roomID);
 
-		Message.find({
+		arr1 = Message.find({roomID:msg.roomID});
+
+		arr2 = Offer.find({});
+
+		arr3 = arr1.concat(arr2);
+
+		io.to(socket.id).emit('old_messages', arr3);
+
+		/* Message.find({
 			roomID: msg.roomID
 		  }).then((messages) => {
 
@@ -80,7 +88,7 @@ io.on("connection", (socket) => {
 			io.to(socket.id).emit('old_messages', arr);
 		  }).catch((err) => {
 			console.log(err);
-		  });
+		  }); */
 	});
 
 	socket.on('sendmessage', (msg) => {

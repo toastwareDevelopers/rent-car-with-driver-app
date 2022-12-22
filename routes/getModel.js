@@ -70,10 +70,13 @@ getModelRouter.get('/api/info',async function (req,res){
 getModelRouter.get('/api/deneme',async function (req,res){
     let arr = new Array();
 
-    arr.push(await Driver.find({}));
-    arr.push(await Customer.find({}));
+    arr1 = await Driver.find({});
+    
+    arr2 = await Customer.find({});
 
-    res.send(arr);
+    arr3 = arr2.concat(arr1);
+
+    res.send(arr3);
 });
 
 /* Exporting the router object. */
