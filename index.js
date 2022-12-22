@@ -55,8 +55,9 @@ httpServer.listen(PORT, () => {
 });
 
 
-const Message = require("./models/message");
+
 const Offer = require("./models/offer");
+const Message = require("./models/message");
 
 
 io.on("connection", (socket) => {
@@ -71,7 +72,7 @@ io.on("connection", (socket) => {
 
 		arr2 = Offer.find({});
 
-		arr3 = arr1.concat(arr2);
+		arr3 = arr2.concat(arr1);
 
 		io.to(socket.id).emit('old_messages', arr3);
 
