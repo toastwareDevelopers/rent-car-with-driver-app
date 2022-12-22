@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rentcarmobile/models/CustomerAllData.dart';
 import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/services/profile.dart';
+import 'package:rentcarmobile/utils/base64_converter.dart';
 
 import '../../constants/assets_path.dart';
 import '../../main.dart';
@@ -11,7 +12,7 @@ import '../../widgets/customer_trip_widget.dart';
 import '../../widgets/review_widget_2.dart';
 
 class CustomerProfileScreen extends StatefulWidget {
-  const CustomerProfileScreen({super.key});
+  CustomerProfileScreen({super.key});
 
   @override
   State<CustomerProfileScreen> createState() => _CustomerProfileScreenState();
@@ -143,10 +144,15 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 children: [
                   Container(
                     padding: EdgeInsets.only(right: phoneWidth * 0.05),
-                    child: const CircleAvatar(
-                      backgroundImage: AssetImage(
-                          'lib/assets/images/blank-profile-photo.png'),
-                      radius: 30,
+                    child: CircleAvatar(
+                      backgroundColor: Theme.of(context).highlightColor,
+                      radius: 40,
+                      child: CircleAvatar(
+                        backgroundImage: customerData.customer.profileImage == null ?
+                            AssetImage(AssetPaths.blankProfilePhotoPath) :
+                            Image.memory(Base64Converter.decodeImage64(customerData.customer.profileImage as String)).image,
+                        radius: 37,
+                      ),
                     ),
                   ),
                   Column(
