@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'package:json_annotation/json_annotation.dart';
 part  'review.g.dart';
 
@@ -6,13 +7,13 @@ class Review {
   String? id;
   String? driverId;
   String? customerId;
+  String? driverName;
+  String? driverSurname;
+  String? customerName;
+  String? customerSurname;
   String? reviewText;
   double? rating;
   String? tripId;
-  String? customerName;
-  String? customerSurname;
-  String? driverName;
-  String? driverSurname;
   String? driverProfilePhoto;
   String? customerProfilePhoto;
   String? createDate;
@@ -20,14 +21,14 @@ class Review {
     this.id = "0",
     this.driverId = "null",
     this.customerId = "null",
+    this.driverName = "null",
+    this.customerName = "null",
+    this.driverSurname = "null",
+    this.customerSurname = "null",
     this.reviewText = "null",
     this.rating = 0.0,
     this.tripId = "null",
-    this.customerName = "null",
-    this.customerSurname = "null",
     this.createDate = "2022-01-01",
-    this. driverName = "null",
-    this. driverSurname = "null",
     this. driverProfilePhoto = "null",
     this. customerProfilePhoto = "null"
   });

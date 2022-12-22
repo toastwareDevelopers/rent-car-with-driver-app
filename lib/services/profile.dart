@@ -6,6 +6,8 @@ import '../constants/api_path.dart';
 import '../models/driver.dart';
 import 'package:rentcarmobile/models/customer.dart';
 
+import '../models/review.dart';
+
 class ProfileService {
   static Future<Driver> getDriver(String id) async {
     final headers = {
@@ -15,6 +17,7 @@ class ProfileService {
     try {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info?ID=$id");
       var response = await http.get(url, headers: headers);
+
       Driver driver = Driver.fromJson(jsonDecode(response.body));
       return driver;
     } catch (e) {
@@ -33,40 +36,96 @@ class ProfileService {
       Customer customer = Customer.fromJson(jsonDecode(response.body));
       return customer;
     } catch (e) {
+
       return Customer();
     }
   }
 
-  /*static Future<List<Trip>> getCustomerTrips(List<String> tripsId ) async {
-      List<Trip> trips = [];
+  static Future<List<Review>> getCustomerReviews(String id) async {
+    try {
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/getReviews?ID=" + id);
+      var response = await http.get(url);
+      print("istekten sonra");
+      List<Review> reviewList = [];
+      var jsonData = jsonDecode(response.body);
 
+      for (var u in jsonData) {
+        Review review = Review();
+        review.id = u["_id"];
+        review.customerId = u["customerId"];
+        review.customerName = u["customerName"];
+        review.customerSurname = u["customerSurname"];
+        review.driverId = u["driverId"];
+        review.driverName = u["driverName"];
+        review.driverSurname = u["driverSurname"];
+        review.reviewText = u["reviewText"];
+        review.tripId = u["tripId"];
+        review.driverProfilePhoto = u["driverProfile_image64"];
+        review.rating = u["rating"];
 
-      for (int i = 1; i < tripsId.length; i++) {
-        trips.add(ProfileService.getTripsById(tripsId[i]));
+        print("rw: ${review.reviewText}");
+        reviewList.add(review);
       }
-      return trips;
+      print("cutomer revies");
+      return reviewList;
+    } catch (e) {
+      List<Review> review2 = [];
+      print("review error");
+      return review2;
     }
-  */
+  }
+  static Future<int> postCustomerReview(String customerId,String driverId,String reviewText,String rating,String tripId) async {
+    final headers = {
+      'Content-type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8',
+      'Accept': 'application/json',
+    };
+    try{
+      var url = Uri.parse( "http://" +ApiPaths.serverIP + "api/createReview");
+      Map<String,String> bodyReview = {"customerId": customerId,"driverId" : driverId, "reviewText": reviewText,
+                                        "rating": rating, "tripId": tripId};
+      var reviewBody = json.encode(bodyReview);
 
-  static Future<Trip> getTripsById(String id) async {
+      var response = await http.post(url,headers: headers,
+      body: reviewBody);
+      return response.statusCode;
+    }
+    catch(e){
+    return 400;
+    }
+  }
+  static Future<List<Trip>> getTripsById(String id) async {
     final headers = {
       'Content-type': 'application/json;charset=UTF-8',
       'Charset': 'utf-8',
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info")
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/getTrips")
           .replace(queryParameters: {
         'ID': id,
       });
 
       var response = await http.get(url, headers: headers);
+      var jsonData = json.decode(response.body);
+      List<Trip> listTrip = [];
 
-      Trip trip = jsonDecode(response.body);
-
-      return trip;
+      for (var u in jsonData) {
+        Trip trip = Trip();
+        trip.id = u["_id"];
+        trip.customerName = u["customerName"];
+        trip.startDate = u["startDate"];
+        trip.endDate = u["endDate"];
+        trip.location = u["location"];
+        trip.price = u["price"];
+        trip.customerId =u["customerId"];
+        trip.driverId = u["driverId"];
+        listTrip.add(trip);
+      }
+      return listTrip;
     } catch (e) {
-      return Trip();
+      List<Trip> listTrip2 = [];
+      return listTrip2;
     }
   }
 

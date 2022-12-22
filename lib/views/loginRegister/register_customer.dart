@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/input_validator.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
@@ -32,7 +35,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
   String? genderDropdown = "Male";
   final List<String> genders = ["Male", "Female"];
 
-  final ProfileIcon _profileIcon = ProfileIcon(key: null, selectedImage: "null");
+  final ProfileIcon _profileIcon =
+      ProfileIcon(key: null, selectedImage: "null");
 
   @override
   Widget build(BuildContext context) {
@@ -334,12 +338,31 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               data.passportNumber =
                                   idNumber.value.text.toString();
                             }
+                            Response res =
+                                (await AuthService.registerCustomer(data));
+                            if (res.statusCode != 200) {
+                              List<String> errors =
+                                  jsonDecode(res.body)["error"]
+                                      .toString()
+                                      .split(",");
+                              List<String> errorMessages = [];
 
-                            if ((await AuthService.registerCustomer(data)) !=
-                                200) {
+                              errors.forEach(
+                                (element) {
+                                  errorMessages
+                                      .add(element.split(":").last.trim());
+                                },
+                              );
+
                               WarningAlert.showWarningDialog(
                                 context,
-                                "We can not register you. Try again please.",
+                                errorMessages[0] == "null" ? jsonDecode(res.body)["msg"] :
+                                errorMessages
+                                    .toString()
+                                    .replaceAll("[", "")
+                                    .replaceAll("]", "")
+                                    .replaceAll(",", "\n")
+                                    .replaceAll("\n ", "\n"),
                                 () {
                                   Navigator.pop(context);
                                 },

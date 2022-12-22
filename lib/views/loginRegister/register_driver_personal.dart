@@ -330,7 +330,7 @@ class _RegisterDriverPersonalScreenState
                               gender: widget.genderDropdown.toString(),
                               nationalId: widget.nationalIdController.text,
                               location: widget.locationDropdown.toString(),
-                              info: widget.biogrophyController.text,
+                              bio: widget.biogrophyController.text,
                               profileImage: widget._profileIcon.selectedImage),
                         );
                       }

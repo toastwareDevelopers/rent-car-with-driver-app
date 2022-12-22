@@ -1,12 +1,12 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/models/CustomerAllData.dart';
 import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/services/profile.dart';
 
 import '../../constants/assets_path.dart';
 import '../../main.dart';
 import '../../models/customer.dart';
+import '../../models/trip.dart';
 import '../../widgets/customer_trip_widget.dart';
 import '../../widgets/review_widget_2.dart';
 
@@ -18,32 +18,83 @@ class CustomerProfileScreen extends StatefulWidget {
 }
 
 class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
-  List<CustomerTrip> trips = [
-    new CustomerTrip("Burak Yasar", 35, "Samsun", "12-0-1", "15-0-20"),
-    new CustomerTrip("Harun Albayrak", 45, "Istanbul", "12-0-1", "15-0-20"),
-    new CustomerTrip("Eray Yasar", 32, "Karabuk", "12-0-1", "15-0-20"),
-    new CustomerTrip("Taha Yasar", 40, "Istanbul", "12-0-1", "15-0-20"),
-    new CustomerTrip("Alperen Acıkgoz", 50, "Eskisehir", "12-0-1", "15-0-20"),
-    new CustomerTrip("Berkan Akin", 50, "Manisa", "12-0-1", "15-0-20")
-  ];
-  static const IconData pencil = IconData(0xf1d7, fontFamily: 'MaterialIcons');
+  List<CustomerTrip> customerListTrips = [];
+  List<ReviewWidget2> customerListReview = [];
 
-  List<ReviewWidget2> reviews = [
-    new ReviewWidget2(
-        "Levis Hemilton", "Virajlara hızlı girmesi haricinde iyi bir sofor"),
-    new ReviewWidget2(
-        "Levis Hemilton", "Virajlara hızlı girmesi haricinde iyi bir sofor"),
-  ];
+  Future<CustomerData> getData(String customerID) async {
+    var customer = Customer();
+    List<Trip> trip = [];
+    List<Review> review = [];
+    await Future.wait([
+      ProfileService.getTripsById(customerID).then((value) => trip = value),
+    ]);
+
+    await Future.wait([
+      ProfileService.getCustomer(customerID).then((value) => customer = value),
+    ]);
+    await Future.wait([
+      ProfileService.getCustomerReviews(customerID)
+          .then((value) => review = value),
+    ]);
+    final customerData = CustomerData(customer, trip, review);
+    return customerData;
+  }
+
   @override
   Widget build(BuildContext context) {
+    String customerID = ModalRoute.of(context)!.settings.arguments as String;
+    return Scaffold(
+      body: FutureBuilder<CustomerData>(
+        future: getData(customerID),
+        builder: (context, snapshot) {
+          CustomerData? customerData = snapshot.data;
+
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(child: CircularProgressIndicator());
+            default:
+              if (snapshot.hasError) {
+                return const Center(child: Text('Some error occurred!'));
+              } else {
+                return customerTrips(customerData!);
+              }
+          }
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget customerTrips(CustomerData customerData) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
     int i = 0;
-    int count = 2;
-    Customer tmp;
+    customerListTrips.clear();
+    if (customerData.listTrips.isNotEmpty == true) {
+      for (i = 0; i < customerData.listTrips.length; i++) {
+        customerListTrips.add(CustomerTrip(
+            '${customerData.listTrips[i].driverName.toString()} ${customerData.listTrips[i].driverSurname.toString()}',
+            customerData.listTrips[i].age.toString(),
+            customerData.listTrips[i].location.toString(),
+            customerData.listTrips[i].startDate.toString(),
+            customerData.listTrips[i].endDate.toString(),
+            customerData.listTrips[i].id.toString(),
+            customerData.listTrips[i].customerId.toString(),
+            customerData.listTrips[i].driverId.toString()));
+      }
+    }
 
+    if (customerData.listReview.isNotEmpty == true) {
+      customerListReview.clear();
+      for (i = 0; i < customerData.listReview.length; i++) {
+        customerListReview.add(ReviewWidget2(
+            "${customerData.listReview[i].driverName} ${customerData.listReview[i].driverSurname}",
+            customerData.listReview[i].reviewText.toString()));
+      }
+    }
     //Map<String, dynamic> map =  ProfileService.getCustomer("636802ba08ae9ae84b4b7eda") as Map<String, dynamic> ;
-
+    String nameAge =
+        '${customerData.customer.name} ${customerData.customer.surname} (${2022 - DateTime.parse(customerData.customer.birthDate.toString()).year})';
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: RentVanApp.userType == "customer"
@@ -103,15 +154,15 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     children: [
                       Container(
                         alignment: Alignment.center,
-                        child: const Text(
-                          "Austin Exel (37)",
+                        child: Text(
+                          nameAge,
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
                       Container(
                         alignment: Alignment.center,
-                        child: const Text(
-                          "Istanbul Male",
+                        child: Text(
+                          "${customerData.customer.gender}",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -152,7 +203,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                               borderRadius: BorderRadius.circular(5)),
                           child: ListView(
                             padding: EdgeInsets.only(top: 10),
-                            children: trips,
+                            children: customerListTrips,
                           ),
                         ),
                       ],
@@ -185,7 +236,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         ),
                         child: ListView(
                           padding: EdgeInsets.only(top: 10),
-                          children: reviews,
+                          children: customerListReview,
                         ),
                       ),
                     ],

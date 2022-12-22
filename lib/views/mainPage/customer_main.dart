@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/activeRentingCustomer.dart';
@@ -250,6 +250,17 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
             },
           ),
         ],
+        leading: InkWell(
+              onTap: () {
+                RentVanApp.userId = "null";
+                Navigator.pop(context);
+              },
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(math.pi),
+                child: Icon(Icons.exit_to_app,size: 30,),
+              ),
+            ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Image.asset(
@@ -299,7 +310,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                 snapshot.hasData) {
                               ActiveRentingCustomer renting =
                                   snapshot.data as ActiveRentingCustomer;
-                              if (renting.id != "null") {
+                              if (renting.driverId.toString() != "null") {
                                 return Expanded(
                                   flex: 3,
                                   child: Stack(
@@ -507,7 +518,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                             driverLocation:
                                                 drivers[index].location,
                                             driverDescription:
-                                                drivers[index].info,
+                                                drivers[index].bio,
                                             driverPrice: drivers[index]
                                                 .hourlyPrice
                                                 .toString(),

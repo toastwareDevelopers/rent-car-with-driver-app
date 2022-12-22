@@ -3,29 +3,29 @@ part 'driver.g.dart';
 
 @JsonSerializable()
 class Driver {
-  String id = "null";
-  String email = "null";
-  String password = "null";
-  String name = "null";
-  String surname = "null";
-  String birthDate = "1900-01-01";
-  String gender = "Male";
-  String phoneNumber = "5000000000";
-  String nationalId = "null";
-  String passportNumber = "null";
-  String location = "null";
-  String info = "null";
-  List<String> skills = [];
-  List<String> languages = [];
-  String licenceNumber = "null";
-  String licenceYear = "1900";
-  double rating = 0.0;
-  int hourlyPrice = 0;
-  String taxNumber = "null";
-  Map<String, dynamic> carInfo = {};
-  List<String> trips = [];
-  String profileImage = "null";
-  List<String> reviews = [];
+  String id;
+  String email;
+  String password;
+  String name;
+  String surname;
+  String birthDate;
+  String gender;
+  String phoneNumber;
+  String nationalId;
+  String passportNumber;
+  String location;
+  String bio;
+  List<String> skills;
+  List<String> languages;
+  String licenceNumber;
+  String licenceYear;
+  double rating;
+  int hourlyPrice;
+  String taxNumber;
+  Map<String, dynamic> carInfo;
+  List<String> trips;
+  String profileImage;
+  List<String> reviews;
 
   Driver({
     this.id = "null",
@@ -39,7 +39,7 @@ class Driver {
     this.nationalId = "null",
     this.passportNumber = "null",
     this.location = "null",
-    this.info = "null",
+    this.bio = "null",
     this.skills = const [],
     this.languages = const [],
     this.licenceNumber = "null",
@@ -59,6 +59,6 @@ class Driver {
 
   @override
   String toString() {
-    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $info\nskills : $skills\nlanguages : $languages\nlicenceNumber : $licenceNumber\nlicenceYear : $licenceYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\nreviews : $reviews";
+    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $bio\nskills : $skills\nlanguages : $languages\nlicenceNumber : $licenceNumber\nlicenceYear : $licenceYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\nreviews : $reviews";
   }
 }

@@ -258,7 +258,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                       } else {
                         if ((await AuthService.registerDriver(
                               Driver(
-                                info: driver.info,
+                                bio: driver.bio,
                                 birthDate: driver.birthDate,
                                 email: driver.email,
                                 gender: driver.gender,

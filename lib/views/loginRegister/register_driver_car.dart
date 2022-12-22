@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
@@ -258,45 +261,63 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                           Navigator.pop(context);
                         });
                       } else {
-                        if ((await AuthService.registerDriver(
-                              Driver(
-                                info: driver.info,
-                                birthDate: driver.birthDate,
-                                email: driver.email,
-                                gender: driver.gender,
-                                hourlyPrice: int.parse(
-                                    widget.hourlyPriceController.text),
-                                languages: driver.languages,
-                                licenceNumber:
-                                    widget.carLisenceNumberController.text,
-                                licenceYear:
-                                    widget.driverLisenceYearController.text,
-                                location: driver.location,
-                                name: driver.name,
-                                nationalId: driver.nationalId,
-                                passportNumber: driver.passportNumber,
-                                password: driver.password,
-                                phoneNumber: driver.phoneNumber,
-                                rating: 0,
-                                skills: driver.skills,
-                                surname: driver.surname,
-                                taxNumber: widget.taxNumberController.text,
-                                carInfo: {
-                                  "lisenceNumber":
-                                      widget.carLisenceNumberController.text,
-                                  "plateNumber": widget
-                                      .carRegistirationPlateController.text,
-                                  "brand": widget.carBrandController.text,
-                                  "model": widget.carModelController.text,
-                                  "year": widget.modelYearController.text,
-                                  "color": widget.carColorController.text,
-                                },
-                                profileImage: driver.profileImage,
-                              ),
-                            )) !=
-                            200) {
-                          WarningAlert.showWarningDialog(context,
-                              "We can not register you. Try again please.", () {
+                        Response res = (await AuthService.registerDriver(
+                          Driver(
+                            bio: driver.bio,
+                            birthDate: driver.birthDate,
+                            email: driver.email,
+                            gender: driver.gender,
+                            hourlyPrice:
+                                int.parse(widget.hourlyPriceController.text),
+                            languages: driver.languages,
+                            licenceNumber:
+                                widget.carLisenceNumberController.text,
+                            licenceYear:
+                                widget.driverLisenceYearController.text,
+                            location: driver.location,
+                            name: driver.name,
+                            nationalId: driver.nationalId,
+                            passportNumber: driver.passportNumber,
+                            password: driver.password,
+                            phoneNumber: driver.phoneNumber,
+                            rating: 0,
+                            skills: driver.skills,
+                            surname: driver.surname,
+                            taxNumber: widget.taxNumberController.text,
+                            carInfo: {
+                              "lisenceNumber":
+                                  widget.carLisenceNumberController.text,
+                              "plateNumber":
+                                  widget.carRegistirationPlateController.text,
+                              "brand": widget.carBrandController.text,
+                              "model": widget.carModelController.text,
+                              "year": widget.modelYearController.text,
+                              "color": widget.carColorController.text,
+                            },
+                            profileImage: driver.profileImage,
+                          ),
+                        ));
+                        if (res.statusCode != 200) {
+                          List<String> errors = jsonDecode(res.body)["error"]
+                              .toString()
+                              .split(",");
+                          List<String> errorMessages = [];
+
+                          errors.forEach(
+                            (element) {
+                              errorMessages.add(element.split(":").last.trim());
+                            },
+                          );
+                          WarningAlert.showWarningDialog(
+                              context,
+                              errorMessages[0] == "null"
+                                  ? jsonDecode(res.body)["msg"]
+                                  : errorMessages
+                                      .toString()
+                                      .replaceAll("[", "")
+                                      .replaceAll("]", "")
+                                      .replaceAll(",", "\n")
+                                      .replaceAll("\n ", "\n"), () {
                             Navigator.pop(context);
                           });
                         } else {

@@ -217,7 +217,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                 child: TextFormField(
                                   keyboardType: TextInputType.multiline,
                                   maxLines: 7,
-                                  initialValue: driver.info,
+                                  initialValue: driver.bio,
                                   readOnly: true,
                                 ),
                               ),
