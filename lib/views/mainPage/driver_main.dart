@@ -137,7 +137,8 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
       height: phoneHeight * 0.7,
       width: phoneWidth * 0.9,
       child: FutureBuilder(
-        future: MainService.getFutureTrips(widget.tripListString),
+        future: MainService.getFutureTrips(
+            widget.tripListString, RentVanApp.userId),
         builder: (contextv2, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Container(
@@ -272,7 +273,8 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
 
   FutureBuilder getActiveCustomerInfo(double phoneWidth, double phoneHeight) {
     return FutureBuilder(
-      future: MainService.getDriverActiveTrip(widget.tripListString),
+      future: MainService.getDriverActiveTrip(
+          widget.tripListString, RentVanApp.userId),
       builder: (contextv2, snapshot) {
         if (snapshot.data != null) {
           if (snapshot.connectionState == ConnectionState.done) {

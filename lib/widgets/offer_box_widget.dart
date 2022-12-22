@@ -10,7 +10,6 @@ import '../views/chat/message_screen.dart';
 class OfferBox extends StatelessWidget {
   const OfferBox(
       {Key? key,
-      required this.id,
       required this.driverId,
       required this.customerId,
       required this.location,
@@ -21,7 +20,6 @@ class OfferBox extends StatelessWidget {
       required this.status})
       : super(key: key);
 
-  final String id;
   final String driverId;
   final String customerId;
   final String location;
@@ -265,7 +263,8 @@ class OfferBox extends StatelessWidget {
                               children: [
                                 ElevatedButton(
                                   style: ButtonStyle(
-                                    minimumSize: MaterialStatePropertyAll(Size.fromWidth(phoneWidth*0.3)),
+                                    minimumSize: MaterialStatePropertyAll(
+                                        Size.fromWidth(phoneWidth * 0.3)),
                                     backgroundColor: MaterialStatePropertyAll(
                                       Color.fromARGB(255, 149, 51, 51),
                                     ),
@@ -275,7 +274,8 @@ class OfferBox extends StatelessWidget {
                                 ),
                                 ElevatedButton(
                                   style: ButtonStyle(
-                                    minimumSize: MaterialStatePropertyAll(Size.fromWidth(phoneWidth*0.3)),
+                                    minimumSize: MaterialStatePropertyAll(
+                                        Size.fromWidth(phoneWidth * 0.3)),
                                     backgroundColor: MaterialStatePropertyAll(
                                       Color.fromARGB(255, 72, 124, 60),
                                     ),

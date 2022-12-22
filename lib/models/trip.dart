@@ -18,7 +18,7 @@ class Trip {
   String? driverSurname;
   String? tripDescription;
   String? reviewId;
-  int age;
+  int? age;
 
   Trip({
     this.id = "0",
@@ -40,6 +40,8 @@ class Trip {
   });
 
   factory Trip.fromJson(Map<String, dynamic> json) => _$TripFromJson(json);
+  factory Trip.fromJsonShort(Map<String, dynamic> json) =>
+      _$TripFromJsonv2(json);
 
   Map<String, dynamic> toJson() => _$TripToJson(this);
 }

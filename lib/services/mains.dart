@@ -31,9 +31,9 @@ class MainService {
     }
   }
 
-  static Future<Trip?> getDriverActiveTrip(List<String> tripListString) async {
-    tripListString =
-        (await MainService.getTripsByDriverId("635400487075dc541cc72e63"))!;
+  static Future<Trip?> getDriverActiveTrip(
+      List<String> tripListString, String driverID) async {
+    tripListString = (await MainService.getTripsByDriverId(driverID))!;
 
     if (tripListString.isNotEmpty) {
       return (await MainService.getTripById(tripListString[0]));
@@ -41,16 +41,17 @@ class MainService {
     return null;
   }
 
-  static Future<List<Trip>> getFutureTrips(List<String> tripListString) async {
+  static Future<List<Trip>> getFutureTrips(
+      List<String> tripListString, String driverID) async {
     List<Trip> trips = [];
-    tripListString =
-        (await MainService.getTripsByDriverId("635400487075dc541cc72e63"))!;
+    tripListString = (await MainService.getTripsByDriverId(driverID))!;
     for (int i = 1; i < tripListString.length; i++) {
       trips.add((await MainService.getTripById(tripListString[i])));
     }
     return trips;
   }
 
+  ///ooookkkk
   static Future<List<String>?> getTripsByDriverId(String id) async {
     final headers = {
       'Content-type': 'application/json;charset=UTF-8',
@@ -85,13 +86,14 @@ class MainService {
       });
       var response = await http.get(url, headers: headers);
       var tripJson = jsonDecode(response.body);
-      Trip trip = Trip.fromJson(tripJson);
+      Trip trip = Trip.fromJsonShort(tripJson);
       response = await http.get(url, headers: headers);
       Customer customer = await getTripsCustomer(trip.customerId!);
       DateTime dt = DateTime.parse(customer.birthDate!);
       trip.age = DateTime.now().year - dt.year;
       trip.customerName = customer.name;
       trip.customerSurname = customer.surname;
+      trip.customerAge = DateTime.now().year - dt.year;
       return trip;
     } catch (e) {
       print("Error$e");
@@ -131,10 +133,8 @@ class MainService {
 
     try {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/customer/main");
-      print("response:");
       var response = await http.post(url,
           body: json.encode(driverFilter), headers: headers);
-      print(response.body);
       List<dynamic> driversD = jsonDecode(response.body);
       List<Driver> drivers = [];
 

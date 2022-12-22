@@ -12,7 +12,8 @@ import '../../constants/assets_path.dart';
 import '../../models/message.dart';
 
 class MessageScreen extends StatefulWidget {
-  List<Message> messages = [
+  List<Offer> offers = [];
+  List<dynamic> messages = [
     /*Message("asdasdasdas", MessageType.Received, "20:13"),
     Message("jwfıjnwefnewuhfuewhfuhewufhewhfuıewjhfıuewhfuıewhuıfhwe",
         MessageType.Sent, "20:13"),
@@ -108,7 +109,7 @@ class MessageScreen extends StatefulWidget {
   String receiverId = "null";
   MessageScreen({super.key, this.receiverId = "null"});
   State<MessageScreen> createState() => _MessageScreenState();
-
+  bool oldMsgGet = false;
   TextEditingController messageController = TextEditingController();
 }
 
@@ -120,10 +121,11 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   void initState() {
     super.initState();
-    connect();
+    widget.messages = [];
     roomID = RentVanApp.userType == "customer"
         ? widget.receiverId + RentVanApp.userId
         : RentVanApp.userId + widget.receiverId;
+    connect();
     startChat(roomID);
   }
 
@@ -131,8 +133,10 @@ class _MessageScreenState extends State<MessageScreen> {
     socket = IO.io('http://${ApiPaths.serverIP}', <String?, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
+      'forceNew': true,
     });
     socket!.connect();
+
     socket!.onConnect((_) {
       print("connected frontend");
 
@@ -152,26 +156,82 @@ class _MessageScreenState extends State<MessageScreen> {
           });
         }
       });
-      socket!.on("old_messages", (messages) {
-        for (var msg in messages) {
+      socket!.on("offer", (msg) {
+        print(msg);
+
+        if (true) {
           setState(() {
-            widget.messages.add(Message.msg(
-              msg["content"],
-              "null",
-              msg["createDate"],
-              msg["senderID"],
-              msg["receiverID"],
-              msg["roomID"],
+            widget.messages.add(Offer.get(
+              msg["startDate"],
+              msg["endDate"],
+              msg["price"],
+              msg["location"],
+              msg["details"],
+              msg["driverId"],
+              msg["customerId"],
+              msg["status"],
             ));
           });
         }
       });
+
+      print("connection completed");
     });
+  }
+
+  @override
+  void dispose() {
+    if (socket != null) {
+      socket!.disconnect();
+    }
+    super.dispose();
   }
 
   void startChat(String msg) {
     socket!.emit("startChat", {
       "roomID": msg,
+    });
+    socket!.on("old_messages", (messages) {
+      for (var msg in messages) {
+        widget.messages.add(Message.msg(
+          msg["content"],
+          "null",
+          msg["createDate"],
+          msg["senderID"],
+          msg["receiverID"],
+          msg["roomID"],
+        ));
+      }
+      setState(() {
+        widget.messages;
+      });
+    });
+  }
+
+  void sendOffer(String startDate, String endDate, int price, String location,
+      String details, String status) {
+    Offer ownOffer = Offer(
+        startDate: startDate,
+        endDate: endDate,
+        price: price,
+        location: location,
+        offerDescription: details,
+        status: status);
+    widget.messages.add(ownOffer);
+    setState(() {
+      widget.messages;
+    });
+    socket!.emit("offer", {
+      "id": roomID,
+      "startDate": startDate,
+      "endDate": endDate,
+      "price": price,
+      "location": location,
+      "details": details,
+      "status": status,
+      "driverId": RentVanApp.userId,
+      "customerId": widget.receiverId,
+      "roomID": roomID,
     });
   }
 
@@ -343,16 +403,6 @@ class _MessageScreenState extends State<MessageScreen> {
                       ),
                     ),
                   ),
-                  //for starting chat temporarily
-                  /* ElevatedButton(
-                    style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Colors.black)),
-                    onPressed: () {
-                      startChat("msg");
-                    },
-                    child: const Text("start chat"),
-                  ),*/
                 ],
               ),
             ),
@@ -364,6 +414,11 @@ class _MessageScreenState extends State<MessageScreen> {
 
   Future<dynamic> showOffer(
       BuildContext context, double phoneHeight, double phoneWidth) {
+    TextEditingController offerStartDateController = TextEditingController();
+    TextEditingController offerEndDateController = TextEditingController();
+    TextEditingController offerPriceController = TextEditingController();
+    TextEditingController offerLocationController = TextEditingController();
+    TextEditingController offerDetailsController = TextEditingController();
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -388,6 +443,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              controller: offerStartDateController,
                               decoration: InputDecoration(
                                 hintText: "Start Date",
                                 fillColor: Colors.white,
@@ -399,6 +455,7 @@ class _MessageScreenState extends State<MessageScreen> {
                           ),
                           Expanded(
                             child: TextFormField(
+                              controller: offerEndDateController,
                               decoration: InputDecoration(
                                 hintText: "End Date",
                                 fillColor: Colors.white,
@@ -416,6 +473,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              controller: offerPriceController,
                               decoration: InputDecoration(
                                 hintText: "Price",
                                 fillColor: Colors.white,
@@ -445,6 +503,7 @@ class _MessageScreenState extends State<MessageScreen> {
                     child: TextFormField(
                       keyboardType: TextInputType.multiline,
                       maxLines: 10,
+                      controller: offerDetailsController,
                       decoration: InputDecoration(
                         hintText: "Details",
                         fillColor: Colors.white,
@@ -462,7 +521,16 @@ class _MessageScreenState extends State<MessageScreen> {
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
                       textStyle: MaterialStatePropertyAll(
                           TextStyle(color: Colors.red))),
-                  onPressed: () {},
+                  onPressed: () {
+                    sendOffer(
+                        offerStartDateController.text,
+                        offerEndDateController.text,
+                        int.parse(offerPriceController.text),
+                        offerLocationController.text,
+                        offerDetailsController.text,
+                        "Waiting");
+                    Navigator.pop(context);
+                  },
                   child: Center(
                     child: Text(
                       "Offer",
