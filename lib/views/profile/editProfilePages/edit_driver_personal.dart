@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rentcarmobile/models/driver.dart';
 
 import '../../../widgets/profile_icon_widget.dart';
+import 'edit_driver_auth.dart';
 
 class EditDriverPersonalScreen extends StatefulWidget {
-  const EditDriverPersonalScreen({super.key});
+  EditDriverPersonalScreen({super.key});
+
   @override
   State<EditDriverPersonalScreen> createState() =>
       _EditDriverPersonalScreenState();
@@ -23,8 +24,6 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
   double ratio = WidgetsBinding.instance.window.devicePixelRatio;
   double phoneHeight = 0.0;
   double phoneWidth = 0.0;
-
-  static int flag = 0;
 
   final List<String> cities = [
     "Adana",
@@ -114,28 +113,26 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
   final ProfileIcon _profileIcon = ProfileIcon(key: null, selectedImage: "null");
 
   @override
-  Widget build(BuildContext context) {
-    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver; // Receive driver data from previous page
-    // double phoneHeight = MediaQuery.of(context).size.height;
-    // double phoneWidth = MediaQuery.of(context).size.width;
-    if (flag == 0) {
-      // Making sure initialization done once
-      phoneHeight = size.height / ratio;
-      phoneWidth = size.width / ratio;
-      nameController.text = driver.name;
-      surnameController.text = driver.surname;
-      birthDateController.text = driver.birthDate;
-      nationalIdController.text = driver.nationalId;
-      if (driver.info.compareTo("null") != 0) {
-        biographyController.text = driver.info;
-      }
-      locationDropdown = driver.location;
-      genderDropdown = driver.gender;
-      _profileIcon.selectedImage = driver.profileImage;
+  void initState() {
+    super.initState();
+    phoneHeight = size.height / ratio;
+    phoneWidth = size.width / ratio;
+    nameController.text = EditDriverAuthScreen.editDriver.name;
+    surnameController.text = EditDriverAuthScreen.editDriver.surname;
+    birthDateController.text = EditDriverAuthScreen.editDriver.birthDate.toString().length > 10 ?
+    EditDriverAuthScreen.editDriver.birthDate.substring(0, 10) :
+    EditDriverAuthScreen.editDriver.birthDate;
+    nationalIdController.text = EditDriverAuthScreen.editDriver.nationalId;
+    if (EditDriverAuthScreen.editDriver.info.compareTo("null") != 0) {
+      biographyController.text = EditDriverAuthScreen.editDriver.info;
     }
+    locationDropdown = EditDriverAuthScreen.editDriver.location;
+    genderDropdown = EditDriverAuthScreen.editDriver.gender;
+    _profileIcon.selectedImage = EditDriverAuthScreen.editDriver.profileImage;
+  }
 
-    flag++;
-
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
@@ -181,6 +178,9 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                                   RegExp("[a-zA-Z]"),
                                 ),
                               ],
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.name = value;
+                              },
                             ),
                           ),
                           SizedBox(
@@ -198,6 +198,9 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                                   RegExp("[a-zA-Z]"),
                                 ),
                               ],
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.surname = value;
+                              },
                             ),
                           ),
                         ],
@@ -213,6 +216,9 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                                 hintText: "Birth Date",
                               ),
                               controller: birthDateController,
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.birthDate = value;
+                              },
                             ),
                           ),
                           SizedBox(
@@ -242,9 +248,10 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                                       ),
                                     )
                                     .toList(),
-                                onChanged: (value) {
+                                onChanged: (value) async {
                                   setState(() {
                                     genderDropdown = value;
+                                    EditDriverAuthScreen.editDriver.gender = genderDropdown.toString();
                                   });
                                 },
                                 dropdownColor:
@@ -271,6 +278,9 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                                   RegExp("[0-9]"),
                                 ),
                               ],
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.nationalId = value;
+                              },
                             ),
                           ),
                           SizedBox(
@@ -300,9 +310,10 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                                       ),
                                     )
                                     .toList(),
-                                onChanged: (value) {
+                                onChanged: (value) async {
                                   setState(() {
                                     locationDropdown = value;
+                                    EditDriverAuthScreen.editDriver.location = locationDropdown.toString();
                                   });
                                 },
                                 dropdownColor:
@@ -321,6 +332,9 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                         maxLines: 5,
                         decoration:
                             const InputDecoration(hintText: "Biography"),
+                        onChanged: (String value) async {
+                          EditDriverAuthScreen.editDriver.info = value;
+                        },
                       )
                     ],
                   ),
@@ -336,41 +350,15 @@ class _EditDriverPersonalScreenState extends State<EditDriverPersonalScreen> {
                     child: const Text("Continue"),
                     // Get to the  next screen
                     onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        "/editDriverSkills",
-                        arguments: Driver(
-                          email: driver.email,
-                          phoneNumber: driver.phoneNumber,
-                          password: driver.password,
-                          name: nameController.text.isEmpty
-                              ? driver.name
-                              : nameController.text,
-                          surname: surnameController.text.isEmpty
-                              ? driver.surname
-                              : surnameController.text,
-                          birthDate: birthDateController.text.isEmpty
-                              ? driver.birthDate
-                              : birthDateController.text,
-                          gender: genderDropdown.toString(),
-                          nationalId: nationalIdController.text.isEmpty
-                              ? driver.nationalId
-                              : nationalIdController.text,
-                          location: locationDropdown.toString(),
-                          info: biographyController.text.isEmpty
-                              ? driver.info
-                              : biographyController.text,
-                          languages: driver.languages,
-                          licenceNumber: driver.licenceNumber,
-                          licenceYear: driver.licenceYear,
-                          rating: driver.rating,
-                          hourlyPrice: driver.hourlyPrice,
-                          taxNumber: driver.taxNumber,
-                          carInfo: driver.carInfo,
-                          trips: driver.trips,
-                          profileImage: driver.profileImage,
-                          skills: driver.skills,
-                        ),
-                      );
+                      EditDriverAuthScreen.editDriver.name = nameController.text;
+                      EditDriverAuthScreen.editDriver.surname = surnameController.text;
+                      EditDriverAuthScreen.editDriver.birthDate = birthDateController.text;
+                      EditDriverAuthScreen.editDriver.gender = genderDropdown.toString();
+                      EditDriverAuthScreen.editDriver.nationalId = nationalIdController.text;
+                      EditDriverAuthScreen.editDriver.info = biographyController.text;
+                      EditDriverAuthScreen.editDriver.location = locationDropdown.toString();
+                      EditDriverAuthScreen.editDriver.profileImage = _profileIcon.selectedImage;
+                      Navigator.of(context).pushNamed('/editDriverSkills');
                     },
                   ),
                 ),

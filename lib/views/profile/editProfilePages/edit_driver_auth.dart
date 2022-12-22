@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
+import '../../../main.dart';
 import '../../../models/driver.dart';
+import '../../../services/profile.dart';
 
 class EditDriverAuthScreen extends StatefulWidget {
-  const EditDriverAuthScreen({super.key});
+  static var editDriver = Driver();
+  EditDriverAuthScreen({super.key});
+
   @override
   State<EditDriverAuthScreen> createState() => _EditDriverAuthScreenState();
 }
@@ -16,16 +20,23 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
   double ratio = WidgetsBinding.instance.window.devicePixelRatio;
   double phoneHeight = 0.0;
   double phoneWidth = 0.0;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getDriver(); // get driver data
+    phoneHeight = size.height / ratio;
+    phoneWidth = size.width / ratio;
+  }
 
   @override
   Widget build(BuildContext context) {
-    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
-    phoneHeight = size.height / ratio;
-    phoneWidth = size.width / ratio;
-
     return Scaffold(
       appBar: AppBar(elevation: 0),
-      body: SingleChildScrollView(
+      body: isLoading ?
+          const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
         child: SizedBox(
           height: phoneHeight,
           width: phoneWidth,
@@ -58,7 +69,7 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                           readOnly: true,
                           enabled: false,
                           decoration: InputDecoration(
-                            hintText: driver.email,
+                            hintText: EditDriverAuthScreen.editDriver.email,
                           ),
                         ),
                       ),
@@ -70,7 +81,7 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                           readOnly: true,
                           enabled: false,
                           decoration: InputDecoration(
-                            hintText: driver.phoneNumber,
+                            hintText: EditDriverAuthScreen.editDriver.phoneNumber,
                           ),
                         ),
                       ),
@@ -136,32 +147,8 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                         });
                         // Get to the next screen
                       } else {
-                        Navigator.of(context).pushNamed(
-                          "/editDriverPersonal",
-                          arguments: Driver(
-                            email: driver.email,
-                            phoneNumber: driver.phoneNumber,
-                            password: passwordController.text,
-                            name: driver.name,
-                            surname: driver.surname,
-                            birthDate: driver.birthDate,
-                            gender: driver.gender,
-                            nationalId: driver.nationalId,
-                            passportNumber: driver.passportNumber,
-                            location: driver.location,
-                            info: driver.info,
-                            skills: driver.skills,
-                            languages: driver.languages,
-                            licenceNumber: driver.licenceNumber,
-                            licenceYear: driver.licenceYear,
-                            rating: driver.rating,
-                            hourlyPrice: driver.hourlyPrice,
-                            taxNumber: driver.taxNumber,
-                            carInfo: driver.carInfo,
-                            trips: driver.trips,
-                            profileImage: driver.profileImage,
-                          ),
-                        );
+                        EditDriverAuthScreen.editDriver.password = passwordController.text;
+                        Navigator.of(context).pushNamed('/editDriverPersonal');
                       }
                     },
                   ),
@@ -176,5 +163,16 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
 
   bool controlIsSamePasswordAndRePassword(String password, String rePassword) {
     return password == rePassword;
+  }
+
+  getDriver() async {
+    setState(() {
+      isLoading = true;
+    });
+    final response = await ProfileService.getDriver(RentVanApp.userId);
+    EditDriverAuthScreen.editDriver = response;
+    setState(() {
+      isLoading = false;
+    });
   }
 }

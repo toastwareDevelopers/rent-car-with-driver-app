@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/driver.dart';
+import 'edit_driver_auth.dart';
 
 class EditDriverSkillsScreen extends StatefulWidget {
-  const EditDriverSkillsScreen({super.key});
+  EditDriverSkillsScreen({super.key});
+
   @override
   State<EditDriverSkillsScreen> createState() => _EditDriverSkillsScreenState();
 }
@@ -97,24 +98,18 @@ class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
   double phoneHeight = 0.0;
   double phoneWidth = 0.0;
 
-  static int flag = 0;
+  @override
+  void initState() {
+    super.initState();
+    phoneHeight = size.height / ratio;
+    phoneWidth = size.width / ratio;
+    skills = EditDriverAuthScreen.editDriver.skills;
+    addedLanguages = EditDriverAuthScreen.editDriver.languages;
+    languageDropdown = EditDriverAuthScreen.editDriver.languages[0];
+  }
 
   @override
   Widget build(BuildContext context) {
-    Driver driver = ModalRoute.of(context)!.settings.arguments
-        as Driver; // Receive driver data from previous page
-    // double phoneHeight = MediaQuery.of(context).size.height;
-    // double phoneWidth = MediaQuery.of(context).size.width;
-    if (flag == 0) {
-      phoneHeight = size.height / ratio;
-      phoneWidth = size.width / ratio;
-      skills = driver.skills;
-      addedLanguages = driver.languages;
-      languageDropdown = driver.languages[0];
-    }
-
-    flag++;
-
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
@@ -288,31 +283,9 @@ class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
                     child: const Text("Continue"),
                     // Get to the next screen
                     onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        "/editDriverCar",
-                        arguments: Driver(
-                          email: driver.email,
-                          phoneNumber: driver.phoneNumber,
-                          password: driver.password,
-                          name: driver.name,
-                          surname: driver.surname,
-                          birthDate: driver.birthDate,
-                          gender: driver.gender,
-                          nationalId: driver.nationalId,
-                          location: driver.location,
-                          info: driver.info,
-                          skills: skills,
-                          languages: addedLanguages,
-                          licenceNumber: driver.licenceNumber,
-                          licenceYear: driver.licenceYear,
-                          rating: driver.rating,
-                          hourlyPrice: driver.hourlyPrice,
-                          taxNumber: driver.taxNumber,
-                          carInfo: driver.carInfo,
-                          trips: driver.trips,
-                          profileImage: driver.profileImage,
-                        ),
-                      );
+                      EditDriverAuthScreen.editDriver.skills = skills;
+                      EditDriverAuthScreen.editDriver.languages = addedLanguages;
+                      Navigator.of(context).pushNamed('/editDriverCar');
                     },
                   ),
                 ),
