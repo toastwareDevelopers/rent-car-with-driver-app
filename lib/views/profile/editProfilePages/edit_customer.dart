@@ -6,12 +6,12 @@ import '../../../models/customer.dart';
 import '../../../services/profile.dart';
 import '../../../widgets/profile_icon_widget.dart';
 
-///  NOTES:
+///  NOTES: APPBARS WORK SKETCHY!
 ///
 ///
 
 class EditCustomerScreen extends StatefulWidget {
-  const EditCustomerScreen({super.key});
+  EditCustomerScreen({super.key});
 
   @override
   State<EditCustomerScreen> createState() => _EditCustomerScreenState();
@@ -20,10 +20,6 @@ class EditCustomerScreen extends StatefulWidget {
 enum SingingCharacter { nationalNumber, passportNumber }
 
 class _EditCustomerScreenState extends State<EditCustomerScreen> {
-  late Future<Customer> myFuture;
-
-  static int flag = 0;
-
   SingingCharacter? _character = SingingCharacter.nationalNumber;
   TextEditingController name = TextEditingController();
   TextEditingController surname = TextEditingController();
@@ -38,293 +34,253 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
   double ratio = WidgetsBinding.instance.window.devicePixelRatio;
   double phoneHeight = 0.0;
   double phoneWidth = 0.0;
+  Customer customerData = Customer();
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getCustomer(); // get customer data
+    phoneHeight = size.height / ratio;
+    phoneWidth = size.width / ratio;
+  }
 
   final ProfileIcon _profileIcon =
       ProfileIcon(key: null, selectedImage: "null");
 
   @override
-  void initState() {
-    super.initState();
-    myFuture = ProfileService.getCustomer(RentVanApp.userId);
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: FutureBuilder<Customer>(
-          future: myFuture,
-          builder: (context, snapshot) {
-            Customer? customerData = snapshot.data;
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return const Center(child: CircularProgressIndicator());
-              default:
-                if (snapshot.hasError) {
-                  return const Center(child: Text('Some error occurred!'));
-                } else {
-                  return buildCustomerEditScreen(customerData!);
-                }
-            }
-          },
-        ),
-      );
-
-    Widget buildCustomerEditScreen(Customer customerData) {
-    // double phoneHeight = MediaQuery.of(context).size.height;
-    // double phoneWidth = MediaQuery.of(context).size.width;
-    if (flag == 0) {
-      // Making sure initialization done once
-      name.text = customerData.name!;
-      surname.text = customerData.surname!;
-      if (customerData.nationalId?.compareTo("null") != 0) {
-        // if null show hintText instead
-        nationalID.text = customerData.nationalId!;
-      }
-      if (customerData.passportNumber?.compareTo("null") != 0) {
-        // if null show hintText instead
-        passportID.text = customerData.passportNumber!;
-      }
-      birthDateController.text = customerData.birthDate!.substring(0, 10);
-      genderDropdown = customerData.gender;
-      // Initialize the phone height and width
-      phoneHeight = size.height / ratio;
-      phoneWidth = size.width / ratio;
-      _profileIcon.selectedImage = customerData.profileImage!;
-    }
-
-    flag++; // Update flag
-
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0),
-      body: SafeArea(
-        child: Container(
-          height: phoneHeight,
-          width: phoneWidth,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Column(
+      appBar: AppBar(elevation: 0,),
+      body: isLoading ?
+          const Center(child: CircularProgressIndicator())
+          : SafeArea(
+            child: Container(
+              height: phoneHeight,
+              width: phoneWidth,
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    Container(
-                      padding: EdgeInsets.only(top: phoneHeight * 0.06),
-                      child: Text(
-                        "Edit Account",
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                    ),
+                    Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(top: phoneHeight * 0.06),
+                          child: Text(
+                            "Edit Account",
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                        ),
 
-                    _profileIcon,
+                        _profileIcon,
 
-                    Container(
-                      height: phoneHeight / 2,
-                      width: phoneWidth,
-                      child: Container(
-                        padding: EdgeInsets.only(
-                            left: phoneWidth * 0.07, right: phoneWidth * 0.07),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
+                        Container(
+                          height: phoneHeight / 2,
+                          width: phoneWidth,
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                left: phoneWidth * 0.07, right: phoneWidth * 0.07),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                //Name - Editable
-                                Expanded(
-                                  flex: 1,
-                                  child: TextField(
-                                    // This part will receive the data from database
-                                    decoration:
+                                Row(
+                                  children: [
+                                    //Name - Editable
+                                    Expanded(
+                                      flex: 1,
+                                      child: TextField(
+                                        // This part will receive the data from database
+                                        decoration:
                                         const InputDecoration(hintText: 'Name'),
-                                    controller: name,
-                                    // textInputAction: TextInputAction.next, this might come in handy with register pages
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                        RegExp("[a-zA-Z]"),
+                                        controller: name,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                            RegExp("[a-zA-Z]"),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: phoneWidth * 0.04,
-                                ),
-                                //Surname - Editable
-                                Expanded(
-                                  flex: 1,
-                                  child: TextField(
-                                    decoration:
+                                    ),
+                                    SizedBox(
+                                      width: phoneWidth * 0.04,
+                                    ),
+                                    //Surname - Editable
+                                    Expanded(
+                                      flex: 1,
+                                      child: TextField(
+                                        decoration:
                                         // This part will receive data from the database
                                         const InputDecoration(
                                             hintText: 'Surname'),
-                                    controller: surname,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                        RegExp("[a-zA-Z]"),
+                                        controller: surname,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                            RegExp("[a-zA-Z]"),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            //Email - Uneditable
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFormField(
-                                    autofocus: false,
-                                    readOnly: true,
-                                    enabled: false,
-                                    decoration: InputDecoration(
-                                      // This part will receive data from the database
-                                      hintText: customerData.email,
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            //Password - Editable
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextField(
-                                    obscureText: true,
-                                    enableSuggestions: false,
-                                    autocorrect: false,
-                                    decoration:
+                                //Email - Uneditable
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: TextFormField(
+                                        autofocus: false,
+                                        readOnly: true,
+                                        enabled: false,
+                                        decoration: InputDecoration(
+                                          // This part will receive data from the database
+                                          hintText: customerData.email,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                //Password - Editable
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: TextField(
+                                        obscureText: true,
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+                                        decoration:
                                         // This part will receive data from the database
                                         const InputDecoration(
                                             hintText: 'Password'),
-                                    controller: password1,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: phoneWidth * 0.04,
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: TextField(
-                                    obscureText: true,
-                                    enableSuggestions: false,
-                                    autocorrect: false,
-                                    decoration:
+                                        controller: password1,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: phoneWidth * 0.04,
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: TextField(
+                                        obscureText: true,
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+                                        decoration:
                                         // This part will receive data from the database
                                         const InputDecoration(
                                             hintText: 'Retype Password'),
-                                    controller: password2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // Phone number - Uneditable
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFormField(
-                                    autofocus: false,
-                                    readOnly: true,
-                                    enabled: false,
-                                    decoration: InputDecoration(
-                                      // This part will receive data from the database
-                                      hintText: customerData.phoneNumber,
+                                        controller: password2,
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            // National ID button
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: RadioListTile<SingingCharacter>(
-                                    activeColor:
+                                // Phone number - Uneditable
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: TextFormField(
+                                        autofocus: false,
+                                        readOnly: true,
+                                        enabled: false,
+                                        decoration: InputDecoration(
+                                          // This part will receive data from the database
+                                          hintText: customerData.phoneNumber,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // National ID button
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: RadioListTile<SingingCharacter>(
+                                        activeColor:
                                         const Color.fromRGBO(255, 167, 117, 77),
-                                    title: const Text(
-                                        style: TextStyle(color: Colors.white),
-                                        'National ID'),
-                                    value: SingingCharacter.nationalNumber,
-                                    groupValue: _character,
-                                    onChanged: (SingingCharacter? value) {
-                                      setState(() {
-                                        _character = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                // Passport ID button
-                                Expanded(
-                                  flex: 1,
-                                  child: RadioListTile<SingingCharacter>(
-                                    activeColor:
+                                        title: const Text(
+                                            style: TextStyle(color: Colors.white),
+                                            'National ID'),
+                                        value: SingingCharacter.nationalNumber,
+                                        groupValue: _character,
+                                        onChanged: (SingingCharacter? value) {
+                                          setState(() {
+                                            _character = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    // Passport ID button
+                                    Expanded(
+                                      flex: 1,
+                                      child: RadioListTile<SingingCharacter>(
+                                        activeColor:
                                         const Color.fromRGBO(255, 167, 117, 77),
-                                    title: const Text(
-                                        style: TextStyle(color: Colors.white),
-                                        'Passport ID'),
-                                    value: SingingCharacter.passportNumber,
-                                    groupValue: _character,
-                                    onChanged: (SingingCharacter? value) {
-                                      setState(() {
-                                        _character = value;
-                                      });
-                                    },
-                                  ),
+                                        title: const Text(
+                                            style: TextStyle(color: Colors.white),
+                                            'Passport ID'),
+                                        value: SingingCharacter.passportNumber,
+                                        groupValue: _character,
+                                        onChanged: (SingingCharacter? value) {
+                                          setState(() {
+                                            _character = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            // National ID || Passport ID - Editable
-                            // Both national id and passport id data an be changed
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextField(
-                                    decoration:
+                                // National ID || Passport ID - Editable
+                                // Both national id and passport id data can be changed
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: TextField(
+                                        decoration:
                                         // This part will receive data from the database
                                         InputDecoration(
                                             hintText: (_character ==
-                                                    SingingCharacter
-                                                        .nationalNumber)
+                                                SingingCharacter
+                                                    .nationalNumber)
                                                 ? 'National ID'
                                                 : 'Passport ID'),
-                                    controller: (_character ==
+                                        controller: (_character ==
                                             SingingCharacter.nationalNumber)
-                                        ? nationalID
-                                        : passportID,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // Birthdate - Editable
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextField(
-                                    decoration: const InputDecoration(
-                                      // This part will receive data from the database
-                                      hintText: 'Birth Date',
+                                            ? nationalID
+                                            : passportID,
+                                      ),
                                     ),
-                                    controller: birthDateController,
-                                    //onEditingComplete: () {if(birthDateController.text.isEmpty){birthDateController.text = prevData.birthday!;}},
-                                    //onSubmitted: (text) {if(birthDateController.text.isEmpty){birthDateController.text = customerData.birthDate!;}},
-                                  ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: phoneWidth * 0.04,
-                                ),
-                                //Gender - Editable
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 218, 218, 218),
-                                      borderRadius: BorderRadius.circular(5),
+                                // Birthdate - Editable
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: TextField(
+                                        decoration: const InputDecoration(
+                                          // This part will receive data from the database
+                                          hintText: 'Birth Date',
+                                        ),
+                                        controller: birthDateController,
+                                      ),
                                     ),
-                                    child: DropdownButton(
-                                      value: genderDropdown,
-                                      items: genders
-                                          .map(
-                                            (value) => DropdownMenuItem(
+                                    SizedBox(
+                                      width: phoneWidth * 0.04,
+                                    ),
+                                    //Gender - Editable
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                              255, 218, 218, 218),
+                                          borderRadius: BorderRadius.circular(5),
+                                        ),
+                                        child: DropdownButton(
+                                          value: genderDropdown,
+                                          items: genders
+                                              .map(
+                                                (value) => DropdownMenuItem(
                                               value: value,
                                               child: Container(
                                                 padding: const EdgeInsets.only(
@@ -335,95 +291,125 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                               ),
                                             ),
                                           )
-                                          .toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          genderDropdown = value;
-                                        });
-                                      },
-                                      dropdownColor: const Color.fromARGB(
-                                          255, 218, 218, 218),
-                                      borderRadius: BorderRadius.circular(10),
-                                      isExpanded: true,
+                                              .toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              genderDropdown = value;
+                                            });
+                                          },
+                                          dropdownColor: const Color.fromARGB(
+                                              255, 218, 218, 218),
+                                          borderRadius: BorderRadius.circular(10),
+                                          isExpanded: true,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                    // Save button
-                    Container(
-                      height: phoneHeight / 2,
-                      width: phoneWidth,
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        padding: const EdgeInsets.only(right: 15),
-                        child: ElevatedButton(
-                          child: const Text("Save"),
-                          onPressed: () async {
-                            if (password1.value.text.toString().compareTo(
+                        // Save button
+                        Container(
+                          height: phoneHeight / 2,
+                          width: phoneWidth,
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            padding: const EdgeInsets.only(right: 15),
+                            child: ElevatedButton(
+                              child: const Text("Save"),
+                              onPressed: () async {
+                                if (password1.value.text.toString().compareTo(
                                     password2.value.text.toString()) !=
-                                0) {
-                              WarningAlert.showWarningDialog(
-                                context,
-                                "Master Password must be same as confirmation ,but was different!",
-                                () {
-                                  Navigator.pop(context);
-                                },
-                              );
-                              // Update Customer Info
-                            } else {
-                              Customer changedCustomerData = Customer();
-                              changedCustomerData.name =
-                                  name.value.text.toString();
-                              changedCustomerData.surname =
-                                  surname.value.text.toString();
-                              changedCustomerData.email = customerData.email;
-                              changedCustomerData.password =
-                                  password1.value.text.toString();
-                              changedCustomerData.phoneNumber =
-                                  customerData.phoneNumber;
-                              changedCustomerData.birthDate =
-                                  birthDateController.value.text.toString();
-                              changedCustomerData.gender =
-                                  genderDropdown.toString();
-                              changedCustomerData.nationalId =
-                                  nationalID.value.text.toString();
-                              changedCustomerData.passportNumber =
-                                  passportID.value.text.toString();
-                              changedCustomerData.profileImage =
-                                  _profileIcon.selectedImage;
+                                    0) {
+                                  WarningAlert.showWarningDialog(
+                                    context,
+                                    "Master Password must be same as confirmation ,but was different!",
+                                        () {
+                                      Navigator.pop(context);
+                                    },
+                                  );
+                                  // Update Customer Info
+                                } else {
+                                  Customer changedCustomerData = Customer();
+                                  changedCustomerData.name =
+                                      name.value.text.toString();
+                                  changedCustomerData.surname =
+                                      surname.value.text.toString();
+                                  changedCustomerData.email = customerData.email;
+                                  changedCustomerData.password =
+                                      password1.value.text.toString();
+                                  changedCustomerData.phoneNumber =
+                                      customerData.phoneNumber;
+                                  changedCustomerData.birthDate =
+                                      birthDateController.value.text.toString();
+                                  changedCustomerData.gender =
+                                      genderDropdown.toString();
+                                  changedCustomerData.nationalId =
+                                      nationalID.value.text.toString();
+                                  changedCustomerData.passportNumber =
+                                      passportID.value.text.toString();
+                                  changedCustomerData.profileImage =
+                                      _profileIcon.selectedImage;
 
-                              if ((await ProfileService.editCustomer(
+                                  if ((await ProfileService.editCustomer(
                                       changedCustomerData,
                                       RentVanApp.userId)) !=
-                                  200) {
-                                WarningAlert.showWarningDialog(
-                                  context,
-                                  "We can not change your data!.",
-                                  () {
-                                    Navigator.pop(context);
-                                  },
-                                );
-                              } else {
-                                    Navigator.pushNamed(
-                                        context, "/profileCustomer");
-                              }
-                            }
-                          },
+                                      200) {
+                                    WarningAlert.showWarningDialog(
+                                      context,
+                                      "An Error occurred, We can not change your data!.",
+                                          () {
+                                        Navigator.pop(context);
+                                      },
+                                    );
+                                  } else {
+                                    SnackBar snackbar = const SnackBar(content: Text("Profile updated!"), duration: Duration(seconds: 2),);
+                                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                                    Navigator.of(context).pushReplacementNamed(
+                                        "/profileCustomer");
+                                  }
+                                }
+                              },
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
     );
+  }
+
+  // Get customer data
+  getCustomer() async {
+    setState(() {
+      isLoading = true;
+    });
+    final response = await ProfileService.getCustomer(RentVanApp.userId);
+    customerData = response;
+
+    name.text = customerData.name!;
+    surname.text = customerData.surname!;
+    if (customerData.nationalId?.compareTo("null") != 0) {
+      // if null show hintText instead
+      nationalID.text = customerData.nationalId!;
+    }
+    if (customerData.passportNumber?.compareTo("null") != 0) {
+      // if null show hintText instead
+      passportID.text = customerData.passportNumber!;
+    }
+    birthDateController.text = (customerData.birthDate!).substring(0, 10);
+    genderDropdown = customerData.gender;
+    // Initialize the phone height and width
+    _profileIcon.selectedImage = customerData.profileImage!;
+    genderDropdown = customerData.gender!;
+    setState(() {
+      isLoading = false;
+    });
   }
 }
