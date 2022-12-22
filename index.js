@@ -88,22 +88,22 @@ io.on("connection", (socket) => {
 			receiverID: msg.receiverID,
 			roomID: msg.roomID,
 		});
-	
-		socket.on('offer', (offer) => {
-			console.log(offer);
-			io.to(socket.id).emit('offer',offer);
-		})
-		//console.log("hayir burda");
-
-		socket.on('respond',(status) =>{
-			console.log(status);
-			io.to(socket.id).emit('status',status);
-		})
 
 		message.save();
 
 		console.log("yo")
 	});
+
+	socket.on('offer', (offer) => {
+		console.log(offer);
+		io.to(socket.id).emit('offer',offer);
+	})
+	//console.log("hayir burda");
+
+	socket.on('respond',(status) =>{
+		console.log(status);
+		io.to(socket.id).emit('status',status);
+	})
 
 	socket.on('disconnect', ()=>{
 		console.log("User disconnected");
