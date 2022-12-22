@@ -118,7 +118,7 @@ class MainService {
       return renting;
     }catch (e) {
       print("Error!");
-      throw Error();
+      return ActiveRentingCustomer();
     }
   }
 
