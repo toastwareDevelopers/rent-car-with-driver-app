@@ -73,9 +73,10 @@ io.on("connection", (socket) => {
 
 			let arr = new Array();
 			arr.push(messages);
+			
 
 			//messages.push(Offer.find({roomID: msg.roomID}))
-			//console.log(messages)
+			console.log(messages)
 			io.to(socket.id).emit('old_messages', arr);
 		  }).catch((err) => {
 			console.log(err);
