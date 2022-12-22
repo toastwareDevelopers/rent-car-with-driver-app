@@ -114,7 +114,9 @@ io.on("connection", (socket) => {
 
 		});
 
-		of.save();
+		of.save().catch((err) =>{
+			console.log(err);
+		});
 
 	})
 	//console.log("hayir burda");
