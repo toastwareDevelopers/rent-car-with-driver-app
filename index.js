@@ -98,7 +98,17 @@ io.on("connection", (socket) => {
 		console.log(offer);
 		io.to(socket.id).emit('offer',offer);
 
-		let of = new Message(offer);
+		let of = new Message({
+			driverId: offer.driverId,
+			customerId: offer.customerId,
+			startDate: offer.startDate,
+			endDate: offer.endDate,
+			location: offer.location,
+			price: offer.price,
+			offerDescription: offer.offerDescription,
+    		status: offer.status
+
+		});
 
 		of.save();
 
