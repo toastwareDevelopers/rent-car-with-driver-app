@@ -75,7 +75,7 @@ io.on("connection", (socket) => {
 			arr.push(messages);
 			
 
-			//messages.push(Offer.find({roomID: msg.roomID}))
+			arr.push(Offer.find({roomID: msg.roomID}))
 			console.log(messages)
 			io.to(socket.id).emit('old_messages', arr);
 		  }).catch((err) => {
