@@ -102,7 +102,7 @@ io.on("connection", (socket) => {
 		console.log(offer);
 		io.to(socket.id).emit('offer',offer);
 
-		let of = new Message({
+		let of = new Offer({
 			driverId: offer.driverId,
 			customerId: offer.customerId,
 			startDate: offer.startDate,
