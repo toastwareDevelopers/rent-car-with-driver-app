@@ -36,17 +36,6 @@ class ProfileService {
     }
   }
 
-  /*static Future<List<Trip>> getCustomerTrips(List<String> tripsId ) async {
-      List<Trip> trips = [];
-
-
-      for (int i = 1; i < tripsId.length; i++) {
-        trips.add(ProfileService.getTripsById(tripsId[i]));
-      }
-      return trips;
-    }
-  */
-
   static Future<Trip> getTripsById(String id) async {
     final headers = {
       'Content-type': 'application/json;charset=UTF-8',
@@ -81,20 +70,20 @@ class ProfileService {
               {
                 // "phoneNumber": driver.phoneNumber, cant be changed
                 // "email": driver.email, cant be changed
-                driver.password.toString().isEmpty ? "" : "NewPassword": driver.password,
+                driver.password.toString().isEmpty ? "" : "password": driver.password,
                 driver.name.toString().isEmpty ? "" : "name": driver.name,
                 driver.surname.toString().isEmpty ? "" : "surname": driver.surname,
                 driver.birthDate.toString().isEmpty ? "" : "birthDate": driver.birthDate,
                 "gender": driver.gender,
-                "info": driver.info,
+                driver.info.toString().isEmpty ? "" : "info": driver.info,
                 driver.nationalId.toString().isEmpty ? "" : "nationalId": driver.nationalId,
                 driver.location.toString().isEmpty ? "" : "location": driver.location,
-                //driver.skills.toString().isEmpty ? "" : "skills": driver.skills, // problem!
-                //driver.languages.toString().isEmpty ? "" : "languages": driver.languages, // problem!
-                driver.licenceNumber.toString().isEmpty ? "" : "licenseNumber": driver.licenceNumber,
-                driver.licenceYear.toString().isEmpty ? "" : "licenseYear": driver.licenceYear,
-                //driver.carInfo.toString().isEmpty ? "" : "carInfo" : driver.carInfo, // problem!
-                //driver.hourlyPrice.toString().isEmpty ? "" : "hourlyPrice": driver.hourlyPrice, // problem!
+                driver.skills.toString().isEmpty ? "" : "skills": driver.skills,
+                driver.languages.toString().isEmpty ? "" : "languages": driver.languages,
+                driver.licenseNumber.toString().isEmpty ? "" : "licenseNumber": driver.licenseNumber,
+                driver.licenseYear.toString().isEmpty ? "" : "licenseYear": driver.licenseYear,
+                driver.carInfo.isEmpty ? "" : "carInfo" : driver.carInfo,
+                driver.hourlyPrice.toString().isEmpty ? "" : "hourlyPrice": driver.hourlyPrice,
                 driver.taxNumber.toString().isEmpty ? "" : "taxNumber" : driver.taxNumber,
                 "_id": id,
                 "profile_image64" : driver.profileImage,
@@ -128,7 +117,6 @@ class ProfileService {
               customer.nationalId.toString().isEmpty ? "" : "NewNationalId": customer.nationalId,
               customer.passportNumber.toString().isEmpty ? "" : "NewPassportNumber": customer.passportNumber,
               "NewProfile_image64" : customer.profileImage,
-              // need to add part for profile image!
             },
           ),
           headers: headers);
@@ -137,11 +125,6 @@ class ProfileService {
       return 400;
     }
   }
-
-  //
-  // static Future<int> reviewDriver(Review review) async {
-  //   return 400;
-  // }
 }
   
   
