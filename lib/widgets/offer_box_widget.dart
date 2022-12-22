@@ -3,13 +3,17 @@ import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
 import 'package:rentcarmobile/main.dart';
+import 'package:rentcarmobile/models/message.dart';
 import 'package:rentcarmobile/utils/message_type.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 import '../views/chat/message_screen.dart';
 
 class OfferBox extends StatelessWidget {
   const OfferBox(
       {Key? key,
+      required this.socket,
+      required this.id,
       required this.driverId,
       required this.customerId,
       required this.location,
@@ -19,7 +23,8 @@ class OfferBox extends StatelessWidget {
       required this.offerDescription,
       required this.status})
       : super(key: key);
-
+  final Socket? socket;
+  final String id;
   final String driverId;
   final String customerId;
   final String location;
@@ -270,7 +275,13 @@ class OfferBox extends StatelessWidget {
                                     ),
                                   ),
                                   child: Text("Reject"),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    socket!.emit("respondOffer", {
+                                      "roomID": driverId + customerId,
+                                      "status": "Rejected",
+                                      "offerId": id,
+                                    });
+                                  },
                                 ),
                                 ElevatedButton(
                                   style: ButtonStyle(
@@ -281,7 +292,13 @@ class OfferBox extends StatelessWidget {
                                     ),
                                   ),
                                   child: Text("Accept"),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    socket!.emit("respondOffer", {
+                                      "roomID": driverId + customerId,
+                                      "status": "Accepted",
+                                      "offerId": id,
+                                    });
+                                  },
                                 ),
                               ],
                             ),

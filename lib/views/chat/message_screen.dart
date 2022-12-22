@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:rentcarmobile/constants/api_path.dart';
 import 'package:rentcarmobile/main.dart';
+import 'package:rentcarmobile/models/customer.dart';
 import 'package:rentcarmobile/models/offer.dart';
 import 'package:rentcarmobile/services/mains.dart';
 import 'package:rentcarmobile/services/profile.dart';
@@ -11,12 +15,14 @@ import 'package:rentcarmobile/widgets/offer_box_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../constants/assets_path.dart';
+import '../../models/driver.dart';
 import '../../models/message.dart';
 
 class MessageScreen extends StatefulWidget {
   List<Offer> offers = [];
   List<dynamic> messages = [];
   String receiverId = "null";
+  String? receiverName = "...";
   MessageScreen({super.key, this.receiverId = "null"});
   State<MessageScreen> createState() => _MessageScreenState();
   bool oldMsgGet = false;
@@ -25,6 +31,7 @@ class MessageScreen extends StatefulWidget {
 
 class _MessageScreenState extends State<MessageScreen> {
   IO.Socket? socket;
+  ScrollController _scrollController = ScrollController();
 
   String roomID = "null";
   List<Message> listMsg = [];
@@ -37,6 +44,19 @@ class _MessageScreenState extends State<MessageScreen> {
         : RentVanApp.userId + widget.receiverId;
     connect();
     startChat(roomID);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getReceiverName();
+    });
+  }
+
+  void getReceiverName() async {
+    if (RentVanApp.userType == "driver") {
+      Driver driver = await ProfileService.getDriver(widget.receiverId);
+      widget.receiverName = driver.name;
+    } else {
+      Customer customer = await ProfileService.getCustomer(widget.receiverId);
+      widget.receiverName = customer.name;
+    }
   }
 
   void connect() {
@@ -63,16 +83,46 @@ class _MessageScreenState extends State<MessageScreen> {
               msg["receiverID"],
               msg["roomID"],
             ));
+            /*SchedulerBinding.instance.addPostFrameCallback((_) {
+              _scrollController.animateTo(
+                  _scrollController.position.maxScrollExtent,
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.fastOutSlowIn);
+            });*/
+            Timer(
+              Duration(milliseconds: 500),
+              () => {
+                _scrollController
+                    .jumpTo(_scrollController.position.maxScrollExtent)
+              },
+            );
           });
         }
       });
-      print("socketin başı ");
+      socket!.on("respondOffer", (response) {
+        print(response);
+
+        if (true) {
+          setState(() {
+            String offerId = response["offerId"];
+            String newStatus = response["status"];
+            for (var msg in widget.messages) {
+              if (msg is Offer) {
+                if (msg.id == offerId) {
+                  msg.status = newStatus;
+                }
+              }
+            }
+          });
+        }
+      });
 
       socket!.on("offer", (offer) {
         print(offer);
         if (offer["customerId"] == RentVanApp.userId) {
           setState(() {
             widget.messages.add(Offer.get(
+              offer["_id"],
               offer["startDate"],
               offer["endDate"],
               offer["price"],
@@ -82,6 +132,11 @@ class _MessageScreenState extends State<MessageScreen> {
               offer["customerId"],
               offer["status"],
             ));
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            );
           });
         }
       });
@@ -118,6 +173,7 @@ class _MessageScreenState extends State<MessageScreen> {
           print(msg);
 
           widget.messages.add(Offer.get(
+            msg["_id"],
             msg["startDate"],
             msg["endDate"],
             msg["price"],
@@ -132,6 +188,14 @@ class _MessageScreenState extends State<MessageScreen> {
       setState(() {
         widget.messages;
       });
+    });
+  }
+
+  void respondOffer(Offer offer) {
+    socket!.emit("respondOffer", {
+      "roomID": roomID,
+      "status": offer.status,
+      "offerId": offer.id,
     });
   }
 
@@ -167,6 +231,11 @@ class _MessageScreenState extends State<MessageScreen> {
     widget.messages.add(ownMsg);
     setState(() {
       widget.messages;
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
     });
     socket!.emit("sendmessage", {
       "type": "message",
@@ -207,7 +276,7 @@ class _MessageScreenState extends State<MessageScreen> {
             SizedBox(
               width: phoneWidth * 0.03,
             ),
-            showReceiverName(),
+            Text(widget.receiverName!),
           ],
         ),
       ),
@@ -235,45 +304,55 @@ class _MessageScreenState extends State<MessageScreen> {
             //Messages area
             Container(
               child: ListView.separated(
-                itemBuilder: ((context, index) => Container(
-                      child: widget.messages[index] is Message
-                          ? MessageBubble(
-                              content:
-                                  (widget.messages[index] as Message).content,
-                              time: (widget.messages[index] as Message)
-                                  .createDate
-                                  .toString(),
-                              sender:
-                                  (widget.messages[index] as Message).senderID,
-                            )
-                          : OfferBox(
-                              customerId: (widget.messages[index] as Offer)
-                                  .customerId as String,
-                              driverId: (widget.messages[index] as Offer)
-                                  .driverId as String,
-                              location: (widget.messages[index] as Offer)
-                                  .location as String,
-                              price: (widget.messages[index] as Offer).price
-                                  as int,
-                              startDate: (widget.messages[index] as Offer)
-                                  .startDate as String,
-                              endDate: (widget.messages[index] as Offer).endDate
-                                  as String,
-                              offerDescription:
-                                  (widget.messages[index] as Offer)
-                                      .offerDescription as String,
-                              status: (widget.messages[index] as Offer).status
-                                  as String,
-                            ),
-                    )),
+                controller: _scrollController,
+                itemBuilder: ((context, index) {
+                  if (index == widget.messages.length) {
+                    return Container(
+                      height: 1,
+                    );
+                  }
+                  return Container(
+                    child: widget.messages[index] is Message
+                        ? MessageBubble(
+                            content:
+                                (widget.messages[index] as Message).content,
+                            time: (widget.messages[index] as Message)
+                                .createDate
+                                .toString(),
+                            sender:
+                                (widget.messages[index] as Message).senderID,
+                          )
+                        : OfferBox(
+                            socket: socket,
+                            id: (widget.messages[index] as Offer).id as String,
+                            customerId: (widget.messages[index] as Offer)
+                                .customerId as String,
+                            driverId: (widget.messages[index] as Offer).driverId
+                                as String,
+                            location: (widget.messages[index] as Offer).location
+                                as String,
+                            price:
+                                (widget.messages[index] as Offer).price as int,
+                            startDate: (widget.messages[index] as Offer)
+                                .startDate as String,
+                            endDate: (widget.messages[index] as Offer).endDate
+                                as String,
+                            offerDescription: (widget.messages[index] as Offer)
+                                .offerDescription as String,
+                            status: (widget.messages[index] as Offer).status
+                                as String,
+                          ),
+                  );
+                }),
                 separatorBuilder: (context, index) => SizedBox(
                   height: phoneHeight * 0.015,
                 ),
-                itemCount: widget.messages.length,
+                itemCount: widget.messages.length + 1,
                 padding: EdgeInsets.only(
                     bottom: phoneHeight * 0.085, top: phoneHeight * 0.01),
               ),
             ),
+
             //Text enter area
             Container(
               padding: EdgeInsets.all(5),
@@ -469,31 +548,5 @@ class _MessageScreenState extends State<MessageScreen> {
             backgroundColor: Theme.of(context).highlightColor,
           );
         });
-  }
-
-  FutureBuilder showReceiverName() {
-    if (RentVanApp.userType == "driver") {
-      return FutureBuilder(
-          future: ProfileService.getDriver(widget.receiverId),
-          builder: ((contextv2, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              print(snapshot.data!.name);
-              return Text(snapshot.data!.name);
-            } else {
-              return const Text("...");
-            }
-          }));
-    } else {
-      return FutureBuilder(
-          future: ProfileService.getCustomer(widget.receiverId),
-          builder: ((contextv2, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              print(snapshot.data!.name);
-              return Text(snapshot.data!.name);
-            } else {
-              return const Text("...");
-            }
-          }));
-    }
   }
 }

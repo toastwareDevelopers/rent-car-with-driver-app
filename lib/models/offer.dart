@@ -3,6 +3,7 @@ part 'offer.g.dart';
 
 @JsonSerializable()
 class Offer {
+  String? id;
   String? driverId;
   String? customerId;
   String? location;
@@ -12,6 +13,7 @@ class Offer {
   String? offerDescription;
   String? status;
   Offer.get(
+    this.id,
     this.startDate,
     this.endDate,
     this.price,
