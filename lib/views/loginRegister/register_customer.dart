@@ -8,7 +8,7 @@ import 'package:rentcarmobile/widgets/profile_icon_widget.dart';
 import '../../models/customer.dart';
 
 class RegisterCustomerScreen extends StatefulWidget {
-  const RegisterCustomerScreen({super.key});
+  RegisterCustomerScreen({super.key});
 
   @override
   State<RegisterCustomerScreen> createState() => _RegisterCustomerScreenState();
@@ -31,13 +31,22 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
   TextEditingController birthDateController = TextEditingController();
   String? genderDropdown = "Male";
   final List<String> genders = ["Male", "Female"];
+  Size size = WidgetsBinding.instance.window.physicalSize;
+  double ratio = WidgetsBinding.instance.window.devicePixelRatio;
+  double phoneHeight = 0.0;
+  double phoneWidth = 0.0;
 
   final ProfileIcon _profileIcon = ProfileIcon(key: null, selectedImage: "null");
 
   @override
+  void initState() {
+    super.initState();
+    phoneHeight = size.height / ratio;
+    phoneWidth = size.width / ratio;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    double phoneHeight = MediaQuery.of(context).size.height;
-    double phoneWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(elevation: 0),
