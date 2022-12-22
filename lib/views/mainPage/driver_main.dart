@@ -3,6 +3,8 @@ import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/trip.dart';
 import 'package:rentcarmobile/services/mains.dart';
 import 'dart:math' as math;
+import 'package:rentcarmobile/utils/base64_converter.dart';
+
 
 import '../../constants/assets_path.dart';
 
@@ -40,8 +42,8 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                   backgroundColor: Theme.of(context).highlightColor,
                   radius: 24,
                   child: CircleAvatar(
-                    backgroundImage:
-                        AssetImage(AssetPaths.blankProfilePhotoPath),
+                    // ADDED PROFILE IMAGE HERE!!! this is problematic because driver image data is not present
+                    backgroundImage: AssetImage(AssetPaths.blankProfilePhotoPath),
                     radius: 21.0,
                   ),
                 ),
@@ -189,8 +191,16 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(100),
-                            child: Image.asset(
-                              "lib/assets/images/blank-profile-photo.png",
+                            // ADDED PROFILE IMAGE HERE!!!
+                            child: Image(image :
+                              snapshot.data?[index].customerProfileImage !=
+                                  "null"
+                                  ? Image.memory(Base64Converter
+                                  .decodeImage64(
+                                  snapshot.data?[index].customerProfileImage as String))
+                                  .image
+                                  : AssetImage(AssetPaths
+                                  .blankProfilePhotoPath),
                               width: phoneHeight * .14,
                               height: phoneHeight * .14,
                             ),
@@ -314,10 +324,15 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: Image.asset(
-                          "lib/assets/images/blank-profile-photo.png",
-                          width: phoneHeight * .15,
-                          height: phoneHeight * .15,
+                        // ADDED PROFILE IMAGE HERE!!!
+                        child: Image(image: snapshot.data?.customerProfileImage !=
+                            "null"
+                            ? Image.memory(Base64Converter
+                            .decodeImage64(
+                            snapshot.data?.customerProfileImage))
+                            .image
+                            : AssetImage(AssetPaths
+                            .blankProfilePhotoPath),
                         ),
                       ),
                       SizedBox(
