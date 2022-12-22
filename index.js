@@ -89,7 +89,11 @@ io.on("connection", (socket) => {
 			roomID: msg.roomID,
 		});
 
-		message.save();
+		
+
+		message.save().catch((err) =>{
+			console.log(err);
+		});
 
 		console.log("yo")
 	});
