@@ -92,7 +92,7 @@ class RentVanApp extends StatelessWidget {
       routes: {
         '/': (context) => LoginScreen(),
         '/forgotPassword': (context) => ForgotPasswordScreen(),
-        '/registerCustomer': (context) => const RegisterCustomerScreen(),
+        '/registerCustomer': (context) => RegisterCustomerScreen(),
         '/registerDriverAuth': (context) => RegisterDriverAuthScreen(),
         '/registerDriverPersonal': (context) => RegisterDriverPersonalScreen(),
         '/registerDriverSkills': (context) => RegisterDriverSkillsScreen(),
@@ -101,7 +101,7 @@ class RentVanApp extends StatelessWidget {
         '/customerMain': (context) => CustomerMainScreen(),
         '/profileDriverPersonal' : (context) =>  DriverProfileScreen(),
         '/profileDriverCar' : (context) =>  DriverProfileCarScreen(),
-        '/profileCustomer' : (context) => const CustomerProfileScreen(),
+        '/profileCustomer' : (context) => CustomerProfileScreen(),
         '/editCustomer' : (context) => EditCustomerScreen(),
         '/editDriverAuth': (context) =>  EditDriverAuthScreen(),
         '/editDriverPersonal': (context) =>  EditDriverPersonalScreen(),
