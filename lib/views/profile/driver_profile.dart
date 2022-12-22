@@ -469,7 +469,9 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                                       .toString(),
                                                   rating: reviews[index]
                                                       .rating
-                                                      .toString());
+                                                      .toString(),
+                                                  customerProfileImage: reviews[index]
+                                                      .customerProfilePhoto.toString());
                                             }),
                                             separatorBuilder: ((context,
                                                     index) =>
