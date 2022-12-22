@@ -71,6 +71,8 @@ getModelRouter.get('/api/deneme',async function (req,res){
     let arr = new Array();
 
     arr1 = await Driver.find({});
+
+    console.log(arr1);
     
     arr2 = await Customer.find({});
 

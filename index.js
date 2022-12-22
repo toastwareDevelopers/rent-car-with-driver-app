@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
 		//console.log(msg);
 		socket.join(msg.roomID);
 
-		arr1 = Message.find({roomID:msg.roomID});
+		arr1 = Message.find({});
 
 		arr2 = Offer.find({});
 
