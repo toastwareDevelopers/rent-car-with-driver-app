@@ -100,7 +100,7 @@ io.on("connection", (socket) => {
 
 	socket.on('offer', (offer) => {
 		console.log(offer);
-		io.to(socket.id).emit('offer',offer);
+		io.to(offer.roomID).emit('offer',offer);
 
 		let of = new Offer({
 			driverId: offer.driverId,
