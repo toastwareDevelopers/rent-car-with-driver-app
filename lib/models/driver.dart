@@ -16,8 +16,8 @@ class Driver {
   String info = "null";
   List<String> skills = [];
   List<String> languages = [];
-  String licenceNumber = "null";
-  String licenceYear = "1900";
+  String licenseNumber = "null";
+  String licenseYear = "1900";
   double rating = 0.0;
   int hourlyPrice = 0;
   String taxNumber = "null";
@@ -39,8 +39,8 @@ class Driver {
     this.info = "null",
     this.skills = const [],
     this.languages = const [],
-    this.licenceNumber = "null",
-    this.licenceYear = "null",
+    this.licenseNumber = "null",
+    this.licenseYear = "null",
     this.rating = 0,
     this.hourlyPrice = 0,
     this.taxNumber = "null",
@@ -55,6 +55,6 @@ class Driver {
 
   @override
   String toString() {
-    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $info\nskills : $skills\nlanguages : $languages\nlicenceNumber : $licenceNumber\nlicenceYear : $licenceYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\n";
+    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $info\nskills : $skills\nlanguages : $languages\nlicenseNumber : $licenseNumber\nlicenceYear : $licenseYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\n";
   }
 }
