@@ -6,6 +6,11 @@ const mongoose = require("mongoose");
 /* Creating a schema for the message model. */
 const msgSchema = mongoose.Schema({
 
+    type:{
+        default:"message",
+        type:String,
+    },
+
     content:{
         required: true,
         type: String

@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 
 const offerSch = new mongoose.Schema({
     
+    type:{
+        default:"offer",
+        type:String,
+    },
+
     driverId: mongoose.ObjectId,
 
     customerId: mongoose.ObjectId,
