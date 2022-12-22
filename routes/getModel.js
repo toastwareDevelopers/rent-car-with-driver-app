@@ -66,6 +66,16 @@ getModelRouter.get('/api/info',async function (req,res){
 
 });
 
+
+getModelRouter.get('/api/deneme',async function (req,res){
+    let arr = new Array();
+
+    arr.push(await Driver.findOne());
+    arr.push(await Customer.findOne());
+
+    res.send(arr);
+});
+
 /* Exporting the router object. */
 module.exports = getModelRouter;
 

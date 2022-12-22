@@ -56,8 +56,8 @@ httpServer.listen(PORT, () => {
 
 
 const Message = require("./models/message");
-const { status } = require('express/lib/response');
-const { stat } = require('fs');
+const Offer = require("./models/offer");
+
 
 io.on("connection", (socket) => {
 	console.log("User connected");
@@ -97,6 +97,11 @@ io.on("connection", (socket) => {
 	socket.on('offer', (offer) => {
 		console.log(offer);
 		io.to(socket.id).emit('offer',offer);
+
+		let of = new Message(offer);
+
+		of.save();
+
 	})
 	//console.log("hayir burda");
 
