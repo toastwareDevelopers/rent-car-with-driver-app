@@ -176,9 +176,11 @@ io.on("connection", (socket) => {
 
 	socket.on('respondOffer',(response) =>{
 		
-		console.log(response);
+		
 
 		tempOffer = Offer.findById(response.offerId);
+
+		console.log(tempOffer);
 		
 		tempOffer.updateOne({status:response.status});
 
