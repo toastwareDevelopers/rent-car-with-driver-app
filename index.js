@@ -70,6 +70,8 @@ io.on("connection", (socket) => {
 		Message.find({
 			roomID: msg.roomID
 		  }).then((messages) => {
+			messages.push(Offer.find({roomID: msg.roomID}))
+			console.log(messages)
 			io.to(socket.id).emit('old_messages', messages);
 		  }).catch((err) => {
 			console.log(err);
