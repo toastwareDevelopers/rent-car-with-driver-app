@@ -13,99 +13,7 @@ import '../../models/message.dart';
 
 class MessageScreen extends StatefulWidget {
   List<Offer> offers = [];
-  List<dynamic> messages = [
-    /*Message("asdasdasdas", MessageType.Received, "20:13"),
-    Message("jwfıjnwefnewuhfuewhfuhewufhewhfuıewjhfıuewhfuıewhuıfhwe",
-        MessageType.Sent, "20:13"),
-    Message(
-        "ıewjfıeuwjfıujewufjdıuewjfuıejwıufjıuwefj", MessageType.Sent, "20:13"),
-    Message(
-        "wekjfoıerjfıreıufuerhfuıdwekocmnıewfbuıerwfıjermfjkmerkjfnuhrebncuhnwercjnjwencdew",
-        MessageType.Received,
-        "20:13"),
-    Message("wkledıowejdıojewıujdıuewjduweıdj", MessageType.Received, "20:13"),
-    Message("wedjuıwejdıujweıuhfuıwenxuıewndıewjfıjweıujuıewhnudfnwedf",
-        MessageType.Received, "20:13"),
-    Message(
-        "weıofjıweurhfıuewhrfıujweıodjuyewbfıukfmıoewubfuyhweuıjfıowejfıuewhf",
-        MessageType.Sent,
-        "20:13"),
-    Message(
-        "wlıxıoewjdıuewhyfuhjewodcıuerwhufhjweıofdmjhwnuwemkdnewjhfoewmuwehfuıwhfıuwehfıuwehfıuhweıufdhew",
-        MessageType.Received,
-        "20:13"),
-    Message("wıefjıuwehfuıewhuıfhıuwehfjıuwejdıuhjweıudhewuıhdıuwehfıudhweıufh",
-        MessageType.Sent, "20:13"),
-    Message(
-        "oıjıjıujıujerıwjırjweıdjıewjndıwjendıujnweıdjıweujdıuewjıudjuıwejuıhruıwehduıewh",
-        MessageType.Received,
-        "20:13"),
-    Offer(
-        id: "1212",
-        customerId: "12313",
-        driverId: "23423",
-        startDate: "21-02-2022",
-        endDate: "23-02-2022",
-        location: "Istanbul",
-        price: 290,
-        offerDescription: "djsfefıjeıfjeıfkıoekrfıoekrfe",
-        status: "Waiting"),
-    Message(
-        "jeıoj2ıojıojıojoıjıjıdjfnıwejncıuwencıuwencıuwnecıuwneıuncıuwejndf",
-        MessageType.Received,
-        "20:13"),
-    Message("oıdjcıosjdkcmkjmwecmweıocmweıocmıowemcıowemcıowem",
-        MessageType.Received, "20:13"),
-    Message(
-        "wlekfıowekjfıowejfıewjfıujewıufjıwejfıewckjwmexewlxlkwmexkwenfewjnfjwenf",
-        MessageType.Received,
-        "20:13"),
-    Message("asdaswedwddasdas", MessageType.Received, "20:13"),
-    Message("asdaswedewfwefecwxewewddasdas", MessageType.Sent, "20:13"),
-    Message("asdasqwdweddwedwdasdas", MessageType.Received, "20:13"),
-    Message("erfgerfıjweıuhduewhduyhewuydhyuewhduywehuydh",
-        MessageType.Received, "20:13"),
-    Message("kjıuwjujuju", MessageType.Sent, "20:13"),
-    Message(
-        "wefkjwehfıuwneufhuwenduwuıejdıuwejıudfjhewuıhfuıwgfcwmıxweıjdıuwhed",
-        MessageType.Received,
-        "20:13"),
-    Message("ujhdsıuchıuuıweuıhweud", MessageType.Sent, "20:13"),
-    Message(
-        "ushduhıuewhduıwheudıhwedwefewufjuewf", MessageType.Received, "20:13"),
-    Message("asduxuzuzuxuxuxuuxxuuxuxudujwkeowruıwerasdasdas",
-        MessageType.Received, "20:13"),
-    Message("kskjdskjf", MessageType.Received, "20:13"),
-    Message("rjfıjerıfjıerjfırejfıjeruıfuıenrcnewnruwe", MessageType.Received,
-        "20:13"),
-    Message("jdwdjwu", MessageType.Received, "20:13"),
-    Message(
-        "ewjdıjweıdwexelwjjfuıehfkuhafuhfuhfkuyehfueknceıruncıuenwkchuıerhfueırhfucneırunwcıuehkrckuerncuerkncuerkcnuekw",
-        MessageType.Received,
-        "20:13"),
-    Message("sdkjfıulweufjıuernfıuwlfhjıuenwruflhenıjernfuıernf",
-        MessageType.Received, "20:13"),
-    Message(
-        "wıejdıowemlqıwjdflıewufjıeurlfnerlıfjıleruhgfeıwoşjrfıojerıufjıeujfwıluer",
-        MessageType.Sent,
-        "20:13"),
-    Message("wefwefw", MessageType.Sent, "20:13"),
-    Message("wefkjweıjferfıuejrıferf", MessageType.Received, "20:13"),
-    Message("ewfwıfjeırufjuıejfıuejwrfıujeruıwfjıuewrjfhıuewljrfıuwerfewrferf",
-        MessageType.Sent, "20:13"),
-    Message(
-        "oıjdlıejrwıemrfıneruıvnueırbnvuwhebruvyhwekufhekwfhjuıerwhfıuehrfwlerıwlıufr",
-        MessageType.Sent,
-        "20:13"),
-    Message("skdjfısjdıjfıerujfıoewjfıowjfıukwfeıjrfıuewfl",
-        MessageType.Received, "20:13"),
-    Message(
-        "ıwejıljerıujfhıluerhjflıuejrfılwjerılfjewlıfjlwefılerwjflıewrjflıewjflıwejrf",
-        MessageType.Received,
-        "20:13"),
-    Message("efkjweujfılwejhrıfujwefr", MessageType.Sent, "20:13"),
-    Message("jıwejrıwjerıojweıorjıowjer", MessageType.Sent, "20:13"),*/
-  ];
+  List<dynamic> messages = [];
   String receiverId = "null";
   MessageScreen({super.key, this.receiverId = "null"});
   State<MessageScreen> createState() => _MessageScreenState();
@@ -321,8 +229,6 @@ class _MessageScreenState extends State<MessageScreen> {
                                   (widget.messages[index] as Message).senderID,
                             )
                           : OfferBox(
-                              id: (widget.messages[index] as Offer).id
-                                  as String,
                               customerId: (widget.messages[index] as Offer)
                                   .customerId as String,
                               driverId: (widget.messages[index] as Offer)
