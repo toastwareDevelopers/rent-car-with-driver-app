@@ -38,6 +38,7 @@ class Trip {
     this.driverName = "null",
     this.driverSurname = "null",
     this.age = 0,
+    this.customerProfileImage = "null",
   });
 
   factory Trip.fromJson(Map<String, dynamic> json) => _$TripFromJson(json);
