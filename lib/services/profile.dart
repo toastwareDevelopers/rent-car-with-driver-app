@@ -45,7 +45,6 @@ class ProfileService {
     try {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/getReviews?ID=" + id);
       var response = await http.get(url);
-      print("istekten sonra");
       List<Review> reviewList = [];
       var jsonData = jsonDecode(response.body);
 
@@ -62,15 +61,11 @@ class ProfileService {
         review.tripId = u["tripId"];
         review.driverProfilePhoto = u["driverProfile_image64"];
         review.rating = u["rating"];
-
-        print("rw: ${review.reviewText}");
         reviewList.add(review);
       }
-      print("cutomer revies");
       return reviewList;
     } catch (e) {
       List<Review> review2 = [];
-      print("review error");
       return review2;
     }
   }
