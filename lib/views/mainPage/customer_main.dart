@@ -404,7 +404,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                                   Radius.circular(5),
                                                 ),
                                               ),
-                                              child: Text("150TL"),
+                                              child: Text(renting.price.toString() + "TL"),
                                             ),
                                           ),
                                         )
