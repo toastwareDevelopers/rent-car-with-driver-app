@@ -17,8 +17,8 @@ class Driver {
   String bio;
   List<String> skills;
   List<String> languages;
-  String licenceNumber;
-  String licenceYear;
+  String licenseNumber;
+  String licenseYear;
   double rating;
   int hourlyPrice;
   String taxNumber;
@@ -42,15 +42,15 @@ class Driver {
     this.bio = "null",
     this.skills = const [],
     this.languages = const [],
-    this.licenceNumber = "null",
-    this.licenceYear = "null",
+    this.licenseNumber = "null",
+    this.licenseYear = "1900",
     this.rating = 0,
     this.hourlyPrice = 0,
     this.taxNumber = "null",
     this.carInfo = const {},
     this.trips = const [],
     this.profileImage = "null",
-    this.reviews = const[]
+    this.reviews = const[],
   });
 
   factory Driver.fromJson(Map<String, dynamic> json) => _$DriverFromJson(json);
@@ -59,6 +59,6 @@ class Driver {
 
   @override
   String toString() {
-    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $bio\nskills : $skills\nlanguages : $languages\nlicenceNumber : $licenceNumber\nlicenceYear : $licenceYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\nreviews : $reviews";
+    return "email : $email\npassword : $password\nname : $name\nsurname : $surname\nbirthDate : $birthDate\ngender : $gender\nphoneNumber : $phoneNumber\nnationalId : $nationalId\npassportNumber : $passportNumber\nlocation : $location\ninfo : $bio\nskills : $skills\nlanguages : $languages\nlicenceNumber : $licenseNumber\nlicenceYear : $licenseYear\nrating : $rating\nhourlyPrice : $hourlyPrice\ntaxNumber : $taxNumber\ncarInfo : $carInfo\ntrips : $trips\nreviews : $reviews";
   }
 }

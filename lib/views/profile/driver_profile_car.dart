@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/utils/base64_converter.dart';
 import '../../constants/assets_path.dart';
 import '../../main.dart';
 import '../../models/driver.dart';
@@ -83,8 +84,15 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                       Theme.of(context).highlightColor,
                                   radius: 40,
                                   child: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        AssetPaths.blankProfilePhotoPath),
+                                    backgroundImage:driver
+                                        .profileImage !=
+                                        "null"
+                                        ? Image.memory(Base64Converter
+                                        .decodeImage64(
+                                        driver.profileImage))
+                                        .image
+                                        : AssetImage(AssetPaths
+                                        .blankProfilePhotoPath),
                                     radius: 37.0,
                                   ),
                                 ),

@@ -1,57 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rentcarmobile/services/auth.dart';
+import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
-import '../../../models/driver.dart';
-
-
+import '../../../services/profile.dart';
+import 'edit_driver_auth.dart';
 
 class EditDriverCarScreen extends StatefulWidget {
-  TextEditingController driverLisenceNumberController = TextEditingController();
-  TextEditingController carLisenceNumberController = TextEditingController();
-  TextEditingController driverLisenceYearController = TextEditingController();
+  EditDriverCarScreen({super.key});
+
+  @override
+  State<EditDriverCarScreen> createState() => _EditDriverCarScreenState();
+}
+
+class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
+  TextEditingController driverLicenseNumberController = TextEditingController();
+  TextEditingController carLicenseNumberController = TextEditingController();
+  TextEditingController driverLicenseYearController = TextEditingController();
   TextEditingController modelYearController = TextEditingController();
   TextEditingController carBrandController = TextEditingController();
   TextEditingController carModelController = TextEditingController();
   TextEditingController carColorController = TextEditingController();
-  TextEditingController carRegistirationPlateController =
+  TextEditingController carRegistrationPlateController =
       TextEditingController();
   TextEditingController hourlyPriceController = TextEditingController();
   TextEditingController taxNumberController = TextEditingController();
-  EditDriverCarScreen({super.key});
-  @override
-  State<EditDriverCarScreen> createState() =>
-      _EditDriverCarScreenState();
-}
+  Size size = WidgetsBinding.instance.window.physicalSize;
+  double ratio = WidgetsBinding.instance.window.devicePixelRatio;
+  double phoneHeight = 0.0;
+  double phoneWidth = 0.0;
 
-class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
+  @override
+  void initState() {
+    super.initState();
+    phoneHeight = size.height / ratio;
+    phoneWidth = size.width / ratio;
+    driverLicenseNumberController.text = EditDriverAuthScreen.editDriver.licenseNumber;
+    carLicenseNumberController.text = EditDriverAuthScreen.editDriver.carInfo["licenseNumber"];
+    carRegistrationPlateController.text = EditDriverAuthScreen.editDriver.carInfo["plateNumber"];
+    carBrandController.text = EditDriverAuthScreen.editDriver.carInfo["brand"];
+    carModelController.text = EditDriverAuthScreen.editDriver.carInfo["model"];
+    carColorController.text = EditDriverAuthScreen.editDriver.carInfo["color"];
+    modelYearController.text = EditDriverAuthScreen.editDriver.carInfo["year"].toString().length > 4 ?
+    EditDriverAuthScreen.editDriver.carInfo["year"].substring(0, 4) :
+    EditDriverAuthScreen.editDriver.carInfo["year"];
+    driverLicenseYearController.text = EditDriverAuthScreen.editDriver.licenseYear.toString().length > 4 ?
+    EditDriverAuthScreen.editDriver.licenseYear.substring(0, 4) :
+    EditDriverAuthScreen.editDriver.licenseYear;
+    hourlyPriceController.text = EditDriverAuthScreen.editDriver.hourlyPrice.toString();
+    taxNumberController.text = EditDriverAuthScreen.editDriver.taxNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
-    double phoneHeight = MediaQuery.of(context).size.height;
-    double phoneWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: phoneHeight,
           width: phoneWidth,
           child: Column(
             children: <Widget>[
-              //Register as a Driver yazan başlık
               Expanded(
                 flex: 2,
                 child: Container(
                   padding: EdgeInsets.only(top: phoneHeight * 0.08),
                   child: Text(
-                    "Register as a Driver",
+                    "Edit Driver",
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),
               ),
-              //Form inputları alanı
               Expanded(
                 flex: 7,
                 child: Container(
@@ -60,47 +79,54 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      //Driver Lisence Number - Car Lisence Number
+                      //Driver Licence Number - Car Licence Number
                       Row(
                         children: [
-                          //Driver Lisence Number
+                          //Driver Licence Number - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.driverLisenceNumberController,
+                              controller: driverLicenseNumberController,
                               decoration: const InputDecoration(
-                                hintText: "Driver Lisence Number ",
+                                hintText: "Driver License Number ",
                                 hintMaxLines: 2,
                                 isDense: true,
                               ),
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.licenseNumber = value;
+                              },
                             ),
                           ),
                           SizedBox(
                             width: phoneWidth * 0.04,
                           ),
-                          //Car Lisence Number
+                          //Car Licence Number - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.carLisenceNumberController,
+                              controller: carLicenseNumberController,
                               decoration: const InputDecoration(
-                                hintText: "Car Lisence Number",
+                                hintText: "Car License Number",
                                 hintMaxLines: 2,
                                 isDense: false,
                               ),
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.carInfo["licenseNumber"] = value;
+                              },
                             ),
                           ),
                         ],
                       ),
-                      //Driver Lisence Year - Car Age
+                      //Driver Licence Year - Car Age
                       Row(
                         children: [
-                          //Driver Lisence Year
+                          //Driver Licence Year - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.driverLisenceYearController,
-                              maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                              controller: driverLicenseYearController,
+                              maxLengthEnforcement:
+                                  MaxLengthEnforcement.enforced,
                               maxLength: 4,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
@@ -108,21 +134,24 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                                 ),
                               ],
                               decoration: const InputDecoration(
-                                hintText: "Driver Lisence Year ",
+                                hintText: "Driver Licence Year ",
                                 hintMaxLines: 2,
                                 isDense: false,
                                 counterText: "",
                               ),
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.licenseYear = value;
+                              },
                             ),
                           ),
                           SizedBox(
                             width: phoneWidth * 0.04,
                           ),
-                          //Car Model Year
+                          //Car Model Year - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.modelYearController,
+                              controller: modelYearController,
                               maxLength: 4,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
@@ -133,6 +162,9 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                                 hintText: "Model Year",
                                 counterText: "",
                               ),
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.carInfo["year"] = value;
+                              },
                             ),
                           ),
                         ],
@@ -140,26 +172,32 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                       //Car Brand - Car Model
                       Row(
                         children: [
-                          //Car Brand
+                          //Car Brand - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.carBrandController,
+                              controller: carBrandController,
                               decoration: const InputDecoration(
                                 hintText: "Car Brand ",
                               ),
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.carInfo["brand"] = value;
+                              },
                             ),
                           ),
                           SizedBox(
                             width: phoneWidth * 0.04,
                           ),
-                          //Car Model
+                          //Car Model - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.carModelController,
+                              controller: carModelController,
                               decoration:
                                   const InputDecoration(hintText: "Car Model"),
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.carInfo["model"] = value;
+                              },
                             ),
                           ),
                         ],
@@ -167,29 +205,35 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                       //Car Color - Car Registration Plate
                       Row(
                         children: [
-                          //Car Color
+                          //Car Color - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.carColorController,
+                              controller: carColorController,
                               decoration: const InputDecoration(
                                 hintText: "Car Color",
                               ),
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.carInfo["color"] = value;
+                              },
                             ),
                           ),
                           SizedBox(
                             width: phoneWidth * 0.04,
                           ),
-                          //Car Registration Plate
+                          //Car Registration Plate - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.carRegistirationPlateController,
+                              controller: carRegistrationPlateController,
                               decoration: const InputDecoration(
                                 hintText: "Car Registration Plate",
                                 hintMaxLines: 2,
                                 isDense: true,
                               ),
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.carInfo["plateNumber"] = value;
+                              },
                             ),
                           ),
                         ],
@@ -197,11 +241,11 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                       //Hourly Price - Tax Number
                       Row(
                         children: [
-                          //Hourly Price
+                          //Hourly Price - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.hourlyPriceController,
+                              controller: hourlyPriceController,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
                                   RegExp("[0-9]"),
@@ -212,19 +256,25 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                                 hintMaxLines: 2,
                                 isDense: false,
                               ),
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.hourlyPrice = int.parse(value);
+                              },
                             ),
                           ),
                           SizedBox(
                             width: phoneWidth * 0.04,
                           ),
-                          //Tax Number
+                          //Tax Number - Editable
                           Expanded(
                             flex: 1,
                             child: TextField(
-                              controller: widget.taxNumberController,
+                              controller: taxNumberController,
                               decoration: const InputDecoration(
                                 hintText: "Tax Number",
                               ),
+                              onChanged: (String value) async {
+                                EditDriverAuthScreen.editDriver.taxNumber = value;
+                              },
                             ),
                           ),
                         ],
@@ -233,74 +283,38 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                   ),
                 ),
               ),
-              //Continue butonu alanı
+              //Continue Button
               Expanded(
                 flex: 2,
                 child: Container(
                   alignment: Alignment.topRight,
                   padding: const EdgeInsets.only(right: 20),
                   child: ElevatedButton(
-                    child: const Text("Register"),
-                    onPressed: () async {
-                      if (!controlInputsAreNotEmpty(
-                          widget.driverLisenceNumberController.text,
-                          widget.carLisenceNumberController.text,
-                          widget.driverLisenceYearController.text,
-                          widget.modelYearController.text,
-                          widget.carBrandController.text,
-                          widget.carModelController.text,
-                          widget.carColorController.text,
-                          widget.carRegistirationPlateController.text,
-                          widget.hourlyPriceController.text,
-                          widget.taxNumberController.text)) {
-                        WarningAlert.showWarningDialog(
-                            context, "You must fill all inputs",(){Navigator.pop(context);});
-                      } else {
-                        if ((await AuthService.registerDriver(
-                              Driver(
-                                bio: driver.bio,
-                                birthDate: driver.birthDate,
-                                email: driver.email,
-                                gender: driver.gender,
-                                hourlyPrice:
-                                    int.parse(widget.hourlyPriceController.text),
-                                languages: driver.languages,
-                                licenceNumber:
-                                    widget.carLisenceNumberController.text,
-                                licenceYear:
-                                    widget.driverLisenceYearController.text,
-                                location: driver.location,
-                                name: driver.name,
-                                nationalId: driver.nationalId,
-                                passportNumber: driver.passportNumber,
-                                password: driver.password,
-                                phoneNumber: driver.phoneNumber,
-                                rating: 0,
-                                skills: driver.skills,
-                                surname: driver.surname,
-                                taxNumber: widget.taxNumberController.text,
-                                carInfo: {
-                                  "lisenceNumber":
-                                      widget.carLisenceNumberController.text,
-                                  "plateNumber":
-                                      widget.carRegistirationPlateController.text,
-                                  "brand": widget.carBrandController.text,
-                                  "model": widget.carModelController.text,
-                                  "year": widget.modelYearController.text,
-                                  "color": widget.carColorController.text,
-                                },
-                              ),
-                            )) !=
+                      child: const Text("Save"),
+                      onPressed: () async {
+                        EditDriverAuthScreen.editDriver.hourlyPrice = int.parse(hourlyPriceController.text);
+                        EditDriverAuthScreen.editDriver.licenseNumber = driverLicenseNumberController.text;
+                        EditDriverAuthScreen.editDriver.licenseYear = driverLicenseYearController.text;
+                        EditDriverAuthScreen.editDriver.taxNumber = taxNumberController.text;
+                        EditDriverAuthScreen.editDriver.carInfo["licenseNumber"] = carLicenseNumberController.text;
+                        EditDriverAuthScreen.editDriver.carInfo["plateNumber"] = carRegistrationPlateController.text;
+                        EditDriverAuthScreen.editDriver.carInfo["brand"] = carBrandController.text;
+                        EditDriverAuthScreen.editDriver.carInfo["model"] = carModelController.text;
+                        EditDriverAuthScreen.editDriver.carInfo["year"] = modelYearController.text;
+                        EditDriverAuthScreen.editDriver.carInfo["color"] = carColorController.text;
+
+                        if ((await ProfileService.editDriver(EditDriverAuthScreen.editDriver, RentVanApp.userId)) !=
                             200) {
-                          WarningAlert.showWarningDialog(context,
-                              "We can not register you. Try again please.",(){Navigator.pop(context);});
+                          WarningAlert.showWarningDialog(
+                              context, "An Error occurred, We can not change your data!.", () {
+                            Navigator.pop(context);
+                          });
                         } else {
-                          WarningAlert.showWarningDialog(context,
-                              "Congrulations! You have registered succesfully!",(){Navigator.pushNamed(context, "/");});
+                            SnackBar snackbar = const SnackBar(content: Text("Profile updated!"), duration: Duration(seconds: 2),);
+                            ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                            Navigator.pushReplacementNamed(context, "/profileDriverPersonal", arguments: RentVanApp.userId);
                         }
-                      }
-                    },
-                  ),
+                      }),
                 ),
               ),
             ],
@@ -308,28 +322,5 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
         ),
       ),
     );
-  }
-
-  bool controlInputsAreNotEmpty(
-      String driverLisenceNumber,
-      String carLisenceNumber,
-      String driverLisenceYear,
-      String modelYear,
-      String carBrand,
-      String carModelName,
-      String carColor,
-      String carRegistirationPlate,
-      String price,
-      String taxNumber) {
-    return driverLisenceNumber.isNotEmpty &&
-        carLisenceNumber.isNotEmpty &&
-        driverLisenceYear.isNotEmpty &&
-        modelYear.isNotEmpty &&
-        carBrand.isNotEmpty &&
-        carModelName.isNotEmpty &&
-        carColor.isNotEmpty &&
-        carRegistirationPlate.isNotEmpty &&
-        price.isNotEmpty &&
-        taxNumber.isNotEmpty;
   }
 }

@@ -9,6 +9,7 @@ class Trip {
   String? customerName;
   String? customerSurname;
   int? customerAge;
+  String? customerProfileImage;
   String? location;
   int? price;
   String? startDate;
@@ -27,6 +28,7 @@ class Trip {
     this.customerName = "null",
     this.customerSurname = "null",
     this.customerAge = 0,
+    this.customerProfileImage = "null",
     this.location = "null",
     this.price = 0,
     this.startDate = "01-01-1900",

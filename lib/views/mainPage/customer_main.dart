@@ -252,8 +252,8 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
         ],
         leading: InkWell(
               onTap: () {
+                Navigator.pushReplacementNamed(context, "/");
                 RentVanApp.userId = "null";
-                Navigator.pop(context);
               },
               child: Transform(
                 alignment: Alignment.center,

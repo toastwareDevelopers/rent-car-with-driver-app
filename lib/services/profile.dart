@@ -171,37 +171,29 @@ class ProfileService {
     try {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/edit/driver");
       var response = await http.post(url,
-          body: json.encode({
-            "role": "driver",
-            // "phoneNumber": driver.phoneNumber, cant be changed
-            // "email": driver.email, cant be changed
-            driver.password.toString().isEmpty ? "" : "NewPassword":
-                driver.password,
-            driver.name.toString().isEmpty ? "" : "name": driver.name,
-            driver.surname.toString().isEmpty ? "" : "surname": driver.surname,
-            driver.birthDate.toString().isEmpty ? "" : "birthDate":
-                driver.birthDate,
-            "gender": driver.gender,
-            driver.nationalId.toString().isEmpty ? "" : "nationalId":
-                driver.nationalId,
-            driver.location.toString().isEmpty ? "" : "location":
-                driver.location,
-            driver.skills.toString().isEmpty ? "" : "skills": driver.skills,
-            driver.languages.toString().isEmpty ? "" : "languages":
-                driver.languages,
-            driver.licenceNumber.toString().isEmpty ? "" : "licenseNumber":
-                driver.licenceNumber,
-            driver.licenceYear.toString().isEmpty ? "" : "licenseYear":
-                driver.licenceYear,
-            driver.carInfo.toString().isEmpty ? "" : "carInfo": driver.carInfo,
-            driver.hourlyPrice.toString().isEmpty ? "" : "hourlyPrice":
-                driver.hourlyPrice,
-            driver.taxNumber.toString().isEmpty ? "" : "taxNumber":
-                driver.taxNumber,
-            //"trips": driver.trips, why is this here?
-            "_id": id,
-            "profile_image64": driver.profileImage,
-          }),
+          body: json.encode(
+              {
+                // "phoneNumber": driver.phoneNumber, cant be changed
+                // "email": driver.email, cant be changed
+                driver.password.toString().isEmpty ? "" : "password": driver.password,
+                driver.name.toString().isEmpty ? "" : "name": driver.name,
+                driver.surname.toString().isEmpty ? "" : "surname": driver.surname,
+                driver.birthDate.toString().isEmpty ? "" : "birthDate": driver.birthDate,
+                "gender": driver.gender,
+                driver.bio.toString().isEmpty ? "" : "bio": driver.bio,
+                driver.nationalId.toString().isEmpty ? "" : "nationalId": driver.nationalId,
+                driver.location.toString().isEmpty ? "" : "location": driver.location,
+                driver.skills.toString().isEmpty ? "" : "skills": driver.skills,
+                driver.languages.toString().isEmpty ? "" : "languages": driver.languages,
+                driver.licenseNumber.toString().isEmpty ? "" : "licenseNumber": driver.licenseNumber,
+                driver.licenseYear.toString().isEmpty ? "" : "licenseYear": driver.licenseYear,
+                driver.carInfo.isEmpty ? "" : "carInfo" : driver.carInfo,
+                driver.hourlyPrice.toString().isEmpty ? "" : "hourlyPrice": driver.hourlyPrice,
+                driver.taxNumber.toString().isEmpty ? "" : "taxNumber" : driver.taxNumber,
+                "_id": id,
+                "profile_image64" : driver.profileImage,
+              }
+          ),
           headers: headers);
       return response.statusCode;
     } catch (e) {
@@ -230,13 +222,9 @@ class ProfileService {
               customer.birthDate.toString().isEmpty ? "" : "NewBirthDate":
                   customer.birthDate,
               "NewGender": customer.gender,
-              customer.nationalId.toString().isEmpty ? "" : "NewNationalId":
-                  customer.nationalId,
-              customer.passportNumber.toString().isEmpty
-                  ? ""
-                  : "NewPassportNumber": customer.passportNumber,
-              "NewProfile_image64": customer.profileImage,
-              // need to add part for profile image!
+              customer.nationalId.toString().isEmpty ? "" : "NewNationalId": customer.nationalId,
+              customer.passportNumber.toString().isEmpty ? "" : "NewPassportNumber": customer.passportNumber,
+              "NewProfile_image64" : customer.profileImage,
             },
           ),
           headers: headers);
@@ -245,9 +233,4 @@ class ProfileService {
       return 400;
     }
   }
-
-  //
-  // static Future<int> reviewDriver(Review review) async {
-  //   return 400;
-  // }
 }

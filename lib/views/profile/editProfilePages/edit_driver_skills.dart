@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/driver.dart';
+import 'edit_driver_auth.dart';
 
 class EditDriverSkillsScreen extends StatefulWidget {
   EditDriverSkillsScreen({super.key});
+
+  @override
+  State<EditDriverSkillsScreen> createState() => _EditDriverSkillsScreenState();
+}
+
+class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
   List<String> skills = [];
-  var skillController = TextEditingController();
+  TextEditingController skillController = TextEditingController();
   final List<String> languages = [
     "Afrikaans",
     "Arabic",
@@ -20,7 +26,7 @@ class EditDriverSkillsScreen extends StatefulWidget {
     "Lithuanian",
     "Malay",
     "Malayalam",
-    "Panjabi",
+    "Punjabi",
     "Tamil",
     "English",
     "Finnish",
@@ -86,31 +92,33 @@ class EditDriverSkillsScreen extends StatefulWidget {
     "Wu"
   ];
   List<String> addedLanguages = [];
-  String? languageDropdown = "Turkish";
+  String? languageDropdown;
+  Size size = WidgetsBinding.instance.window.physicalSize;
+  double ratio = WidgetsBinding.instance.window.devicePixelRatio;
+  double phoneHeight = 0.0;
+  double phoneWidth = 0.0;
 
   @override
-  State<EditDriverSkillsScreen> createState() =>
-      _EditDriverSkillsScreenState();
-}
+  void initState() {
+    super.initState();
+    phoneHeight = size.height / ratio;
+    phoneWidth = size.width / ratio;
+    skills = EditDriverAuthScreen.editDriver.skills;
+    addedLanguages = EditDriverAuthScreen.editDriver.languages;
+    languageDropdown = EditDriverAuthScreen.editDriver.languages[0];
+  }
 
-class _EditDriverSkillsScreenState
-    extends State<EditDriverSkillsScreen> {
   @override
   Widget build(BuildContext context) {
-    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
-    double phoneHeight = MediaQuery.of(context).size.height;
-    double phoneWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: phoneHeight,
           width: phoneWidth,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              //Register as a Driver yazan başlık
               Expanded(
                 flex: 2,
                 child: Container(
@@ -118,12 +126,11 @@ class _EditDriverSkillsScreenState
                     top: phoneHeight * 0.08,
                   ),
                   child: Text(
-                    "Register as a Driver",
+                    "Edit Driver",
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),
               ),
-              //Form inputları alanı
               Expanded(
                 flex: 7,
                 child: Container(
@@ -134,7 +141,7 @@ class _EditDriverSkillsScreenState
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      //Add Skills
+                      //Add Skills - Editable
                       Expanded(
                         flex: 3,
                         child: Row(
@@ -149,7 +156,7 @@ class _EditDriverSkillsScreenState
                                 decoration: const InputDecoration(
                                   hintText: "Enter A Skill",
                                 ),
-                                controller: widget.skillController,
+                                controller: skillController,
                               ),
                             ),
                             Expanded(
@@ -161,11 +168,10 @@ class _EditDriverSkillsScreenState
                                 child: ElevatedButton(
                                   onPressed: () {
                                     setState(() {
-                                      if (!widget.skills
-                                          .contains(widget.skillController.text)) {
-                                        widget.skills
-                                            .add(widget.skillController.text);
-                                        widget.skillController.text = "";
+                                      if (!skills
+                                          .contains(skillController.text)) {
+                                        skills.add(skillController.text);
+                                        skillController.text = "";
                                       }
                                     });
                                   },
@@ -176,17 +182,17 @@ class _EditDriverSkillsScreenState
                           ],
                         ),
                       ),
-                      //Skills List
+                      //Skills List - Editable
                       Expanded(
                         flex: 6,
                         child: listSkillsWidget(phoneWidth, phoneHeight),
                       ),
-                      //Boşluk
+                      // Space
                       Expanded(
                         flex: 2,
                         child: Container(),
                       ),
-                      //Add Languages
+                      //Add Languages - Editable
                       Expanded(
                         flex: 3,
                         child: Row(
@@ -197,12 +203,13 @@ class _EditDriverSkillsScreenState
                               flex: 3,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 218, 218, 218),
+                                  color:
+                                      const Color.fromARGB(255, 218, 218, 218),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: DropdownButton(
-                                  value: widget.languageDropdown,
-                                  items: widget.languages
+                                  value: languageDropdown,
+                                  items: languages
                                       .map(
                                         (value) => DropdownMenuItem(
                                           value: value,
@@ -211,7 +218,8 @@ class _EditDriverSkillsScreenState
                                                 const EdgeInsets.only(left: 12),
                                             child: Text(
                                               value,
-                                              style: const TextStyle(fontSize: 17),
+                                              style:
+                                                  const TextStyle(fontSize: 17),
                                             ),
                                           ),
                                         ),
@@ -219,7 +227,7 @@ class _EditDriverSkillsScreenState
                                       .toList(),
                                   onChanged: (value) {
                                     setState(() {
-                                      widget.languageDropdown = value;
+                                      languageDropdown = value;
                                     });
                                   },
                                   dropdownColor:
@@ -237,10 +245,10 @@ class _EditDriverSkillsScreenState
                                 child: ElevatedButton(
                                   onPressed: () {
                                     setState(() {
-                                      if (!widget.addedLanguages.contains(
-                                          widget.languageDropdown.toString())) {
-                                        widget.addedLanguages.add(
-                                            widget.languageDropdown.toString());
+                                      if (!addedLanguages.contains(
+                                          languageDropdown.toString())) {
+                                        addedLanguages
+                                            .add(languageDropdown.toString());
                                       }
                                     });
                                   },
@@ -256,7 +264,7 @@ class _EditDriverSkillsScreenState
                         flex: 6,
                         child: listLanguagesWidget(phoneWidth, phoneHeight),
                       ),
-                      //Boşluk
+                      // Space
                       Expanded(
                         flex: 1,
                         child: Container(),
@@ -265,7 +273,7 @@ class _EditDriverSkillsScreenState
                   ),
                 ),
               ),
-              //Continue butonu alanı
+              //Continue Button
               Expanded(
                 flex: 3,
                 child: Container(
@@ -273,24 +281,11 @@ class _EditDriverSkillsScreenState
                   padding: const EdgeInsets.only(right: 20),
                   child: ElevatedButton(
                     child: const Text("Continue"),
+                    // Get to the next screen
                     onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        "/registerDriverCar",
-                        arguments: Driver(
-                          email: driver.email,
-                          phoneNumber: driver.phoneNumber,
-                          password: driver.password,
-                          name: driver.name,
-                          surname: driver.surname,
-                          birthDate: driver.birthDate,
-                          gender: driver.gender,
-                          nationalId: driver.nationalId,
-                          location: driver.location,
-                          bio: driver.bio,
-                          skills: widget.skills,
-                          languages: widget.addedLanguages,
-                        ),
-                      );
+                      EditDriverAuthScreen.editDriver.skills = skills;
+                      EditDriverAuthScreen.editDriver.languages = addedLanguages;
+                      Navigator.of(context).pushNamed('/editDriverCar');
                     },
                   ),
                 ),
@@ -304,7 +299,10 @@ class _EditDriverSkillsScreenState
 
   Container listSkillsWidget(double phoneWidth, double phoneHeight) {
     return Container(
-      padding: EdgeInsets.only(left: phoneWidth * 0.03,right : phoneWidth * 0.03,top: phoneHeight*0.01),
+      padding: EdgeInsets.only(
+          left: phoneWidth * 0.03,
+          right: phoneWidth * 0.03,
+          top: phoneHeight * 0.01),
       height: phoneHeight * 0.05,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
@@ -318,7 +316,7 @@ class _EditDriverSkillsScreenState
               ),
               child: ListTile(
                 title: Text(
-                  widget.skills[index],
+                  skills[index],
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 style: ListTileStyle.list,
@@ -326,7 +324,7 @@ class _EditDriverSkillsScreenState
                   onTap: () {
                     setState(
                       () {
-                        widget.skills.removeAt(index);
+                        skills.removeAt(index);
                       },
                     );
                   },
@@ -347,14 +345,17 @@ class _EditDriverSkillsScreenState
         separatorBuilder: (context, index) => SizedBox(
           height: phoneHeight * 0.01,
         ),
-        itemCount: widget.skills.length,
+        itemCount: skills.length,
       ),
     );
   }
 
   Container listLanguagesWidget(double phoneWidth, double phoneHeight) {
     return Container(
-      padding: EdgeInsets.only(left: phoneWidth * 0.03,right : phoneWidth * 0.03,top: phoneHeight*0.01),
+      padding: EdgeInsets.only(
+          left: phoneWidth * 0.03,
+          right: phoneWidth * 0.03,
+          top: phoneHeight * 0.01),
       height: phoneHeight * 0.05,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
@@ -368,7 +369,7 @@ class _EditDriverSkillsScreenState
               ),
               child: ListTile(
                 title: Text(
-                  widget.addedLanguages[index],
+                  addedLanguages[index],
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 style: ListTileStyle.list,
@@ -376,7 +377,7 @@ class _EditDriverSkillsScreenState
                   onTap: () {
                     setState(
                       () {
-                        widget.addedLanguages.removeAt(index);
+                        addedLanguages.removeAt(index);
                       },
                     );
                   },
@@ -397,7 +398,7 @@ class _EditDriverSkillsScreenState
         separatorBuilder: (context, index) => SizedBox(
           height: phoneHeight * 0.01,
         ),
-        itemCount: widget.addedLanguages.length,
+        itemCount: addedLanguages.length,
       ),
     );
   }

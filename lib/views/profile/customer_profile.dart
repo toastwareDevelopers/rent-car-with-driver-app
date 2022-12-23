@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rentcarmobile/models/CustomerAllData.dart';
 import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/services/profile.dart';
+import 'package:rentcarmobile/utils/base64_converter.dart';
 
 import '../../constants/assets_path.dart';
 import '../../main.dart';
@@ -11,7 +12,7 @@ import '../../widgets/customer_trip_widget.dart';
 import '../../widgets/review_widget_2.dart';
 
 class CustomerProfileScreen extends StatefulWidget {
-  const CustomerProfileScreen({super.key});
+  CustomerProfileScreen({super.key});
 
   @override
   State<CustomerProfileScreen> createState() => _CustomerProfileScreenState();

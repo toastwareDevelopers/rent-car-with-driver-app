@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:http/http.dart' as http;
+import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/activeRentingCustomer.dart';
 import 'package:rentcarmobile/models/driverFilter.dart';
 import 'package:rentcarmobile/models/trip.dart';
@@ -33,7 +33,7 @@ class MainService {
 
   static Future<Trip?> getDriverActiveTrip(List<String> tripListString) async {
     tripListString =
-        (await MainService.getTripsByDriverId("635400487075dc541cc72e63"))!;
+        (await MainService.getTripsByDriverId(RentVanApp.userId))!;
 
     if (tripListString.isNotEmpty) {
       return (await MainService.getTripById(tripListString[0]));
@@ -44,7 +44,7 @@ class MainService {
   static Future<List<Trip>> getFutureTrips(List<String> tripListString) async {
     List<Trip> trips = [];
     tripListString =
-        (await MainService.getTripsByDriverId("635400487075dc541cc72e63"))!;
+        (await MainService.getTripsByDriverId(RentVanApp.userId))!;
     for (int i = 1; i < tripListString.length; i++) {
       trips.add((await MainService.getTripById(tripListString[i])));
     }
@@ -92,6 +92,7 @@ class MainService {
       trip.age = DateTime.now().year - dt.year;
       trip.customerName = customer.name;
       trip.customerSurname = customer.surname;
+      trip.customerProfileImage = customer.profileImage;
       return trip;
     } catch (e) {
       print("Error$e");
@@ -117,7 +118,7 @@ class MainService {
       return renting;
     }catch (e) {
       print("Error!");
-      throw Error();
+      return ActiveRentingCustomer();
     }
   }
 
