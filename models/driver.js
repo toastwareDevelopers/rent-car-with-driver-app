@@ -197,6 +197,10 @@ const userSchema = mongoose.Schema({
         }
     },
 
+    legalPhotos:{
+        type: [String],
+    },
+    
     rating:{
         type: Number,
         default: "0",
