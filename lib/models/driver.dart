@@ -26,6 +26,8 @@ class Driver {
   List<String> trips;
   String profileImage;
   List<String> reviews;
+  List<String> carPhotos;
+  List<String> legalDocumentPhotos;
 
   Driver({
     this.id = "null",
@@ -51,6 +53,8 @@ class Driver {
     this.trips = const [],
     this.profileImage = "null",
     this.reviews = const[],
+    this.carPhotos = const["null"],
+    this.legalDocumentPhotos = const["null"],
   });
 
   factory Driver.fromJson(Map<String, dynamic> json) => _$DriverFromJson(json);
