@@ -39,7 +39,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
           alignment: Alignment.bottomLeft,
 
-          child: MakeReview(customerTrip.DriverName,customerTrip.age,customerTrip.city,customerTrip.start_time,customerTrip.finish_time,
+          child: MakeReview(customerTrip.driverName,customerTrip.age,customerTrip.city,customerTrip.start_time,customerTrip.finish_time,
           customerTrip.tripId,customerTrip.customerId,customerTrip.driverId),
         ),
       )

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../constants/assets_path.dart';
+import '../utils/base64_converter.dart';
 
 class DriverListDriver extends StatelessWidget {
   var driverId = "null";
@@ -55,15 +56,23 @@ class DriverListDriver extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 30,
-                          child: CircleAvatar(
-                            backgroundImage: driverPhoto == "null"
-                                ? AssetImage(AssetPaths.blankProfilePhotoPath)
-                                : Image.memory(base64Decode(driverPhoto)).image,
-                            radius: 27.0,
+                            backgroundColor: Theme.of(context).highlightColor,
+                            radius: 40,
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  driverPhoto !=
+                                              null &&
+                                          driverPhoto !=
+                                              "null"
+                                      ? Image.memory(
+                                              Base64Converter.decodeImage64(
+                                                  driverPhoto))
+                                          .image
+                                      : AssetImage(
+                                          AssetPaths.blankProfilePhotoPath),
+                              radius: 37.0,
+                            ),
                           ),
-                        ),
                       ),
                       SizedBox(
                         width: phoneWidth * 0.02,
