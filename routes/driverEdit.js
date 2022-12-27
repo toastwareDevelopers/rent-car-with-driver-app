@@ -17,7 +17,7 @@ driverEditRouter.post('/api/edit/driver',async function(req,res){
         
 
         /* Destructuring the request body. */
-        const{phoneNumber,_id,email,password,name,surname,birthDate,gender,nationalId,location,bio,skills,languages,licenseNumber,licenseYear,carInfo:{carlicenseNumber,carlicenseYear,plateNumber,brand,model,year,color,photos},hourlyPrice,taxNumber,profile_image64} = req.body;
+        const{phoneNumber,_id,email,password,name,surname,birthDate,gender,nationalId,location,bio,skills,languages,licenseNumber,licenseYear,carInfo:{carlicenseNumber,carlicenseYear,plateNumber,brand,model,year,color},hourlyPrice,taxNumber,profile_image64} = req.body;
 
         /* Finding the driver with the given ID. */
         const person = await Driver.findById(_id);
@@ -200,6 +200,11 @@ driverEditRouter.post('/api/edit/driver',async function(req,res){
         if((year != undefined) && (year != person.carInfo.year)){        
             
             await person.updateOne({"carInfo.year":year},{runValidators:true});
+        }
+
+        if((carPhotos != undefined) && (carPhotos != person.carPhotos)){        
+            
+            await person.updateOne({carPhotos:carPhotos},{runValidators:true});
         }
 
         
