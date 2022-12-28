@@ -117,6 +117,8 @@ const customerSchema = mongoose.Schema({
     trips: [mongoose.ObjectId],
 
     reviews:[mongoose.ObjectId],
+
+    messageHistory: [mongoose.ObjectId],
 });
 
 
