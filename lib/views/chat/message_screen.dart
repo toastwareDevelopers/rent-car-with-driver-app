@@ -53,6 +53,9 @@ class _MessageScreenState extends State<MessageScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: () {
+          Navigator.pop(context);
+        },icon: Icon(Icons.arrow_back),),
         backgroundColor: Theme.of(context).highlightColor,
         titleSpacing: 0,
         title: Row(
