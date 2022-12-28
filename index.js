@@ -20,6 +20,7 @@ const reviewCreateRouter = require("./routes/createReview");
 const adminDriverRequestRouter = require('./routes/adminDriverRequest.js');
 const passwordResetRouter = require("./routes/passwordReset");
 const adminAuthRouter = require('./routes/adminAuth.js');
+const getMessageHistory = require('./routes/getMessageHistory')
 
 /* Creating a server on port 3000. */
 const PORT = 3000;
@@ -46,6 +47,7 @@ app.use(getReviewsRouter);
 app.use(adminDriverRequestRouter);
 app.use(passwordResetRouter);
 app.use(adminAuthRouter);
+app.use(getMessageHistory);
 
 //connections
 connection()
@@ -131,11 +133,10 @@ io.on("connection", (socket) => {
 	});
 
 	socket.on('sendmessage', (msg) => {
-		//console.log("sendmessage");
-		//console.log(msg);
+		
 
 		io.to(msg.roomID).emit('sendmessage', msg);
-		//console.log("ben burda patliyorum");
+		
 		let message = new Message({
 			content: msg.content,
 			senderID: msg.senderID,
@@ -148,6 +149,37 @@ io.on("connection", (socket) => {
 		message.save().catch((err) =>{
 			console.log(err);
 		});
+
+		let driverID = msg.roomID.slice(0,24);
+		//console.log(driverID);
+		let customerID = msg.roomID.slice(24);
+		//console.log(customerID);
+
+		Driver.findById(driverID).then((existDriver) =>{
+
+			//console.log(existDriver)
+			
+			x = existDriver.messageHistory.includes(customerID);
+				
+			if(!x)
+				existDriver.updateOne({ $push: { messageHistory: [customerID] }}).then();
+
+			
+
+			
+		}).catch((err)=>{console.log(err)});
+
+		Customer.findById(customerID).then((existCustomer) =>{
+			
+			x = existCustomer.messageHistory.includes(driverID)
+				
+			if(!x)
+				existCustomer.updateOne({ $push: { messageHistory: [driverID] }}).then();
+
+			
+		}).catch((err)=>{console.log(err)});;
+
+		//console.log(message.id);
 	});
 
 	socket.on('offer', (offer) => {
