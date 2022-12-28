@@ -7,7 +7,7 @@ import 'make_review.dart';
 
 class CustomerTrip extends StatelessWidget {
   String driverName = "null";
-  int age = 0;
+  int? age = 0;
   String city = "null";
   String start_time = "null";
   String finish_time = "null";

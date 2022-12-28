@@ -36,14 +36,14 @@ class ProfileService {
       Customer customer = Customer.fromJson(jsonDecode(response.body));
       return customer;
     } catch (e) {
-
       return Customer();
     }
   }
 
   static Future<List<Review>> getCustomerReviews(String id) async {
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/getReviews?ID=" + id);
+      var url =
+          Uri.parse("http://" + ApiPaths.serverIP + "/api/getReviews?ID=" + id);
       var response = await http.get(url);
       List<Review> reviewList = [];
       var jsonData = jsonDecode(response.body);
@@ -61,34 +61,43 @@ class ProfileService {
         review.tripId = u["tripId"];
         review.driverProfilePhoto = u["driverProfile_image64"];
         review.rating = u["rating"];
+
         reviewList.add(review);
       }
+      print("cutomer revies");
       return reviewList;
     } catch (e) {
       List<Review> review2 = [];
+      print("review error");
       return review2;
     }
   }
-  static Future<int> postCustomerReview(String customerId,String driverId,String reviewText,String rating,String tripId) async {
+
+  static Future<int> postCustomerReview(String customerId, String driverId,
+      String reviewText, String rating, String tripId) async {
     final headers = {
       'Content-type': 'application/json;charset=UTF-8',
       'Charset': 'utf-8',
       'Accept': 'application/json',
     };
-    try{
-      var url = Uri.parse( "http://" +ApiPaths.serverIP + "api/createReview");
-      Map<String,String> bodyReview = {"customerId": customerId,"driverId" : driverId, "reviewText": reviewText,
-                                        "rating": rating, "tripId": tripId};
+    try {
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "api/createReview");
+      Map<String, String> bodyReview = {
+        "customerId": customerId,
+        "driverId": driverId,
+        "reviewText": reviewText,
+        "rating": rating,
+        "tripId": tripId
+      };
       var reviewBody = json.encode(bodyReview);
 
-      var response = await http.post(url,headers: headers,
-      body: reviewBody);
+      var response = await http.post(url, headers: headers, body: reviewBody);
       return response.statusCode;
-    }
-    catch(e){
-    return 400;
+    } catch (e) {
+      return 400;
     }
   }
+
   static Future<List<Trip>> getTripsById(String id) async {
     final headers = {
       'Content-type': 'application/json;charset=UTF-8',
@@ -113,7 +122,7 @@ class ProfileService {
         trip.endDate = u["endDate"];
         trip.location = u["location"];
         trip.price = u["price"];
-        trip.customerId =u["customerId"];
+        trip.customerId = u["customerId"];
         trip.driverId = u["driverId"];
         listTrip.add(trip);
       }

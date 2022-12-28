@@ -10,6 +10,7 @@ import 'package:rentcarmobile/widgets/driver_skill_widget.dart';
 import '../../constants/assets_path.dart';
 import '../../models/driver.dart';
 import '../../widgets/review_widget.dart';
+import '../chat/message_screen.dart';
 
 class DriverProfileScreen extends StatefulWidget {
   DriverProfileScreen({super.key});
@@ -58,7 +59,13 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                           arguments: driver);
                     }
                   : () {
-                      Navigator.pushNamed(context, "/messaging");
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => MessageScreen(
+                            receiverId: driverID,
+                          ),
+                        ),
+                      );
                     },
             ),
             body: Container(
@@ -470,8 +477,10 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                                                   rating: reviews[index]
                                                       .rating
                                                       .toString(),
-                                                  customerProfileImage: reviews[index]
-                                                      .customerProfilePhoto.toString());
+                                                  customerProfileImage:
+                                                      reviews[index]
+                                                          .customerProfilePhoto
+                                                          .toString());
                                             }),
                                             separatorBuilder: ((context,
                                                     index) =>
