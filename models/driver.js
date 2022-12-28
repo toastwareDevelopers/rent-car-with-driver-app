@@ -192,11 +192,16 @@ const userSchema = mongoose.Schema({
         color:{
             type: String,
         },
-        photos:{
-            type: [String],
-        }
+        
     },
-
+    
+    carPhotos:{
+        type: [String],
+        },
+    legalPhotos:{
+        type: [String],
+    },
+    
     rating:{
         type: Number,
         default: "0",

@@ -10,7 +10,7 @@ const customerAuthRouter = express.Router();
 customerAuthRouter.post('/api/signup/customer', async function (req, res) {
     try {
 
-        const { phoneNumber, email, password, name, surname, birthDate, gender, nationalId, passportNumber } = req.body;
+        const { profile_image64, phoneNumber, email, password, name, surname, birthDate, gender, nationalId, passportNumber } = req.body;
 
         const existingCustomerWithNationalId = await Customer.findOne({ nationalId });
         const existingCustomerWithMail = await Customer.findOne({ email });
@@ -40,7 +40,8 @@ customerAuthRouter.post('/api/signup/customer', async function (req, res) {
             gender,
             nationalId,
             passportNumber,
-            registerDate: moment().format('L, HH:mm')
+            registerDate: moment().format('L, HH:mm'),
+            profile_image64
         }); 
 
         customer = await customer.save() 
