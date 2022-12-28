@@ -3,6 +3,7 @@ import 'package:rentcarmobile/models/CustomerAllData.dart';
 import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/services/profile.dart';
 import 'package:rentcarmobile/utils/base64_converter.dart';
+import 'package:rentcarmobile/views/chat/message_screen.dart';
 
 import '../../constants/assets_path.dart';
 import '../../main.dart';
@@ -46,7 +47,9 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
     String customerID = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
-      appBar: AppBar(elevation: 0,),
+      appBar: AppBar(
+        elevation: 0,
+      ),
       body: FutureBuilder<CustomerData>(
         future: getData(customerID),
         builder: (context, snapshot) {
@@ -58,7 +61,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
               if (snapshot.hasError) {
                 return const Center(child: Text('Some error occurred!'));
               } else {
-                return customerTrips(customerData!);
+                return customerTrips(customerData!, customerID);
               }
           }
         },
@@ -67,7 +70,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
   }
 
   @override
-  Widget customerTrips(CustomerData customerData) {
+  Widget customerTrips(CustomerData customerData, String customerID) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
     int i = 0;
@@ -75,15 +78,15 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
     if (customerData.listTrips.isNotEmpty == true) {
       for (i = 0; i < customerData.listTrips.length; i++) {
         customerListTrips.add(CustomerTrip(
-          customerId: RentVanApp.userId,
-          driverId: customerData.listTrips[i].driverId.toString(),
-          age: customerData.listTrips[i].age ,
-          city: customerData.listTrips[i].location.toString(),
-          driverName: customerData.listTrips[i].driverName.toString(),
-          finish_time: customerData.listTrips[i].endDate.toString(),
-          start_time: customerData.listTrips[i].startDate.toString(),
-          tripId: customerData.listTrips[i].id.toString(),
-          reviewId: customerData.listTrips[i].reviewId.toString()));
+            customerId: RentVanApp.userId,
+            driverId: customerData.listTrips[i].driverId.toString(),
+            age: customerData.listTrips[i].age,
+            city: customerData.listTrips[i].location.toString(),
+            driverName: customerData.listTrips[i].driverName.toString(),
+            finish_time: customerData.listTrips[i].endDate.toString(),
+            start_time: customerData.listTrips[i].startDate.toString(),
+            tripId: customerData.listTrips[i].id.toString(),
+            reviewId: customerData.listTrips[i].reviewId.toString()));
       }
     }
 
@@ -120,7 +123,14 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 Navigator.pushNamed(context, "/editCustomer");
               }
             : () {
-                Navigator.pushNamed(context, "/messaging");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MessageScreen(
+                      receiverId: customerID,
+                    ),
+                  ),
+                );
+                //Navigator.pushNamed(context, "/messaging");
               },
       ),
       body: Column(
@@ -142,20 +152,17 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                             backgroundColor: Theme.of(context).highlightColor,
                             radius: 40,
                             child: CircleAvatar(
-                              backgroundImage:
-                                  customerData.customer.profileImage !=
-                                              null &&
-                                          customerData
-                                                  .customer.profileImage !=
-                                              "null"
-                                      ? Image.memory(
-                                              Base64Converter.decodeImage64(
-                                                  customerData.customer
-                                                          .profileImage
-                                                      as String))
-                                          .image
-                                      : AssetImage(
-                                          AssetPaths.blankProfilePhotoPath),
+                              backgroundImage: customerData
+                                              .customer.profileImage !=
+                                          null &&
+                                      customerData.customer.profileImage !=
+                                          "null"
+                                  ? Image.memory(Base64Converter.decodeImage64(
+                                          customerData.customer.profileImage
+                                              as String))
+                                      .image
+                                  : AssetImage(
+                                      AssetPaths.blankProfilePhotoPath),
                               radius: 37.0,
                             ),
                           ),
@@ -173,13 +180,11 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         children: [
                           Text(
                             nameAge,
-                            style:
-                                TextStyle(fontSize: 22, color: Colors.white),
+                            style: TextStyle(fontSize: 22, color: Colors.white),
                           ),
                           Text(
                             "${customerData.customer.gender}",
-                            style:
-                                TextStyle(fontSize: 16, color: Colors.white),
+                            style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ],
                       ),
@@ -189,12 +194,14 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
               ),
             ),
           ),
-          SizedBox(height: phoneHeight*0.01,),
+          SizedBox(
+            height: phoneHeight * 0.01,
+          ),
           //Trip History
           Expanded(
             flex: 7,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: phoneWidth*0.03),
+              padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.03),
               child: Column(
                 children: [
                   Expanded(
@@ -231,12 +238,17 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
               ),
             ),
           ),
-          SizedBox(height: phoneHeight*0.03,),
+          SizedBox(
+            height: phoneHeight * 0.03,
+          ),
           //Reviews
           Expanded(
             flex: 4,
             child: Container(
-              padding: EdgeInsets.only(left: phoneWidth*0.03,right: phoneWidth*0.03,bottom: phoneWidth*0.02),
+              padding: EdgeInsets.only(
+                  left: phoneWidth * 0.03,
+                  right: phoneWidth * 0.03,
+                  bottom: phoneWidth * 0.02),
               child: Column(
                 children: [
                   Expanded(
@@ -246,7 +258,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                       child: const Text(
                         textAlign: TextAlign.left,
                         "Reviews",
-                        style: TextStyle(color: Colors.white,fontSize: 16),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   ),
