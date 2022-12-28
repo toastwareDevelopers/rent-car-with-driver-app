@@ -19,7 +19,6 @@ import '../../models/driver.dart';
 import '../../models/message.dart';
 
 class MessageScreen extends StatefulWidget {
-  List<Offer> offers = [];
   List<dynamic> messages = [];
   String receiverId = "null";
   String? receiverName = "...";
@@ -32,9 +31,7 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   IO.Socket? socket;
   ScrollController _scrollController = ScrollController();
-
   String roomID = "null";
-  List<Message> listMsg = [];
   @override
   void initState() {
     super.initState();
@@ -94,6 +91,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 onPressed: () {
                   showOffer(context, phoneHeight, phoneWidth);
                 },
+                heroTag: "button1",
               ),
             )
           : null,
@@ -421,22 +419,21 @@ class _MessageScreenState extends State<MessageScreen> {
       // get the offer
       socket!.on("offer", (offer) {
         print(offer);
-        if (offer["customerId"] == RentVanApp.userId) {
-          setState(() {
-            widget.messages.add(Offer.get(
-              offer["_id"],
-              offer["startDate"],
-              offer["endDate"],
-              offer["price"],
-              offer["location"],
-              offer["offerDescription"],
-              offer["driverId"],
-              offer["customerId"],
-              offer["status"],
-            ));
-          });
-          scrollControl();
-        }
+
+        setState(() {
+          widget.messages.add(Offer.get(
+            offer["_id"],
+            offer["startDate"],
+            offer["endDate"],
+            offer["price"],
+            offer["location"],
+            offer["offerDescription"],
+            offer["driverId"],
+            offer["customerId"],
+            offer["status"],
+          ));
+        });
+        scrollControl();
       });
 
       print("connection completed");
@@ -500,14 +497,6 @@ class _MessageScreenState extends State<MessageScreen> {
   // save the offer and send to backed
   void sendOffer(String startDate, String endDate, int price, String location,
       String offerDescription, String status) {
-    Offer ownOffer = Offer(
-        startDate: startDate,
-        endDate: endDate,
-        price: price,
-        location: location,
-        offerDescription: offerDescription,
-        status: status);
-    widget.messages.add(ownOffer);
     setState(() {
       widget.messages;
     });
