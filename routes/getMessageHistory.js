@@ -60,16 +60,25 @@ getMessageHistory.get('/api/getMessageHistory',async function (req,res){
 
                 roomid = new String();
 
-                if(model.role == "driver") roomid = str1.concat(str2);
-                else roomid = str2.concat(str1);
+                if(model.role == "driver"){
+                    roomid = str1.concat(str2);
+                    result.id = x._id;
+                }
+                else{
+                    roomid = str2.concat(str1);
+                    result.id = model._id;
+                }
+
+
+
 
 
                 //console.log(roomid)
                 
                 listOfMessages = await Message.find({roomID: roomid});
 
-                result.last_message = listOfMessages[listOfMessages.length-1].content;
-                result.last_message_time = listOfMessages[listOfMessages.length-1].createDate;
+                result.lastMessage = listOfMessages[listOfMessages.length-1].content;
+                result.lastMessageTime = listOfMessages[listOfMessages.length-1].createDate;
 
                 //console.log(result)
 
