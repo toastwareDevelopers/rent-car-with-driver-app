@@ -180,19 +180,37 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                             ),
                           ),
                         ),
+                        // HERE IT IS SIR!!!! *****************************
                         Expanded(
                           flex: 4,
-                          child: TextFormField(
-                            keyboardType: TextInputType.multiline,
-                            maxLines: 7,
-                            initialValue: "",
-                            readOnly: true,
+                          child: Container(
+                            //height: 150,
+                            //width: 200,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(width: 10, color: Colors.white),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                            ),
+                            child: GridView.builder(
+                              scrollDirection: Axis.vertical,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisSpacing: 20,
+                                  crossAxisSpacing: 20,
+                                  crossAxisCount: 3,
+                                  //mainAxisExtent: 3,
+                                  //childAspectRatio: 1,
+                                ),
+                                itemCount: driver.carPhotos.length - 1,
+                                itemBuilder: (BuildContext ctx, index) {
+                                  return carPhotoWidget(driver.carPhotos[index]);
+                                }),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
+                const SizedBox(height: 20,),
                 //Other Informations
                 Expanded(
                   flex: 1,
@@ -305,4 +323,68 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
       ),
     );
   }
+
+
+  GestureDetector carPhotoWidget(String carPhoto) {
+    return GestureDetector(
+      child: Container(
+        width: 100,
+        height: 100,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border : Border.all(width: 4, color: Colors.orange),
+          color: Colors.amber,
+          borderRadius: BorderRadius.circular(5),
+          image: DecorationImage(
+            fit: BoxFit.fill,
+            image: Image.memory(Base64Converter.decodeImage64(carPhoto)).image,
+            alignment: Alignment.center,
+          ),
+        ),
+      ),
+      onTap: () {
+        // There may be another widget for enhanced car photo!
+        //
+        showEnhancedCarPhoto(carPhoto);
+      },
+    );
+  }
+
+  showEnhancedCarPhoto(String carPhoto) {
+    return showDialog(
+        context: context,
+        builder: (context){
+          return Center(
+            child: Material(
+              type: MaterialType.transparency,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.all(15),
+                width: MediaQuery.of(context).size.width * 0.7,
+                height: 320,
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    border : Border.all(width: 4, color: Colors.orange),
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(5),
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: Image.memory(Base64Converter.decodeImage64(carPhoto)).image,
+                      alignment: Alignment.center,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+
+
+    );
+  }
+
 }
