@@ -197,9 +197,11 @@ class ProfileService {
                 driver.taxNumber.toString().isEmpty ? "" : "taxNumber" : driver.taxNumber,
                 "_id": id,
                 "profile_image64" : driver.profileImage,
+                "carPhotos" : driver.carPhotos,
               }
           ),
           headers: headers);
+      print(response.body);
       return response.statusCode;
     } catch (e) {
       return 400;
