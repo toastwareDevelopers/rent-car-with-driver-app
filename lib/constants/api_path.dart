@@ -1,3 +1,3 @@
-class ApiPaths{
-  static String serverIP = "192.168.52.113:3000";
+class ApiPaths {
+  static String serverIP = "localhost:3000";
 }
