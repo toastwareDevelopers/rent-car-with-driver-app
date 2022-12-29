@@ -62,14 +62,13 @@ getMessageHistory.get('/api/getMessageHistory',async function (req,res){
 
                 if(model.role == "driver"){
                     roomid = str1.concat(str2);
-                    result.id = x._id;
+                    
                 }
                 else{
                     roomid = str2.concat(str1);
-                    result.id = model._id;
                 }
 
-
+                result.id = x._id;
 
 
 
