@@ -10,7 +10,6 @@ import '../../../services/profile.dart';
 import 'edit_driver_auth.dart';
 
 class EditDriverCarScreen extends StatefulWidget {
-  List<String> carPhotos = ["null"];
   EditDriverCarScreen({super.key});
 
   @override
@@ -33,6 +32,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
   double ratio = WidgetsBinding.instance.window.devicePixelRatio;
   double phoneHeight = 0.0;
   double phoneWidth = 0.0;
+  List<String>carPhotos = <String>["null"];
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
     EditDriverAuthScreen.editDriver.licenseYear;
     hourlyPriceController.text = EditDriverAuthScreen.editDriver.hourlyPrice.toString();
     taxNumberController.text = EditDriverAuthScreen.editDriver.taxNumber;
-    widget.carPhotos = EditDriverAuthScreen.editDriver.carPhotos;
+    carPhotos = EditDriverAuthScreen.editDriver.carPhotos.toList();
   }
 
   @override
@@ -316,7 +316,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                         EditDriverAuthScreen.editDriver.carInfo["model"] = carModelController.text;
                         EditDriverAuthScreen.editDriver.carInfo["year"] = modelYearController.text;
                         EditDriverAuthScreen.editDriver.carInfo["color"] = carColorController.text;
-                        EditDriverAuthScreen.editDriver.carPhotos = widget.carPhotos;
+                        EditDriverAuthScreen.editDriver.carPhotos = carPhotos;
 
                         if ((await ProfileService.editDriver(EditDriverAuthScreen.editDriver, RentVanApp.userId)) !=
                             200) {
@@ -350,13 +350,13 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
         color: const Color.fromARGB(255, 218, 218, 218),
       ),
       child: ListView.separated(
-        itemCount: widget.carPhotos.length,
+        itemCount: carPhotos.length,
         scrollDirection: Axis.horizontal,
         separatorBuilder: (context, index) => SizedBox(
           width: phoneWidth * 0.01,
         ),
         itemBuilder: ((context, index) => Stack(
-          children: widget.carPhotos[index] != "null" ? [
+          children: carPhotos[index] != "null" ? [
             Stack(
               alignment: Alignment.center,
               children: [
@@ -377,7 +377,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    widget.carPhotos.removeAt(index);
+                    carPhotos.removeAt(index);
                   });
                 },
                 child: const Align(
@@ -420,16 +420,16 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          border: widget.carPhotos[index] != "null" ? Border.all(width: 4, color: const Color.fromARGB(255, 167, 117, 77)) : null,
+          border: carPhotos[index] != "null" ? Border.all(width: 4, color: const Color.fromARGB(255, 167, 117, 77)) : null,
           color: Colors.grey,
           borderRadius: const BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(
-            fit:  widget.carPhotos[index] != "null" ? BoxFit.fill : null,
+            fit:  carPhotos[index] != "null" ? BoxFit.fill : null,
             alignment: Alignment.center,
-            image: widget.carPhotos[index] != "null" ?
+            image: carPhotos[index] != "null" ?
             Image.memory(
                 Base64Converter.decodeImage64(
-                    widget.carPhotos[index])).image :
+                    carPhotos[index])).image :
             AssetImage(AssetPaths.uploadImageIconPath),
           ),
         ),
@@ -437,9 +437,9 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
       onTap: () async {
         await selectImage(index);
         setState(() {
-          if((widget.carPhotos[index] != "null") &&
-              (widget.carPhotos.length - 1 == index || widget.carPhotos.length == 1)) {
-            widget.carPhotos.add("null");
+          if((carPhotos[index] != "null") &&
+              (carPhotos.length - 1 == index || carPhotos.length == 1)) {
+            carPhotos.add("null");
           }
         });
       },
@@ -471,10 +471,10 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                         // SELECT IMAGE FROM GALLERY
                         GestureDetector(
                           onTap: () async {
-                            widget.carPhotos[index] = await selectImageFromGallery(index);
-                            if (widget.carPhotos[index] != "null") {
+                            carPhotos[index] = await selectImageFromGallery(index);
+                            if (carPhotos[index] != "null") {
                               Navigator.pop(context);
-                              setState(() {EditDriverAuthScreen.editDriver.carPhotos = widget.carPhotos;});
+                              setState(() {EditDriverAuthScreen.editDriver.carPhotos = carPhotos;});
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                 content: Text("No Image Selected !"),
@@ -502,10 +502,10 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                         // SELECT IMAGE FROM CAMERA
                         GestureDetector(
                           onTap: () async {
-                            widget.carPhotos[index] = await selectImageFromCamera(index);
-                            if (widget.carPhotos[index] != "null") {
+                            carPhotos[index] = await selectImageFromCamera(index);
+                            if (carPhotos[index] != "null") {
                               Navigator.pop(context);
-                              setState(() {EditDriverAuthScreen.editDriver.carPhotos = widget.carPhotos;});
+                              setState(() {EditDriverAuthScreen.editDriver.carPhotos = carPhotos;});
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                 content: Text("No Image Captured !"),
@@ -547,8 +547,8 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
       return Base64Converter.encodeImage64(file.path);
     } else {
       // Keep the current picture
-      if(widget.carPhotos[index] != "null") {
-        return widget.carPhotos[index];
+      if(carPhotos[index] != "null") {
+        return carPhotos[index];
       } else {
         return "null";
       }
@@ -563,8 +563,8 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
       return Base64Converter.encodeImage64(file.path);
     } else {
       // Keep the current picture
-      if(widget.carPhotos[index] != "null") {
-        return widget.carPhotos[index];
+      if(carPhotos[index] != "null") {
+        return carPhotos[index];
       } else {
         return "null";
       }

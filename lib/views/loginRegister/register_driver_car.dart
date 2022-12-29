@@ -12,7 +12,6 @@ import 'package:rentcarmobile/utils/warning_alert.dart';
 import '../../models/driver.dart';
 
 class RegisterDriverCarScreen extends StatefulWidget {
-  List<String> carPhotos = ["null"];
   TextEditingController driverLicenseNumberController = TextEditingController();
   TextEditingController carLicenseNumberController = TextEditingController();
   TextEditingController driverLicenseYearController = TextEditingController();
@@ -31,6 +30,7 @@ class RegisterDriverCarScreen extends StatefulWidget {
 }
 
 class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
+  List<String> carPhotos = <String>["null"];
   @override
   Widget build(BuildContext context) {
     //Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
@@ -309,7 +309,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                               "color": widget.carColorController.text,
                             },
                             profileImage: driver.profileImage,
-                            carPhotos: widget.carPhotos,
+                            carPhotos: carPhotos,
                           ),
                         ));
                         if (res.statusCode != 200) {
@@ -365,13 +365,13 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
         color: const Color.fromARGB(255, 218, 218, 218),
       ),
       child: ListView.separated(
-        itemCount: widget.carPhotos.length,
+        itemCount: carPhotos.length,
         scrollDirection: Axis.horizontal,
         separatorBuilder: (context, index) => SizedBox(
           width: phoneWidth * 0.01,
         ),
         itemBuilder: ((context, index) => Stack(
-          children: widget.carPhotos[index] != "null" ? [
+          children: carPhotos[index] != "null" ? [
             Stack(
               alignment: Alignment.center,
               children: [
@@ -392,7 +392,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    widget.carPhotos.removeAt(index);
+                    carPhotos.removeAt(index);
                   });
                 },
                 child: const Align(
@@ -435,16 +435,16 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          border: widget.carPhotos[index] != "null" ? Border.all(width: 4, color: const Color.fromARGB(255, 167, 117, 77)) : null,
+          border: carPhotos[index] != "null" ? Border.all(width: 4, color: const Color.fromARGB(255, 167, 117, 77)) : null,
           color: Colors.grey,
           borderRadius: const BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(
-            fit:  widget.carPhotos[index] != "null" ? BoxFit.fill : null,
+            fit:  carPhotos[index] != "null" ? BoxFit.fill : null,
             alignment: Alignment.center,
-            image: widget.carPhotos[index] != "null" ?
+            image: carPhotos[index] != "null" ?
             Image.memory(
                 Base64Converter.decodeImage64(
-                    widget.carPhotos[index])).image :
+                    carPhotos[index])).image :
             AssetImage(AssetPaths.uploadImageIconPath),
           ),
         ),
@@ -452,9 +452,9 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
       onTap: () async {
         await selectImage(index);
         setState(() {
-          if((widget.carPhotos[index] != "null") &&
-              (widget.carPhotos.length - 1 == index || widget.carPhotos.length == 1)) {
-            widget.carPhotos.add("null");
+          if((carPhotos[index] != "null") &&
+              (carPhotos.length - 1 == index || carPhotos.length == 1)) {
+            carPhotos.add("null");
           }
         });
       },
@@ -486,8 +486,8 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                         // SELECT IMAGE FROM GALLERY
                         GestureDetector(
                           onTap: () async {
-                            widget.carPhotos[index] = await selectImageFromGallery(index);
-                            if (widget.carPhotos[index] != "null") {
+                            carPhotos[index] = await selectImageFromGallery(index);
+                            if (carPhotos[index] != "null") {
                               Navigator.pop(context);
                               setState(() {});
                             } else {
@@ -517,8 +517,8 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                         // SELECT IMAGE FROM CAMERA
                         GestureDetector(
                           onTap: () async {
-                            widget.carPhotos[index] = await selectImageFromCamera(index);
-                            if (widget.carPhotos[index] != "null") {
+                            carPhotos[index] = await selectImageFromCamera(index);
+                            if (carPhotos[index] != "null") {
                               Navigator.pop(context);
                               setState(() {});
                             } else {
@@ -562,8 +562,8 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
       return Base64Converter.encodeImage64(file.path);
     } else {
       // Keep the current picture
-      if(widget.carPhotos[index] != "null") {
-        return widget.carPhotos[index];
+      if(carPhotos[index] != "null") {
+        return carPhotos[index];
       } else {
         return "null";
       }
@@ -578,8 +578,8 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
       return Base64Converter.encodeImage64(file.path);
     } else {
       // Keep the current picture
-      if(widget.carPhotos[index] != "null") {
-        return widget.carPhotos[index];
+      if(carPhotos[index] != "null") {
+        return carPhotos[index];
       } else {
         return "null";
       }
