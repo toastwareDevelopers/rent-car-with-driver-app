@@ -23,6 +23,7 @@ Trip _$TripFromJson(Map<String, dynamic> json) {
     tripDescription: json['tripDescription'] as String?,
     reviewId: json['reviewId'] as String?,
     driverName: json['driverName'] as String? ?? "null",
+    driverSurname: json['driverSurname'] as String? ?? "null",
   );
 }
 

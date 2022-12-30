@@ -389,21 +389,23 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              right: phoneWidth * 0.01,
-                                              top: phoneHeight * 0.005),
-                                          alignment: Alignment.topRight,
+                                        Expanded(
                                           child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 5),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(5),
+                                            margin: EdgeInsets.only(
+                                                right: phoneWidth * 0.01,
+                                                top: phoneHeight * 0.005),
+                                            alignment: Alignment.topRight,
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10, vertical: 5),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(5),
+                                                ),
                                               ),
+                                              child: Text(renting.price.toString() + "TL"),
                                             ),
-                                            child: Text(renting.price.toString() + "TL"),
                                           ),
                                         )
                                       ]),

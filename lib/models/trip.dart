@@ -17,6 +17,7 @@ class Trip {
   String? iV;
   String? driverName;
   String? driverSurname;
+  String? driverProfileImage;
   String? tripDescription;
   String? reviewId;
   int? age;
@@ -33,11 +34,12 @@ class Trip {
     this.price = 0,
     this.startDate = "01-01-1900",
     this.endDate = "01-01-1900",
-    this.tripDescription = "null",
-    this.reviewId = "null",
     this.iV = "null",
     this.driverName = "null",
     this.driverSurname = "null",
+    this.driverProfileImage = "null",
+    this.tripDescription = "null",
+    this.reviewId = "null",
     this.age = 0,
   });
 

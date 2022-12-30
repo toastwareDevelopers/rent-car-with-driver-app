@@ -113,7 +113,7 @@ class ProfileService {
       var response = await http.get(url, headers: headers);
       var jsonData = json.decode(response.body);
       List<Trip> listTrip = [];
-
+ 
       for (var u in jsonData) {
         Trip trip = Trip();
         trip.id = u["_id"];
@@ -124,6 +124,10 @@ class ProfileService {
         trip.price = u["price"];
         trip.customerId = u["customerId"];
         trip.driverId = u["driverId"];
+        trip.driverName = u["driverName"];
+        trip.driverSurname = u["driverSurname"];
+        trip.driverProfileImage = u["driverProfileImage"];
+        trip.reviewId = u["reviewId"];
         listTrip.add(trip);
       }
       return listTrip;
