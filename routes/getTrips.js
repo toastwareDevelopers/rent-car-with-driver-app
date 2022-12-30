@@ -5,6 +5,7 @@ const express = require('express');
 const Driver = require("../models/driver");
 const Customer = require('../models/customer');
 const Trip = require("../models/trip");
+const Review = require("../models/review");
 const { type } = require('express/lib/response');
 const { JsonWebTokenError } = require('jsonwebtoken');
 
@@ -42,8 +43,13 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
 
                 y = x.toObject();
                 
+                temp = await Review.findById(x.reviewId);
+                if(temp)
+                    y.reviewId = temp._id;
+                else
+                    y.reviewId = "null";
+                    
                 temp = await Customer.findById(x.customerId);
-
                 if(!temp) return res.status(400).json({msg:"Customeri silmisler databaseden"});
                 y.customerName = temp.name;
                 y.customerSurname = temp.surname;
@@ -54,6 +60,8 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
 
                 y.driverName = temp.name;
                 y.driverSurname = temp.surname;
+                y.driverProfileImage = temp.profile_image64;
+                
                 arrOfTrips.push(y);
             }
             
