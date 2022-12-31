@@ -6,8 +6,6 @@ import '../constants/api_path.dart';
 import '../models/driver.dart';
 import 'package:rentcarmobile/models/customer.dart';
 
-import '../models/review.dart';
-
 class ProfileService {
   static Future<Driver> getDriver(String id) async {
     final headers = {
@@ -60,15 +58,14 @@ class ProfileService {
         review.reviewText = u["reviewText"];
         review.tripId = u["tripId"];
         review.driverProfilePhoto = u["driverProfile_image64"];
-        review.rating = u["rating"];
+        review.rating = double.parse(u["rating"].toString());
 
         reviewList.add(review);
       }
-      print("cutomer revies");
       return reviewList;
     } catch (e) {
       List<Review> review2 = [];
-      print("review error");
+      print(e.toString());
       return review2;
     }
   }
@@ -81,7 +78,7 @@ class ProfileService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "api/createReview");
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/createReview");
       Map<String, String> bodyReview = {
         "customerId": customerId,
         "driverId": driverId,
@@ -90,10 +87,10 @@ class ProfileService {
         "tripId": tripId
       };
       var reviewBody = json.encode(bodyReview);
-
       var response = await http.post(url, headers: headers, body: reviewBody);
       return response.statusCode;
     } catch (e) {
+      print(e.toString());
       return 400;
     }
   }
@@ -113,7 +110,7 @@ class ProfileService {
       var response = await http.get(url, headers: headers);
       var jsonData = json.decode(response.body);
       List<Trip> listTrip = [];
-
+ 
       for (var u in jsonData) {
         Trip trip = Trip();
         trip.id = u["_id"];
@@ -124,6 +121,10 @@ class ProfileService {
         trip.price = u["price"];
         trip.customerId = u["customerId"];
         trip.driverId = u["driverId"];
+        trip.driverName = u["driverName"];
+        trip.driverSurname = u["driverSurname"];
+        trip.driverProfileImage = u["driverProfileImage"];
+        trip.reviewId = u["reviewId"];
         listTrip.add(trip);
       }
       return listTrip;
@@ -152,7 +153,7 @@ class ProfileService {
             id: reviewMap["_id"],
             driverId: reviewMap["driverId"],
             customerId: reviewMap["customerId"],
-            rating: (reviewMap["rating"] as int).toDouble(),
+            rating: double.parse(reviewMap["rating"].toString()),
             reviewText: reviewMap["reviewText"],
             tripId: reviewMap["tripId"],
             customerName: reviewMap["customerName"],

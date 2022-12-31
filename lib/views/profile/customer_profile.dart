@@ -77,30 +77,41 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
     customerListTrips.clear();
     if (customerData.listTrips.isNotEmpty == true) {
       for (i = 0; i < customerData.listTrips.length; i++) {
-        customerListTrips.add(CustomerTrip(
-            customerId: RentVanApp.userId,
+        customerListTrips.add(
+          CustomerTrip(
+            customerId: customerData.listTrips[i].customerId.toString(),
             driverId: customerData.listTrips[i].driverId.toString(),
             age: customerData.listTrips[i].age,
             city: customerData.listTrips[i].location.toString(),
             driverName: customerData.listTrips[i].driverName.toString(),
+            driverSurname: customerData.listTrips[i].driverSurname.toString(),
             finish_time: customerData.listTrips[i].endDate.toString(),
             start_time: customerData.listTrips[i].startDate.toString(),
             tripId: customerData.listTrips[i].id.toString(),
-            reviewId: customerData.listTrips[i].reviewId.toString()));
+            reviewId: customerData.listTrips[i].reviewId.toString(),
+            driverProfileImage:
+                customerData.listTrips[i].driverProfileImage.toString(),
+            price : customerData.listTrips[i].price.toString()
+          ),
+        );
       }
     }
 
     if (customerData.listReview.isNotEmpty == true) {
       customerListReview.clear();
       for (i = 0; i < customerData.listReview.length; i++) {
-        customerListReview.add(ReviewWidget2(
+        customerListReview.add(
+          ReviewWidget2(
             "${customerData.listReview[i].driverName} ${customerData.listReview[i].driverSurname}",
-            customerData.listReview[i].reviewText.toString()));
+            customerData.listReview[i].reviewText.toString(),customerData.listReview[i].driverProfilePhoto.toString(),customerData.listReview[i].rating.toString()
+          ),
+        );
       }
     }
 
     String nameAge =
         '${customerData.customer.name} ${customerData.customer.surname} (${DateTime.now().year - DateTime.parse(customerData.customer.birthDate.toString()).year})';
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: RentVanApp.userType == "customer"
@@ -228,10 +239,15 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(5)),
-                      child: ListView(
+                      child: customerListTrips.length > 0 ? ListView.separated(
+                        itemCount: customerListTrips.length,
+                        itemBuilder: (context, index) =>
+                            customerListTrips[index],
+                        separatorBuilder: (context, index) => SizedBox(
+                          height: phoneHeight * 0.01,
+                        ),
                         padding: EdgeInsets.only(top: 10),
-                        children: customerListTrips,
-                      ),
+                      ) : Center(child: Text("There is no any trip"),),
                     ),
                   ),
                 ],
@@ -269,10 +285,18 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: ListView(
-                        padding: EdgeInsets.only(top: 10),
-                        children: customerListReview,
-                      ),
+                      child: customerListReview.length > 0 ? ListView.separated(
+                        itemCount: customerListReview.length,
+                        itemBuilder: (context, index) {
+                          return customerListReview[index];
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(
+                            height: phoneHeight * 0.01,
+                          );
+                        },
+                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                      ) : Center(child: const Text("There is no any review"),),
                     ),
                   ),
                 ],
