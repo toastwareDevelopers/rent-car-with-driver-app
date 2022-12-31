@@ -36,7 +36,6 @@ reviewCreateRouter.post('/api/createReview',async function(req,res){
         if(!existCustomer){
             return res.status(400).json({msg: "There is not a customer with this customerID"}); 
         }
-        console.log(tripId);
 
         const existTrip = await Trip.findById(tripId);
 
