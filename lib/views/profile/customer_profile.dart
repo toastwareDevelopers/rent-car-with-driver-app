@@ -239,7 +239,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(5)),
-                      child: ListView.separated(
+                      child: customerListTrips.length > 0 ? ListView.separated(
                         itemCount: customerListTrips.length,
                         itemBuilder: (context, index) =>
                             customerListTrips[index],
@@ -247,7 +247,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                           height: phoneHeight * 0.01,
                         ),
                         padding: EdgeInsets.only(top: 10),
-                      ),
+                      ) : Center(child: Text("There is no any trip"),),
                     ),
                   ),
                 ],
@@ -285,7 +285,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: ListView.separated(
+                      child: customerListReview.length > 0 ? ListView.separated(
                         itemCount: customerListReview.length,
                         itemBuilder: (context, index) {
                           return customerListReview[index];
@@ -296,7 +296,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                           );
                         },
                         padding: EdgeInsets.only(top: 10,bottom: 10),
-                      ),
+                      ) : Center(child: const Text("There is no any review"),),
                     ),
                   ),
                 ],
