@@ -185,7 +185,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
               child: ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
                 itemCount: snapshot.data?.length,
-                itemBuilder: (contextv2, index) => InkWell(
+                itemBuilder: (contextv2, index) => snapshot.data?[index].customerId != "null" ? InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, "/profileCustomer",
                         arguments: snapshot.data?[index].customerId);
@@ -310,7 +310,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                       ),
                     ),
                   ),
-                ),
+                ) : Container(),
               ),
             );
           } else if (snapshot.hasError) {
@@ -328,7 +328,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
       future: MainService.getDriverActiveTrip(
           widget.tripListString, RentVanApp.userId),
       builder: (contextv2, snapshot) {
-        if (snapshot.data != null) {
+        if (snapshot.data != null && snapshot.data?.customerId != "null") {
           if (snapshot.connectionState == ConnectionState.done) {
             return InkWell(
               onTap: () {
