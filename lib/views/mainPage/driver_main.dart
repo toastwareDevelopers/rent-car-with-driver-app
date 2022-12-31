@@ -323,111 +323,109 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
         builder: (contextv2, snapshot) {
           if (snapshot.data != null && snapshot.data?.customerId != "null") {
             if (snapshot.connectionState == ConnectionState.done) {
-              return Expanded(
-                child: Stack(alignment: Alignment.topRight, children: [
-                  Container(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          "/profileCustomer",
-                          arguments: snapshot.data?.customerId,
-                        );
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: phoneHeight * 0.01),
-                        child: ListTile(
-                          style: ListTileStyle.list,
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
+              return Stack(alignment: Alignment.topRight, children: [
+                Container(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        "/profileCustomer",
+                        arguments: snapshot.data?.customerId,
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: phoneHeight * 0.01),
+                      child: ListTile(
+                        style: ListTileStyle.list,
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 30,
                                 child: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 30,
-                                  child: CircleAvatar(
-                                    backgroundImage: snapshot
-                                                .data?.customerProfileImage ==
-                                            "null"
-                                        ? AssetImage(
-                                            AssetPaths.blankProfilePhotoPath)
-                                        : Image.memory(base64Decode(snapshot
-                                                    .data?.customerProfileImage
-                                                as String))
-                                            .image,
-                                    radius: 27.0,
-                                  ),
+                                  backgroundImage: snapshot
+                                              .data?.customerProfileImage ==
+                                          "null"
+                                      ? AssetImage(
+                                          AssetPaths.blankProfilePhotoPath)
+                                      : Image.memory(base64Decode(snapshot
+                                                  .data?.customerProfileImage
+                                              as String))
+                                          .image,
+                                  radius: 27.0,
                                 ),
                               ),
-                              SizedBox(
-                                width: phoneWidth * 0.05,
-                                height: phoneHeight * 0.05,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${snapshot.data?.customerName} ${snapshot.data?.customerSurname} (${snapshot.data?.customerAge})",
-                                    style: const TextStyle(
-                                        fontFamily: "Arapey",
-                                        color: Colors.white,
-                                        fontSize: 17),
-                                  ),
-                                  Text(
-                                    "${snapshot.data?.location}",
-                                    style: const TextStyle(
-                                        fontFamily: "Arapey",
-                                        color: Colors.white,
-                                        fontSize: 14),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Start: ${snapshot.data?.startDate?.substring(0, 10)}",
-                                        style: const TextStyle(
-                                            fontFamily: "Arapey",
-                                            color: Colors.white,
-                                            fontSize: 14),
-                                      ),
-                                      SizedBox(
-                                        width: phoneWidth * 0.02,
-                                      ),
-                                      Text(
-                                        "Finish: ${snapshot.data?.endDate?.substring(0, 10)}",
-                                        style: const TextStyle(
-                                            fontFamily: "Arapey",
-                                            color: Colors.white,
-                                            fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              width: phoneWidth * 0.05,
+                              height: phoneHeight * 0.05,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${snapshot.data?.customerName} ${snapshot.data?.customerSurname} (${snapshot.data?.customerAge})",
+                                  style: const TextStyle(
+                                      fontFamily: "Arapey",
+                                      color: Colors.white,
+                                      fontSize: 17),
+                                ),
+                                Text(
+                                  "${snapshot.data?.location}",
+                                  style: const TextStyle(
+                                      fontFamily: "Arapey",
+                                      color: Colors.white,
+                                      fontSize: 14),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Start: ${snapshot.data?.startDate?.substring(0, 10)}",
+                                      style: const TextStyle(
+                                          fontFamily: "Arapey",
+                                          color: Colors.white,
+                                          fontSize: 14),
+                                    ),
+                                    SizedBox(
+                                      width: phoneWidth * 0.02,
+                                    ),
+                                    Text(
+                                      "Finish: ${snapshot.data?.endDate?.substring(0, 10)}",
+                                      style: const TextStyle(
+                                          fontFamily: "Arapey",
+                                          color: Colors.white,
+                                          fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    height: phoneHeight * 0.03,
-                    width: phoneWidth * 0.15,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(3)),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "${snapshot.data?.price} TL",
-                        style: const TextStyle(fontFamily: "Arapey"),
-                      ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(5),
+                  height: phoneHeight * 0.03,
+                  width: phoneWidth * 0.15,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "${snapshot.data?.price} TL",
+                      style: const TextStyle(fontFamily: "Arapey"),
                     ),
                   ),
-                ]),
-              );
+                ),
+              ]);
             } else if (snapshot.hasError) {
               throw Error();
             } else {
