@@ -58,14 +58,14 @@ class ProfileService {
         review.reviewText = u["reviewText"];
         review.tripId = u["tripId"];
         review.driverProfilePhoto = u["driverProfile_image64"];
-        review.rating = u["rating"];
+        review.rating = double.parse(u["rating"].toString());
 
         reviewList.add(review);
       }
       return reviewList;
     } catch (e) {
       List<Review> review2 = [];
-      print("review error");
+      print(e.toString());
       return review2;
     }
   }
@@ -153,7 +153,7 @@ class ProfileService {
             id: reviewMap["_id"],
             driverId: reviewMap["driverId"],
             customerId: reviewMap["customerId"],
-            rating: (reviewMap["rating"] as int).toDouble(),
+            rating: double.parse(reviewMap["rating"].toString()),
             reviewText: reviewMap["reviewText"],
             tripId: reviewMap["tripId"],
             customerName: reviewMap["customerName"],
