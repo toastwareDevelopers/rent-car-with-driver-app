@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/widgets/customer_trip_widget.dart';
 import '../../constants/assets_path.dart';
+import '../../services/profile.dart';
 import '../../utils/base64_converter.dart';
 
 class ReviewScreen extends StatefulWidget {
-  const ReviewScreen({super.key});
-
+  ReviewScreen({super.key});
+  TextEditingController review = TextEditingController();
+  TextEditingController rating = TextEditingController();
   @override
   State<ReviewScreen> createState() => _ReviewScreenState();
 }
@@ -57,48 +59,51 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       ),
                     ),
                     //Other Information
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            customerTrip.driverName,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 16),
-                          ),
-                        ),
-                        Container(
-                          color: Color.fromARGB(2, 3, 5, 7),
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            customerTrip.city,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Start : ${customerTrip.start_time.substring(0, 10)}",
-                                style: TextStyle(color: Colors.white),
-                              ),
+                    Container(
+                      padding: EdgeInsets.only(left: phoneWidth*0.01),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              customerTrip.driverName,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16),
                             ),
-                            Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.only(
-                                  left: phoneWidth * 0.02),
-                              child: Text(
-                                "End : ${customerTrip.finish_time.substring(0, 10)}",
-                                style: TextStyle(color: Colors.white),
-                              ),
+                          ),
+                          Container(
+                            color: Color.fromARGB(2, 3, 5, 7),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              customerTrip.city,
+                              style: TextStyle(color: Colors.white),
                             ),
-                          ],
-                        )
-                      ],
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Start : ${customerTrip.start_time.substring(0, 10)}",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.only(
+                                    left: phoneWidth * 0.02),
+                                child: Text(
+                                  "End : ${customerTrip.finish_time.substring(0, 10)}",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -128,6 +133,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           keyboardType: TextInputType.multiline,
                           decoration:
                           InputDecoration(hintText: "Message"),
+                          controller: widget.review,
                           maxLines: 10,
                         ),
                       ),
@@ -152,6 +158,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             decoration: InputDecoration(hintText: "Rating"),
                             style:
                             TextStyle(fontSize: 16.0, color: Colors.black),
+                            controller: widget.rating,
                           ),
                         ),
                       ),
@@ -167,12 +174,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             "Send",
                             style: TextStyle(color: Colors.black),
                           ),
-                          onPressed: ()  {
-                            /*
-                                    await Future.wait([
-                                      ProfileService.postCustomerReview(
-                                          customerId, driverId, "sadsad", "asd", tripId),
-                                    ]);*/
+                          onPressed: () async {
+                            int statusCode = await ProfileService.postCustomerReview(customerTrip.customerId, customerTrip.driverId, widget.review.text, widget.rating.text, customerTrip.tripId);
+                            if(statusCode == 200){
+                              Navigator.pushReplacementNamed(context, "/profileCustomer",arguments: customerTrip.customerId);
+                            }
                           },
                         ),
                       ),

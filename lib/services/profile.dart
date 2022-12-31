@@ -78,7 +78,7 @@ class ProfileService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "api/createReview");
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/createReview");
       Map<String, String> bodyReview = {
         "customerId": customerId,
         "driverId": driverId,
@@ -87,10 +87,10 @@ class ProfileService {
         "tripId": tripId
       };
       var reviewBody = json.encode(bodyReview);
-
       var response = await http.post(url, headers: headers, body: reviewBody);
       return response.statusCode;
     } catch (e) {
+      print(e.toString());
       return 400;
     }
   }
