@@ -3,6 +3,7 @@ import 'package:rentcarmobile/widgets/customer_trip_widget.dart';
 import '../../constants/assets_path.dart';
 import '../../services/profile.dart';
 import '../../utils/base64_converter.dart';
+import '../../utils/warning_alert.dart';
 
 class ReviewScreen extends StatefulWidget {
   ReviewScreen({super.key});
@@ -175,9 +176,22 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             style: TextStyle(color: Colors.black),
                           ),
                           onPressed: () async {
-                            int statusCode = await ProfileService.postCustomerReview(customerTrip.customerId, customerTrip.driverId, widget.review.text, widget.rating.text, customerTrip.tripId);
-                            if(statusCode == 200){
-                              Navigator.pushReplacementNamed(context, "/profileCustomer",arguments: customerTrip.customerId);
+                            if(double.parse(widget.rating.text) > 10 || double.parse(widget.rating.text) < 0){
+                              WarningAlert.showWarningDialog(context,
+                                  "Error! Rating must be within 0 and 10!",
+                                      () {
+                                    Navigator.pop(context);
+                                  });
+                            }
+                            else{
+                              int statusCode = await ProfileService.postCustomerReview(customerTrip.customerId, customerTrip.driverId, widget.review.text, widget.rating.text, customerTrip.tripId);
+                              if(statusCode == 200){
+                                WarningAlert.showWarningDialog(context,
+                                    "Congrulations! Your review is added succesfully!",
+                                        () {
+                                      Navigator.pushReplacementNamed(context, "/profileCustomer",arguments: customerTrip.customerId);
+                                    });
+                              }
                             }
                           },
                         ),
