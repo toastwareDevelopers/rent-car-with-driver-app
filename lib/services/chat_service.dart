@@ -20,7 +20,7 @@ class ChatService {
       var url = Uri.parse(
           "http://" + ApiPaths.serverIP + "/api/getMessageHistory?ID=$id");
       var response = await http.get(url, headers: headers);
-
+      print(response.body);
       List<dynamic> messagesDynamic = jsonDecode(response.body);
       List<OldMessageReceiver> messages = [];
 
