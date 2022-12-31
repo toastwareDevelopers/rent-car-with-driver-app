@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:rentcarmobile/main.dart';
 
 import '../constants/assets_path.dart';
 import '../utils/base64_converter.dart';
@@ -129,7 +130,7 @@ class CustomerTrip extends StatelessWidget {
               ),
             ],
           ),
-          reviewId == "null"
+          reviewId == "null" && customerId == RentVanApp.userId
               ? Container(
                   height: phoneHeight * 0.03,
                   width: phoneWidth * 0.17,

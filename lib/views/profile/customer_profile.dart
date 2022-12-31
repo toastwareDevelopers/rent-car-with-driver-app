@@ -79,7 +79,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
       for (i = 0; i < customerData.listTrips.length; i++) {
         customerListTrips.add(
           CustomerTrip(
-            customerId: RentVanApp.userId,
+            customerId: customerData.listTrips[i].customerId.toString(),
             driverId: customerData.listTrips[i].driverId.toString(),
             age: customerData.listTrips[i].age,
             city: customerData.listTrips[i].location.toString(),
