@@ -6,8 +6,6 @@ import '../constants/api_path.dart';
 import '../models/driver.dart';
 import 'package:rentcarmobile/models/customer.dart';
 
-import '../models/review.dart';
-
 class ProfileService {
   static Future<Driver> getDriver(String id) async {
     final headers = {
@@ -64,7 +62,6 @@ class ProfileService {
 
         reviewList.add(review);
       }
-      print("cutomer revies");
       return reviewList;
     } catch (e) {
       List<Review> review2 = [];

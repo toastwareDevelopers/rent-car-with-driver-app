@@ -91,6 +91,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
             reviewId: customerData.listTrips[i].reviewId.toString(),
             driverProfileImage:
                 customerData.listTrips[i].driverProfileImage.toString(),
+            price : customerData.listTrips[i].price.toString()
           ),
         );
       }
