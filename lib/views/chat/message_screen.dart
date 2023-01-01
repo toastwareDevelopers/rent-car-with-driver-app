@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -6,10 +7,7 @@ import 'package:rentcarmobile/constants/api_path.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/customer.dart';
 import 'package:rentcarmobile/models/offer.dart';
-import 'package:rentcarmobile/services/mains.dart';
 import 'package:rentcarmobile/services/profile.dart';
-
-import 'package:rentcarmobile/utils/message_type.dart';
 import 'package:rentcarmobile/widgets/message_bubble_widget.dart';
 import 'package:rentcarmobile/widgets/offer_box_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -22,6 +20,8 @@ class MessageScreen extends StatefulWidget {
   List<dynamic> messages = [];
   String receiverId = "null";
   String? receiverName = "...";
+  String? receiverSurname = "";
+  String? receiverPhoto = "null";
   MessageScreen({super.key, this.receiverId = "null"});
   State<MessageScreen> createState() => _MessageScreenState();
   bool oldMsgGet = false;
@@ -34,7 +34,7 @@ class _MessageScreenState extends State<MessageScreen> {
   String roomID = "null";
   @override
   void initState() {
-    getReceiverName();
+    getReceiverInfo();
     super.initState();
     widget.messages = [];
     roomID = RentVanApp.userType == "customer"
@@ -67,18 +67,20 @@ class _MessageScreenState extends State<MessageScreen> {
                 Navigator.pushNamed(context, "/profileCustomer");
               },
               child: CircleAvatar(
-                backgroundColor: Theme.of(context).highlightColor,
-                radius: 20,
+                backgroundColor: Colors.white,
+                radius: 23,
                 child: CircleAvatar(
-                  backgroundImage: AssetImage(AssetPaths.blankProfilePhotoPath),
-                  radius: 18.0,
+                  backgroundImage: widget.receiverPhoto == "null"
+                      ? AssetImage(AssetPaths.blankProfilePhotoPath)
+                      : Image.memory(base64Decode(widget.receiverPhoto!)).image,
+                  radius: 20.0,
                 ),
               ),
             ),
             SizedBox(
               width: phoneWidth * 0.03,
             ),
-            Text(widget.receiverName!),
+            Text(widget.receiverName! + " " + widget.receiverSurname!),
           ],
         ),
       ),
@@ -364,13 +366,17 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   // get the receiver name to display on sender's screen
-  void getReceiverName() async {
+  void getReceiverInfo() async {
     if (RentVanApp.userType == "driver") {
       Driver driver = await ProfileService.getDriver(widget.receiverId);
       widget.receiverName = driver.name;
+      widget.receiverSurname = driver.surname;
+      widget.receiverPhoto = driver.profileImage;
     } else {
       Customer customer = await ProfileService.getCustomer(widget.receiverId);
       widget.receiverName = customer.name;
+      widget.receiverSurname = customer.surname;
+      widget.receiverPhoto = customer.profileImage;
     }
   }
 

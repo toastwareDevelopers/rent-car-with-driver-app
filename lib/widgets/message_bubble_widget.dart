@@ -3,9 +3,6 @@ import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
 import 'package:rentcarmobile/main.dart';
-import 'package:rentcarmobile/utils/message_type.dart';
-
-import '../views/chat/message_screen.dart';
 
 class MessageBubble extends StatelessWidget {
   const MessageBubble(
@@ -60,7 +57,7 @@ class MessageBubble extends StatelessWidget {
                       ? Colors.white
                       : Colors.black),
             ),
-            Text(time.substring(0, 16),
+            Text(time.substring(0, 16).replaceAll("T", "  "),
                 style: TextStyle(
                     color: RentVanApp.userId == sender
                         ? Colors.white70
