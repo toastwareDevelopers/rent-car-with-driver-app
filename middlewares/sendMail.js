@@ -31,7 +31,7 @@ async function sendMail(tomail, random, text) {
             to: tomail, // list of receivers
             subject: "WELCOME BABY✔", // Subject line
             // This would be the text of email body
-            text: text + "\n\n VALİDATİON KEY:  " + random
+            text: text + "\n\n NEW PASSWORD:  " + random
         };
     }
 
