@@ -51,6 +51,48 @@ class MainService {
     return trips;
   }
 
+  static Future<List<Trip>> getTripsById(String id) async {
+    final headers = {
+      'Content-type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8',
+      'Accept': 'application/json',
+    };
+    try {
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/getTrips")
+          .replace(queryParameters: {
+        'ID': id,
+      });
+
+      var response = await http.get(url, headers: headers);
+      print(response.body);
+      var jsonData = json.decode(response.body);
+      List<Trip> listTrip = [];
+
+      for (var u in jsonData) {
+        Trip trip = Trip();
+        trip.customerName = u["customerName"];
+        trip.customerSurname = u["customerSurname"];
+        DateTime dt = DateTime.parse(u["customerBirthDate"]);
+        trip.age = DateTime.now().year - dt.year;
+        trip.customerAge = DateTime.now().year - dt.year;
+        trip.startDate = u["startDate"];
+        trip.endDate = u["endDate"];
+        trip.location = u["location"];
+        trip.price = u["price"];
+        trip.customerId = u["customerId"];
+        trip.driverId = u["driverId"];
+        trip.customerProfileImage = u["customerProfile_image64"];
+        print(trip);
+        listTrip.add(trip);
+      }
+      return listTrip;
+    } catch (e) {
+      print("Error:" + e.toString());
+      List<Trip> listTrip2 = [];
+      return listTrip2;
+    }
+  }
+
   ///ooookkkk
   static Future<List<String>?> getTripsByDriverId(String id) async {
     final headers = {

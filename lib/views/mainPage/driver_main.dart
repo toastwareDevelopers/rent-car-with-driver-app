@@ -15,14 +15,17 @@ class DriverMainScreen extends StatefulWidget {
 
   List<Trip> trips = [];
   List<String> tripListString = [];
+  bool tripsLoaded = false;
 
   @override
   State<DriverMainScreen> createState() => _DriverMainScreenState();
 }
 
+@override
+void initState() {}
+
 class _DriverMainScreenState extends State<DriverMainScreen> {
   final controller = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     double phoneWidth = MediaQuery.of(context).size.width;
@@ -96,7 +99,9 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
             ),
           ),
           onPressed: () {
-            Navigator.pushNamed(context, "/allChats");
+            if (widget.tripsLoaded) {
+              Navigator.pushNamed(context, "/allChats");
+            }
           },
         ),
       ),
@@ -172,138 +177,150 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
             widget.tripListString, RentVanApp.userId),
         builder: (contextv2, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return ListView.separated(
-              physics: const AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(
-                  horizontal: phoneWidth * 0.02, vertical: phoneHeight * 0.01),
-              separatorBuilder: (context, index) => SizedBox(
-                height: phoneHeight * 0.01,
-              ),
-              itemCount: snapshot.data!.length,
-              itemBuilder: (contextv2, index) => snapshot
-                          .data?[index].customerId !=
-                      "null"
-                  ? Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).highlightColor,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
+            widget.tripsLoaded = true;
+            return RefreshIndicator(
+              onRefresh: () {
+                return Future.delayed(const Duration(milliseconds: 250), () {
+                  setState(() {});
+                });
+              },
+              child: ListView.separated(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(
+                    horizontal: phoneWidth * 0.02,
+                    vertical: phoneHeight * 0.01),
+                separatorBuilder: (context, index) => SizedBox(
+                  height: phoneHeight * 0.01,
+                ),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (contextv2, index) => snapshot
+                            .data?[index].customerId !=
+                        "null"
+                    ? Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).highlightColor,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
                         ),
-                      ),
-                      padding: EdgeInsets.all(5),
-                      child: Stack(
-                        alignment: Alignment.topRight,
-                        children: [
-                          Container(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  "/profileCustomer",
-                                  arguments: snapshot.data?[index].customerId,
-                                );
-                              },
-                              child: ListTile(
-                                style: ListTileStyle.list,
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.white,
-                                        radius: 30,
+                        padding: EdgeInsets.all(5),
+                        child: Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            Container(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    "/profileCustomer",
+                                    arguments: snapshot.data?[index].customerId,
+                                  );
+                                },
+                                child: ListTile(
+                                  style: ListTileStyle.list,
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
                                         child: CircleAvatar(
-                                          backgroundImage: snapshot.data?[index]
-                                                      .customerProfileImage ==
-                                                  "null"
-                                              ? AssetImage(AssetPaths
-                                                  .blankProfilePhotoPath)
-                                              : Image.memory(base64Decode(snapshot
-                                                          .data?[index]
-                                                          .customerProfileImage
-                                                      as String))
-                                                  .image,
-                                          radius: 27.0,
+                                          backgroundColor: Colors.white,
+                                          radius: 30,
+                                          child: CircleAvatar(
+                                            backgroundImage: snapshot
+                                                        .data?[index]
+                                                        .customerProfileImage ==
+                                                    "null"
+                                                ? AssetImage(AssetPaths
+                                                    .blankProfilePhotoPath)
+                                                : Image.memory(base64Decode(snapshot
+                                                            .data?[index]
+                                                            .customerProfileImage
+                                                        as String))
+                                                    .image,
+                                            radius: 27.0,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: phoneWidth * 0.05,
-                                      height: phoneHeight * 0.05,
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${snapshot.data?[index].customerName} ${snapshot.data?[index].customerSurname} (${snapshot.data?[index].customerAge})",
-                                          style: const TextStyle(
-                                              fontFamily: "Arapey",
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        Text(
-                                          "${snapshot.data?[index].location}",
-                                          style: const TextStyle(
-                                              fontFamily: "Arapey",
-                                              color: Colors.white,
-                                              fontSize: 14),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Start: ${snapshot.data?[index].startDate?.substring(0, 10)}",
-                                              style: const TextStyle(
-                                                  fontFamily: "Arapey",
-                                                  color: Colors.white,
-                                                  fontSize: 14),
-                                            ),
-                                            SizedBox(
-                                              width: phoneWidth * 0.02,
-                                            ),
-                                            Text(
-                                              "Finish: ${snapshot.data?[index].endDate?.substring(0, 10)}",
-                                              style: const TextStyle(
-                                                  fontFamily: "Arapey",
-                                                  color: Colors.white,
-                                                  fontSize: 14),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                      SizedBox(
+                                        width: phoneWidth * 0.05,
+                                        height: phoneHeight * 0.05,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${snapshot.data?[index].customerName} ${snapshot.data?[index].customerSurname} (${snapshot.data?[index].customerAge})",
+                                            style: const TextStyle(
+                                                fontFamily: "Arapey",
+                                                color: Colors.white,
+                                                fontSize: 16),
+                                          ),
+                                          Text(
+                                            "${snapshot.data?[index].location}",
+                                            style: const TextStyle(
+                                                fontFamily: "Arapey",
+                                                color: Colors.white,
+                                                fontSize: 14),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Start: ${snapshot.data?[index].startDate?.substring(0, 10)}",
+                                                style: const TextStyle(
+                                                    fontFamily: "Arapey",
+                                                    color: Colors.white,
+                                                    fontSize: 14),
+                                              ),
+                                              SizedBox(
+                                                width: phoneWidth * 0.02,
+                                              ),
+                                              Text(
+                                                "Finish: ${snapshot.data?[index].endDate?.substring(0, 10)}",
+                                                style: const TextStyle(
+                                                    fontFamily: "Arapey",
+                                                    color: Colors.white,
+                                                    fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(5),
-                            height: phoneHeight * 0.03,
-                            width: phoneWidth * 0.15,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(3)),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "${snapshot.data?[index].price} TL",
-                                style: const TextStyle(fontFamily: "Arapey"),
+                            Container(
+                              margin: EdgeInsets.all(5),
+                              height: phoneHeight * 0.03,
+                              width: phoneWidth * 0.15,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(3)),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "${snapshot.data?[index].price} TL",
+                                  style: const TextStyle(fontFamily: "Arapey"),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : Container(),
+                          ],
+                        ),
+                      )
+                    : Container(),
+              ),
             );
           } else if (snapshot.hasError) {
             throw Error();
           } else {
+            widget.tripsLoaded = false;
             return const Center(child: CircularProgressIndicator());
           }
         },

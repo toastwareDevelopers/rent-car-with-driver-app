@@ -15,20 +15,21 @@ class PersonChatWidget extends StatelessWidget {
   String last_message;
   String last_message_time;
 
-  PersonChatWidget(
-      {this.id = "null",
-      this.photo = "null",
-      this.name = "null",
-      this.surname = "null",
-      this.last_message = "null",
-      this.last_message_time = "null"});
+  PersonChatWidget(this.id, this.photo, this.name, this.surname,
+      this.last_message, this.last_message_time,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
     return InkWell(
-      onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => MessageScreen(receiverId: id,)));},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => MessageScreen(
+                  receiverId: id,
+                )));
+      },
       child: Container(
         alignment: Alignment.centerLeft,
         margin: EdgeInsets.only(top: phoneWidth * 0.03),
@@ -47,15 +48,15 @@ class PersonChatWidget extends StatelessWidget {
                 right: phoneWidth * 0.02,
               ),
               child: CircleAvatar(
-                      backgroundColor: Theme.of(context).highlightColor,
-                      radius: 30,
-                      child: CircleAvatar(
-                        backgroundImage: photo == "null"
-                            ? AssetImage(AssetPaths.blankProfilePhotoPath)
-                            : Image.memory(base64Decode(photo)).image,
-                        radius: 26.0,
-                      ),
-                    ),
+                backgroundColor: Theme.of(context).highlightColor,
+                radius: 30,
+                child: CircleAvatar(
+                  backgroundImage: photo == "null"
+                      ? AssetImage(AssetPaths.blankProfilePhotoPath)
+                      : Image.memory(base64Decode(photo)).image,
+                  radius: 26.0,
+                ),
+              ),
             ),
             Container(
               height: phoneHeight * 0.06,
@@ -105,7 +106,8 @@ class PersonChatWidget extends StatelessWidget {
                     children: [
                       Container(
                         margin: EdgeInsets.only(
-                            top: phoneHeight * 0.02, bottom: phoneHeight * 0.02),
+                            top: phoneHeight * 0.02,
+                            bottom: phoneHeight * 0.02),
                         alignment: Alignment.center,
                         child: Text(
                           last_message_time,

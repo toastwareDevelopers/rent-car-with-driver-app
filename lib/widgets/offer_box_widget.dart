@@ -298,7 +298,7 @@ class OfferBox extends StatelessWidget {
                                       "status": "Accepted",
                                       "offerId": id,
                                     });
-                                    //Navigator.pushNamed(context, "/payment");
+                                    Navigator.pushNamed(context, "/payment");
                                   },
                                 ),
                               ],

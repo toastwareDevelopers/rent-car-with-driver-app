@@ -34,6 +34,7 @@ class _MessageScreenState extends State<MessageScreen> {
   String roomID = "null";
   @override
   void initState() {
+    getReceiverName();
     super.initState();
     widget.messages = [];
     roomID = RentVanApp.userType == "customer"
@@ -41,9 +42,7 @@ class _MessageScreenState extends State<MessageScreen> {
         : RentVanApp.userId + widget.receiverId;
     connect();
     startChat(roomID);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getReceiverName();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
   }
 
   @override
@@ -53,9 +52,12 @@ class _MessageScreenState extends State<MessageScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {
-          Navigator.pop(context);
-        },icon: Icon(Icons.arrow_back),),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
         backgroundColor: Theme.of(context).highlightColor,
         titleSpacing: 0,
         title: Row(

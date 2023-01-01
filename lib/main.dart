@@ -10,6 +10,7 @@ import 'package:rentcarmobile/views/loginRegister/register_driver_personal.dart'
 import 'package:rentcarmobile/views/loginRegister/register_driver_skills.dart';
 import 'package:rentcarmobile/views/mainPage/driver_main.dart';
 import 'package:rentcarmobile/views/mainPage/customer_main.dart';
+import 'package:rentcarmobile/views/payment/payment.dart';
 import 'package:rentcarmobile/views/profile/customer_profile.dart';
 import 'package:rentcarmobile/views/profile/driver_balance.dart';
 import 'package:rentcarmobile/views/profile/driver_profile.dart';
@@ -20,6 +21,7 @@ import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_car.dar
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_personal.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_skills.dart';
 import 'package:rentcarmobile/views/profile/review_screen.dart';
+
 
 
 void main() {
@@ -102,19 +104,19 @@ class RentVanApp extends StatelessWidget {
         '/registerDriverCar': (context) => RegisterDriverCarScreen(),
         '/driverMain': (context) => DriverMainScreen(),
         '/customerMain': (context) => CustomerMainScreen(),
-        '/profileDriverPersonal' : (context) =>  DriverProfileScreen(),
-        '/profileDriverCar' : (context) =>  DriverProfileCarScreen(),
-        '/profileCustomer' : (context) => CustomerProfileScreen(),
-        '/editCustomer' : (context) => EditCustomerScreen(),
-        '/editDriverAuth': (context) =>  EditDriverAuthScreen(),
-        '/editDriverPersonal': (context) =>  EditDriverPersonalScreen(),
+        '/profileDriverPersonal': (context) => DriverProfileScreen(),
+        '/profileDriverCar': (context) => DriverProfileCarScreen(),
+        '/profileCustomer': (context) => CustomerProfileScreen(),
+        '/editCustomer': (context) => EditCustomerScreen(),
+        '/editDriverAuth': (context) => EditDriverAuthScreen(),
+        '/editDriverPersonal': (context) => EditDriverPersonalScreen(),
         '/editDriverSkills': (context) => EditDriverSkillsScreen(),
         '/editDriverCar': (context) => EditDriverCarScreen(),
         '/allChats': (context) => ChatScreen(),
         '/messaging' : (context) => MessageScreen(),
         '/reviewScreen' : (context) => ReviewScreen(),
         '/balanceDriver' : (context) => BalanceScreen(),
-
+        '/payment': (context) => PaymentScreen(),
       },
     );
   }
