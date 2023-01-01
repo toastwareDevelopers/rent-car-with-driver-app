@@ -1,13 +1,20 @@
 /* This is importing the express module. */
 const express = require('express');
 
+
 /* Importing the driver model. */
 const Driver = require("../models/driver");
+const Trip = require("../models/trip");
+const Customer = require('../models/customer');
+
 
 const driverMainRouter = express.Router();
 
-driverMainRouter.get('/driver/activeTrip' ,async function (req, res) {
+driverMainRouter.get('/api/driver/activeTrip' ,async function (req, res) {
 
+    try {
+
+    
     const _id = req.query.ID;
 
     //console.log(_id);
@@ -17,24 +24,28 @@ driverMainRouter.get('/driver/activeTrip' ,async function (req, res) {
     
 
     if(!model) return  res.status(400).json({msg: "There is not a model with this id"});
-    
+
+        
     const currentDate = Date.now();
+
+    //console.log(model.trips);
 
     //console.log(currentDate);
 
     for (let index = 0; index < model.trips.length; index++) {
         
         const activeTrip = await Trip.findById(model.trips[index]);
+        if(!activeTrip) continue; // BURASI SİLİNECEK 
         if(activeTrip.startDate < currentDate && activeTrip.endDate > currentDate){
             //console.log(currentDate);
             
             
-            const activeDriver = await Driver.findById(activeTrip.driverId);
+            const activeCustomer = await Customer.findById(activeTrip.customerId);
             respond = activeTrip.toObject();
-            respond.driverName = activeDriver.name;
-            respond.driverSurname = activeDriver.surname;
-            respond.profile_image64 = activeDriver.profile_image64;
-            respond.birthDate = activeDriver.birthDate;
+            respond.driverName = activeCustomer.name;
+            respond.driverSurname = activeCustomer.surname;
+            respond.profile_image64 = activeCustomer.profile_image64;
+            respond.birthDate = activeCustomer.birthDate;
 
             return res.send(respond);
         }
@@ -42,6 +53,32 @@ driverMainRouter.get('/driver/activeTrip' ,async function (req, res) {
     }
 
     return res.status(400).json({msg:"There is no active trip"});
+
+        
+    } catch (error) {
+        return res.status(500).json({error:error.message});
+    }
+
+    
+});
+
+
+
+driverMainRouter.get('/api/driver/withdraw' ,async function (req, res) {
+
+    const _id = req.query.ID;
+
+    const model = await Driver.findById(_id);
+
+    //console.log(model)
+
+    if(!model) return res.status(400).json({msg: "There is not a driver with this id"});
+
+    if(model.balance == 0) return res.status(400).json({msg: "There is no money in balance"});
+
+    await model.updateOne({balance:0});
+
+    return res.sendStatus(200);
 
 });
 
