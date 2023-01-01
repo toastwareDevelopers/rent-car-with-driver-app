@@ -9,7 +9,12 @@ multiplePhoto.get('/api/driver/carPhotos/getPhoto', async function (req, res) {
         const driver = await Driver.findById(id,
             { carPhotos: 1 })
 
-        res.send(driver.carPhotos[index])
+        if(0 <= index && index <= driver.carPhotos.length){
+            res.send(driver.carPhotos[index])
+        }
+        else{
+            res.sendStatus(400)
+        }
 
     } catch (error) {
         /* Sending a 500 status code and the error message to the client. */
@@ -64,8 +69,13 @@ multiplePhoto.get('/api/driver/documentPhotos/getPhoto', async function (req, re
         let driver = await Driver.findById(id,
             { legalPhotos: 1 })
 
-        res.send(driver.legalPhotos[index])
-        
+            if(0 <= index && index <= driver.legalPhotos.length){
+                res.send(driver.legalPhotos[index])
+            }
+            else{
+                res.sendStatus(400)
+            }
+
     } catch (error) {
         /* Sending a 500 status code and the error message to the client. */
         res.status(500).json({ error: error.message });
