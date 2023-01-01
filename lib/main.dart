@@ -11,6 +11,7 @@ import 'package:rentcarmobile/views/loginRegister/register_driver_skills.dart';
 import 'package:rentcarmobile/views/mainPage/driver_main.dart';
 import 'package:rentcarmobile/views/mainPage/customer_main.dart';
 import 'package:rentcarmobile/views/profile/customer_profile.dart';
+import 'package:rentcarmobile/views/profile/driver_balance.dart';
 import 'package:rentcarmobile/views/profile/driver_profile.dart';
 import 'package:rentcarmobile/views/profile/driver_profile_car.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_customer.dart';
@@ -112,6 +113,7 @@ class RentVanApp extends StatelessWidget {
         '/allChats': (context) => ChatScreen(),
         '/messaging' : (context) => MessageScreen(),
         '/reviewScreen' : (context) => ReviewScreen(),
+        '/balanceDriver' : (context) => BalanceScreen(),
 
       },
     );

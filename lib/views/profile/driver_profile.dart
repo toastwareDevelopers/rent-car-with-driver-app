@@ -36,6 +36,15 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
             appBar: AppBar(
               title: const Text("Driver Profile"),
               centerTitle: true,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/balanceDriver",
+                        arguments: "150");
+                  },
+                  icon: Icon(Icons.account_balance_wallet),
+                )
+              ],
             ),
             floatingActionButton: FloatingActionButton(
               child: RentVanApp.userType == "driver"
