@@ -250,7 +250,12 @@ const userSchema = mongoose.Schema({
         },
     },
 
-    messageHistory: [mongoose.ObjectId]
+    messageHistory: [mongoose.ObjectId],
+
+    balance:{
+        default:0,
+        type : Number
+    }
 
 });
 
