@@ -250,6 +250,8 @@ const userSchema = mongoose.Schema({
         },
     },
 
+    messageHistory: [mongoose.ObjectId]
+
 });
 
 
