@@ -4,8 +4,8 @@ const multiplePhoto = express.Router();
 
 multiplePhoto.get('/api/driver/carPhotos/getPhoto', async function (req, res) {
     try {
-        const id = req.body.id;
-        const index = req.body.index;
+        const id = req.query.id;
+        const index = req.query.index;
         const driver = await Driver.findById(id,
             { carPhotos: 1 })
 
@@ -64,8 +64,8 @@ multiplePhoto.post('/api/driver/carPhotos/delete', async function (req, res) {
 
 multiplePhoto.get('/api/driver/documentPhotos/getPhoto', async function (req, res) {
     try {
-        const id = req.body.id;
-        const index = req.body.index;
+        const id = req.query.id;
+        const index = req.query.index;
         let driver = await Driver.findById(id,
             { legalPhotos: 1 })
 
