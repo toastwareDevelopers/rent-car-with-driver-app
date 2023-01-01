@@ -22,7 +22,7 @@ const adminDriverRequestRouter = require('./routes/adminDriverRequest.js');
 const passwordResetRouter = require("./routes/passwordReset");
 const adminAuthRouter = require('./routes/adminAuth.js');
 const getMessageHistory = require('./routes/getMessageHistory')
-
+const multiplePhoto = require('./routes/multiplePhotoOperations.js')
 /* Creating a server on port 3000. */
 const PORT = 3000;
 
@@ -50,6 +50,7 @@ app.use(adminDriverRequestRouter);
 app.use(passwordResetRouter);
 app.use(adminAuthRouter);
 app.use(getMessageHistory);
+app.use(multiplePhoto);
 
 //connections
 connection()

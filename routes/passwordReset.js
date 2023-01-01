@@ -18,12 +18,15 @@ passwordResetRouter.post('/api/passwordReset/mail', async function (req, res) {
         if (profile == null) {
             profile = await Driver.findOne({ email: mail })
         }
-
         if (profile) {
-            var random = await Math.floor(Math.random() * 1234567890)
-            await profile.updateOne({"mailActivision.activisionKey":random})
-            await profile.updateOne({"mailActivision.activisionStatus":false})
-            await sendMail("toastwaredevelopers@gmail.com", random, "Bilader niye unutuyon passwordu")
+            var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = "";
+            for (var i = 0, n = charset.length; i < 8; ++i) {
+                random += charset.charAt(Math.floor(Math.random() * n));
+            }
+            const hashedPassword = await bcryptjs.hash(random, 8);
+            await profile.updateOne({ password: hashedPassword }, { runValidators: true });
+            await sendMail(email, random, "Bilader niye unutuyon passwordu")
             res.sendStatus(200)
         }
 
@@ -39,43 +42,43 @@ passwordResetRouter.post('/api/passwordReset/mail', async function (req, res) {
 
 });
 
-passwordResetRouter.post('/api/passwordReset/key', async function (req, res) {
+// passwordResetRouter.post('/api/passwordReset/key', async function (req, res) {
 
-    try {
+//     try {
 
-        const validationNumber = req.body.validationNumber;
-        const mail = req.body.email;
-        const password = req.body.password
+//         const validationNumber = req.body.validationNumber;
+//         const mail = req.body.email;
+//         const password = req.body.password
 
-        var profile = await Customer.findOne({ email: mail })
+//         var profile = await Customer.findOne({ email: mail })
 
-        if (profile == null) {
-            profile = await Driver.findOne({ email: mail })
-        }
+//         if (profile == null) {
+//             profile = await Driver.findOne({ email: mail })
+//         }
 
-        if (profile) {
-            if (profile.mailActivision.activisionKey == validationNumber) {
-                await profile.updateOne({ $unset: { mailActivision: 1 } })
+//         if (profile) {
+//             if (profile.mailActivision.activisionKey == validationNumber) {
+//                 await profile.updateOne({ $unset: { mailActivision: 1 } })
 
-                const hashedPassword = await bcryptjs.hash(password, 8);
-                await profile.updateOne({ password: hashedPassword }, { runValidators: true });
-                res.sendStatus(200)
-            }
+//                 const hashedPassword = await bcryptjs.hash(password, 8);
+//                 await profile.updateOne({ password: hashedPassword }, { runValidators: true });
+//                 res.sendStatus(200)
+//             }
 
-            else
-                return res.status(404).json({ msg: "Invalid key" });
+//             else
+//                 return res.status(404).json({ msg: "Invalid key" });
 
-        }
-        else {
+//         }
+//         else {
 
-            return res.status(404).json({ msg: "Mail not found" });
-        }
+//             return res.status(404).json({ msg: "Mail not found" });
+//         }
 
-    } catch (error) {
+//     } catch (error) {
 
-        res.status(500).json({ error: error.message });
-    }
+//         res.status(500).json({ error: error.message });
+//     }
 
-});
+// });
 
 module.exports = passwordResetRouter; 

@@ -5,7 +5,7 @@ const express = require('express');
 /* This is importing the driver, customer, and trip models. */
 const Driver = require("../models/driver");
 const Customer = require('../models/customer');
-const Trip = require('../models/review');
+const Trip = require('../models/trip');
 const Review = require('../models/review');
 
 /* This is creating a new router object. */
