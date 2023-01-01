@@ -13,7 +13,7 @@ multiplePhoto.get('/api/driver/carPhotos/getPhoto', async function (req, res) {
             res.send(driver.carPhotos[index])
         }
         else{
-            res.sendStatus(400)
+            res.json( "" )
         }
 
     } catch (error) {
@@ -73,7 +73,7 @@ multiplePhoto.get('/api/driver/documentPhotos/getPhoto', async function (req, re
                 res.send(driver.legalPhotos[index])
             }
             else{
-                res.sendStatus(400)
+                res.json( "" )
             }
 
     } catch (error) {
