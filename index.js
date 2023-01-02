@@ -20,7 +20,7 @@ const getReviewsRouter = require("./routes/getReviews");
 const reviewCreateRouter = require("./routes/createReview");
 const adminDriverRequestRouter = require('./routes/adminDriverRequest.js');
 const passwordResetRouter = require("./routes/passwordReset");
-const adminAuthRouter = require('./routes/adminAuth.js');
+const adminAuthloginRouter = require('./routes/adminAuth&login.js');
 const getMessageHistory = require('./routes/getMessageHistory')
 const multiplePhoto = require('./routes/multiplePhotoOperations.js')
 /* Creating a server on port 3000. */
@@ -48,7 +48,7 @@ app.use(reviewCreateRouter);
 app.use(getReviewsRouter);
 app.use(adminDriverRequestRouter);
 app.use(passwordResetRouter);
-app.use(adminAuthRouter);
+app.use(adminAuthloginRouter);
 app.use(getMessageHistory);
 app.use(multiplePhoto);
 
