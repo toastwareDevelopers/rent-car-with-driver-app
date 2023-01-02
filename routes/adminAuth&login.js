@@ -3,7 +3,7 @@ const Admin = require("../models/admin");
 
 const adminAuth_router = express.Router();
 
-adminAuth_router.post('/api/admin//signup', async function (req, res) {
+adminAuth_router.post('/api/admin/signup', async function (req, res) {
     try {
         const {name,password} = req.body;
         
@@ -21,7 +21,7 @@ adminAuth_router.post('/api/admin//signup', async function (req, res) {
     }
 });
 
-adminAuth_router.post('/api/admin//signin', async function (req, res) {
+adminAuth_router.post('/api/admin/signin', async function (req, res) {
     try {
         const {name,password} = req.body;
         
