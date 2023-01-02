@@ -76,14 +76,14 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
             }
 
-            if (!flag) {
+//             if (!flag) {
 
-                if (!((drivers[step].isActive) == true)) {
+//                 if (!((drivers[step].isActive) == true)) {
 
-                    drivers.splice(step, 1)
-                    flag = 1;
-                }
-            }
+//                     drivers.splice(step, 1)
+//                     flag = 1;
+//                 }
+//             }
 
             if (flag) {
                 step = step - 1
