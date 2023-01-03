@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rentcarmobile/constants/assets_path.dart';
-import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/base64_converter.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
@@ -33,8 +29,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
   List<String> carPhotos = <String>["null"];
   @override
   Widget build(BuildContext context) {
-    //Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
-    Driver driver = Driver();
+    Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
 
@@ -274,20 +269,26 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                             context, "You must fill all inputs", () {
                           Navigator.pop(context);
                         });
+                      } else if(carPhotos.length - 1 < 3) {
+                        WarningAlert.showWarningDialog(
+                            context, "You must upload atleast 3 Car Photos!", () {
+                          Navigator.pop(context);
+                        });
                       } else {
-                        Response res = (await AuthService.registerDriver(
-                          Driver(
+                        Navigator.of(context).pushNamed(
+                          "/registerDriverDocs",
+                          arguments: Driver(
                             bio: driver.bio,
                             birthDate: driver.birthDate,
                             email: driver.email,
                             gender: driver.gender,
                             hourlyPrice:
-                                int.parse(widget.hourlyPriceController.text),
+                            int.parse(widget.hourlyPriceController.text),
                             languages: driver.languages,
                             licenseNumber:
-                                widget.driverLicenseNumberController.text,
+                            widget.driverLicenseNumberController.text,
                             licenseYear:
-                                widget.driverLicenseYearController.text,
+                            widget.driverLicenseYearController.text,
                             location: driver.location,
                             name: driver.name,
                             nationalId: driver.nationalId,
@@ -300,9 +301,9 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                             taxNumber: widget.taxNumberController.text,
                             carInfo: {
                               "licenseNumber":
-                                  widget.carLicenseNumberController.text,
+                              widget.carLicenseNumberController.text,
                               "plateNumber":
-                                  widget.carRegistrationPlateController.text,
+                              widget.carRegistrationPlateController.text,
                               "brand": widget.carBrandController.text,
                               "model": widget.carModelController.text,
                               "year": widget.modelYearController.text,
@@ -311,37 +312,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                             profileImage: driver.profileImage,
                             carPhotos: carPhotos,
                           ),
-                        ));
-                        if (res.statusCode != 200) {
-                          List<String> errors = jsonDecode(res.body)["error"]
-                              .toString()
-                              .split(",");
-                          List<String> errorMessages = [];
-
-                          errors.forEach(
-                            (element) {
-                              errorMessages.add(element.split(":").last.trim());
-                            },
-                          );
-                          WarningAlert.showWarningDialog(
-                              context,
-                              errorMessages[0] == "null"
-                                  ? jsonDecode(res.body)["msg"]
-                                  : errorMessages
-                                      .toString()
-                                      .replaceAll("[", "")
-                                      .replaceAll("]", "")
-                                      .replaceAll(",", "\n")
-                                      .replaceAll("\n ", "\n"), () {
-                            Navigator.pop(context);
-                          });
-                        } else {
-                          WarningAlert.showWarningDialog(context,
-                              "Congrulations! You have registered succesfully!",
-                              () {
-                            Navigator.pushNamed(context, "/");
-                          });
-                        }
+                        );
                       }
                     },
                   ),
@@ -557,7 +528,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
   // Select image from phone gallery
   selectImageFromGallery(int index) async {
     XFile? file = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 90, maxHeight: 100, maxWidth: 100);
+        .pickImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 300, maxWidth: 300);
     if (file != null) {
       return Base64Converter.encodeImage64(file.path);
     } else {
@@ -573,7 +544,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
   // Select image from phone camera
   selectImageFromCamera(int index) async {
     XFile? file = await ImagePicker()
-        .pickImage(source: ImageSource.camera, imageQuality: 90, maxHeight: 100, maxWidth: 100);
+        .pickImage(source: ImageSource.camera, imageQuality: 100, maxHeight: 300, maxWidth: 300);
     if (file != null) {
       return Base64Converter.encodeImage64(file.path);
     } else {
