@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/utils/base64_converter.dart';
-import 'package:rentcarmobile/utils/warning_alert.dart';
 
 import '../../../constants/assets_path.dart';
-import '../../../services/profile.dart';
+import '../../../utils/warning_alert.dart';
 import 'edit_driver_auth.dart';
 
 class EditDriverCarScreen extends StatefulWidget {
@@ -304,30 +302,26 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                   alignment: Alignment.topRight,
                   padding: const EdgeInsets.only(right: 20),
                   child: ElevatedButton(
-                      child: const Text("Save"),
-                      onPressed: () async {
-                        EditDriverAuthScreen.editDriver.hourlyPrice = int.parse(hourlyPriceController.text);
-                        EditDriverAuthScreen.editDriver.licenseNumber = driverLicenseNumberController.text;
-                        EditDriverAuthScreen.editDriver.licenseYear = driverLicenseYearController.text;
-                        EditDriverAuthScreen.editDriver.taxNumber = taxNumberController.text;
-                        EditDriverAuthScreen.editDriver.carInfo["licenseNumber"] = carLicenseNumberController.text;
-                        EditDriverAuthScreen.editDriver.carInfo["plateNumber"] = carRegistrationPlateController.text;
-                        EditDriverAuthScreen.editDriver.carInfo["brand"] = carBrandController.text;
-                        EditDriverAuthScreen.editDriver.carInfo["model"] = carModelController.text;
-                        EditDriverAuthScreen.editDriver.carInfo["year"] = modelYearController.text;
-                        EditDriverAuthScreen.editDriver.carInfo["color"] = carColorController.text;
-                        EditDriverAuthScreen.editDriver.carPhotos = carPhotos;
-
-                        if ((await ProfileService.editDriver(EditDriverAuthScreen.editDriver, RentVanApp.userId)) !=
-                            200) {
+                      child: const Text("Continue"),
+                      onPressed: () {
+                        if(carPhotos.length - 1 < 3) {
                           WarningAlert.showWarningDialog(
-                              context, "An Error occurred, We can not change your data!.", () {
+                              context, "You must upload atleast 3 car photos!", () {
                             Navigator.pop(context);
                           });
                         } else {
-                            SnackBar snackbar = const SnackBar(content: Text("Profile updated!"), duration: Duration(seconds: 2),);
-                            ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                            Navigator.pushReplacementNamed(context, "/profileDriverPersonal", arguments: RentVanApp.userId);
+                          EditDriverAuthScreen.editDriver.hourlyPrice = int.parse(hourlyPriceController.text);
+                          EditDriverAuthScreen.editDriver.licenseNumber = driverLicenseNumberController.text;
+                          EditDriverAuthScreen.editDriver.licenseYear = driverLicenseYearController.text;
+                          EditDriverAuthScreen.editDriver.taxNumber = taxNumberController.text;
+                          EditDriverAuthScreen.editDriver.carInfo["licenseNumber"] = carLicenseNumberController.text;
+                          EditDriverAuthScreen.editDriver.carInfo["plateNumber"] = carRegistrationPlateController.text;
+                          EditDriverAuthScreen.editDriver.carInfo["brand"] = carBrandController.text;
+                          EditDriverAuthScreen.editDriver.carInfo["model"] = carModelController.text;
+                          EditDriverAuthScreen.editDriver.carInfo["year"] = modelYearController.text;
+                          EditDriverAuthScreen.editDriver.carInfo["color"] = carColorController.text;
+                          EditDriverAuthScreen.editDriver.carPhotos = carPhotos;
+                          Navigator.of(context).pushNamed('/editDriverDocs');
                         }
                       }),
                 ),
@@ -542,7 +536,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
   // Select image from phone gallery
   selectImageFromGallery(int index) async {
     XFile? file = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 90, maxHeight: 100, maxWidth: 100);
+        .pickImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 300, maxWidth: 300);
     if (file != null) {
       return Base64Converter.encodeImage64(file.path);
     } else {
@@ -558,7 +552,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
   // Select image from phone camera
   selectImageFromCamera(int index) async {
     XFile? file = await ImagePicker()
-        .pickImage(source: ImageSource.camera, imageQuality: 90, maxHeight: 100, maxWidth: 100);
+        .pickImage(source: ImageSource.camera, imageQuality: 100, maxHeight: 300, maxWidth: 300);
     if (file != null) {
       return Base64Converter.encodeImage64(file.path);
     } else {
