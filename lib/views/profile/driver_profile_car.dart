@@ -3,6 +3,7 @@ import 'package:rentcarmobile/utils/base64_converter.dart';
 import '../../constants/assets_path.dart';
 import '../../main.dart';
 import '../../models/driver.dart';
+import '../../services/profile.dart';
 
 class DriverProfileCarScreen extends StatefulWidget {
   DriverProfileCarScreen({super.key});
@@ -12,6 +13,15 @@ class DriverProfileCarScreen extends StatefulWidget {
 }
 
 class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
+  bool isLoading = false;
+  List<String>carPhotos = <String>["null"];
+
+  @override
+  void initState() {
+    super.initState();
+    getCarPhotos();
+  }
+
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
@@ -180,18 +190,20 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                             ),
                           ),
                         ),
-                        // HERE IT IS SIR!!!! *****************************
+                        // Car Photos
                         Expanded(
                           flex: 4,
                           child: Container(
                             //height: 150,
                             //width: 200,
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(width: 10, color: Colors.white),
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              color: const Color.fromARGB(255, 218, 218, 218),
+                              border: Border.all(width: 10, color: const Color.fromARGB(255, 218, 218, 218)),
+                              borderRadius: const BorderRadius.all(Radius.circular(5)),
                             ),
-                            child: GridView.builder(
+                            child: isLoading ?
+                            const Center(child: CircularProgressIndicator()) :
+                            GridView.builder(
                               scrollDirection: Axis.vertical,
                                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                   mainAxisSpacing: 20,
@@ -200,9 +212,9 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                   //mainAxisExtent: 3,
                                   //childAspectRatio: 1,
                                 ),
-                                itemCount: driver.carPhotos.length - 1,
+                                itemCount: carPhotos.length - 1,
                                 itemBuilder: (BuildContext ctx, index) {
-                                  return carPhotoWidget(driver.carPhotos[index]);
+                                  return carPhotoWidget(carPhotos[index]);
                                 }),
                           ),
                         ),
@@ -211,7 +223,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                   ),
                 ),
                 const SizedBox(height: 20,),
-                //Other Informations
+                //Other Information
                 Expanded(
                   flex: 1,
                   child: Container(
@@ -324,7 +336,6 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
     );
   }
 
-
   GestureDetector carPhotoWidget(String carPhoto) {
     return GestureDetector(
       child: Container(
@@ -332,8 +343,8 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
         height: 100,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border : Border.all(width: 4, color: Colors.orange),
-          color: Colors.amber,
+          border : Border.all(width: 4, color: const Color.fromARGB(255, 167, 117, 77)),
+          color: const Color.fromARGB(255, 167, 117, 77),
           borderRadius: BorderRadius.circular(5),
           image: DecorationImage(
             fit: BoxFit.fill,
@@ -360,16 +371,16 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
+                  color: const Color.fromARGB(255, 218, 218, 218),
                 ),
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 width: MediaQuery.of(context).size.width * 0.7,
                 height: 320,
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    border : Border.all(width: 4, color: Colors.orange),
-                    color: Colors.amber,
+                    border : Border.all(width: 4, color: const Color.fromARGB(255, 167, 117, 77)),
+                    color: const Color.fromARGB(255, 167, 117, 77),
                     borderRadius: BorderRadius.circular(5),
                     image: DecorationImage(
                       fit: BoxFit.fill,
@@ -382,9 +393,27 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
             ),
           );
         }
-
-
     );
+  }
+
+  getCarPhotos() async {
+    setState(() {
+      isLoading = true;
+    });
+    carPhotos.removeAt(0);
+
+    for(int i = 0; ; ++i) {
+      final response = await ProfileService.getDriverCarPhoto(i, RentVanApp.userId);
+      if(response.toString() == "") {
+        break;
+      } else {
+        carPhotos.add(response.toString());
+      }
+    }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
 }
