@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/constants/assets_path.dart';
+import 'package:rentcarmobile/services/auth.dart';
 
 import '../../utils/input_validator.dart';
 import '../../utils/warning_alert.dart';
@@ -26,8 +27,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       body: SingleChildScrollView(
         child: Container(
           width: phoneWidth,
-          height: phoneHeight*0.85,
-          padding: EdgeInsets.symmetric(horizontal:phoneWidth*0.1 ),
+          height: phoneHeight * 0.85,
+          padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.1),
           child: Column(
             children: <Widget>[
               Expanded(flex: 4, child: Container()),
@@ -85,11 +86,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: phoneHeight*0.01),
+                          padding: EdgeInsets.symmetric(
+                              vertical: phoneHeight * 0.01),
                           alignment: Alignment.center,
                           child: ElevatedButton(
-                            style: ButtonStyle(maximumSize: MaterialStatePropertyAll(Size.fromWidth(phoneWidth*0.25))),
-                            onPressed: () {
+                            style: ButtonStyle(
+                                maximumSize: MaterialStatePropertyAll(
+                                    Size.fromWidth(phoneWidth * 0.25))),
+                            onPressed: () async {
                               if (widget.emailController.text.isEmpty == true) {
                                 WarningAlert.showWarningDialog(
                                     context, "Please enter your email!", () {
@@ -106,7 +110,25 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   },
                                 );
                               } else {
-                                // backend related
+                                int status = await AuthService.resetPassword(
+                                    widget.emailController.text);
+                                if (status == 200) {
+                                  WarningAlert.showWarningDialog(
+                                    context,
+                                    "Your new password is sent to your email.",
+                                    () {
+                                      Navigator.pop(context);
+                                    },
+                                  );
+                                } else {
+                                  WarningAlert.showWarningDialog(
+                                    context,
+                                    "We can not reset your password now. Please try again later!",
+                                    () {
+                                      Navigator.pop(context);
+                                    },
+                                  );
+                                }
                               }
                             },
                             child: Center(

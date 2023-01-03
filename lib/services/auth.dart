@@ -73,4 +73,23 @@ class AuthService {
       return Response("null", 400);
     }
   }
+
+  static Future<int> resetPassword(String email) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    final resetPasswordBody = {
+      "email": email,
+    };
+
+    try{
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/passwordReset/mail");
+      var response = await http.post(url,body: json.encode(resetPasswordBody), headers: headers);
+      return response.statusCode;
+    }catch(e){
+      print(e.toString());
+      return 500;
+    }
+  }
 }
