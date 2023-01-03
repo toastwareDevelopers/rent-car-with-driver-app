@@ -19,7 +19,7 @@ async function sendMail(tomail, random, text) {
         mailOptions = {
             from: 'toastwaredevelopers.7@gmail.com', // sender address
             to: tomail, // list of receivers
-            subject: "WELCOME BABY✔", // Subject line
+            subject: "Welcome to RentaGO", // Subject line
             // This would be the text of email body
             text: text
         };
@@ -29,9 +29,9 @@ async function sendMail(tomail, random, text) {
         mailOptions = {
             from: 'toastwaredevelopers.7@gmail.com', // sender address
             to: tomail, // list of receivers
-            subject: "WELCOME BABY✔", // Subject line
+            subject: "Your password has been reset. | RentaGO", // Subject line
             // This would be the text of email body
-            text: text + "\n\n NEW PASSWORD:  " + random
+            text: text + "\n\nNew password:  " + random
         };
     }
 

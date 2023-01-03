@@ -26,7 +26,7 @@ passwordResetRouter.post('/api/passwordReset/mail', async function (req, res) {
             }
             const hashedPassword = await bcryptjs.hash(random, 8);
             await profile.updateOne({ password: hashedPassword }, { runValidators: true });
-            await sendMail(mail, random, "Bilader niye unutuyon passwordu")
+            await sendMail(mail, random, "Your password has been reset.")
             res.sendStatus(200)
         }
 
