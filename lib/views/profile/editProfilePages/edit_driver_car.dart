@@ -484,7 +484,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                                   children: [
                                     Image.asset(
                                       // edit this part
-                                      AssetPaths.uploadPhotoIconPath,
+                                      AssetPaths.galleryImageIconPath,
                                       height: 60,
                                       width: 60,
                                     ),
@@ -514,7 +514,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                                   children: [
                                     Image.asset(
                                       // edit this part (proper icon)
-                                      AssetPaths.uploadPhotoIconPath,
+                                      AssetPaths.cameraImagePath,
                                       height: 60,
                                       width: 60,
                                     ),

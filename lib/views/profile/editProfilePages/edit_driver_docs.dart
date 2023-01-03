@@ -289,7 +289,7 @@ class _EditDriverDocsScreenState extends State<EditDriverDocsScreen> {
                                   children: [
                                     Image.asset(
                                       // edit this part
-                                      AssetPaths.uploadPhotoIconPath,
+                                      AssetPaths.galleryImageIconPath,
                                       height: 60,
                                       width: 60,
                                     ),
@@ -319,7 +319,7 @@ class _EditDriverDocsScreenState extends State<EditDriverDocsScreen> {
                                   children: [
                                     Image.asset(
                                       // edit this part (proper icon)
-                                      AssetPaths.uploadPhotoIconPath,
+                                      AssetPaths.cameraImagePath,
                                       height: 60,
                                       width: 60,
                                     ),
@@ -353,7 +353,7 @@ class _EditDriverDocsScreenState extends State<EditDriverDocsScreen> {
       }
     }
   }
-
+1
   // Select image from phone camera
   selectImageFromCamera(int index) async {
     XFile? file = await ImagePicker()
