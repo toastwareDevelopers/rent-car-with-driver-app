@@ -37,12 +37,15 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
               title: const Text("Driver Profile"),
               centerTitle: true,
               actions: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/balanceDriver",
-                        arguments: "150");
-                  },
-                  icon: Icon(Icons.account_balance_wallet),
+                Visibility(
+                  visible: RentVanApp.userType == "driver",
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/balanceDriver",
+                          arguments: "150");
+                    },
+                    icon: Icon(Icons.account_balance_wallet),
+                  ),
                 )
               ],
             ),
