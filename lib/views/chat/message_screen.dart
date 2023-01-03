@@ -378,6 +378,8 @@ class _MessageScreenState extends State<MessageScreen> {
       widget.receiverSurname = customer.surname;
       widget.receiverPhoto = customer.profileImage;
     }
+    // sometimes receiver info cannot be updated, refreshing solves the problem
+    setState(() {});
   }
 
   // connect to socket
@@ -505,7 +507,7 @@ class _MessageScreenState extends State<MessageScreen> {
     });
   }
 
-  // save the offer and send to backed
+  // save the offer and send to backend
   void sendOffer(String startDate, String endDate, int price, String location,
       String offerDescription, String status) {
     setState(() {
