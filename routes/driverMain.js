@@ -42,8 +42,8 @@ driverMainRouter.get('/api/driver/activeTrip' ,async function (req, res) {
             
             const activeCustomer = await Customer.findById(activeTrip.customerId);
             respond = activeTrip.toObject();
-            respond.driverName = activeCustomer.name;
-            respond.driverSurname = activeCustomer.surname;
+            respond.customerName = activeCustomer.name;
+            respond.customerSurname = activeCustomer.surname;
             respond.profile_image64 = activeCustomer.profile_image64;
             respond.birthDate = activeCustomer.birthDate;
 
