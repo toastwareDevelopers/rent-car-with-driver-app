@@ -6,6 +6,7 @@ import 'package:rentcarmobile/views/loginRegister/login_screen.dart';
 import 'package:rentcarmobile/views/loginRegister/register_customer.dart';
 import 'package:rentcarmobile/views/loginRegister/register_driver_auth.dart';
 import 'package:rentcarmobile/views/loginRegister/register_driver_car.dart';
+import 'package:rentcarmobile/views/loginRegister/register_driver_docs.dart';
 import 'package:rentcarmobile/views/loginRegister/register_driver_personal.dart';
 import 'package:rentcarmobile/views/loginRegister/register_driver_skills.dart';
 import 'package:rentcarmobile/views/mainPage/driver_main.dart';
@@ -16,6 +17,7 @@ import 'package:rentcarmobile/views/profile/driver_profile_car.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_customer.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_auth.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_car.dart';
+import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_docs.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_personal.dart';
 import 'package:rentcarmobile/views/profile/editProfilePages/edit_driver_skills.dart';
 import 'package:rentcarmobile/views/profile/review_screen.dart';
@@ -90,7 +92,7 @@ class RentVanApp extends StatelessWidget {
           cursorColor: Color.fromARGB(255, 167, 117, 77),
         ),
       ),
-      initialRoute: "/",
+      initialRoute: '/',
       routes: {
         '/': (context) => LoginScreen(),
         '/forgotPassword': (context) => ForgotPasswordScreen(),
@@ -99,6 +101,7 @@ class RentVanApp extends StatelessWidget {
         '/registerDriverPersonal': (context) => RegisterDriverPersonalScreen(),
         '/registerDriverSkills': (context) => RegisterDriverSkillsScreen(),
         '/registerDriverCar': (context) => RegisterDriverCarScreen(),
+        '/registerDriverDocs': (context) => RegisterDriverDocsScreen(),
         '/driverMain': (context) => DriverMainScreen(),
         '/customerMain': (context) => CustomerMainScreen(),
         '/profileDriverPersonal' : (context) =>  DriverProfileScreen(),
@@ -109,10 +112,10 @@ class RentVanApp extends StatelessWidget {
         '/editDriverPersonal': (context) =>  EditDriverPersonalScreen(),
         '/editDriverSkills': (context) => EditDriverSkillsScreen(),
         '/editDriverCar': (context) => EditDriverCarScreen(),
+        '/editDriverDocs': (context) => EditDriverDocsScreen(),
         '/allChats': (context) => ChatScreen(),
         '/messaging' : (context) => MessageScreen(),
         '/reviewScreen' : (context) => ReviewScreen(),
-
       },
     );
   }
