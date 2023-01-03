@@ -85,6 +85,28 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [
+                  driver.isActive == false
+                      ? Positioned(
+                          left: phoneWidth*0.009,
+                          child: Container(
+                            height: phoneHeight * 0.05,
+                            width: phoneWidth * 0.98,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 160, 57, 57),
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            child: Center(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 3),
+                                child: Text(
+                                  "Your registration application is beign considered now and your account is inactive. Customers can not find you until beign accepted.",
+                                  style: TextStyle(color: Colors.white,fontSize: 13),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
                   Positioned(
                     top: phoneHeight * 0.2,
                     child: InkWell(

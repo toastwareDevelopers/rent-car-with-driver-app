@@ -43,6 +43,7 @@ Driver _$DriverFromJson(Map<String, dynamic> json) => Driver(
               .toList() ??
           const [],
       balance: json['balance'] as int? ?? 0,
+      isActive: json['isActive'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
@@ -68,5 +69,6 @@ Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
       'carInfo': instance.carInfo,
       'profile_image64': instance.profileImage,
       'trips': instance.trips,
-      'balance':instance.balance
+      'balance':instance.balance,
+      'isActive':instance.isActive
     };

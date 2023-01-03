@@ -27,6 +27,7 @@ class Driver {
   String profileImage;
   List<String> reviews;
   int balance;
+  bool isActive;
 
   Driver({
     this.id = "null",
@@ -52,7 +53,8 @@ class Driver {
     this.trips = const [],
     this.profileImage = "null",
     this.reviews = const[],
-    this.balance = 0
+    this.balance = 0,
+    this.isActive = false,
   });
 
   factory Driver.fromJson(Map<String, dynamic> json) => _$DriverFromJson(json);
