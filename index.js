@@ -242,6 +242,7 @@ io.on("connection", (socket) => {
 				
 				Driver.findById(tempOffer.driverId).then((existDriver) =>{
 					existDriver.updateOne({ $push: { trips: [newTrip.id] }}).then();
+					existDriver.updateOne({balance:existDriver.balance + tempOffer.price}).then();
 				});
 
 				Customer.findById(tempOffer.customerId).then((existCustomer) =>{

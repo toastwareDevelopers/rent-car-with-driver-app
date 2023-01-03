@@ -51,6 +51,7 @@ tripCreateRouter.post('/api/createTrip',async function(req,res){
         /* This is saving the trip object to the database. */
         trip = await trip.save();
 
+        existDriver.updateOne({balance:existDriver.balance + trip.price}).then();
        
         
         /* This is updating the driver and customer objects with the trip id. */
