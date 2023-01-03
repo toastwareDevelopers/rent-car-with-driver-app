@@ -15,7 +15,6 @@ class ProfileService {
     try {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info?ID=$id");
       var response = await http.get(url, headers: headers);
-
       Driver driver = Driver.fromJson(jsonDecode(response.body));
       return driver;
     } catch (e) {
@@ -238,6 +237,22 @@ class ProfileService {
             },
           ),
           headers: headers);
+      return response.statusCode;
+    } catch (e) {
+      return 400;
+    }
+  }
+
+  static Future<int> withdrawDriver(String driverId) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/driver/withdraw").replace(queryParameters: {
+        'ID': driverId,
+      });
+      var response = await http.get(url,headers: headers);
       return response.statusCode;
     } catch (e) {
       return 400;

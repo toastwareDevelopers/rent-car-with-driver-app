@@ -42,7 +42,7 @@ class _DriverProfileScreenState extends State<DriverProfileScreen> {
                   child: IconButton(
                     onPressed: () {
                       Navigator.pushNamed(context, "/balanceDriver",
-                          arguments: "150");
+                          arguments: driver);
                     },
                     icon: Icon(Icons.account_balance_wallet),
                   ),
