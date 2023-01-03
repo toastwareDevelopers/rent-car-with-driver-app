@@ -286,15 +286,13 @@ class OfferBox extends StatelessWidget {
                               ),
                               child: const Text("Accept"),
                               onPressed: () {
-                                socket!.emit(
-                                  "respondOffer",
-                                  {
-                                    "roomID": driverId + customerId,
-                                    "status": "Accepted",
-                                    "offerId": id,
+                                Navigator.pushNamed(
+                                  context,
+                                  '/payment',
+                                  arguments: {
+                                    'offer': this,
                                   },
                                 );
-                                Navigator.pushNamed(context, "/payment");
                               },
                             ),
                           ],

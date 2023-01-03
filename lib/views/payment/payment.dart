@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/main.dart';
+import 'package:rentcarmobile/services/mains.dart';
+import 'package:rentcarmobile/services/profile.dart';
+import 'package:rentcarmobile/views/chat/message_screen.dart';
+import 'package:rentcarmobile/widgets/offer_box_widget.dart';
+import 'package:socket_io_client/socket_io_client.dart';
+
+import '../../models/customer.dart';
+import '../../utils/warning_alert.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
-
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
 }
@@ -10,6 +18,10 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    OfferBox offer = arguments['offer'];
+
     double phoneWidth = MediaQuery.of(context).size.width;
     double phoneHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -78,8 +90,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
             padding: EdgeInsets.only(
                 left: phoneWidth * 0.08, bottom: phoneHeight * 0.025),
             child: Text(
-              "Total : 300 TL",
-              style: TextStyle(
+              "Total : ${offer.price} TL",
+              style: const TextStyle(
                 fontFamily: "Arapey",
                 fontSize: 30,
                 color: Colors.white,
@@ -88,7 +100,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
           Center(
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                // ignore: use_build_context_synchronously
+                showSuccessDialog(context);
+                offer.socket!.emit(
+                  "respondOffer",
+                  {
+                    "roomID": offer.driverId + RentVanApp.userId,
+                    "status": "Accepted",
+                    "offerId": offer.id,
+                  },
+                );
+              },
               child: const Text("      Pay       "),
             ),
           ),
@@ -99,4 +122,34 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
     );
   }
+}
+
+showSuccessDialog(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text(
+          'Payment Successful',
+          style: TextStyle(fontFamily: "Arapey"),
+        ),
+        content: const SingleChildScrollView(
+          child: Text(
+            "Have a good journey!",
+            style: TextStyle(fontFamily: "Arapey"),
+          ),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            child: const Text('Close'),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
