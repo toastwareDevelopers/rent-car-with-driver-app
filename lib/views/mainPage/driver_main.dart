@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rentcarmobile/main.dart';
+import 'package:rentcarmobile/models/activeRentingCustomer.dart';
 import 'package:rentcarmobile/models/trip.dart';
 import 'package:rentcarmobile/services/mains.dart';
 import 'dart:math' as math;
@@ -8,6 +9,7 @@ import 'package:rentcarmobile/services/profile.dart';
 import 'package:rentcarmobile/utils/base64_converter.dart';
 
 import '../../constants/assets_path.dart';
+import '../../models/activeRentingDriver.dart';
 import '../../models/driver.dart';
 
 class DriverMainScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class DriverMainScreen extends StatefulWidget {
   List<Trip> trips = [];
   List<String> tripListString = [];
   bool tripsLoaded = false;
+  ActiveRentingDriver activeRenting = ActiveRentingDriver();
 
   @override
   State<DriverMainScreen> createState() => _DriverMainScreenState();
@@ -194,8 +197,10 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                 ),
                 itemCount: snapshot.data!.length,
                 itemBuilder: (contextv2, index) => snapshot
-                            .data?[index].customerId !=
-                        "null"
+                                .data?[index].customerId !=
+                            "null" &&
+                        snapshot.data?[index].customerId !=
+                            widget.activeRenting.customerId
                     ? Container(
                         decoration: BoxDecoration(
                           color: Theme.of(context).highlightColor,
@@ -335,11 +340,12 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
           color: Theme.of(context).highlightColor,
           borderRadius: BorderRadius.all(Radius.circular(5))),
       child: FutureBuilder(
-        future: MainService.getDriverActiveTrip(
-            widget.tripListString, RentVanApp.userId),
+        future: MainService.getDriverActiveTrip(RentVanApp.userId),
         builder: (contextv2, snapshot) {
           if (snapshot.data != null && snapshot.data?.customerId != "null") {
-            if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              widget.activeRenting = snapshot.data as ActiveRentingDriver;
               return Stack(alignment: Alignment.topRight, children: [
                 Container(
                   child: InkWell(
@@ -347,7 +353,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                       Navigator.pushNamed(
                         context,
                         "/profileCustomer",
-                        arguments: snapshot.data?.customerId,
+                        arguments: widget.activeRenting.customerId,
                       );
                     },
                     child: Padding(
@@ -363,14 +369,14 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                                 backgroundColor: Colors.white,
                                 radius: 30,
                                 child: CircleAvatar(
-                                  backgroundImage: snapshot
-                                              .data?.customerProfileImage ==
+                                  backgroundImage: widget.activeRenting
+                                              .customerProfileImage ==
                                           "null"
                                       ? AssetImage(
                                           AssetPaths.blankProfilePhotoPath)
-                                      : Image.memory(base64Decode(snapshot
-                                                  .data?.customerProfileImage
-                                              as String))
+                                      : Image.memory(base64Decode(widget
+                                              .activeRenting
+                                              .customerProfileImage as String))
                                           .image,
                                   radius: 27.0,
                                 ),
@@ -385,14 +391,14 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${snapshot.data?.customerName} ${snapshot.data?.customerSurname} (${snapshot.data?.customerAge})",
+                                  "${widget.activeRenting.customerName} ${widget.activeRenting.customerSurname} (${widget.activeRenting.customerAge})",
                                   style: const TextStyle(
                                       fontFamily: "Arapey",
                                       color: Colors.white,
                                       fontSize: 17),
                                 ),
                                 Text(
-                                  "${snapshot.data?.location}",
+                                  "${widget.activeRenting.location}",
                                   style: const TextStyle(
                                       fontFamily: "Arapey",
                                       color: Colors.white,
@@ -401,17 +407,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      "Start: ${snapshot.data?.startDate?.substring(0, 10)}",
-                                      style: const TextStyle(
-                                          fontFamily: "Arapey",
-                                          color: Colors.white,
-                                          fontSize: 14),
-                                    ),
-                                    SizedBox(
-                                      width: phoneWidth * 0.02,
-                                    ),
-                                    Text(
-                                      "Finish: ${snapshot.data?.endDate?.substring(0, 10)}",
+                                      "Start : ${widget.activeRenting.startDate?.substring(0, 10).replaceAll("-", "/")} - Finish : ${widget.activeRenting.endDate?.substring(0, 10).replaceAll("-", "/")}",
                                       style: const TextStyle(
                                           fontFamily: "Arapey",
                                           color: Colors.white,
@@ -437,7 +433,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      "${snapshot.data?.price} TL",
+                      "${widget.activeRenting.price} TL",
                       style: const TextStyle(fontFamily: "Arapey"),
                     ),
                   ),

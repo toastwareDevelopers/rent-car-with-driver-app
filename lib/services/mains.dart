@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/activeRentingCustomer.dart';
+import 'package:rentcarmobile/models/activeRentingDriver.dart';
 import 'package:rentcarmobile/models/driverFilter.dart';
 import 'package:rentcarmobile/models/trip.dart';
 import 'package:rentcarmobile/models/customer.dart';
@@ -31,21 +32,21 @@ class MainService {
     }
   }
 
-  static Future<Trip?> getDriverActiveTrip(
-      List<String> tripListString, String driverID) async {
-    tripListString = (await MainService.getTripsByDriverId(driverID))!;
+  // static Future<Trip?> getDriverActiveTrip(
+  //     List<String> tripListString, String driverID) async {
+  //   tripListString = (await MainService.getTripsByDriverId(driverID))!;
 
-    if (tripListString.isNotEmpty) {
-      return (await MainService.getTripById(tripListString[0]));
-    }
-    return null;
-  }
+  //   if (tripListString.isNotEmpty) {
+  //     return (await MainService.getTripById(tripListString[0]));
+  //   }
+  //   return null;
+  // }
 
   static Future<List<Trip>> getFutureTrips(
       List<String> tripListString, String driverID) async {
     List<Trip> trips = [];
     tripListString = (await MainService.getTripsByDriverId(driverID))!;
-    for (int i = 1; i < tripListString.length; i++) {
+    for (int i = 0; i < tripListString.length; i++) {
       trips.add((await MainService.getTripById(tripListString[i])));
     }
     return trips;
@@ -141,6 +142,33 @@ class MainService {
     } catch (e) {
       print("Error$e");
       return Trip();
+    }
+  }
+
+  static Future<ActiveRentingDriver> getDriverActiveTrip(String id) async {
+    final headers = {
+      'Content-type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8',
+      'Accept': 'application/json',
+    };
+
+    try {
+      var url =
+          Uri.parse("http://" + ApiPaths.serverIP + "/api/driver/activeTrip")
+              .replace(queryParameters: {
+        'ID': id,
+      });
+
+      var response = await http.get(url, headers: headers);
+      ActiveRentingDriver renting =
+          ActiveRentingDriver.fromJson(jsonDecode(response.body));
+
+      renting.customerAge =
+          DateTime.now().year - DateTime.parse(renting.customerBirthDate!).year;
+      return renting;
+    } catch (e) {
+      print("Driver active trip Error!");
+      return ActiveRentingDriver();
     }
   }
 
