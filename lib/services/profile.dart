@@ -6,8 +6,6 @@ import '../constants/api_path.dart';
 import '../models/driver.dart';
 import 'package:rentcarmobile/models/customer.dart';
 
-import '../models/review.dart';
-
 class ProfileService {
   static Future<Driver> getDriver(String id) async {
     final headers = {
@@ -211,7 +209,6 @@ class ProfileService {
                 driver.taxNumber,
             "_id": id,
             "profile_image64": driver.profileImage,
-            "carPhotos": driver.carPhotos,
           }),
           headers: headers);
       return response.statusCode;
@@ -248,6 +245,117 @@ class ProfileService {
                   : "NewPassportNumber": customer.passportNumber,
               "NewProfile_image64": customer.profileImage,
             },
+          ),
+          headers: headers);
+      return response.statusCode;
+    } catch (e) {
+      return 400;
+    }
+  }
+
+  static Future<String> getDriverCarPhoto(int index, String id) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    try {
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/driver/carPhotos/getPhoto?id=" + id + "&index=" + index.toString());
+      var response = await http.get(url, headers: headers);
+      return response.body.toString();
+    } catch (e) {
+      return "";
+    }
+
+  }
+
+  static Future<String> getDriverLegalDocument(int index, String id) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/driver/documentPhotos/getPhoto?id=" + id + "&index=" + index.toString());
+      var response = await http.get(url, headers: headers);
+      return response.body.toString();
+    } catch (e) {
+      return "";
+    }
+  }
+
+  static Future<int> addDriverCarPhoto(String carPhoto, String id) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("http://${ApiPaths.serverIP}/api/driver/carPhotos/add");
+      var response = await http.post(url,
+          body: json.encode(
+              {
+                "id": id,
+                "photo": carPhoto,
+              }
+          ),
+          headers: headers);
+      return response.statusCode;
+    } catch (e) {
+      return 400;
+    }
+  }
+
+  static Future<int> addDriverLegalDocument(String legalDocument, String id) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("http://${ApiPaths.serverIP}/api/driver/documentPhotos/add");
+      var response = await http.post(url,
+          body: json.encode(
+              {
+                "id": id,
+                "photo": legalDocument,
+              }
+          ),
+          headers: headers);
+      return response.statusCode;
+    } catch (e) {
+      return 400;
+    }
+  }
+
+  static Future<int> deleteDriverCarPhotos(String id) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("http://${ApiPaths.serverIP}/api/driver/carPhotos/delete");
+      var response = await http.post(url,
+          body: json.encode(
+              {
+                "id": id,
+              }
+          ),
+          headers: headers);
+      return response.statusCode;
+    } catch (e) {
+      return 400;
+    }
+  }
+
+  static Future<int> deleteDriverLegalDocuments(String id) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse("http://${ApiPaths.serverIP}/api/driver/documentPhotos/delete");
+      var response = await http.post(url,
+          body: json.encode(
+              {
+                "id": id,
+              }
           ),
           headers: headers);
       return response.statusCode;
