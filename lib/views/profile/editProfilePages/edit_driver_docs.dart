@@ -353,7 +353,7 @@ class _EditDriverDocsScreenState extends State<EditDriverDocsScreen> {
       }
     }
   }
-1
+
   // Select image from phone camera
   selectImageFromCamera(int index) async {
     XFile? file = await ImagePicker()

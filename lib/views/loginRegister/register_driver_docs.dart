@@ -99,7 +99,7 @@ class _RegisterDriverDocsScreenState extends State<RegisterDriverDocsScreen> {
                     onPressed: () async {
                       if(legalDocumentPhotos.length - 1 < 6) {
                         WarningAlert.showWarningDialog(
-                            context, "You must upload atleast 6 photos!", () {
+                            context, "You must upload at least 6 photos!", () {
                           Navigator.pop(context);
                         });
                       } else {

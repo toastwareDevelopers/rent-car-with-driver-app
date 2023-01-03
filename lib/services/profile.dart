@@ -15,7 +15,6 @@ class ProfileService {
     try {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/info?ID=$id");
       var response = await http.get(url, headers: headers);
-
       Driver driver = Driver.fromJson(jsonDecode(response.body));
       return driver;
     } catch (e) {
@@ -43,7 +42,6 @@ class ProfileService {
       var url =
           Uri.parse("http://" + ApiPaths.serverIP + "/api/getReviews?ID=" + id);
       var response = await http.get(url);
-      print("istekten sonra");
       List<Review> reviewList = [];
       var jsonData = jsonDecode(response.body);
 
@@ -59,16 +57,14 @@ class ProfileService {
         review.reviewText = u["reviewText"];
         review.tripId = u["tripId"];
         review.driverProfilePhoto = u["driverProfile_image64"];
-        review.rating = u["rating"];
+        review.rating = double.parse(u["rating"].toString());
 
-        print("rw: ${review.reviewText}");
         reviewList.add(review);
       }
-      print("cutomer revies");
       return reviewList;
     } catch (e) {
       List<Review> review2 = [];
-      print("review error");
+      print(e.toString());
       return review2;
     }
   }
@@ -81,7 +77,7 @@ class ProfileService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "api/createReview");
+      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/createReview");
       Map<String, String> bodyReview = {
         "customerId": customerId,
         "driverId": driverId,
@@ -90,10 +86,10 @@ class ProfileService {
         "tripId": tripId
       };
       var reviewBody = json.encode(bodyReview);
-
       var response = await http.post(url, headers: headers, body: reviewBody);
       return response.statusCode;
     } catch (e) {
+      print(e.toString());
       return 400;
     }
   }
@@ -124,6 +120,10 @@ class ProfileService {
         trip.price = u["price"];
         trip.customerId = u["customerId"];
         trip.driverId = u["driverId"];
+        trip.driverName = u["driverName"];
+        trip.driverSurname = u["driverSurname"];
+        trip.driverProfileImage = u["driverProfileImage"];
+        trip.reviewId = u["reviewId"];
         listTrip.add(trip);
       }
       return listTrip;
@@ -152,7 +152,7 @@ class ProfileService {
             id: reviewMap["_id"],
             driverId: reviewMap["driverId"],
             customerId: reviewMap["customerId"],
-            rating: (reviewMap["rating"] as int).toDouble(),
+            rating: double.parse(reviewMap["rating"].toString()),
             reviewText: reviewMap["reviewText"],
             tripId: reviewMap["tripId"],
             customerName: reviewMap["customerName"],
@@ -259,22 +259,31 @@ class ProfileService {
       'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/driver/carPhotos/getPhoto?id=" + id + "&index=" + index.toString());
+      var url = Uri.parse("http://" +
+          ApiPaths.serverIP +
+          "/api/driver/carPhotos/getPhoto?id=" +
+          id +
+          "&index=" +
+          index.toString());
       var response = await http.get(url, headers: headers);
       return response.body.toString();
     } catch (e) {
       return "";
     }
-
   }
 
   static Future<String> getDriverLegalDocument(int index, String id) async {
     final headers = {
       'Content-type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/driver/documentPhotos/getPhoto?id=" + id + "&index=" + index.toString());
+      var url = Uri.parse("http://" +
+          ApiPaths.serverIP +
+          "/api/driver/documentPhotos/getPhoto?id=" +
+          id +
+          "&index=" +
+          index.toString());
       var response = await http.get(url, headers: headers);
       return response.body.toString();
     } catch (e) {
@@ -288,14 +297,13 @@ class ProfileService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://${ApiPaths.serverIP}/api/driver/carPhotos/add");
+      var url =
+          Uri.parse("http://${ApiPaths.serverIP}/api/driver/carPhotos/add");
       var response = await http.post(url,
-          body: json.encode(
-              {
-                "id": id,
-                "photo": carPhoto,
-              }
-          ),
+          body: json.encode({
+            "id": id,
+            "photo": carPhoto,
+          }),
           headers: headers);
       return response.statusCode;
     } catch (e) {
@@ -303,20 +311,38 @@ class ProfileService {
     }
   }
 
-  static Future<int> addDriverLegalDocument(String legalDocument, String id) async {
+  static Future<int> withdrawDriver(String driverId) async {
     final headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://${ApiPaths.serverIP}/api/driver/documentPhotos/add");
+      var url =
+          Uri.parse("http://" + ApiPaths.serverIP + "/api/driver/withdraw")
+              .replace(queryParameters: {
+        'ID': driverId,
+      });
+      var response = await http.get(url, headers: headers);
+      return response.statusCode;
+    } catch (e) {
+      return 400;
+    }
+  }
+
+  static Future<int> addDriverLegalDocument(
+      String legalDocument, String id) async {
+    final headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
+    try {
+      var url = Uri.parse(
+          "http://${ApiPaths.serverIP}/api/driver/documentPhotos/add");
       var response = await http.post(url,
-          body: json.encode(
-              {
-                "id": id,
-                "photo": legalDocument,
-              }
-          ),
+          body: json.encode({
+            "id": id,
+            "photo": legalDocument,
+          }),
           headers: headers);
       return response.statusCode;
     } catch (e) {
@@ -330,13 +356,12 @@ class ProfileService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://${ApiPaths.serverIP}/api/driver/carPhotos/delete");
+      var url =
+          Uri.parse("http://${ApiPaths.serverIP}/api/driver/carPhotos/delete");
       var response = await http.post(url,
-          body: json.encode(
-              {
-                "id": id,
-              }
-          ),
+          body: json.encode({
+            "id": id,
+          }),
           headers: headers);
       return response.statusCode;
     } catch (e) {
@@ -350,13 +375,12 @@ class ProfileService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://${ApiPaths.serverIP}/api/driver/documentPhotos/delete");
+      var url = Uri.parse(
+          "http://${ApiPaths.serverIP}/api/driver/documentPhotos/delete");
       var response = await http.post(url,
-          body: json.encode(
-              {
-                "id": id,
-              }
-          ),
+          body: json.encode({
+            "id": id,
+          }),
           headers: headers);
       return response.statusCode;
     } catch (e) {

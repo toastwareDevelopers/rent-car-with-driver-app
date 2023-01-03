@@ -1,3 +1,5 @@
+import 'package:iban/iban.dart';
+
 class InputValidator{
   static String validateEmail(String? value) {
     String pattern =
@@ -22,4 +24,12 @@ class InputValidator{
       return "";
     }
   }
+
+  static String validateIBAN(String? value) {
+    if (!isValid(value!)) {
+      return "Please enter a valid IBAN";
+    }
+    return "";
+  }
+
 }

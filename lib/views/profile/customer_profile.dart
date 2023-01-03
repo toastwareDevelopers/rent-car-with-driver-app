@@ -3,6 +3,7 @@ import 'package:rentcarmobile/models/CustomerAllData.dart';
 import 'package:rentcarmobile/models/review.dart';
 import 'package:rentcarmobile/services/profile.dart';
 import 'package:rentcarmobile/utils/base64_converter.dart';
+import 'package:rentcarmobile/views/chat/message_screen.dart';
 
 import '../../constants/assets_path.dart';
 import '../../main.dart';
@@ -44,12 +45,15 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
   @override
   Widget build(BuildContext context) {
     String customerID = ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+      ),
       body: FutureBuilder<CustomerData>(
         future: getData(customerID),
         builder: (context, snapshot) {
           CustomerData? customerData = snapshot.data;
-
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return const Center(child: CircularProgressIndicator());
@@ -57,7 +61,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
               if (snapshot.hasError) {
                 return const Center(child: Text('Some error occurred!'));
               } else {
-                return customerTrips(customerData!);
+                return customerTrips(customerData!, customerID);
               }
           }
         },
@@ -66,36 +70,48 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
   }
 
   @override
-  Widget customerTrips(CustomerData customerData) {
+  Widget customerTrips(CustomerData customerData, String customerID) {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
     int i = 0;
     customerListTrips.clear();
     if (customerData.listTrips.isNotEmpty == true) {
       for (i = 0; i < customerData.listTrips.length; i++) {
-        customerListTrips.add(CustomerTrip(
-            '${customerData.listTrips[i].driverName.toString()} ${customerData.listTrips[i].driverSurname.toString()}',
-            customerData.listTrips[i].age.toString(),
-            customerData.listTrips[i].location.toString(),
-            customerData.listTrips[i].startDate.toString(),
-            customerData.listTrips[i].endDate.toString(),
-            customerData.listTrips[i].id.toString(),
-            customerData.listTrips[i].customerId.toString(),
-            customerData.listTrips[i].driverId.toString()));
+        customerListTrips.add(
+          CustomerTrip(
+            customerId: customerData.listTrips[i].customerId.toString(),
+            driverId: customerData.listTrips[i].driverId.toString(),
+            age: customerData.listTrips[i].age,
+            city: customerData.listTrips[i].location.toString(),
+            driverName: customerData.listTrips[i].driverName.toString(),
+            driverSurname: customerData.listTrips[i].driverSurname.toString(),
+            finish_time: customerData.listTrips[i].endDate.toString(),
+            start_time: customerData.listTrips[i].startDate.toString(),
+            tripId: customerData.listTrips[i].id.toString(),
+            reviewId: customerData.listTrips[i].reviewId.toString(),
+            driverProfileImage:
+                customerData.listTrips[i].driverProfileImage.toString(),
+            price : customerData.listTrips[i].price.toString()
+          ),
+        );
       }
     }
 
     if (customerData.listReview.isNotEmpty == true) {
       customerListReview.clear();
       for (i = 0; i < customerData.listReview.length; i++) {
-        customerListReview.add(ReviewWidget2(
+        customerListReview.add(
+          ReviewWidget2(
             "${customerData.listReview[i].driverName} ${customerData.listReview[i].driverSurname}",
-            customerData.listReview[i].reviewText.toString()));
+            customerData.listReview[i].reviewText.toString(),customerData.listReview[i].driverProfilePhoto.toString(),customerData.listReview[i].rating.toString()
+          ),
+        );
       }
     }
-    //Map<String, dynamic> map =  ProfileService.getCustomer("636802ba08ae9ae84b4b7eda") as Map<String, dynamic> ;
+
     String nameAge =
-        '${customerData.customer.name} ${customerData.customer.surname} (${2022 - DateTime.parse(customerData.customer.birthDate.toString()).year})';
+        '${customerData.customer.name} ${customerData.customer.surname} (${DateTime.now().year - DateTime.parse(customerData.customer.birthDate.toString()).year})';
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: RentVanApp.userType == "customer"
@@ -118,140 +134,176 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 Navigator.pushNamed(context, "/editCustomer");
               }
             : () {
-                Navigator.pushNamed(context, "/messaging");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MessageScreen(
+                      receiverId: customerID,
+                    ),
+                  ),
+                );
+                //Navigator.pushNamed(context, "/messaging");
               },
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
+      body: Column(
+        children: [
+          //Profile Photo and Name
+          Expanded(
+            flex: 2,
+            child: Container(
+              child: Row(
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    color: const Color.fromARGB(255, 167, 117, 77),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    iconSize: 24,
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(right: phoneWidth * 0.05),
-                    child: CircleAvatar(
-                      backgroundColor: Theme.of(context).highlightColor,
-                      radius: 40,
-                      child: CircleAvatar(
-                        backgroundImage: customerData.customer.profileImage == null ?
-                            AssetImage(AssetPaths.blankProfilePhotoPath) :
-                            Image.memory(Base64Converter.decodeImage64(customerData.customer.profileImage as String)).image,
-                        radius: 37,
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Theme.of(context).highlightColor,
+                            radius: 40,
+                            child: CircleAvatar(
+                              backgroundImage: customerData
+                                              .customer.profileImage !=
+                                          null &&
+                                      customerData.customer.profileImage !=
+                                          "null"
+                                  ? Image.memory(Base64Converter.decodeImage64(
+                                          customerData.customer.profileImage
+                                              as String))
+                                      .image
+                                  : AssetImage(
+                                      AssetPaths.blankProfilePhotoPath),
+                              radius: 37.0,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          nameAge,
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "${customerData.customer.gender}",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    // en dıstaki
-                    width: phoneWidth,
-
-                    child: Column(
-                      children: [
-                        Container(
-                            height: phoneHeight * 0.05,
-                            width: phoneWidth,
-                            padding: EdgeInsets.only(left: phoneWidth * 0.05),
-                            alignment: Alignment.centerLeft,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                textAlign: TextAlign.left,
-                                "Trip History",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            )), // triphistroy
-                        Container(
-                          height: phoneHeight * 0.4,
-                          width: phoneWidth * 0.9,
-                          padding: EdgeInsets.only(
-                            left: phoneWidth * 0.02,
-                            right: phoneWidth * 0.02,
+                  Expanded(
+                    flex: 4,
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            nameAge,
+                            style: TextStyle(fontSize: 22, color: Colors.white),
                           ),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5)),
-                          child: ListView(
-                            padding: EdgeInsets.only(top: 10),
-                            children: customerListTrips,
+                          Text(
+                            "${customerData.customer.gender}",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        height: phoneHeight * 0.05,
-                        width: phoneWidth,
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: phoneWidth * 0.05),
-                        child: const Text(
-                          textAlign: TextAlign.left,
-                          "Reviews",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      Container(
-                        height: phoneHeight * 0.25,
-                        width: phoneWidth * 0.9,
-                        padding: EdgeInsets.only(left: phoneWidth * 0.01),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: ListView(
-                          padding: EdgeInsets.only(top: 10),
-                          children: customerListReview,
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+          SizedBox(
+            height: phoneHeight * 0.01,
+          ),
+          //Trip History
+          Expanded(
+            flex: 7,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.03),
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          textAlign: TextAlign.left,
+                          "Trip History",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 9,
+                    child: Container(
+                      padding: EdgeInsets.only(
+                        left: phoneWidth * 0.02,
+                        right: phoneWidth * 0.02,
+                      ),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: customerListTrips.length > 0 ? ListView.separated(
+                        itemCount: customerListTrips.length,
+                        itemBuilder: (context, index) =>
+                            customerListTrips[index],
+                        separatorBuilder: (context, index) => SizedBox(
+                          height: phoneHeight * 0.01,
+                        ),
+                        padding: EdgeInsets.only(top: 10),
+                      ) : Center(child: Text("There is no any trip"),),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: phoneHeight * 0.03,
+          ),
+          //Reviews
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: EdgeInsets.only(
+                  left: phoneWidth * 0.03,
+                  right: phoneWidth * 0.03,
+                  bottom: phoneWidth * 0.02),
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        textAlign: TextAlign.left,
+                        "Reviews",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 9,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: customerListReview.length > 0 ? ListView.separated(
+                        itemCount: customerListReview.length,
+                        itemBuilder: (context, index) {
+                          return customerListReview[index];
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(
+                            height: phoneHeight * 0.01,
+                          );
+                        },
+                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                      ) : Center(child: const Text("There is no any review"),),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_bubble/bubble_type.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
 import 'package:rentcarmobile/main.dart';
-import 'package:rentcarmobile/utils/message_type.dart';
-
-import '../views/chat/message_screen.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class OfferBox extends StatelessWidget {
   const OfferBox(
       {Key? key,
+      required this.socket,
       required this.id,
       required this.driverId,
       required this.customerId,
@@ -20,7 +16,7 @@ class OfferBox extends StatelessWidget {
       required this.offerDescription,
       required this.status})
       : super(key: key);
-
+  final Socket? socket;
   final String id;
   final String driverId;
   final String customerId;
@@ -45,13 +41,13 @@ class OfferBox extends StatelessWidget {
             child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(5),
                       topRight: Radius.circular(5),
                     ),
                     border: Border.all(
                         color: Theme.of(context).highlightColor, width: 4)),
-                child: Center(
+                child: const Center(
                   child: Text(
                     "Offer",
                     style: TextStyle(color: Colors.black, fontSize: 17),
@@ -64,7 +60,7 @@ class OfferBox extends StatelessWidget {
             height: phoneHeight * 0.4,
             decoration: BoxDecoration(
               color: Theme.of(context).highlightColor,
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(5),
               ),
             ),
@@ -73,26 +69,26 @@ class OfferBox extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     child: Row(
                       children: [
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "Start Date",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 17),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               SizedBox(
                                 height: phoneHeight * 0.04,
                                 child: TextField(
-                                  controller:
-                                      TextEditingController(text: startDate),
+                                  controller: TextEditingController(
+                                      text: startDate.substring(0, 10)),
                                   readOnly: true,
                                   decoration: const InputDecoration(
                                     fillColor: Colors.white,
@@ -110,20 +106,20 @@ class OfferBox extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "End Date",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 17),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               SizedBox(
                                 height: phoneHeight * 0.04,
                                 child: TextField(
                                   readOnly: true,
-                                  controller:
-                                      TextEditingController(text: endDate),
+                                  controller: TextEditingController(
+                                      text: endDate.substring(0, 10)),
                                   decoration: const InputDecoration(
                                     fillColor: Colors.white,
                                     isDense: true,
@@ -139,68 +135,66 @@ class OfferBox extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Price",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 17),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              SizedBox(
-                                height: phoneHeight * 0.04,
-                                child: TextField(
-                                  readOnly: true,
-                                  controller: TextEditingController(
-                                      text: price.toString()),
-                                  decoration: const InputDecoration(
-                                    fillColor: Colors.white,
-                                    isDense: true,
-                                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Price",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 17),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            SizedBox(
+                              height: phoneHeight * 0.04,
+                              child: TextField(
+                                readOnly: true,
+                                controller: TextEditingController(
+                                    text: price.toString()),
+                                decoration: const InputDecoration(
+                                  fillColor: Colors.white,
+                                  isDense: true,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: phoneWidth * 0.02,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Location",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 17),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              SizedBox(
-                                height: phoneHeight * 0.04,
-                                child: TextField(
-                                  readOnly: true,
-                                  controller:
-                                      TextEditingController(text: location),
-                                  decoration: const InputDecoration(
-                                    fillColor: Colors.white,
-                                    isDense: true,
-                                  ),
+                      ),
+                      SizedBox(
+                        width: phoneWidth * 0.02,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Location",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 17),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            SizedBox(
+                              height: phoneHeight * 0.04,
+                              child: TextField(
+                                readOnly: true,
+                                controller:
+                                    TextEditingController(text: location),
+                                decoration: const InputDecoration(
+                                  fillColor: Colors.white,
+                                  isDense: true,
                                 ),
                               ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 Expanded(
@@ -208,11 +202,11 @@ class OfferBox extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Details",
                         style: TextStyle(color: Colors.white, fontSize: 17),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       TextFormField(
@@ -221,7 +215,7 @@ class OfferBox extends StatelessWidget {
                             TextEditingController(text: offerDescription),
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           fillColor: Colors.white,
                           isDense: true,
                         ),
@@ -240,11 +234,11 @@ class OfferBox extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               color: status == "Rejected"
-                                  ? Color.fromARGB(255, 149, 51, 51)
+                                  ? const Color.fromARGB(255, 149, 51, 51)
                                   : status == "Accepted"
-                                      ? Color.fromARGB(255, 72, 124, 60)
+                                      ? const Color.fromARGB(255, 72, 124, 60)
                                       : Colors.white,
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(10),
                               ),
                             ),
@@ -257,35 +251,51 @@ class OfferBox extends StatelessWidget {
                                         : Colors.white),
                               ),
                             ),
-                          ))
-                      : Container(
-                          child: Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  style: ButtonStyle(
-                                    minimumSize: MaterialStatePropertyAll(Size.fromWidth(phoneWidth*0.3)),
-                                    backgroundColor: MaterialStatePropertyAll(
-                                      Color.fromARGB(255, 149, 51, 51),
-                                    ),
-                                  ),
-                                  child: Text("Reject"),
-                                  onPressed: () {},
-                                ),
-                                ElevatedButton(
-                                  style: ButtonStyle(
-                                    minimumSize: MaterialStatePropertyAll(Size.fromWidth(phoneWidth*0.3)),
-                                    backgroundColor: MaterialStatePropertyAll(
-                                      Color.fromARGB(255, 72, 124, 60),
-                                    ),
-                                  ),
-                                  child: Text("Accept"),
-                                  onPressed: () {},
-                                ),
-                              ],
-                            ),
                           ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                minimumSize: MaterialStatePropertyAll(
+                                    Size.fromWidth(phoneWidth * 0.3)),
+                                backgroundColor: const MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 149, 51, 51),
+                                ),
+                              ),
+                              child: const Text("Reject"),
+                              onPressed: () {
+                                socket!.emit(
+                                  "respondOffer",
+                                  {
+                                    "roomID": driverId + customerId,
+                                    "status": "Rejected",
+                                    "offerId": id,
+                                  },
+                                );
+                              },
+                            ),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                minimumSize: MaterialStatePropertyAll(
+                                    Size.fromWidth(phoneWidth * 0.3)),
+                                backgroundColor: const MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 72, 124, 60),
+                                ),
+                              ),
+                              child: const Text("Accept"),
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/payment',
+                                  arguments: {
+                                    'offer': this,
+                                  },
+                                );
+                              },
+                            ),
+                          ],
                         ),
                 )
               ],

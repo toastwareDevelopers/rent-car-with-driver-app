@@ -251,16 +251,19 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
           ),
         ],
         leading: InkWell(
-              onTap: () {
-                Navigator.pushReplacementNamed(context, "/");
-                RentVanApp.userId = "null";
-              },
-              child: Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.rotationY(math.pi),
-                child: Icon(Icons.exit_to_app,size: 30,),
-              ),
+          onTap: () {
+            Navigator.pushReplacementNamed(context, "/");
+            RentVanApp.userId = "null";
+          },
+          child: Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.rotationY(math.pi),
+            child: Icon(
+              Icons.exit_to_app,
+              size: 30,
             ),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Image.asset(
@@ -389,23 +392,23 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                             ),
                                           ),
                                         ),
-                                        Expanded(
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              right: phoneWidth * 0.01,
+                                              top: phoneHeight * 0.005),
+                                          alignment: Alignment.topRight,
                                           child: Container(
-                                            margin: EdgeInsets.only(
-                                                right: phoneWidth * 0.01,
-                                                top: phoneHeight * 0.005),
-                                            alignment: Alignment.topRight,
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 5),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(5),
-                                                ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
                                               ),
-                                              child: Text("150TL"),
                                             ),
+                                            child: Text(
+                                                renting.price.toString() +
+                                                    "TL"),
                                           ),
                                         )
                                       ]),
@@ -421,7 +424,10 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                       ),
                                     ),
                                     child: Center(
-                                      child: Text("There is no active renting" ,style: TextStyle(color:Colors.white),),
+                                      child: Text(
+                                        "There is no active renting",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -439,8 +445,16 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                   child: Center(
                                     child: snapshot.connectionState ==
                                             ConnectionState.waiting
-                                        ? Text("Active renting is laoding..." ,style: TextStyle(color:Colors.white),)
-                                        : Text("There is no active renting" ,style: TextStyle(color:Colors.white),),
+                                        ? Text(
+                                            "Active renting is laoding...",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          )
+                                        : Text(
+                                            "There is no active renting",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
                                   ),
                                 ),
                               );
