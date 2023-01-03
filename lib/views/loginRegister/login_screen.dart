@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 // APP TITLE
                 Text(
-                  "App Name",
+                  "RentaGO",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 40,
@@ -187,9 +187,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           Expanded(
                             child: Container(
                               margin: const EdgeInsets.only(
-                                  left: 10.0, right: 15.0),
+                                  left: 100.0, right: 15.0),
                               child: Divider(
-                                color: Colors.black,
+                                color: Colors.white,
                                 thickness: 1,
                                 height: 40,
                               ),
@@ -198,18 +198,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           // I have to deal with colors
                           Text(
                             "OR",
-                            style: TextStyle(fontSize: 20.0),
-                            selectionColor: Colors.black,
+                            style: TextStyle(fontSize: 20.0,color: Colors.white),
+                            selectionColor: Colors.white,
                           ),
                           // I have to deal with colors
                           Expanded(
                             child: Container(
                               margin: const EdgeInsets.only(
                                 left: 15.0,
-                                right: 10.0,
+                                right: 100.0,
                               ),
                               child: Divider(
-                                color: Colors.black,
+                                color: Colors.white,
                                 thickness: 1,
                                 height: 40,
                               ),
