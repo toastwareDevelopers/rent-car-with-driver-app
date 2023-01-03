@@ -64,7 +64,13 @@ class _MessageScreenState extends State<MessageScreen> {
           children: [
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, "/profileCustomer");
+                if (RentVanApp.userType == "driver") {
+                  Navigator.pushNamed(context, "/profileCustomer",
+                      arguments: widget.receiverId);
+                } else {
+                  Navigator.pushNamed(context, "/profileDriverPersonal",
+                      arguments: widget.receiverId);
+                }
               },
               child: CircleAvatar(
                 backgroundColor: Colors.white,
