@@ -14,7 +14,7 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
             ageEnd, carYearStart, carYearEnd } = req.body;
 
         let drivers = await Driver.find({},
-            { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1, name: 1, surname: 1, bio: 1, hourlyPrice: 1, profile_image64: 1})
+            { _id: 1, birthDate: 1, gender: 1, location: 1, languages: 1, rating: 1, hourlyPrice: 1, "carInfo.year": 1, name: 1, surname: 1, bio: 1, hourlyPrice: 1, profile_image64: 1, isActive:1})
 
         var flag
         var flag_l
@@ -76,27 +76,28 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
             }
 
-//             if (!flag) {
+            if (!flag) {
 
-//                 if (!((drivers[step].isActive) == true)) {
+                if (!((drivers[step].isActive) == true)) {
 
-//                     drivers.splice(step, 1)
-//                     flag = 1;
-//                 }
-//             }
+                    drivers.splice(step, 1)
+                    flag = 1;
+                }
+            }
 
             if (flag) {
                 step = step - 1
             }
         }
 
-        //FOR BACKEND TEST
+        // FOR BACKEND TEST
         // for (let step = 0; step < drivers.length; step++) {
 
 
         //     console.log(drivers[step].name + " " + drivers[step].rating + " " + drivers[step].hourlyPrice + " " + drivers[step].carInfo.year +
         //         " " + (parseInt(todayDate) - drivers[step].birthDate.toLocaleDateString("en-US", { year: 'numeric' }))
-        //         + " " + drivers[step].languages + " " + drivers[step].gender + " " + (drivers[step].location).toLowerCase())
+        //         + " " + drivers[step].languages + " " + drivers[step].gender + " " + (drivers[step].location).toLowerCase()
+        //         + "         " +drivers[step].isActive)
 
         // }
         // console.log("\n")
