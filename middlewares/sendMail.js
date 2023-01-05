@@ -35,6 +35,16 @@ async function sendMail(tomail, password) {
             text: "A new driver has registered"
         };
     }
+    else if(password === 2) {
+        // send mail with defined transport object
+        mailOptions = {
+            from: 'toastwaredevelopers.7@gmail.com', // sender address
+            to: tomail, // list of receivers
+            subject: "Welcome to RentaGO", // Subject line
+            // This would be the text of email body
+            text: "document approval completed"
+        };
+    }
     else {
         // send mail with defined transport object
         mailOptions = {
