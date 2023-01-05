@@ -238,6 +238,92 @@ class _MessageScreenState extends State<MessageScreen> {
     TextEditingController offerPriceController = TextEditingController();
     TextEditingController offerLocationController = TextEditingController();
     TextEditingController offerDetailsController = TextEditingController();
+
+    final List<String> cities = [
+      "Location",
+      "Adana",
+      "Adiyaman",
+      "Afyon",
+      "Agri",
+      "Aksaray",
+      "Amasya",
+      "Ankara",
+      "Antalya",
+      "Ardahan",
+      "Artvin",
+      "Aydin",
+      "Balikesir",
+      "Bartin",
+      "Batman",
+      "Bayburt",
+      "Bilecik",
+      "Bingol",
+      "Bitlis",
+      "Bolu",
+      "Burdur",
+      "Bursa",
+      "Canakkale",
+      "Cankiri",
+      "Corum",
+      "Denizli",
+      "Diyarbakir",
+      "Duzce",
+      "Edirne",
+      "Elazig",
+      "Erzincan",
+      "Erzurum",
+      "Eskisehir",
+      "Gaziantep",
+      "Giresun",
+      "Gumushane",
+      "Hakkari",
+      "Hatay",
+      "Igdir",
+      "Isparta",
+      "Istanbul",
+      "Izmir",
+      "Kahramanmaras",
+      "Karabuk",
+      "Karaman",
+      "Kars",
+      "Kastamonu",
+      "Kayseri",
+      "Kilis",
+      "Kirikkale",
+      "Kirklareli",
+      "Kirsehir",
+      "Kocaeli",
+      "Konya",
+      "Kutahya",
+      "Malatya",
+      "Manisa",
+      "Mardin",
+      "Mersin",
+      "Mugla",
+      "Mus",
+      "Nevsehir",
+      "Nigde",
+      "Ordu",
+      "Osmaniye",
+      "Rize",
+      "Sakarya",
+      "Samsun",
+      "Sanliurfa",
+      "Siirt",
+      "Sinop",
+      "Sirnak",
+      "Sivas",
+      "Tekirdag",
+      "Tokat",
+      "Trabzon",
+      "Tunceli",
+      "Usak",
+      "Van",
+      "Yalova",
+      "Yozgat",
+      "Zonguldak"
+    ];
+
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -402,19 +488,44 @@ class _MessageScreenState extends State<MessageScreen> {
                             SizedBox(
                               width: phoneWidth * 0.02,
                             ),
+                            //Location
                             Expanded(
-                              child: TextFormField(
-                                autocorrect: false,
-                                controller: offerLocationController,
-                                inputFormatters: <TextInputFormatter>[
-                                  LengthLimitingTextInputFormatter(25),
-                                ],
-                                decoration: InputDecoration(
-                                  hintText: "Location",
-                                  fillColor: Colors.white,
+                              flex: 1,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: DropdownButton(
+                                  value: offerLocationController.text == ""
+                                      ? "Location"
+                                      : offerLocationController.text,
+                                  items: cities
+                                      .map(
+                                        (value) => DropdownMenuItem(
+                                          value: value,
+                                          child: Container(
+                                            padding:
+                                                const EdgeInsets.only(left: 12),
+                                            child: Text(value,
+                                                style: const TextStyle(
+                                                    fontSize: 17)),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      offerLocationController.text =
+                                          value.toString();
+                                    });
+                                  },
+                                  dropdownColor: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  isExpanded: true,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
