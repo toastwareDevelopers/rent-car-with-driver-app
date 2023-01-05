@@ -46,25 +46,37 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
   Widget build(BuildContext context) {
     String customerID = ModalRoute.of(context)!.settings.arguments as String;
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
-      body: FutureBuilder<CustomerData>(
-        future: getData(customerID),
-        builder: (context, snapshot) {
-          CustomerData? customerData = snapshot.data;
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return const Center(child: CircularProgressIndicator());
-            default:
-              if (snapshot.hasError) {
-                return const Center(child: Text('Some error occurred!'));
-              } else {
-                return customerTrips(customerData!, customerID);
-              }
-          }
-        },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              size: 30,
+            ),
+          ),
+        ),
+        body: FutureBuilder<CustomerData>(
+          future: getData(customerID),
+          builder: (context, snapshot) {
+            CustomerData? customerData = snapshot.data;
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const Center(child: CircularProgressIndicator());
+              default:
+                if (snapshot.hasError) {
+                  return const Center(child: Text('Some error occurred!'));
+                } else {
+                  return customerTrips(customerData!, customerID);
+                }
+            }
+          },
+        ),
       ),
     );
   }

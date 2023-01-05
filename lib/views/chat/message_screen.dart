@@ -50,173 +50,176 @@ class _MessageScreenState extends State<MessageScreen> {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
-        backgroundColor: Theme.of(context).highlightColor,
-        titleSpacing: 0,
-        title: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                if (RentVanApp.userType == "driver") {
-                  Navigator.pushNamed(context, "/profileCustomer",
-                      arguments: widget.receiverId);
-                } else {
-                  Navigator.pushNamed(context, "/profileDriverPersonal",
-                      arguments: widget.receiverId);
-                }
-              },
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: 23,
-                child: CircleAvatar(
-                  backgroundImage: widget.receiverPhoto == "null"
-                      ? AssetImage(AssetPaths.blankProfilePhotoPath)
-                      : Image.memory(base64Decode(widget.receiverPhoto!)).image,
-                  radius: 20.0,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: phoneWidth * 0.03,
-            ),
-            Text(widget.receiverName! + " " + widget.receiverSurname!),
-          ],
-        ),
-      ),
-      floatingActionButton: RentVanApp.userType == "driver"
-          ? Padding(
-              padding: EdgeInsets.only(
-                  bottom: phoneHeight * 0.06, left: phoneWidth * 0.9),
-              child: FloatingActionButton(
-                mini: true,
-                backgroundColor: Colors.white,
-                child: const Icon(
-                  Icons.attach_money_sharp,
-                  color: Colors.black45,
-                ),
-                onPressed: () {
-                  showOffer(context, phoneHeight, phoneWidth);
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
+          backgroundColor: Theme.of(context).highlightColor,
+          titleSpacing: 0,
+          title: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  if (RentVanApp.userType == "driver") {
+                    Navigator.pushNamed(context, "/profileCustomer",
+                        arguments: widget.receiverId);
+                  } else {
+                    Navigator.pushNamed(context, "/profileDriverPersonal",
+                        arguments: widget.receiverId);
+                  }
                 },
-                heroTag: "button1",
-              ),
-            )
-          : null,
-      body: Container(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            //Messages area
-            Container(
-              child: ListView.separated(
-                controller: _scrollController,
-                itemBuilder: ((context, index) {
-                  return Container(
-                    child: widget.messages[index] is Message
-                        ? MessageBubble(
-                            content:
-                                (widget.messages[index] as Message).content,
-                            time: (widget.messages[index] as Message)
-                                .createDate
-                                .toString(),
-                            sender:
-                                (widget.messages[index] as Message).senderID,
-                          )
-                        : OfferBox(
-                            socket: socket,
-                            id: (widget.messages[index] as Offer).id as String,
-                            customerId: (widget.messages[index] as Offer)
-                                .customerId as String,
-                            driverId: (widget.messages[index] as Offer).driverId
-                                as String,
-                            location: (widget.messages[index] as Offer).location
-                                as String,
-                            price:
-                                (widget.messages[index] as Offer).price as int,
-                            startDate: (widget.messages[index] as Offer)
-                                .startDate as String,
-                            endDate: (widget.messages[index] as Offer).endDate
-                                as String,
-                            offerDescription: (widget.messages[index] as Offer)
-                                .offerDescription as String,
-                            status: (widget.messages[index] as Offer).status
-                                as String,
-                          ),
-                  );
-                }),
-                separatorBuilder: (context, index) => SizedBox(
-                  height: phoneHeight * 0.015,
-                ),
-                itemCount: widget.messages.length,
-                padding: EdgeInsets.only(
-                    bottom: phoneHeight * 0.085, top: phoneHeight * 0.01),
-              ),
-            ),
-
-            //Text enter area
-            Container(
-              padding: EdgeInsets.all(5),
-              decoration:
-                  BoxDecoration(color: Theme.of(context).highlightColor),
-              height: phoneHeight * 0.07,
-              width: phoneWidth,
-              child: Row(
-                children: [
-                  //Text Enter area
-                  Expanded(
-                    flex: 12,
-                    child: TextFormField(
-                      maxLines: 5,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      decoration:
-                          const InputDecoration(fillColor: Colors.white),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      controller: widget.messageController,
-                    ),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 23,
+                  child: CircleAvatar(
+                    backgroundImage: widget.receiverPhoto == "null"
+                        ? AssetImage(AssetPaths.blankProfilePhotoPath)
+                        : Image.memory(base64Decode(widget.receiverPhoto!)).image,
+                    radius: 20.0,
                   ),
-                  //Send button
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      child: ElevatedButton(
-                        style: const ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.white),
-                          shape: MaterialStatePropertyAll(
-                            CircleBorder(),
+                ),
+              ),
+              SizedBox(
+                width: phoneWidth * 0.03,
+              ),
+              Text(widget.receiverName! + " " + widget.receiverSurname!),
+            ],
+          ),
+        ),
+        floatingActionButton: RentVanApp.userType == "driver"
+            ? Padding(
+                padding: EdgeInsets.only(
+                    bottom: phoneHeight * 0.06, left: phoneWidth * 0.9),
+                child: FloatingActionButton(
+                  mini: true,
+                  backgroundColor: Colors.white,
+                  child: const Icon(
+                    Icons.attach_money_sharp,
+                    color: Colors.black45,
+                  ),
+                  onPressed: () {
+                    showOffer(context, phoneHeight, phoneWidth);
+                  },
+                  heroTag: "button1",
+                ),
+              )
+            : null,
+        body: Container(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              //Messages area
+              Container(
+                child: ListView.separated(
+                  controller: _scrollController,
+                  itemBuilder: ((context, index) {
+                    return Container(
+                      child: widget.messages[index] is Message
+                          ? MessageBubble(
+                              content:
+                                  (widget.messages[index] as Message).content,
+                              time: (widget.messages[index] as Message)
+                                  .createDate
+                                  .toString(),
+                              sender:
+                                  (widget.messages[index] as Message).senderID,
+                            )
+                          : OfferBox(
+                              socket: socket,
+                              id: (widget.messages[index] as Offer).id as String,
+                              customerId: (widget.messages[index] as Offer)
+                                  .customerId as String,
+                              driverId: (widget.messages[index] as Offer).driverId
+                                  as String,
+                              location: (widget.messages[index] as Offer).location
+                                  as String,
+                              price:
+                                  (widget.messages[index] as Offer).price as int,
+                              startDate: (widget.messages[index] as Offer)
+                                  .startDate as String,
+                              endDate: (widget.messages[index] as Offer).endDate
+                                  as String,
+                              offerDescription: (widget.messages[index] as Offer)
+                                  .offerDescription as String,
+                              status: (widget.messages[index] as Offer).status
+                                  as String,
+                            ),
+                    );
+                  }),
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: phoneHeight * 0.015,
+                  ),
+                  itemCount: widget.messages.length,
+                  padding: EdgeInsets.only(
+                      bottom: phoneHeight * 0.085, top: phoneHeight * 0.01),
+                ),
+              ),
+    
+              //Text enter area
+              Container(
+                padding: EdgeInsets.all(5),
+                decoration:
+                    BoxDecoration(color: Theme.of(context).highlightColor),
+                height: phoneHeight * 0.07,
+                width: phoneWidth,
+                child: Row(
+                  children: [
+                    //Text Enter area
+                    Expanded(
+                      flex: 12,
+                      child: TextFormField(
+                        maxLines: 5,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        decoration:
+                            const InputDecoration(fillColor: Colors.white),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: widget.messageController,
+                      ),
+                    ),
+                    //Send button
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        child: ElevatedButton(
+                          style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.white),
+                            shape: MaterialStatePropertyAll(
+                              CircleBorder(),
+                            ),
+                            minimumSize:
+                                MaterialStatePropertyAll(Size.fromHeight(45)),
                           ),
-                          minimumSize:
-                              MaterialStatePropertyAll(Size.fromHeight(45)),
-                        ),
-                        onPressed: () {
-                          scrollControl();
-                          String msg = widget.messageController.text;
-                          if (msg.isNotEmpty) {
-                            sendMsg(msg);
-                            widget.messageController.clear();
-                          }
-                        },
-                        child: const Center(
-                          child: Icon(
-                            Icons.send,
-                            color: Colors.black45,
-                            size: 28,
+                          onPressed: () {
+                            scrollControl();
+                            String msg = widget.messageController.text;
+                            if (msg.isNotEmpty) {
+                              sendMsg(msg);
+                              widget.messageController.clear();
+                            }
+                          },
+                          child: const Center(
+                            child: Icon(
+                              Icons.send,
+                              color: Colors.black45,
+                              size: 28,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
