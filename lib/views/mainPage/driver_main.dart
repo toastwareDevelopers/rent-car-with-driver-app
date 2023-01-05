@@ -176,10 +176,10 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
       height: phoneHeight * 0.7,
       width: phoneWidth * 0.9,
       child: FutureBuilder(
-        future: MainService.getFutureTrips(
-            widget.tripListString, RentVanApp.userId),
+        future: MainService.getTripsById(RentVanApp.userId),
         builder: (contextv2, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
             widget.tripsLoaded = true;
             return RefreshIndicator(
               onRefresh: () {
