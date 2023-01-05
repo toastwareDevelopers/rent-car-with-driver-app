@@ -104,9 +104,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
               ),
             ),
             onPressed: () {
-              if (widget.tripsLoaded) {
-                Navigator.pushNamed(context, "/allChats");
-              }
+              Navigator.pushNamed(context, "/allChats");
             },
           ),
         ),
@@ -125,7 +123,9 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                   child: const Text(
                     "Active Customer",
                     style: TextStyle(
-                        color: Colors.white, fontFamily: 'Arapey', fontSize: 16),
+                        color: Colors.white,
+                        fontFamily: 'Arapey',
+                        fontSize: 16),
                   ),
                 ),
               ),
@@ -135,8 +135,8 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
               Expanded(
                 flex: 2,
                 child: Container(
-                    child:
-                        getActiveCustomerInfo(context, phoneWidth, phoneHeight)),
+                    child: getActiveCustomerInfo(
+                        context, phoneWidth, phoneHeight)),
               ),
               Expanded(
                 flex: 1,
@@ -145,7 +145,9 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
                   child: const Text(
                     "Future Appointments",
                     style: TextStyle(
-                        color: Colors.white, fontFamily: 'Arapey', fontSize: 16),
+                        color: Colors.white,
+                        fontFamily: 'Arapey',
+                        fontSize: 16),
                   ),
                 ),
               ),

@@ -17,6 +17,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../constants/assets_path.dart';
 import '../../models/driver.dart';
 import '../../models/message.dart';
+import '../../utils/warning_alert.dart';
 
 class MessageScreen extends StatefulWidget {
   List<dynamic> messages = [];
@@ -289,7 +290,11 @@ class _MessageScreenState extends State<MessageScreen> {
                                         offerStartDateController.text = "";
                                       });
                                     },
-                                    currentTime: offerStartDateController.text != "" ? DateTime.parse(offerStartDateController.text) : DateTime.now(),
+                                    currentTime:
+                                        offerStartDateController.text != ""
+                                            ? DateTime.parse(
+                                                offerStartDateController.text)
+                                            : DateTime.now(),
                                   );
                                 },
                                 child: Container(
@@ -330,7 +335,10 @@ class _MessageScreenState extends State<MessageScreen> {
                                       ),
                                     ),
                                     showTitleActions: true,
-                                    minTime: offerStartDateController.text != "" ? DateTime.tryParse(offerStartDateController.text) : DateTime.now(),
+                                    minTime: offerStartDateController.text != ""
+                                        ? DateTime.tryParse(
+                                            offerStartDateController.text)
+                                        : DateTime.now(),
                                     onConfirm: (date) {
                                       setState(() {
                                         offerEndDateController.text =
@@ -342,7 +350,11 @@ class _MessageScreenState extends State<MessageScreen> {
                                         offerEndDateController.text = "";
                                       });
                                     },
-                                    currentTime: offerEndDateController.text != "" ? DateTime.parse(offerEndDateController.text) : DateTime.now(),
+                                    currentTime:
+                                        offerEndDateController.text != ""
+                                            ? DateTime.parse(
+                                                offerEndDateController.text)
+                                            : DateTime.now(),
                                   );
                                 },
                                 child: Container(
@@ -392,7 +404,11 @@ class _MessageScreenState extends State<MessageScreen> {
                             ),
                             Expanded(
                               child: TextFormField(
+                                autocorrect: false,
                                 controller: offerLocationController,
+                                inputFormatters: <TextInputFormatter>[
+                                  LengthLimitingTextInputFormatter(25),
+                                ],
                                 decoration: InputDecoration(
                                   hintText: "Location",
                                   fillColor: Colors.white,
@@ -429,15 +445,36 @@ class _MessageScreenState extends State<MessageScreen> {
                         backgroundColor: MaterialStatePropertyAll(Colors.white),
                         textStyle: MaterialStatePropertyAll(
                             TextStyle(color: Colors.red))),
-                    onPressed: () {
-                      sendOffer(
-                          offerStartDateController.text,
-                          offerEndDateController.text,
-                          int.parse(offerPriceController.text),
-                          offerLocationController.text,
-                          offerDetailsController.text,
-                          "Waiting");
-                      Navigator.pop(context);
+                    onPressed: () async {
+                      if (offerStartDateController.text.isEmpty) {
+                        WarningAlert.showWarningDialog(
+                            context, "Please enter start date!", () {
+                          Navigator.pop(context);
+                        });
+                      } else if (offerEndDateController.text.isEmpty) {
+                        WarningAlert.showWarningDialog(
+                            context, "Please enter end date!", () {
+                          Navigator.pop(context);
+                        });
+                      } else if (offerPriceController.text.isEmpty) {
+                        WarningAlert.showWarningDialog(
+                            context, "Please enter price!", () {
+                          Navigator.pop(context);
+                        });
+                      } else if (offerLocationController.text.isEmpty) {
+                        WarningAlert.showWarningDialog(
+                            context, "Please enter location!", () {
+                          Navigator.pop(context);
+                        });
+                      } else {
+                        sendOffer(
+                            offerStartDateController.text,
+                            offerEndDateController.text,
+                            int.parse(offerPriceController.text),
+                            offerLocationController.text,
+                            offerDetailsController.text,
+                            "Waiting");
+                      }
                     },
                     child: Center(
                       child: Text(

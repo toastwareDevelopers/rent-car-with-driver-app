@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/services/mains.dart';
 import 'package:rentcarmobile/services/profile.dart';
@@ -18,6 +19,10 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
+    TextEditingController cardNumberController = TextEditingController();
+    TextEditingController cvvController = TextEditingController();
+    TextEditingController mmController = TextEditingController();
+    TextEditingController yyController = TextEditingController();
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     OfferBox offer = arguments['offer'];
@@ -47,8 +52,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   left: phoneWidth * 0.08,
                   right: phoneWidth * 0.09,
                   bottom: phoneHeight * 0.01),
-              child: const TextField(
-                decoration: InputDecoration(hintText: "Credit Card Number"),
+              child: TextField(
+                controller: cardNumberController,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(16),
+                ],
+                decoration:
+                    const InputDecoration(hintText: "Credit Card Number"),
               ),
             ),
           ),
@@ -62,8 +74,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 child: SizedBox(
                   width: phoneWidth * 0.37,
                   height: phoneHeight * 0.08,
-                  child: const TextField(
-                    decoration: InputDecoration(hintText: "CVV"),
+                  child: TextField(
+                    controller: cvvController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(3),
+                    ],
+                    decoration: const InputDecoration(hintText: "CVV"),
                   ),
                 ),
               ),
@@ -72,7 +90,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 child: SizedBox(
                   width: phoneWidth * 0.18,
                   height: phoneHeight * 0.08,
-                  child: const TextField(
+                  child: TextField(
+                    controller: mmController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(2),
+                    ],
                     decoration: InputDecoration(hintText: "MM"),
                   ),
                 ),
@@ -80,7 +104,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
               SizedBox(
                 width: phoneWidth * 0.18,
                 height: phoneHeight * 0.08,
-                child: const TextField(
+                child: TextField(
+                  controller: yyController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(2),
+                  ],
                   decoration: InputDecoration(hintText: "YY"),
                 ),
               ),
@@ -102,15 +132,38 @@ class _PaymentScreenState extends State<PaymentScreen> {
             child: ElevatedButton(
               onPressed: () async {
                 // ignore: use_build_context_synchronously
-                showSuccessDialog(context);
-                offer.socket!.emit(
-                  "respondOffer",
-                  {
-                    "roomID": offer.driverId + RentVanApp.userId,
-                    "status": "Accepted",
-                    "offerId": offer.id,
-                  },
-                );
+                if (cardNumberController.text.isEmpty ||
+                    cardNumberController.text.length < 16) {
+                  WarningAlert.showWarningDialog(
+                      context, "Invalid card number!", () {
+                    Navigator.pop(context);
+                  });
+                } else if (cvvController.text.isEmpty ||
+                    cvvController.text.length < 3) {
+                  WarningAlert.showWarningDialog(context, "Invalid  CVV!", () {
+                    Navigator.pop(context);
+                  });
+                } else if (mmController.text.isEmpty ||
+                    mmController.text.length < 2) {
+                  WarningAlert.showWarningDialog(context, "Invalid MM!", () {
+                    Navigator.pop(context);
+                  });
+                } else if (yyController.text.isEmpty ||
+                    yyController.text.length < 2) {
+                  WarningAlert.showWarningDialog(context, "Invalid YY!", () {
+                    Navigator.pop(context);
+                  });
+                } else {
+                  showSuccessDialog(context);
+                  offer.socket!.emit(
+                    "respondOffer",
+                    {
+                      "roomID": offer.driverId + RentVanApp.userId,
+                      "status": "Accepted",
+                      "offerId": offer.id,
+                    },
+                  );
+                }
               },
               child: const Text("      Pay       "),
             ),
