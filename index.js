@@ -4,7 +4,6 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const mongoose = require("mongoose");
 
-
 // IMPORTS FROM OTHER FILES
 const loginAuthRouter = require("./routes/loginAuth");
 const driverAuthRouter = require("./routes/driverAuth");
@@ -34,7 +33,9 @@ const connection = require('./db.js');
 
 // middleware
 app.use(express.json());
-// app.use(express.limit('2mb'));
+app.use(express.json({limit: '5mb'}));
+app.use(express.urlencoded({limit: '5mb',extended: true}));
+
 app.use(loginAuthRouter);
 app.use(customerAuthRouter);
 app.use(customerEditRouter);

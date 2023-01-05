@@ -26,7 +26,7 @@ passwordResetRouter.post('/api/passwordReset/mail', async function (req, res) {
             }
             const hashedPassword = await bcryptjs.hash(random, 8);
             await profile.updateOne({ password: hashedPassword }, { runValidators: true });
-            await sendMail(mail, random, "Your password has been reset.")
+            await sendMail(mail, random)
             res.sendStatus(200)
         }
 
@@ -41,44 +41,4 @@ passwordResetRouter.post('/api/passwordReset/mail', async function (req, res) {
     }
 
 });
-
-// passwordResetRouter.post('/api/passwordReset/key', async function (req, res) {
-
-//     try {
-
-//         const validationNumber = req.body.validationNumber;
-//         const mail = req.body.email;
-//         const password = req.body.password
-
-//         var profile = await Customer.findOne({ email: mail })
-
-//         if (profile == null) {
-//             profile = await Driver.findOne({ email: mail })
-//         }
-
-//         if (profile) {
-//             if (profile.mailActivision.activisionKey == validationNumber) {
-//                 await profile.updateOne({ $unset: { mailActivision: 1 } })
-
-//                 const hashedPassword = await bcryptjs.hash(password, 8);
-//                 await profile.updateOne({ password: hashedPassword }, { runValidators: true });
-//                 res.sendStatus(200)
-//             }
-
-//             else
-//                 return res.status(404).json({ msg: "Invalid key" });
-
-//         }
-//         else {
-
-//             return res.status(404).json({ msg: "Mail not found" });
-//         }
-
-//     } catch (error) {
-
-//         res.status(500).json({ error: error.message });
-//     }
-
-// });
-
 module.exports = passwordResetRouter; 

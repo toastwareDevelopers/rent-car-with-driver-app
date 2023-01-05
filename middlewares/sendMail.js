@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-async function sendMail(tomail, random, text) {
+async function sendMail(tomail, password) {
 
     // Generate test SMTP service account from ethereal.email
     // Only needed if you don't have a real mail account for testing
@@ -14,14 +14,35 @@ async function sendMail(tomail, random, text) {
         },
     });
     let mailOptions;
-    if (random === -1) {
+    console.log(typeof password)
+    if (password === 0) {
         // send mail with defined transport object
         mailOptions = {
             from: 'toastwaredevelopers.7@gmail.com', // sender address
             to: tomail, // list of receivers
             subject: "Welcome to RentaGO", // Subject line
             // This would be the text of email body
-            text: text
+            text: "A new customer has registered"
+        };
+    }
+    else if(password === 1) {
+        // send mail with defined transport object
+        mailOptions = {
+            from: 'toastwaredevelopers.7@gmail.com', // sender address
+            to: tomail, // list of receivers
+            subject: "Welcome to RentaGO", // Subject line
+            // This would be the text of email body
+            text: "A new driver has registered"
+        };
+    }
+    else if(password === 2) {
+        // send mail with defined transport object
+        mailOptions = {
+            from: 'toastwaredevelopers.7@gmail.com', // sender address
+            to: tomail, // list of receivers
+            subject: "Welcome to RentaGO", // Subject line
+            // This would be the text of email body
+            text: "document approval completed"
         };
     }
     else {
@@ -29,9 +50,9 @@ async function sendMail(tomail, random, text) {
         mailOptions = {
             from: 'toastwaredevelopers.7@gmail.com', // sender address
             to: tomail, // list of receivers
-            subject: "Your password has been reset. | RentaGO", // Subject line
+            subject: "Password reset. | RentaGO", // Subject line
             // This would be the text of email body
-            text: text + "\n\nNew password:  " + random
+            text:  "Your password has been reset." + "\n\nNew password:  " + password
         };
     }
 

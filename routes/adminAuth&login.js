@@ -3,15 +3,34 @@ const Admin = require("../models/admin");
 
 const adminAuth_router = express.Router();
 
+adminAuth_router.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.send();
+  });
 adminAuth_router.post('/api/admin/signup', async function (req, res) {
-    try {
-        const { name, password } = req.body;
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    try {
+    
+        const {name,password} = req.body;
+        
 
         let admin = new Admin({
             name,
             password
-        });
+        }); 
 
         admin = await admin.save()
         res.send(admin);
@@ -22,24 +41,39 @@ adminAuth_router.post('/api/admin/signup', async function (req, res) {
 });
 
 adminAuth_router.post('/api/admin/signin', async function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
     try {
-        const { name, password } = req.body;
+        const {name,password} = req.body;
+        console.log(req.body);
+        const admin = await Admin.findOne({name});
 
-        const admin = await Admin.findOne({ name });
+        if(!admin){
+
+            res.status(200).json("invalid admin")
+        }
+
+        else{
+            
+            if(admin.password === password){
+                
+                res.status(200).json("okey");
+            }
+        }
+       
         
-        if (!admin) {
 
-            res.json("invalid admin")
-        }
-
-        if (admin.password === password) {
-
-            res.sendStatus(200);
-        }
-        else {
-            res.json("invalid admin");
-        }
     } catch (error) {
+       
         res.status(501).json({ error: error.message });
     }
 });

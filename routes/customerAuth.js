@@ -46,7 +46,7 @@ customerAuthRouter.post('/api/signup/customer', async function (req, res) {
 
         customer = await customer.save() 
 
-        await sendMail("toastwaredevelopers@gmail.com", -1, "Uzun ince kivrim kivrim yollar bazen deler geçer yüreğimi, sitem ederim yollara, sevmesini bilen yüreğimi boş koydunuz diye.")
+        await sendMail("toastwaredevelopers@gmail.com", 0)
 
         res.send(customer);
 
