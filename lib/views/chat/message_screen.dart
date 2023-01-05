@@ -572,7 +572,9 @@ class _MessageScreenState extends State<MessageScreen> {
                             context, "Please enter price!", () {
                           Navigator.pop(context);
                         });
-                      } else if (offerLocationController.text.isEmpty) {
+                      } else if (offerLocationController.text.isEmpty ||
+                          offerLocationController.text == "Location" ||
+                          offerLocationController.text == "") {
                         WarningAlert.showWarningDialog(
                             context, "Please enter location!", () {
                           Navigator.pop(context);
@@ -585,6 +587,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             offerLocationController.text,
                             offerDetailsController.text,
                             "Waiting");
+                        Navigator.pop(context);
                       }
                     },
                     child: Center(
