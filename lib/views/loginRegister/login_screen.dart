@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/login.dart';
@@ -49,11 +50,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.white,
                     ),
                   ),
-    
+
                   SizedBox(
                     height: 40,
                   ),
-    
+
                   Padding(
                     padding: EdgeInsets.all(20.0),
                     child: Column(
@@ -67,23 +68,29 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: (value) =>
                               InputValidator.validateEmail(value),
                           controller: widget.emailController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                          ],
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.person),
                             labelText: 'Email',
                             labelStyle: TextStyle(fontSize: 20.0),
                           ),
                         ),
-    
+
                         SizedBox(
                           height: 5,
                         ),
-    
+
                         //PASSWORD
                         TextField(
                           obscureText: true,
                           enableSuggestions: false,
                           autocorrect: false,
                           controller: widget.passwordController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                          ],
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.lock),
                             labelText: 'Password',
@@ -92,11 +99,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-    
+
                         SizedBox(
                           height: 20,
                         ),
-    
+
                         // LOGIN BUTTON
                         // Have to connect with the backend to authenticate the user
                         // This part is uncompleted!!!
@@ -126,7 +133,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   widget.emailController.text.toString();
                               login.password =
                                   widget.passwordController.text.toString();
-    
                               Response response =
                                   (await AuthService.login(login));
                               if (response.statusCode != 200) {
@@ -200,7 +206,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             // I have to deal with colors
                             Text(
                               "OR",
-                              style: TextStyle(fontSize: 20.0,color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: 20.0, color: Colors.white),
                               selectionColor: Colors.white,
                             ),
                             // I have to deal with colors
@@ -241,7 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-    
+
                             // REGISTER DRIVER
                             // I have to deal with colors
                             ElevatedButton(
