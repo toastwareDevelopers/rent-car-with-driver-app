@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:rentcarmobile/models/driver.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
@@ -99,7 +100,8 @@ class RegisterDriverPersonalScreen extends StatefulWidget {
   ];
   final List<String> genders = ["Male", "Female"];
 
-  final ProfileIcon _profileIcon = ProfileIcon(key: null, selectedImage: "null");
+  final ProfileIcon _profileIcon =
+      ProfileIcon(key: null, selectedImage: "null");
 
   @override
   State<RegisterDriverPersonalScreen> createState() =>
@@ -113,7 +115,7 @@ class _RegisterDriverPersonalScreenState
     Driver driver = ModalRoute.of(context)!.settings.arguments as Driver;
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
-    
+
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: SingleChildScrollView(
@@ -187,11 +189,54 @@ class _RegisterDriverPersonalScreenState
                           //Birthdate
                           Expanded(
                             flex: 1,
-                            child: TextField(
-                              decoration: const InputDecoration(
-                                hintText: "Birth Date",
+                            child: InkWell(
+                              onTap: () {
+                                DatePicker.showDatePicker(
+                                  context,
+                                  theme: DatePickerTheme(
+                                    doneStyle: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                    ),
+                                    itemStyle: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                    ),
+                                  ),
+                                  showTitleActions: true,
+                                  minTime: DateTime(1900, 1, 1),
+                                  maxTime: DateTime(2004, 1, 1),
+                                  onChanged: (date) {},
+                                  onConfirm: (date) {
+                                    setState(() {
+                                      widget.birthDateController.text =
+                                          date.toString().substring(0, 10);
+                                    });
+                                  },
+                                  onCancel: () {
+                                    setState(() {
+                                      widget.birthDateController.text = "";
+                                    });
+                                  },
+                                  currentTime: DateTime.now(),
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 12),
+                                alignment: Alignment.centerLeft,
+                                height: phoneHeight * 0.06,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 218, 218, 218),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                  widget.birthDateController.text != ""
+                                      ? widget.birthDateController.text
+                                      : "Birthdate",
+                                  style: const TextStyle(
+                                      fontSize: 17,
+                                      color: Color.fromARGB(255, 96, 96, 96)),
+                                ),
                               ),
-                              controller: widget.birthDateController,
                             ),
                           ),
                           SizedBox(
@@ -212,9 +257,11 @@ class _RegisterDriverPersonalScreenState
                                       (value) => DropdownMenuItem(
                                         value: value,
                                         child: Container(
-                                          padding: const EdgeInsets.only(left: 12),
+                                          padding:
+                                              const EdgeInsets.only(left: 12),
                                           child: Text(value,
-                                              style: const TextStyle(fontSize: 17)),
+                                              style: const TextStyle(
+                                                  fontSize: 17)),
                                         ),
                                       ),
                                     )
@@ -241,8 +288,8 @@ class _RegisterDriverPersonalScreenState
                             flex: 1,
                             child: TextField(
                               controller: widget.nationalIdController,
-                              decoration:
-                                  const InputDecoration(hintText: "National ID"),
+                              decoration: const InputDecoration(
+                                  hintText: "National ID"),
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
                                   RegExp("[0-9]"),
@@ -268,9 +315,11 @@ class _RegisterDriverPersonalScreenState
                                       (value) => DropdownMenuItem(
                                         value: value,
                                         child: Container(
-                                          padding: const EdgeInsets.only(left: 12),
+                                          padding:
+                                              const EdgeInsets.only(left: 12),
                                           child: Text(value,
-                                              style: const TextStyle(fontSize: 17)),
+                                              style: const TextStyle(
+                                                  fontSize: 17)),
                                         ),
                                       ),
                                     )
@@ -316,7 +365,9 @@ class _RegisterDriverPersonalScreenState
                           widget.nationalIdController.text,
                           widget.biographyController.text)) {
                         WarningAlert.showWarningDialog(
-                            context, "Please fill all inputs",(){Navigator.pop(context);});
+                            context, "Please fill all inputs", () {
+                          Navigator.pop(context);
+                        });
                       } else {
                         Navigator.of(context).pushNamed(
                           "/registerDriverSkills",

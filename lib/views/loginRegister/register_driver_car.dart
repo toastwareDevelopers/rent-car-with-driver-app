@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:http/http.dart';
 import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
@@ -99,21 +100,53 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                           //Driver Lisence Year
                           Expanded(
                             flex: 1,
-                            child: TextField(
-                              controller: widget.driverLicenseYearController,
-                              maxLengthEnforcement:
-                                  MaxLengthEnforcement.enforced,
-                              maxLength: 4,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9]"),
+                            child: InkWell(
+                              onTap: () {
+                                DatePicker.showDatePicker(
+                                  context,
+                                  theme: DatePickerTheme(
+                                    doneStyle: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                    ),
+                                    itemStyle: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                    ),
+                                  ),
+                                  showTitleActions: true,
+                                  minTime: DateTime(1940, 1, 1),
+                                  maxTime: DateTime.now(),
+                                  onChanged: (date) {},
+                                  onConfirm: (date) {
+                                    setState(() {
+                                      widget.driverLicenseYearController.text =
+                                          date.toString().substring(0, 4);
+                                    });
+                                  },
+                                  onCancel: () {
+                                    setState(() {
+                                      widget.driverLicenseYearController.text = "";
+                                    });
+                                  },
+                                  currentTime: DateTime.now(),
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 12),
+                                alignment: Alignment.centerLeft,
+                                height: phoneHeight * 0.06,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 218, 218, 218),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                              ],
-                              decoration: const InputDecoration(
-                                hintText: "Driver Lisence Year ",
-                                hintMaxLines: 2,
-                                isDense: false,
-                                counterText: "",
+                                child: Text(
+                                  widget.driverLicenseYearController.text != ""
+                                      ? widget.driverLicenseYearController.text
+                                      : "Driver Lisence Year",
+                                  style: const TextStyle(
+                                      fontSize: 17,
+                                      color: Color.fromARGB(255, 96, 96, 96)),
+                                ),
                               ),
                             ),
                           ),
@@ -123,17 +156,53 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                           //Car Model Year
                           Expanded(
                             flex: 1,
-                            child: TextField(
-                              controller: widget.modelYearController,
-                              maxLength: 4,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9]"),
+                            child: InkWell(
+                              onTap: () {
+                                DatePicker.showDatePicker(
+                                  context,
+                                  theme: DatePickerTheme(
+                                    doneStyle: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                    ),
+                                    itemStyle: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                    ),
+                                  ),
+                                  showTitleActions: true,
+                                  minTime: DateTime(1940, 1, 1),
+                                  maxTime: DateTime.now(),
+                                  onChanged: (date) {},
+                                  onConfirm: (date) {
+                                    setState(() {
+                                      widget.modelYearController.text =
+                                          date.toString().substring(0, 4);
+                                    });
+                                  },
+                                  onCancel: () {
+                                    setState(() {
+                                      widget.modelYearController.text = "";
+                                    });
+                                  },
+                                  currentTime: DateTime.now(),
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 12),
+                                alignment: Alignment.centerLeft,
+                                height: phoneHeight * 0.06,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 218, 218, 218),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                              ],
-                              decoration: const InputDecoration(
-                                hintText: "Model Year",
-                                counterText: "",
+                                child: Text(
+                                  widget.modelYearController.text != ""
+                                      ? widget.modelYearController.text
+                                      : "Model Year",
+                                  style: const TextStyle(
+                                      fontSize: 17,
+                                      color: Color.fromARGB(255, 96, 96, 96)),
+                                ),
                               ),
                             ),
                           ),
