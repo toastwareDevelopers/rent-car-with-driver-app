@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 
 import '../../../main.dart';
@@ -98,6 +99,9 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                                 obscureText: true,
                                 enableSuggestions: false,
                                 autocorrect: false,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                                ],
                                 decoration: const InputDecoration(
                                   hintText: "Password",
                                 ),
@@ -114,6 +118,9 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                                 obscureText: true,
                                 enableSuggestions: false,
                                 autocorrect: false,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                                ],
                                 decoration: const InputDecoration(
                                   hintText: "Retype Password",
                                 ),

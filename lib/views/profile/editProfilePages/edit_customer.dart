@@ -133,6 +133,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                           autofocus: false,
                                           readOnly: true,
                                           enabled: false,
+                                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                          ],
                                           decoration: InputDecoration(
                                             // This part will receive data from the database
                                             hintText: customerData.email,
@@ -155,6 +158,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                               const InputDecoration(
                                                   hintText: 'Password'),
                                           controller: password1,
+                                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                          ],
                                         ),
                                       ),
                                       SizedBox(
@@ -170,6 +176,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                               // This part will receive data from the database
                                               const InputDecoration(
                                                   hintText: 'Retype Password'),
+                                                  inputFormatters: [
+                            FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                          ],
                                           controller: password2,
                                         ),
                                       ),
