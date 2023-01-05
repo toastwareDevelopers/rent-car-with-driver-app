@@ -109,7 +109,7 @@ class ProfileService {
       var response = await http.get(url, headers: headers);
       var jsonData = json.decode(response.body);
       List<Trip> listTrip = [];
- 
+
       for (var u in jsonData) {
         Trip trip = Trip();
         trip.id = u["_id"];
@@ -180,29 +180,38 @@ class ProfileService {
     try {
       var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/edit/driver");
       var response = await http.post(url,
-          body: json.encode(
-              {
-                // "phoneNumber": driver.phoneNumber, cant be changed
-                // "email": driver.email, cant be changed
-                driver.password.toString().isEmpty ? "" : "password": driver.password,
-                driver.name.toString().isEmpty ? "" : "name": driver.name,
-                driver.surname.toString().isEmpty ? "" : "surname": driver.surname,
-                driver.birthDate.toString().isEmpty ? "" : "birthDate": driver.birthDate,
-                "gender": driver.gender,
-                driver.bio.toString().isEmpty ? "" : "bio": driver.bio,
-                driver.nationalId.toString().isEmpty ? "" : "nationalId": driver.nationalId,
-                driver.location.toString().isEmpty ? "" : "location": driver.location,
-                driver.skills.toString().isEmpty ? "" : "skills": driver.skills,
-                driver.languages.toString().isEmpty ? "" : "languages": driver.languages,
-                driver.licenseNumber.toString().isEmpty ? "" : "licenseNumber": driver.licenseNumber,
-                driver.licenseYear.toString().isEmpty ? "" : "licenseYear": driver.licenseYear,
-                driver.carInfo.isEmpty ? "" : "carInfo" : driver.carInfo,
-                driver.hourlyPrice.toString().isEmpty ? "" : "hourlyPrice": driver.hourlyPrice,
-                driver.taxNumber.toString().isEmpty ? "" : "taxNumber" : driver.taxNumber,
-                "_id": id,
-                "profile_image64" : driver.profileImage,
-              }
-          ),
+          body: json.encode({
+            // "phoneNumber": driver.phoneNumber, cant be changed
+            // "email": driver.email, cant be changed
+            driver.password.toString().isEmpty ? "" : "password":
+                driver.password,
+            driver.name.toString().isEmpty ? "" : "name": driver.name,
+            driver.surname.toString().isEmpty ? "" : "surname": driver.surname,
+            driver.birthDate.toString().isEmpty ? "" : "birthDate":
+                driver.birthDate,
+            "gender": driver.gender,
+            driver.bio.toString().isEmpty ? "" : "bio": driver.bio,
+            driver.nationalId.toString().isEmpty ? "" : "nationalId":
+                driver.nationalId,
+            driver.location.toString().isEmpty ? "" : "location":
+                driver.location,
+            driver.skills.toString().isEmpty ? "" : "skills": driver.skills,
+            driver.languages.toString().isEmpty ? "" : "languages":
+                driver.languages,
+            driver.licenseNumber.toString().isEmpty ? "" : "licenseNumber":
+                driver.licenseNumber,
+            driver.licenseYear.toString().isEmpty ? "" : "licenseYear":
+                driver.licenseYear,
+            driver.carInfo.isEmpty ? "" : "carInfo": driver.carInfo,
+            driver.hourlyPrice.toString().isEmpty ? "" : "hourlyPrice":
+                driver.hourlyPrice,
+            driver.taxNumber.toString().isEmpty ? "" : "taxNumber":
+                driver.taxNumber,
+            "_id": id,
+            "profile_image64": driver.profileImage,
+            "carPhotos": driver.carPhotos,
+            "legalPhotos": driver.legalDocumentPhotos,
+          }),
           headers: headers);
       return response.statusCode;
     } catch (e) {
@@ -231,9 +240,12 @@ class ProfileService {
               customer.birthDate.toString().isEmpty ? "" : "NewBirthDate":
                   customer.birthDate,
               "NewGender": customer.gender,
-              customer.nationalId.toString().isEmpty ? "" : "NewNationalId": customer.nationalId,
-              customer.passportNumber.toString().isEmpty ? "" : "NewPassportNumber": customer.passportNumber,
-              "NewProfile_image64" : customer.profileImage,
+              customer.nationalId.toString().isEmpty ? "" : "NewNationalId":
+                  customer.nationalId,
+              customer.passportNumber.toString().isEmpty
+                  ? ""
+                  : "NewPassportNumber": customer.passportNumber,
+              "NewProfile_image64": customer.profileImage,
             },
           ),
           headers: headers);
@@ -249,10 +261,12 @@ class ProfileService {
       'Accept': 'application/json'
     };
     try {
-      var url = Uri.parse("http://" + ApiPaths.serverIP + "/api/driver/withdraw").replace(queryParameters: {
+      var url =
+          Uri.parse("http://" + ApiPaths.serverIP + "/api/driver/withdraw")
+              .replace(queryParameters: {
         'ID': driverId,
       });
-      var response = await http.get(url,headers: headers);
+      var response = await http.get(url, headers: headers);
       return response.statusCode;
     } catch (e) {
       return 400;

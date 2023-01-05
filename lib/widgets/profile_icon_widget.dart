@@ -105,7 +105,7 @@ class _ProfileIcon extends State<ProfileIcon> {
                                   children: [
                                     Image.asset(
                                       // edit this part
-                                      AssetPaths.uploadPhotoIconPath,
+                                      AssetPaths.galleryImageIconPath,
                                       height: 60,
                                       width: 60,
                                     ),
@@ -135,7 +135,7 @@ class _ProfileIcon extends State<ProfileIcon> {
                                   children: [
                                     Image.asset(
                                       // edit this part (proper icon)
-                                      AssetPaths.uploadPhotoIconPath,
+                                      AssetPaths.cameraImagePath,
                                       height: 60,
                                       width: 60,
                                     ),
@@ -159,7 +159,7 @@ class _ProfileIcon extends State<ProfileIcon> {
                                   children: [
                                     Image.asset(
                                       // edit this part (proper icon)
-                                      AssetPaths.uploadPhotoIconPath,
+                                      AssetPaths.removeImageIconPath,
                                       height: 60,
                                       width: 60,
                                     ),
@@ -214,19 +214,4 @@ class _ProfileIcon extends State<ProfileIcon> {
   removeImage() {
     return "null";
   }
-
-  // Select image
-  // Future selectImage(ImageSource source) async {
-  //   try {
-  //
-  //     final image = await ImagePicker().pickImage(source: source, imageQuality: 10);
-  //
-  //
-  //     if(image != null) {
-  //
-  //     } else {
-  //
-  //     }
-  //   }
-  // }
 }

@@ -12,6 +12,15 @@ class DriverProfileCarScreen extends StatefulWidget {
 }
 
 class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
+  bool isLoading = false;
+  // List<String>carPhotos = <String>["null"];
+
+  @override
+  void initState() {
+    super.initState();
+    // getCarPhotos();
+  }
+
   @override
   Widget build(BuildContext context) {
     double phoneHeight = MediaQuery.of(context).size.height;
@@ -199,14 +208,28 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                             ),
                           ),
                           Expanded(
-                            flex: 4,
-                            child: TextFormField(
-                              keyboardType: TextInputType.multiline,
-                              maxLines: 7,
-                              initialValue: "",
-                              readOnly: true,
+                          flex: 4,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 218, 218, 218),
+                              border: Border.all(width: 10, color: const Color.fromARGB(255, 218, 218, 218)),
+                              borderRadius: const BorderRadius.all(Radius.circular(5)),
                             ),
+                            child: isLoading ?
+                            const Center(child: CircularProgressIndicator()) :
+                            GridView.builder(
+                              scrollDirection: Axis.vertical,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisSpacing: 20,
+                                  crossAxisSpacing: 20,
+                                  crossAxisCount: 3,
+                                ),
+                                itemCount: driver.carPhotos.length - 1,
+                                itemBuilder: (BuildContext ctx, index) {
+                                  return carPhotoWidget(driver.carPhotos[index]);
+                                }),
                           ),
+                        ),
                         ],
                       ),
                     ),
@@ -330,6 +353,66 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  GestureDetector carPhotoWidget(String carPhoto) {
+    return GestureDetector(
+      child: Container(
+        width: 100,
+        height: 100,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border : Border.all(width: 4, color: const Color.fromARGB(255, 167, 117, 77)),
+          color: const Color.fromARGB(255, 167, 117, 77),
+          borderRadius: BorderRadius.circular(5),
+          image: DecorationImage(
+            fit: BoxFit.fill,
+            image: Image.memory(Base64Converter.decodeImage64(carPhoto)).image,
+            alignment: Alignment.center,
+          ),
+        ),
+      ),
+      onTap: () {
+        // There may be another widget for enhanced car photo!
+        //
+        showEnhancedCarPhoto(carPhoto);
+      },
+    );
+  }
+
+  showEnhancedCarPhoto(String carPhoto) {
+    return showDialog(
+        context: context,
+        builder: (context){
+          return Center(
+            child: Material(
+              type: MaterialType.transparency,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color.fromARGB(255, 218, 218, 218),
+                ),
+                padding: const EdgeInsets.all(15),
+                width: MediaQuery.of(context).size.width * 0.7,
+                height: 320,
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    border : Border.all(width: 4, color: const Color.fromARGB(255, 167, 117, 77)),
+                    color: const Color.fromARGB(255, 167, 117, 77),
+                    borderRadius: BorderRadius.circular(5),
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: Image.memory(Base64Converter.decodeImage64(carPhoto)).image,
+                      alignment: Alignment.center,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
     );
   }
 }

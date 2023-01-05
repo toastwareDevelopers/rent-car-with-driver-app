@@ -176,8 +176,10 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
     setState(() {
       isLoading = true;
     });
+
     final response = await ProfileService.getDriver(RentVanApp.userId);
     EditDriverAuthScreen.editDriver = response;
+
     setState(() {
       isLoading = false;
     });
