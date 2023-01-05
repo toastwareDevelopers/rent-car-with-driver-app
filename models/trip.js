@@ -1,10 +1,15 @@
 const mongoose = require("mongoose");
 
+
 const tripSchema = ({
     
-    driverId: mongoose.ObjectId,
+    driverId: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Driver',},
 
-    customerId: mongoose.ObjectId,
+    customerId: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Customer',},
 
     startDate: Date,
 
