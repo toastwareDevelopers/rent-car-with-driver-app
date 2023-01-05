@@ -216,203 +216,224 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
     double phoneHeight = MediaQuery.of(context).size.height;
     double phoneWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Rent Car App"),
-        centerTitle: true,
-        actions: [
-          FutureBuilder(
-            future: ProfileService.getCustomer(RentVanApp.userId),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                String customerPhoto =
-                    (snapshot.data as Customer).profileImage as String;
-                return InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, "/profileCustomer",
-                        arguments: RentVanApp.userId);
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: Theme.of(context).highlightColor,
-                    radius: 24,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Rent Car App"),
+          centerTitle: true,
+          actions: [
+            FutureBuilder(
+              future: ProfileService.getCustomer(RentVanApp.userId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
+                  String customerPhoto =
+                      (snapshot.data as Customer).profileImage as String;
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, "/profileCustomer",
+                          arguments: RentVanApp.userId);
+                    },
                     child: CircleAvatar(
-                      backgroundImage: customerPhoto == "null"
-                          ? AssetImage(AssetPaths.blankProfilePhotoPath)
-                          : Image.memory(base64Decode(customerPhoto)).image,
-                      radius: 21.0,
+                      backgroundColor: Theme.of(context).highlightColor,
+                      radius: 24,
+                      child: CircleAvatar(
+                        backgroundImage: customerPhoto == "null"
+                            ? AssetImage(AssetPaths.blankProfilePhotoPath)
+                            : Image.memory(base64Decode(customerPhoto)).image,
+                        radius: 21.0,
+                      ),
                     ),
-                  ),
-                );
-              } else {
-                return Container();
-              }
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ],
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+              RentVanApp.userId = "null";
             },
-          ),
-        ],
-        leading: InkWell(
-          onTap: () {
-            Navigator.pushReplacementNamed(context, "/");
-            RentVanApp.userId = "null";
-          },
-          child: Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.rotationY(math.pi),
-            child: Icon(
-              Icons.exit_to_app,
-              size: 30,
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationY(math.pi),
+              child: Icon(
+                Icons.exit_to_app,
+                size: 30,
+              ),
             ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Image.asset(
-          AssetPaths.chatIconPath,
-          scale: 0.1,
-          height: 35,
-          width: 35,
-          color: Colors.white,
+        floatingActionButton: FloatingActionButton(
+          child: Image.asset(
+            AssetPaths.chatIconPath,
+            scale: 0.1,
+            height: 35,
+            width: 35,
+            color: Colors.white,
+          ),
+          onPressed: () => Navigator.pushNamed(context, "/allChats"),
         ),
-        onPressed: () => Navigator.pushNamed(context, "/allChats"),
-      ),
-      body: Container(
-        child: Stack(
-          children: [
-            Column(
-              children: <Widget>[
-                //Active Renting
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: phoneWidth * 0.05),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            alignment: Alignment.bottomLeft,
-                            child: Text(
-                              "Active Renting",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
+        body: Container(
+          child: Stack(
+            children: [
+              Column(
+                children: <Widget>[
+                  //Active Renting
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: phoneWidth * 0.05),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                "Active Renting",
+                                style:
+                                    TextStyle(color: Colors.white, fontSize: 18),
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: phoneHeight * 0.005,
-                        ),
-                        FutureBuilder(
-                          future: MainService.getCustomerActiveTrip(
-                              RentVanApp.userId),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasData) {
-                              ActiveRentingCustomer renting =
-                                  snapshot.data as ActiveRentingCustomer;
-                              if (renting.driverId.toString() != "null") {
-                                return Expanded(
-                                  flex: 3,
-                                  child: Stack(
-                                      alignment: Alignment.topRight,
-                                      children: [
-                                        InkWell(
-                                          onTap: () => Navigator.pushNamed(
-                                              context, "/profileDriverPersonal",
-                                              arguments: renting.driverId),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .highlightColor,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
+                          SizedBox(
+                            height: phoneHeight * 0.005,
+                          ),
+                          FutureBuilder(
+                            future: MainService.getCustomerActiveTrip(
+                                RentVanApp.userId),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                      ConnectionState.done &&
+                                  snapshot.hasData) {
+                                ActiveRentingCustomer renting =
+                                    snapshot.data as ActiveRentingCustomer;
+                                if (renting.driverId.toString() != "null") {
+                                  return Expanded(
+                                    flex: 3,
+                                    child: Stack(
+                                        alignment: Alignment.topRight,
+                                        children: [
+                                          InkWell(
+                                            onTap: () => Navigator.pushNamed(
+                                                context, "/profileDriverPersonal",
+                                                arguments: renting.driverId),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .highlightColor,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
                                               ),
-                                            ),
-                                            child: ListTile(
-                                              style: ListTileStyle.list,
-                                              title: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  CircleAvatar(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    radius: 30,
-                                                    child: CircleAvatar(
-                                                      backgroundImage: renting
-                                                                  .driverProfileImage ==
-                                                              "null"
-                                                          ? AssetImage(AssetPaths
-                                                              .blankProfilePhotoPath)
-                                                          : Image.memory(base64Decode(
-                                                                  renting.driverProfileImage
-                                                                      as String))
-                                                              .image,
-                                                      radius: 27.0,
+                                              child: ListTile(
+                                                style: ListTileStyle.list,
+                                                title: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      radius: 30,
+                                                      child: CircleAvatar(
+                                                        backgroundImage: renting
+                                                                    .driverProfileImage ==
+                                                                "null"
+                                                            ? AssetImage(AssetPaths
+                                                                .blankProfilePhotoPath)
+                                                            : Image.memory(base64Decode(
+                                                                    renting.driverProfileImage
+                                                                        as String))
+                                                                .image,
+                                                        radius: 27.0,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: phoneWidth * 0.05,
-                                                    height: phoneHeight * 0.05,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        "${renting.driverName} ${renting.driverSurname}",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 17),
-                                                      ),
-                                                      Text(
-                                                        renting.location
-                                                            as String,
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14),
-                                                      ),
-                                                      Text(
-                                                        "Start : ${renting.startDate?.substring(0, 10).replaceAll("-", "/")} - Finish : ${renting.endDate?.substring(0, 10).replaceAll("-", "/")}",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                                    SizedBox(
+                                                      width: phoneWidth * 0.05,
+                                                      height: phoneHeight * 0.05,
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          "${renting.driverName} ${renting.driverSurname}",
+                                                          style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 17),
+                                                        ),
+                                                        Text(
+                                                          renting.location
+                                                              as String,
+                                                          style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 14),
+                                                        ),
+                                                        Text(
+                                                          "Start : ${renting.startDate?.substring(0, 10).replaceAll("-", "/")} - Finish : ${renting.endDate?.substring(0, 10).replaceAll("-", "/")}",
+                                                          style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 14),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                right: phoneWidth * 0.01,
+                                                top: phoneHeight * 0.005),
+                                            alignment: Alignment.topRight,
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10, vertical: 5),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(5),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                  renting.price.toString() +
+                                                      "TL"),
+                                            ),
+                                          )
+                                        ]),
+                                  );
+                                } else {
+                                  return Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).highlightColor,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              right: phoneWidth * 0.01,
-                                              top: phoneHeight * 0.005),
-                                          alignment: Alignment.topRight,
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 5),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(5),
-                                              ),
-                                            ),
-                                            child: Text(
-                                                renting.price.toString() +
-                                                    "TL"),
-                                          ),
-                                        )
-                                      ]),
-                                );
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "There is no active renting",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
                               } else {
                                 return Expanded(
                                   flex: 3,
@@ -424,175 +445,157 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                       ),
                                     ),
                                     child: Center(
-                                      child: Text(
-                                        "There is no active renting",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
+                                      child: snapshot.connectionState ==
+                                              ConnectionState.waiting
+                                          ? Text(
+                                              "Active renting is laoding...",
+                                              style:
+                                                  TextStyle(color: Colors.white),
+                                            )
+                                          : Text(
+                                              "There is no active renting",
+                                              style:
+                                                  TextStyle(color: Colors.white),
+                                            ),
                                     ),
                                   ),
                                 );
                               }
-                            } else {
-                              return Expanded(
-                                flex: 3,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).highlightColor,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: snapshot.connectionState ==
-                                            ConnectionState.waiting
-                                        ? Text(
-                                            "Active renting is laoding...",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          )
-                                        : Text(
-                                            "There is no active renting",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                //Drivers
-                Expanded(
-                  flex: 15,
-                  child: Container(
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          left: phoneWidth * 0.05,
-                          right: phoneWidth * 0.05,
-                          bottom: phoneHeight * 0.03),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                "Find A Driver",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: phoneHeight * 0.005,
-                          ),
-                          Expanded(
-                            flex: 10,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: phoneWidth * 0.02,
-                                  vertical: phoneHeight * 0.01),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                                border: Border.all(
-                                    color: Theme.of(context).highlightColor,
-                                    width: 5),
-                              ),
-                              child: FutureBuilder(
-                                  future: MainService.getFilteredDrivers(
-                                      widget.filter),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                            ConnectionState.done &&
-                                        (snapshot.data as List<Driver>).length >
-                                            0) {
-                                      List<Driver> drivers =
-                                          snapshot.data as List<Driver>;
-                                      return ListView.separated(
-                                        separatorBuilder: (context, index) =>
-                                            SizedBox(
-                                          height: phoneHeight * 0.01,
-                                        ),
-                                        itemCount: drivers.length,
-                                        itemBuilder: ((context, index) {
-                                          return DriverListDriver(
-                                            driverId: drivers[index].id,
-                                            driverName: drivers[index].name +
-                                                " " +
-                                                drivers[index].surname,
-                                            driverAge:
-                                                "${DateTime.now().year - int.parse(drivers[index].birthDate.toString().substring(0, 4))}",
-                                            driverLocation:
-                                                drivers[index].location,
-                                            driverDescription:
-                                                drivers[index].bio,
-                                            driverPrice: drivers[index]
-                                                .hourlyPrice
-                                                .toString(),
-                                            driverRating: drivers[index]
-                                                .rating
-                                                .toString(),
-                                            driverPhoto:
-                                                drivers[index].profileImage,
-                                          );
-                                        }),
-                                      );
-                                    } else {
-                                      return Container(
-                                        child: Center(
-                                            child: snapshot.connectionState ==
-                                                    ConnectionState.waiting
-                                                ? Text(
-                                                    "Drivers are loading ...")
-                                                : Text(
-                                                    "We couldn't find any driver")),
-                                      );
-                                    }
-                                  }),
-                            ),
-                          ),
+                            },
+                          )
                         ],
                       ),
                     ),
                   ),
-                ),
-              ],
-            ), //Filter Button
-            Positioned(
-              top: phoneHeight * 0.84,
-              left: phoneWidth * 0.35,
-              child: InkWell(
-                onTap: () {
-                  showFilters(
-                      context, refreshWithFilter, phoneHeight, phoneWidth);
-                },
-                child: Container(
-                  width: phoneWidth * 0.3,
-                  height: phoneHeight * 0.045,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).highlightColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5),
+                  //Drivers
+                  Expanded(
+                    flex: 15,
+                    child: Container(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: phoneWidth * 0.05,
+                            right: phoneWidth * 0.05,
+                            bottom: phoneHeight * 0.03),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  "Find A Driver",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: phoneHeight * 0.005,
+                            ),
+                            Expanded(
+                              flex: 10,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: phoneWidth * 0.02,
+                                    vertical: phoneHeight * 0.01),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  border: Border.all(
+                                      color: Theme.of(context).highlightColor,
+                                      width: 5),
+                                ),
+                                child: FutureBuilder(
+                                    future: MainService.getFilteredDrivers(
+                                        widget.filter),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                              ConnectionState.done &&
+                                          (snapshot.data as List<Driver>).length >
+                                              0) {
+                                        List<Driver> drivers =
+                                            snapshot.data as List<Driver>;
+                                        return ListView.separated(
+                                          separatorBuilder: (context, index) =>
+                                              SizedBox(
+                                            height: phoneHeight * 0.01,
+                                          ),
+                                          itemCount: drivers.length,
+                                          itemBuilder: ((context, index) {
+                                            return DriverListDriver(
+                                              driverId: drivers[index].id,
+                                              driverName: drivers[index].name +
+                                                  " " +
+                                                  drivers[index].surname,
+                                              driverAge:
+                                                  "${DateTime.now().year - int.parse(drivers[index].birthDate.toString().substring(0, 4))}",
+                                              driverLocation:
+                                                  drivers[index].location,
+                                              driverDescription:
+                                                  drivers[index].bio,
+                                              driverPrice: drivers[index]
+                                                  .hourlyPrice
+                                                  .toString(),
+                                              driverRating: drivers[index]
+                                                  .rating
+                                                  .toString(),
+                                              driverPhoto:
+                                                  drivers[index].profileImage,
+                                            );
+                                          }),
+                                        );
+                                      } else {
+                                        return Container(
+                                          child: Center(
+                                              child: snapshot.connectionState ==
+                                                      ConnectionState.waiting
+                                                  ? Text(
+                                                      "Drivers are loading ...")
+                                                  : Text(
+                                                      "We couldn't find any driver")),
+                                        );
+                                      }
+                                    }),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    border: Border.all(color: Colors.white, width: 3),
                   ),
-                  child: Center(
-                    child: Text(
-                      "Filter",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                ],
+              ), //Filter Button
+              Positioned(
+                top: phoneHeight * 0.84,
+                left: phoneWidth * 0.35,
+                child: InkWell(
+                  onTap: () {
+                    showFilters(
+                        context, refreshWithFilter, phoneHeight, phoneWidth);
+                  },
+                  child: Container(
+                    width: phoneWidth * 0.3,
+                    height: phoneHeight * 0.045,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).highlightColor,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                      border: Border.all(color: Colors.white, width: 3),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Filter",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

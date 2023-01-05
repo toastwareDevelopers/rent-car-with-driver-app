@@ -65,12 +65,12 @@ class MainService {
       });
 
       var response = await http.get(url, headers: headers);
-      print(response.body);
       var jsonData = json.decode(response.body);
       List<Trip> listTrip = [];
 
       for (var u in jsonData) {
         Trip trip = Trip();
+        trip.id = u["_id"];
         trip.customerName = u["customerName"];
         trip.customerSurname = u["customerSurname"];
         DateTime dt = DateTime.parse(u["customerBirthDate"]);
@@ -81,9 +81,9 @@ class MainService {
         trip.location = u["location"];
         trip.price = u["price"];
         trip.customerId = u["customerId"];
+        trip.reviewId = u["reviewId"];
         trip.driverId = u["driverId"];
         trip.customerProfileImage = u["customerProfile_image64"];
-        print(trip);
         listTrip.add(trip);
       }
       return listTrip;

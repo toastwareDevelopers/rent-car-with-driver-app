@@ -138,7 +138,7 @@ class CustomerTrip extends StatelessWidget {
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.white),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, "/reviewScreen",arguments: this);
+                      Navigator.pushNamed(context, "/reviewScreen",arguments: this);
                     },
                     child: const Text(
                       "Review",

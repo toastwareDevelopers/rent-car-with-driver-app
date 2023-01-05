@@ -51,7 +51,6 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(elevation: 0),
       body: Container(
@@ -89,7 +88,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               Expanded(
                                 flex: 1,
                                 child: TextField(
-                                  decoration: const InputDecoration(hintText: "Name"),
+                                  decoration:
+                                      const InputDecoration(hintText: "Name"),
                                   controller: name,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
@@ -105,8 +105,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               Expanded(
                                 flex: 1,
                                 child: TextField(
-                                  decoration:
-                                      const InputDecoration(hintText: "Surname"),
+                                  decoration: const InputDecoration(
+                                      hintText: "Surname"),
                                   controller: surname,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
@@ -133,6 +133,10 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                   validator: (value) =>
                                       InputValidator.validateEmail(value),
                                   controller: email,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(
+                                        RegExp(r'\s')),
+                                  ],
                                 ),
                               ),
                             ],
@@ -146,8 +150,12 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                   obscureText: true,
                                   enableSuggestions: false,
                                   autocorrect: false,
-                                  decoration:
-                                      const InputDecoration(hintText: "Password"),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(
+                                        RegExp(r'\s')),
+                                  ],
+                                  decoration: const InputDecoration(
+                                      hintText: "Password"),
                                   controller: password1,
                                 ),
                               ),
@@ -160,8 +168,12 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                   obscureText: true,
                                   enableSuggestions: false,
                                   autocorrect: false,
-                                  decoration:
-                                      const InputDecoration(hintText: "Retype Password"),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(
+                                        RegExp(r'\s')),
+                                  ],
+                                  decoration: const InputDecoration(
+                                      hintText: "Retype Password"),
                                   controller: password2,
                                 ),
                               ),
@@ -236,15 +248,13 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               Expanded(
                                 flex: 1,
                                 child: TextField(
-                                  decoration:
-                                  InputDecoration(
+                                  decoration: InputDecoration(
                                       hintText: (_character ==
-                                          SingingCharacter
-                                              .nationalNumber)
+                                              SingingCharacter.nationalNumber)
                                           ? 'National ID'
                                           : 'Passport ID'),
                                   controller: (_character ==
-                                      SingingCharacter.nationalNumber)
+                                          SingingCharacter.nationalNumber)
                                       ? nationalID
                                       : passportID,
                                   inputFormatters: [
@@ -368,11 +378,13 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                             data.gender = genderDropdown.toString();
                             data.profileImage = _profileIcon.selectedImage;
 
-                            if(nationalID.value.text.toString().isNotEmpty) {
-                              data.nationalId = nationalID.value.text.toString();
+                            if (nationalID.value.text.toString().isNotEmpty) {
+                              data.nationalId =
+                                  nationalID.value.text.toString();
                             }
-                            if(passportID.value.text.toString().isNotEmpty) {
-                              data.passportNumber = passportID.value.text.toString();
+                            if (passportID.value.text.toString().isNotEmpty) {
+                              data.passportNumber =
+                                  passportID.value.text.toString();
                             }
 
                             Response res =
@@ -390,17 +402,17 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                       .add(element.split(":").last.trim());
                                 },
                               );
-                            
 
                               WarningAlert.showWarningDialog(
                                 context,
-                                errorMessages[0] == "null" ? jsonDecode(res.body)["msg"] :
-                                errorMessages
-                                    .toString()
-                                    .replaceAll("[", "")
-                                    .replaceAll("]", "")
-                                    .replaceAll(",", "\n")
-                                    .replaceAll("\n ", "\n"),
+                                errorMessages[0] == "null"
+                                    ? jsonDecode(res.body)["msg"]
+                                    : errorMessages
+                                        .toString()
+                                        .replaceAll("[", "")
+                                        .replaceAll("]", "")
+                                        .replaceAll(",", "\n")
+                                        .replaceAll("\n ", "\n"),
                                 () {
                                   Navigator.pop(context);
                                 },
