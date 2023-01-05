@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:rentcarmobile/constants/api_path.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/customer.dart';
@@ -230,7 +231,7 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   Future<dynamic> showOffer(
-      BuildContext context, double phoneHeight, double phoneWidth) {
+      BuildContext context2, double phoneHeight, double phoneWidth) {
     TextEditingController offerStartDateController = TextEditingController();
     TextEditingController offerEndDateController = TextEditingController();
     TextEditingController offerPriceController = TextEditingController();
@@ -239,132 +240,217 @@ class _MessageScreenState extends State<MessageScreen> {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            titlePadding: EdgeInsets.all(10),
-            title: Center(
-              child: Text(
-                "Make Offer",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-            content: Container(
-              height: phoneHeight * 0.4,
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      padding: EdgeInsets.all(0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: offerStartDateController,
-                              decoration: InputDecoration(
-                                hintText: "Start Date",
-                                fillColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: phoneWidth * 0.02,
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              controller: offerEndDateController,
-                              decoration: InputDecoration(
-                                hintText: "End Date",
-                                fillColor: Colors.white,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(10),
-                              ],
-                              controller: offerPriceController,
-                              decoration: InputDecoration(
-                                hintText: "Price",
-                                fillColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: phoneWidth * 0.02,
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              controller: offerLocationController,
-                              decoration: InputDecoration(
-                                hintText: "Location",
-                                fillColor: Colors.white,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: phoneHeight * 0.008,
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: TextFormField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 10,
-                      controller: offerDetailsController,
-                      decoration: InputDecoration(
-                        hintText: "Details",
-                        fillColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.25),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.white),
-                      textStyle: MaterialStatePropertyAll(
-                          TextStyle(color: Colors.red))),
-                  onPressed: () {
-                    sendOffer(
-                        offerStartDateController.text,
-                        offerEndDateController.text,
-                        int.parse(offerPriceController.text),
-                        offerLocationController.text,
-                        offerDetailsController.text,
-                        "Waiting");
-                    Navigator.pop(context);
-                  },
-                  child: Center(
-                    child: Text(
-                      "Offer",
-                      style:
-                          TextStyle(color: Colors.black, fontFamily: "Arapey"),
-                    ),
-                  ),
+          return StatefulBuilder(
+            builder: (context, setState) => AlertDialog(
+              titlePadding: EdgeInsets.all(10),
+              title: Center(
+                child: Text(
+                  "Make Offer",
+                  style: TextStyle(color: Colors.white),
                 ),
-              )
-            ],
-            backgroundColor: Theme.of(context).highlightColor,
+              ),
+              contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              content: Container(
+                height: phoneHeight * 0.4,
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        padding: EdgeInsets.all(0),
+                        child: Row(
+                          children: [
+                            //Start Date
+                            Expanded(
+                              flex: 1,
+                              child: InkWell(
+                                onTap: () {
+                                  DatePicker.showDatePicker(
+                                    context2,
+                                    theme: DatePickerTheme(
+                                      doneStyle: TextStyle(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                      itemStyle: TextStyle(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                    ),
+                                    showTitleActions: true,
+                                    minTime: DateTime.now(),
+                                    onConfirm: (date) {
+                                      setState(() {
+                                        offerStartDateController.text =
+                                            date.toString().substring(0, 10);
+                                        offerEndDateController.text = "";
+                                      });
+                                    },
+                                    onCancel: () {
+                                      setState(() {
+                                        offerStartDateController.text = "";
+                                      });
+                                    },
+                                    currentTime: offerStartDateController.text != "" ? DateTime.parse(offerStartDateController.text) : DateTime.now(),
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  alignment: Alignment.centerLeft,
+                                  height: phoneHeight * 0.06,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Text(
+                                    offerStartDateController.text != ""
+                                        ? offerStartDateController.text
+                                        : "Start Date",
+                                    style: const TextStyle(
+                                        fontSize: 17,
+                                        color: Color.fromARGB(255, 96, 96, 96)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: phoneWidth * 0.02,
+                            ),
+                            //End Date
+                            Expanded(
+                              flex: 1,
+                              child: InkWell(
+                                onTap: () {
+                                  DatePicker.showDatePicker(
+                                    context2,
+                                    theme: DatePickerTheme(
+                                      doneStyle: TextStyle(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                      itemStyle: TextStyle(
+                                        color: Theme.of(context).highlightColor,
+                                      ),
+                                    ),
+                                    showTitleActions: true,
+                                    minTime: offerStartDateController.text != "" ? DateTime.tryParse(offerStartDateController.text) : DateTime.now(),
+                                    onConfirm: (date) {
+                                      setState(() {
+                                        offerEndDateController.text =
+                                            date.toString().substring(0, 10);
+                                      });
+                                    },
+                                    onCancel: () {
+                                      setState(() {
+                                        offerEndDateController.text = "";
+                                      });
+                                    },
+                                    currentTime: offerEndDateController.text != "" ? DateTime.parse(offerEndDateController.text) : DateTime.now(),
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  alignment: Alignment.centerLeft,
+                                  height: phoneHeight * 0.06,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Text(
+                                    offerEndDateController.text != ""
+                                        ? offerEndDateController.text
+                                        : "End Date",
+                                    style: const TextStyle(
+                                        fontSize: 17,
+                                        color: Color.fromARGB(255, 96, 96, 96)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(10),
+                                ],
+                                controller: offerPriceController,
+                                decoration: InputDecoration(
+                                  hintText: "Price",
+                                  fillColor: Colors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: phoneWidth * 0.02,
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                controller: offerLocationController,
+                                decoration: InputDecoration(
+                                  hintText: "Location",
+                                  fillColor: Colors.white,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: phoneHeight * 0.008,
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 10,
+                        controller: offerDetailsController,
+                        decoration: InputDecoration(
+                          hintText: "Details",
+                          fillColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.25),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.white),
+                        textStyle: MaterialStatePropertyAll(
+                            TextStyle(color: Colors.red))),
+                    onPressed: () {
+                      sendOffer(
+                          offerStartDateController.text,
+                          offerEndDateController.text,
+                          int.parse(offerPriceController.text),
+                          offerLocationController.text,
+                          offerDetailsController.text,
+                          "Waiting");
+                      Navigator.pop(context);
+                    },
+                    child: Center(
+                      child: Text(
+                        "Offer",
+                        style: TextStyle(
+                            color: Colors.black, fontFamily: "Arapey"),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+              backgroundColor: Theme.of(context).highlightColor,
+            ),
           );
         });
   }
