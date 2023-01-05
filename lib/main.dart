@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rentcarmobile/views/chat/chat.dart';
 import 'package:rentcarmobile/views/chat/message_screen.dart';
 import 'package:rentcarmobile/views/loginRegister/forgotpassword_screen.dart';
@@ -36,6 +37,10 @@ class RentVanApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Rent Van App',
@@ -92,7 +97,7 @@ class RentVanApp extends StatelessWidget {
           textSelectionTheme: const TextSelectionThemeData(
             cursorColor: Color.fromARGB(255, 167, 117, 77),
           ),
-        ),
+        ),  
         initialRoute: "/",
         routes: {
           '/': (context) => LoginScreen(),
