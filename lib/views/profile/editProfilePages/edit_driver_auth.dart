@@ -169,34 +169,9 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
     setState(() {
       isLoading = true;
     });
+
     final response = await ProfileService.getDriver(RentVanApp.userId);
     EditDriverAuthScreen.editDriver = response;
-
-    List<String>carPhotos = <String>["null"];
-    List<String>legalDocumentPhotos = <String>["null"];
-    carPhotos.removeAt(0);
-    legalDocumentPhotos.removeAt(0);
-
-    for(int i = 0; ; ++i) {
-      final response = await ProfileService.getDriverCarPhoto(i, RentVanApp.userId);
-      if(response.toString() == "") {
-        break;
-      } else {
-        carPhotos.add(response.toString());
-      }
-    }
-
-    for(int i = 0; ; ++i) {
-      final response = await ProfileService.getDriverLegalDocument(i, RentVanApp.userId);
-      if(response.toString() == "") {
-        break;
-      } else {
-        legalDocumentPhotos.add(response.toString());
-      }
-    }
-
-    EditDriverAuthScreen.editDriver.carPhotos = carPhotos;
-    EditDriverAuthScreen.editDriver.legalDocumentPhotos = legalDocumentPhotos;
 
     setState(() {
       isLoading = false;

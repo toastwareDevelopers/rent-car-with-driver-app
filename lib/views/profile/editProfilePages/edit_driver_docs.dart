@@ -116,10 +116,6 @@ class _EditDriverDocsScreenState extends State<EditDriverDocsScreen> {
                             Navigator.pop(context);
                           });
                         } else {
-                          deleteCarPhotos();
-                          deleteLegalDocuments();
-                          uploadCarPhotos(EditDriverAuthScreen.editDriver.carPhotos);
-                          uploadLegalDocuments(EditDriverAuthScreen.editDriver.legalDocumentPhotos);
                           SnackBar snackbar = const SnackBar(content: Text("Profile updated!"), duration: Duration(seconds: 2),);
                           ScaffoldMessenger.of(context).showSnackBar(snackbar);
                           Navigator.pushReplacementNamed(context, "/profileDriverPersonal", arguments: RentVanApp.userId);
@@ -367,28 +363,6 @@ class _EditDriverDocsScreenState extends State<EditDriverDocsScreen> {
       } else {
         return "null";
       }
-    }
-  }
-
-  deleteCarPhotos() async {
-    await ProfileService.deleteDriverCarPhotos(RentVanApp.userId);
-  }
-
-  deleteLegalDocuments() async {
-    await ProfileService.deleteDriverLegalDocuments(RentVanApp.userId);
-  }
-
-  // Upload car photos
-  uploadCarPhotos(List<String> carPhotos) async {
-    for(int i = 0; i < carPhotos.length; ++i) {
-      await ProfileService.addDriverCarPhoto(carPhotos[i], RentVanApp.userId);
-    }
-  }
-
-  // Upload legal documents
-  uploadLegalDocuments(List<String> legalDocuments) async {
-    for(int i = 0; i < legalDocuments.length; ++i) {
-      await ProfileService.addDriverLegalDocument(legalDocuments[i], RentVanApp.userId);
     }
   }
 }

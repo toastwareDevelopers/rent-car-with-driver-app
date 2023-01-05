@@ -7,9 +7,7 @@ import 'package:rentcarmobile/services/auth.dart';
 import 'package:rentcarmobile/utils/base64_converter.dart';
 
 import '../../constants/assets_path.dart';
-import '../../main.dart';
 import '../../models/driver.dart';
-import '../../services/profile.dart';
 import '../../utils/warning_alert.dart';
 
 class RegisterDriverDocsScreen extends StatefulWidget {
@@ -135,6 +133,8 @@ class _RegisterDriverDocsScreenState extends State<RegisterDriverDocsScreen> {
                               "color": driver.carInfo["color"],
                             },
                             profileImage: driver.profileImage,
+                            carPhotos: driver.carPhotos,
+                            legalDocumentPhotos: legalDocumentPhotos,
                           ),
                         ));
                         if(res.statusCode != 200) {
@@ -161,9 +161,6 @@ class _RegisterDriverDocsScreenState extends State<RegisterDriverDocsScreen> {
                             Navigator.pop(context);
                           });
                         } else {
-                          // Upload carPhotos and legalDocuments
-                          uploadCarPhotos(driver.carPhotos);
-                          uploadLegalDocuments(legalDocumentPhotos);
                           WarningAlert.showWarningDialog(context,
                               "Congrulations! You have registered succesfully!",
                                   () {
@@ -412,20 +409,6 @@ class _RegisterDriverDocsScreenState extends State<RegisterDriverDocsScreen> {
       } else {
         return "null";
       }
-    }
-  }
-
-  // Upload car photos
-  uploadCarPhotos(List<String> carPhotos) async {
-    for(int i = 0; i < carPhotos.length; ++i) {
-      await ProfileService.addDriverCarPhoto(carPhotos[i], RentVanApp.userId);
-    }
-  }
-
-  // Upload legal documents
-  uploadLegalDocuments(List<String> legalDocuments) async {
-    for(int i = 0; i < legalDocuments.length; ++i) {
-      await ProfileService.addDriverLegalDocument(legalDocuments[i], RentVanApp.userId);
     }
   }
 }

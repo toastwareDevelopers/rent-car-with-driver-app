@@ -3,7 +3,6 @@ import 'package:rentcarmobile/utils/base64_converter.dart';
 import '../../constants/assets_path.dart';
 import '../../main.dart';
 import '../../models/driver.dart';
-import '../../services/profile.dart';
 
 class DriverProfileCarScreen extends StatefulWidget {
   DriverProfileCarScreen({super.key});
@@ -14,12 +13,12 @@ class DriverProfileCarScreen extends StatefulWidget {
 
 class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
   bool isLoading = false;
-  List<String>carPhotos = <String>["null"];
+  // List<String>carPhotos = <String>["null"];
 
   @override
   void initState() {
     super.initState();
-    getCarPhotos();
+    // getCarPhotos();
   }
 
   @override
@@ -219,9 +218,9 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                   //mainAxisExtent: 3,
                                   //childAspectRatio: 1,
                                 ),
-                                itemCount: carPhotos.length - 1,
+                                itemCount: driver.carPhotos.length - 1,
                                 itemBuilder: (BuildContext ctx, index) {
-                                  return carPhotoWidget(carPhotos[index]);
+                                  return carPhotoWidget(driver.carPhotos[index]);
                                 }),
                           ),
                         ),
@@ -410,25 +409,4 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
         }
     );
   }
-
-  getCarPhotos() async {
-    setState(() {
-      isLoading = true;
-    });
-    carPhotos.removeAt(0);
-
-    for(int i = 0; ; ++i) {
-      final response = await ProfileService.getDriverCarPhoto(i, RentVanApp.userId);
-      if(response.toString() == "") {
-        break;
-      } else {
-        carPhotos.add(response.toString());
-      }
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
 }
