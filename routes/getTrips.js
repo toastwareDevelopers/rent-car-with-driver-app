@@ -6,7 +6,6 @@ const Driver = require("../models/driver");
 const Customer = require('../models/customer');
 const Trip = require("../models/trip");
 const Review = require("../models/review");
-const { type } = require('express/lib/response');
 const { JsonWebTokenError } = require('jsonwebtoken');
 
 /* Creating a new router object. */
@@ -33,40 +32,53 @@ getTripsRouter.get('/api/getTrips',async function (req,res){
         /* Checking if the model is null. If it is, it returns a 400 status code and a message. */
         if(!model) return res.status(400).json({msg: "There is not a model with this id"});
         
-
         if(model){
             
             let arrOfTrips = new Array();
 
             for (let index = 0; index < model.trips.length; index++) {
+                
                 x = await Trip.findById( model.trips[index]);
-
+                
                 y = x.toObject();
-                
-                temp = await Review.findById(x.reviewId);
-                if(temp)
-                    y.reviewId = temp._id;
-                else
+
+                if(!(x.reviewId))
                     y.reviewId = "null";
+                else y.reviewId = x.reviewId;
+
+                if(model.role == "driver"){
+
+                    tempCustomer = await Customer.findById(x.customerId);
                     
-                temp = await Customer.findById(x.customerId);
-                if(!temp) return res.status(400).json({msg:"Customeri silmisler databaseden"});
-                y.customerName = temp.name;
-                y.customerSurname = temp.surname;
-                y.customerProfile_image64 = temp.profile_image64;
-
-                temp = await Driver.findById(x.driverId);
-                if(!temp) return res.status(400).json({msg:"Driveri silmisler databaseden"});
-
-                y.driverName = temp.name;
-                y.driverSurname = temp.surname;
-                y.driverProfileImage = temp.profile_image64;
+                    if(!tempCustomer) return res.status(400).json({msg:"Customeri silmisler databaseden"});
+                    y.customerName = tempCustomer.name;
+                    y.customerSurname = tempCustomer.surname;
+                    y.customerProfile_image64 = tempCustomer.profile_image64;
+                    y.customerBirthDate = tempCustomer.birthDate;
+                    
+                }
+                    
                 
-                arrOfTrips.push(y);
+                if(model.role == "customer"){
+                    
+                    tempDriver = await Driver.findById(x.driverId);
+                    
+                    if(!tempDriver) return res.status(400).json({msg:"Driveri silmisler databaseden"});
+
+                    y.driverName = tempDriver.name;
+                    y.driverSurname = tempDriver.surname;
+                    y.driverProfileImage = tempDriver.profile_image64;
+                    y.driverBirthDate = tempDriver.birthDate;
+                    
+                }
+                
+                arrOfTrips.push(y);    
             }
             
             return res.send(arrOfTrips);
         }
+
+        return res.send(arrOfTrips);
 
     } catch (error) {
         res.status(500).json({error: error.message});
