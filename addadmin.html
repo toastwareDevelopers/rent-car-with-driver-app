@@ -1,0 +1,174 @@
+<html>
+    <head>
+        <link href='https://fonts.googleapis.com/css?family=Arapey' rel='stylesheet'>
+        <meta charset="utf-8">
+        <title>Kullanıcı Giriş Paneli</title>
+        <style>
+            body{
+            background-color: #282828;
+            margin: 0;
+            font-family: 'Arapey';
+            }
+            #container{
+                height: 100%;
+                width: 100%;
+                z-index: 1;
+                display: block;
+                float: left;
+            }
+            #leftbar{
+                height: 100%;
+                width: 25%;
+                background-color: rgba(255, 167, 117, 0.77);
+                z-index: 2;
+                float: left;
+                
+            }
+            #titlediv{
+                padding-top: 20%;
+                width: 100%;
+                
+               
+            }
+            #titlediv h1{
+                margin: auto 0px;
+                color: white;
+                text-align: center;
+                font-size: 36px;
+            }
+            #drivernamediv{
+                width: 100%;
+
+            }
+            #driverName{
+                color: white;
+                text-align: center;
+                font-size: 28px;
+            }
+            #driverRegitrationdiv{
+                width: 100%;
+                padding-top: 30%;
+                height: 20%;
+            }
+            #driverRegitrationdiv h2{
+                color: white;
+                text-align: center;
+                font-size: 28px;
+            }
+            #driverRegitrationdiv hr{
+                width: 80%;
+                border-style: solid;
+                color: white;
+                border-width: 3px;
+                background-color: white;
+                height: 0px;
+            }
+            #rightbar{
+                width: 60%;
+                height: 100%;
+                align-items: center;
+                float: right;
+            }
+
+            #login-form {
+                width: 40%;
+                height: 50%;
+                margin-top: 100px;
+                text-align: center;
+                position: absolute;
+                
+                background-color: #282828;
+                color: rgba(255, 167, 117, 0.77);
+                }
+                #login-form h1 {
+                font-size: 36px;
+                }
+                body{
+                    background-color: #282828;
+                    margin: 0;
+                }
+                #username{
+                    height: 7%;
+                    width: 50%;
+                    margin: 0 0 15px 0;
+                }
+                #password{
+                    height: 7%;
+                    width: 50%; 
+                }
+                #btn-login{
+                    width: 18%;
+                    height: 9%;
+                    color: white;
+                    background-color:  rgba(255, 167, 117, 0.77);
+                }
+        </style>
+        
+
+    </head>
+    <body>
+        <div id="container">
+            <div id="leftBar">
+                <div id="titlediv">
+                    <h1> Rent Car App</h1>
+                </div>
+                <div id="drivernamediv">
+                    
+                </div>
+                <div id="driverRegitrationdiv">
+                    <h2>
+                        Driver Registration Requests
+                    </h2>
+                    <hr>
+                </div>
+            </div>
+        <div id="rightBar">
+            <div id="login-form" a >
+                <h1 style="font-size: 36px;">ADD NEW ADMIN</h1>
+                
+                <input type="text" id="username" name="name" placeholder="Name"><br>
+                
+                <input type="password" id="password" name="password" placeholder="Password"><br><br>
+
+                
+                <button type="submit"   id="btn-login" onclick="sendData()">Okey </button>
+            </div>
+       </div>
+        </div>
+        <script>
+            function sendData(){
+            
+            
+            // form verilerini al
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var data = JSON.stringify({
+                'name': username,
+                'password': password
+            });
+            // XHR isteği oluştur
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://192.168.10.4:3000/api/admin/signup", true);
+            
+            xhr.setRequestHeader("Content-Type", "application/json");
+            
+            console.log(data);
+            xhr.send(data);
+            // istek tamamlandığında çalışacak fonksiyon
+            xhr.onload = function() {
+                if (this.status == 200) {
+                alert("Registration successfully created");
+                }
+                else{
+                alert(xhr.responseText);
+                }
+            }
+
+            
+            
+            }    
+        </script>
+    </body>
+    
+    
+</html>

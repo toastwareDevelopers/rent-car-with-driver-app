@@ -1,0 +1,511 @@
+<html>
+    <head>
+        <link href='https://fonts.googleapis.com/css?family=Arapey' rel='stylesheet'>
+        <meta charset="utf-8">
+        <title>Kullanıcı Giriş Paneli</title>
+        <style>
+            body{
+            background-color: #282828;
+            height: 100%;
+            width: 100%;
+            margin: 0px;
+            font-family: 'Arapey';
+            }
+            input{
+                pointer-events: none;
+            }
+            #container{
+                height: 100%;
+                width: 100%;
+                z-index: 1;
+                display: block;
+                float: left;
+                border: 0px;
+            }
+            #leftbar{
+                height: 1200px;
+                width: 25%;
+                background-color: rgba(255, 167, 117, 0.77);
+                z-index: 2;
+                float: left;
+                border: 0px;
+                
+                
+            }
+            #titlediv{
+                padding-top: 20%;
+                width: 100%;
+                
+               
+            }
+            #titlediv h1{
+                margin: auto 0px;
+                color: white;
+                text-align: center;
+                font-size: 36px;
+            }
+            #drivernamediv{
+                width: 100%;
+
+            }
+            #driverNameH3{
+                color: white;
+                text-align: center;
+                font-size: 28px;
+            }
+            #driverRegitrationdiv{
+                width: 100%;
+                padding-top: 30%;
+                height: 20%;
+            }
+            #driverRegitrationdiv h2{
+                color: white;
+                text-align: center;
+                font-size: 28px;
+            }
+            #driverRegitrationdiv hr{
+                width: 80%;
+                border-style: solid;
+                color: white;
+                border-width: 3px;
+                background-color: white;
+                height: 0px;
+            }
+            #rightbar{
+                width: 70%;
+                height: 100%;
+                
+                float: right;
+            }
+            #profile_img{
+                padding-top: 5%;
+                width: 100%;
+                
+            }
+            #profile_img img{
+                border-radius: 50%;
+                width: 150px;
+                height: 150px;
+                align-items: center;
+                
+            }
+            #profile_img div{
+                margin: 0 0 0 40%;
+            }
+           #drivernameH1{
+            color: white;
+            font-size: 26px ;
+            margin-right: 20px;
+           }
+           #twobtndiv{
+            display: flex; /* div'i bir "flex container" yapar */
+            width: 700px;
+             /* öğeleri yatay olarak eşit mesafede yerleştirir */
+             margin: 0 30%;
+            }
+
+            #btnReject{
+                margin: 0; /* butonlar için boşluk eklemez */
+                color: black;
+                background-color: #C77B7B;
+                width: 200px;
+                height: 40px;
+            }
+            #btnAccept{
+                margin: 0; /* butonlar için boşluk eklemez */
+                color: black;
+                background-color: #92BE88;
+                width: 200px;
+                height: 40px;
+            }
+            #table1{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                color: white;
+                text-align: left;
+            }
+           
+            #table1 th{
+                width: 150px; /* hücrelerin genişliğini 200px olarak ayarlayın */
+                height: 50px; /* hücrelerin yüksekliğini 50px olarak ayarlayın */
+            }
+            
+            #table1 input{
+                width: 150px; /* hücrelerin genişliğini 200px olarak ayarlayın */
+                height: 25px;
+                color: black;
+                text-align: left;
+                font-size: 15px;
+            }
+            #table1 thead{
+                text-align: center;
+                border-bottom: 4px solid white;
+                color: white;
+            }
+            #table2div{
+                width: 100%;
+            }
+            #table2{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                color: white;
+                text-align: left;
+            }
+            #table2 th{
+                width: 250px; /* hücrelerin genişliğini 200px olarak ayarlayın */
+                height: 50px; /* hücrelerin yüksekliğini 50px olarak ayarlayın */
+                padding: 0 54px 0 0
+            }
+            #table2 tr{
+                padding: 0 54px 0 0
+            }
+            #table2 textarea{
+                width: 250px; /* hücrelerin genişliğini 200px olarak ayarlayın */
+                height: 150px;
+                
+            }
+            #table2 thead{
+                text-align: center;
+                border-bottom: 4px solid white;
+                color: white;
+            }
+            #table3div{
+                width: 75%;
+                height: 150px;
+                text-align: left;
+                margin: 0 10%;
+                align-content: space-around;
+                
+            }
+            #table3{
+                width: 100%;
+                height: 120px;
+                display: flex;
+                justify-content: left;
+                color: white;
+                text-align: left;
+                background-color: white;
+            }
+            #table3 th{
+                color: white;
+            }
+            #table3 img{
+                width: 100px;
+                height: 100px;
+            }
+            #table3div h1{
+                color: white;
+            }
+            #table4div{
+                text-align: left;
+            }
+            #table4 {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                color: white;
+                text-align: left;
+            }
+            
+            #table4 th{
+                width: 220px; /* hücrelerin genişliğini 200px olarak ayarlayın */
+                height: 25px; /* hücrelerin yüksekliğini 50px olarak ayarlayın */
+                padding: 0 80px 0 0;
+            }
+            
+            #table4 input{
+                width: 200px; /* hücrelerin genişliğini 200px olarak ayarlayın */
+                height: 25px;
+            }
+            #table4 thead{
+                text-align: center;
+                border-bottom: 4px solid white;
+                color: white;
+            }
+
+            #table5div{
+                text-align: left;
+            }
+            #table5 {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                color: white;
+                text-align: left;
+            }
+            
+            #table5 th{
+                width: 220px; /* hücrelerin genişliğini 200px olarak ayarlayın */
+                height: 25px; /* hücrelerin yüksekliğini 50px olarak ayarlayın */
+                padding: 0 80px 0 0;
+            }
+            
+            #table5 input{
+                width: 200px; /* hücrelerin genişliğini 200px olarak ayarlayın */
+                height: 25px;
+            }
+            #table5 thead{
+                text-align: center;
+                border-bottom: 4px solid white;
+                color: white;
+            }
+
+            #table6div{
+                width: 75%;
+                height: 150px;
+                text-align: left;
+                margin: 0 10%;
+                align-content: space-around;
+                
+            }
+            #table6{
+                width: 100%;
+                height: 120px;
+                display: flex;
+                justify-content: left;
+                color: white;
+                text-align: left;
+                background-color: white;
+            }
+            #table6 th{
+                color: white;
+            }
+            #table6 img{
+                width: 100px;
+                height: 100px;
+            }
+            #table6div h1{
+                color: white;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div id="container">
+            <div id="leftBar">
+                <div id="titlediv">
+                    <h1> Rent Car App</h1>
+                </div>
+                <div id="drivernamediv">
+                    <h3 id="driverNameH3"></h3>
+                </div>
+                <div id="driverRegitrationdiv">
+                    <h2>
+                        Driver Registration Requests
+                    </h2>
+                    <hr>
+                </div>
+            </div>
+            <div id="rightbar">
+                <div id="profile_img">
+                    <div>
+                        <img id="profileImage" src="" alt="Profil Resmi">
+                        <h1 id="drivernameH1"></h1>
+                      </div>
+                </div>
+                <div id="twobtndiv">
+                    <button id="btnReject" onclick="reject()">Reject</button>
+                    <button id="btnAccept" onclick="accept()">Accept</button>
+                  </div>
+                  <div id="table1div">
+                    <table id="table1">
+                      <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Gender</th>
+                        <th>Birthday</th>
+                        <th>National ID</th>
+                        <th>Location</th>
+                      </tr>
+                      <tr>
+                        <td><input id="driverNameInput" type="text" name="driverName"></td>
+                        <td><input id="surname" type="text" name="surname"></td>
+                        <td><input id="gender" type="text" name="gender"></td>
+                        <td><input id="birthday" type="text" name="birthday"></td>
+                        <td><input id="nationalId" type="text" name="nationalId"></td>
+                        <td><input id="location" type="text" name="location"></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div id="table2div">
+                    <table id="table2">
+                      <tr>
+                        <th>Biography</th>
+                        <th>Skills</th>
+                        <th>Language</th>
+                        
+                      </tr>
+                      <tr>
+                        <td><textarea id="biography" type="text" name="biography"> </textarea></td>
+                        <td><textarea id ="skills" type="text" name="skills"></textarea></td>
+                        <td><textarea id="language" type="text" name="language"> </textarea></td>
+                        
+                      </tr>
+                    </table>
+                  </div>
+                  <div id="table3div">
+                    <div><h1>
+                        Car Photos
+                    </h1></div>
+                    <table id="table3" >
+                    
+                            <tr id="carPhotos">
+                                
+                            </tr>
+                            
+                    
+                    
+                    </table>
+                  </div>
+                  <br>
+                  <br>
+                  <div id="table4div">
+                    <table id="table4">
+                      <tr>
+                        <th>Driver Lisance Number</th>
+                        <th>Car Lisance Number</th>
+                        <th>Car Model Year</th>
+                        
+                      </tr>
+                      <tr>
+                        <td><input  id="driverLisance" type="text" name="driverLisance"></td>
+                        <td><input id="carLisance" type="text" name="carLisance"></td>
+                        <td><input id="carModel" type="text" name="carModel"></td>
+                        
+                      </tr>
+                    </table>
+                  </div>
+                  <div id="table5div">
+                    <table id="table5">
+                      <tr>
+                        <th>Lisense year</th>
+                        <th>Brand</th>
+                        <th>Model Name</th>
+                        
+                      </tr>
+                      <tr>
+                        <td><input id="lisanceYear" type="text" name="lisanceYear"></td>
+                        <td><input id="brand" type="text" name="brand"></td>
+                        <td><input id="modelName" type="text" name="modelName"></td>
+                        
+                      </tr>
+                    </table>
+                  </div>
+
+                  <div id="table6div">
+                    <div><h1>
+                        Legal Document
+                    </h1></div>
+                    <table id="table6" >
+                    
+                            <tr id="legalPhotos">
+                                
+                            </tr>
+                            
+                    
+                    
+                    </table>
+                  </div>
+                  <br>
+                  <br>
+            </div>
+            <br>
+            <br>
+       
+        </div>
+    </body>
+    <script>
+        let driverId = localStorage.getItem('driverId');
+        console.log(driverId);
+        
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("GET","http://ec2-3-69-23-93.eu-central-1.compute.amazonaws.com:3000/api/info?ID=" +driverId);
+        xhr.send();
+        
+        
+        xhr.onload = function(){
+            var rowData = JSON.parse(xhr.response);
+            
+            document.getElementById('driverNameInput').value = rowData.name;
+            console.log(rowData.name);
+            document.getElementById('surname').value = rowData.surname;
+            document.getElementById('gender').value = rowData.gender;
+            var date = new Date(rowData.birthDate);
+            var month = date.getMonth() + 1; // ay değeri 0 ile 11 arasındadır, bu yüzden 1 eklemek gerekir
+            var year = date.getFullYear(); // yıl değerini alır
+            var day = date.getDate(); // gün değerini alır
+            var formattedDate = `${month}.${day}.${year}`;
+            document.getElementById('birthday').value = formattedDate;
+            document.getElementById('location').value = rowData.location;
+            document.getElementById('nationalId').value =rowData.nationalId;
+            document.getElementById('biography').value = rowData.bio;
+            document.getElementById('skills').value = rowData.skills;
+            document.getElementById('language').value = rowData.languages;
+
+            const resim = "data:image/jpeg;base64," +  rowData.profile_image64;
+            document.getElementById('profileImage').src = resim;
+            document.getElementById('driverLisance').value= rowData.licenseNumber;
+            document.getElementById('carLisance').value = rowData.carInfo.licenseNumber;
+            document.getElementById('carModel').value = rowData.carInfo.year;
+            date = new Date(rowData.licenseYear);
+            month = date.getMonth();
+            year = date.getFullYear();
+            day = date.getDate();
+            formattedDate = `${month}.${day}.${year}`;
+            document.getElementById('lisanceYear').value = formattedDate;
+            document.getElementById('brand').value = rowData.carInfo.brand;
+            document.getElementById('modelName').value = rowData.carInfo.model;
+
+            document.getElementById('driverNameH3').innerText = rowData.name +' ' + rowData.surname;
+            document.getElementById('drivernameH1').innerHTML = rowData.name +' ' + rowData.surname;
+
+            for(const item of rowData.carPhotos){
+                if(item != "null"){
+                    document.getElementById('carPhotos').innerHTML += `<td><img src='data:image/jpeg;base64,${item}'>`
+                }
+                
+            }
+            
+            for(const item of rowData.legalPhotos){
+                if(item != "null"){
+                    document.getElementById('legalPhotos').innerHTML += `<td><img src='data:image/jpeg;base64,${item}'>`
+                }
+                
+            }
+            
+
+        }
+        function reject(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", "http://ec2-3-69-23-93.eu-central-1.compute.amazonaws.com:3000/api/admin/driverRequest", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert("Driver Is Inactive");
+            }
+            };
+            xhr.send(JSON.stringify({
+            "_id": driverId,
+            "isActive": false
+            }));
+        }
+        function accept(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", "http://ec2-3-69-23-93.eu-central-1.compute.amazonaws.com:3000/api/admin/driverRequest", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert("Driver Is Active");
+            }
+            };
+            xhr.send(JSON.stringify({
+            "_id": driverId,
+            "isActive": true
+            }));
+        }    
+        
+    </script>
+</html>

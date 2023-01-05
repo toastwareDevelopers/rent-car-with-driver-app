@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Kullanıcı Giriş Paneli</title>
+  <link href='https://fonts.googleapis.com/css?family=Arapey' rel='stylesheet'>
+  <style>
+    
+    #login-form {
+  width: 40%;
+  height: 50%;
+  margin: 0 auto;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #282828;
+  color: rgba(255, 167, 117, 0.77);
+}
+#login-form h1 {
+  font-size: 36px;
+}
+body{
+    background-color: #282828;
+    margin: 0;
+    font-family: 'Arapey';
+}
+#username{
+    height: 7%;
+    width: 50%;
+    margin: 0 0 15px 0;
+}
+#password{
+    height: 7%;
+    width: 50%; 
+}
+#btn-login{
+    width: 18%;
+    height: 9%;
+    color: white;
+    background-color:  rgba(255, 167, 117, 0.77);
+    
+}
+
+
+  </style>
+</head>
+<body >
+  <form id="login-form"  action="/singup.php" method="post" >
+    <h1 style="font-size: 36px;">Rent Car APP</h1>
+    
+    <input type="text" id="username" name="username" placeholder="Username"><br>
+    
+    <input type="password" id="password" name="password" placeholder="Username"><br><br>
+    <input type="submit"   id="btn-login"value="Giriş Yap">
+  </form> 
+
+<script>
+ /* document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+  // form verilerini al
+  var username = document.forms["login-form"]["username"].value;
+  var password = document.forms["login-form"]["password"].value;
+  var data = JSON.stringify({
+    email: username,
+    password: password
+  });
+  // XHR isteği oluştur
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://192.168.10.5:3000/api/signin", true);
+ 
+  //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  //xhr.setRequestHeader("Access-Control-Allow-Origin", "*"); // CORS engelleme önleme
+  console.log(data);
+  xhr.send(data);
+  // istek tamamlandığında çalışacak fonksiyon
+  xhr.onload = function() {
+    if (this.status == 200) {
+      console.log(xhr.response)
+    }
+    else{
+      console.log("okey");
+      console.log(xhr.response)
+    }
+  }
+
+  
+ 
+});*/
+</script>
+</body>
+</html>

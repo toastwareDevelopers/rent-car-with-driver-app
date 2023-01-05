@@ -1,0 +1,290 @@
+
+<html>
+    <head>
+        <link href='https://fonts.googleapis.com/css?family=Arapey' rel='stylesheet'>
+        <meta charset="utf-8">
+        <title>Kullanıcı Giriş Paneli</title>
+        <style>
+            body{
+            background-color: #282828;
+            margin: 0 auto;
+            font-family: 'Arapey';
+            }
+            #container{
+                height: 100%;
+                width: 100%;
+                z-index: 1;
+               
+            }
+            #leftbar{
+                height: 100%;
+                width: 25%;
+                background-color: rgba(255, 167, 117, 0.77);
+                z-index: 2;
+                float: left;
+                
+            }
+            #titlediv{
+                padding-top: 20%;
+                width: 100%;
+                
+               
+            }
+            #titlediv h1{
+                margin: auto 0px;
+                color: white;
+                text-align: center;
+                font-size: 36px;
+            }
+            #drivernamediv{
+                width: 100%;
+                align-items: center;
+
+            }
+            #driverName{
+                color: black;
+                text-align: center;
+                font-size: 28px;
+                background-color: white;
+                margin-left: 35%;
+                margin-right: 35%;
+                margin-top: 150px;
+                border-radius: 10%;
+                font-size: 20px;
+            }
+            #driverRegitrationdiv{
+                width: 100%;
+                padding-top: 30%;
+                height: 10%;
+            }
+            #driverRegitrationdiv h2{
+                color: white;
+                text-align: center;
+                font-size: 28px;
+            }
+            #driverRegitrationdiv hr{
+                width: 80%;
+                border-style: solid;
+                color: white;
+                border-width: 3px;
+                background-color: white;
+                height: 0px;
+            }
+            #rightbar{
+                width: 60%;
+                height: 100%;
+                
+                float: right;
+            }
+            #rightbarTitle{
+                padding-top: 10%;
+                width: 100%;
+            }
+            #rightbarTitle h1{
+                text-align: center;
+                color: white;
+                
+            }
+            #tablodiv{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+            #tableDriver{
+                color: white;
+                text-align: left;
+                
+                
+            }
+            #tableDriver th{
+                width: 200px; /* hücrelerin genişliğini 200px olarak ayarlayın */
+                height: 50px; /* hücrelerin yüksekliğini 50px olarak ayarlayın */
+            }
+            thead{
+                border-bottom: 4px solid white;
+                color: white;
+            }
+            
+            .tableBtn{
+                background-color: rgba(255, 167, 117, 0.77);
+                color: white;
+            }
+        </style>
+        
+
+    </head>
+    <body>
+        <div id="container">
+            <div id="leftBar">
+                <div id="titlediv">
+                    <h1> Rent Car App</h1>
+                </div>
+                
+                <div id="driverRegitrationdiv">
+                    <h2>
+                        Driver Registration Requests
+                    </h2>
+                    <hr>
+                </div>
+                <div id="drivernamediv">
+                    <button id="driverName" onclick="addAdminfun()">ADD NEW ADMIN</button>
+                </div>
+            </div>
+            <div id="rightbar">
+                <div id="rightbarTitle">
+                    <h1>
+                        Driver Registration Requests
+                    </h1>
+                </div>
+                <div id="tablodiv">
+                    <table id="tableDriver">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Birthdate</th>
+                            <th>Gender</th>
+                            <th>Location</th>
+                            <th>LotionalID</th>
+                            <th> Look  </th>
+                           
+                          </tr>
+                          
+                        </thead>
+                        
+                        
+                        <tbody>
+                            
+                          
+                        </tbody>
+                      </table>
+                      
+                </div>
+                
+            </div>
+       
+        </div>
+    </body>
+    
+    
+</html>
+
+<script>
+       
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://ec2-3-69-23-93.eu-central-1.compute.amazonaws.com:3000/api/admin/driverRequest", true);
+    xhr.send();
+
+    xhr.onload = function() {
+if (this.status == 200) {
+  //console.log(xhr.response);
+  
+
+}
+else{
+  console.log("okey");
+  //console.log(xhr.response);
+}
+
+var id= JSON.parse(xhr.response);
+
+var xhr2 = new XMLHttpRequest();
+var flag = false
+for(const item of id){
+    console.log("item:" + item._id);
+    
+    xhr2.open("GET","http://ec2-3-69-23-93.eu-central-1.compute.amazonaws.com:3000/api/info?ID=" +item._id, false);
+    xhr2.send();
+    
+    
+    xhr2.onload = function(){
+        if (this.status == 200) {
+            console.log("xhr2:" +xhr2.response);
+            var rowData = JSON.parse(xhr2.response);
+            
+            const date = new Date(rowData.birthDate);
+            const month = date.getMonth() + 1; // ay değeri 0 ile 11 arasındadır, bu yüzden 1 eklemek gerekir
+            const year = date.getFullYear(); // yıl değerini alır
+            const day = date.getDate(); // gün değerini alır
+            const formattedDate = `${month}.${day}.${year}`; // istediğiniz formatta tarihi
+            const row = `<tr><td>${rowData.name}</td><td>${rowData.surname}</td><td>${formattedDate}</td><td>${rowData.gender}</td><td>${rowData.location}</td><td>${rowData.nationalId}</td>
+                <td><button class="tableBtn" id = "${rowData._id}" onclick="var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://ec2-3-69-23-93.eu-central-1.compute.amazonaws.com/driverprofile.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            localStorage.setItem('driverId', '${rowData._id}');
+            xhr.send('id=' + '${rowData._id}'); 
+            xhr.onload = function() {
+                
+window.location.href = 'driverprofile.html';
+}
+            ">SHOW</button></td></tr>`;
+            
+            document.querySelector("table tbody").innerHTML += row;
+        flag = true;
+        
+
+
+    }
+    else{
+    console.log("okey23213");
+    console.log(xhr2.response);
+    }
+
+    }
+    if(flag == false){
+        xhr2.open("GET","http://ec2-3-69-23-93.eu-central-1.compute.amazonaws.com:3000/api/info?ID=" +item._id, false);
+    xhr2.send();
+    flag = true;
+    
+    xhr2.onload = function(){
+        if (this.status == 200) {
+            console.log("xhr2:" +xhr2.response);
+            var rowData = JSON.parse(xhr2.response);
+            
+            const date = new Date(rowData.birthDate);
+            const month = date.getMonth() + 1; // ay değeri 0 ile 11 arasındadır, bu yüzden 1 eklemek gerekir
+            const year = date.getFullYear(); // yıl değerini alır
+            const day = date.getDate(); // gün değerini alır
+            const formattedDate = `${month}.${day}.${year}`; // istediğiniz formatta tarihi
+            const row = `<tr><td>${rowData.name}</td><td>${rowData.surname}</td><td>${formattedDate}</td><td>${rowData.gender}</td><td>${rowData.location}</td><td>${rowData.nationalId}</td>
+                <td><button class="tableBtn" id = "${rowData._id}" onclick="var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://ec2-3-69-23-93.eu-central-1.compute.amazonaws.com/driverprofile.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            localStorage.setItem('driverId', '${rowData._id}');
+            xhr.send('id=' + '${rowData._id}'); 
+            xhr.onload = function() {
+                
+            window.location.href = 'driverprofile.html';
+            }
+                        ">SHOW</button></td></tr>`;
+                        
+                        document.querySelector("table tbody").innerHTML += row;
+                    flag = true;
+                    
+
+
+                }
+                else{
+                console.log("okey23213");
+                console.log(xhr2.response);
+                }
+
+                }
+    }
+    flag = false;
+    
+}
+
+}
+ function addAdminfun(){
+    var xhr3 = new XMLHttpRequest();
+    xhr3.open("GET","/addadmin.php");
+    xhr3.send();
+
+    xhr3.onload = function(){
+        window.location.href = 'addadmin.html';
+    }
+ }
+
+    
+</script>
