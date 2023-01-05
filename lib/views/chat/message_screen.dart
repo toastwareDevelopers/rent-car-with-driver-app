@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:rentcarmobile/constants/api_path.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/models/customer.dart';
@@ -80,7 +81,8 @@ class _MessageScreenState extends State<MessageScreen> {
                   child: CircleAvatar(
                     backgroundImage: widget.receiverPhoto == "null"
                         ? AssetImage(AssetPaths.blankProfilePhotoPath)
-                        : Image.memory(base64Decode(widget.receiverPhoto!)).image,
+                        : Image.memory(base64Decode(widget.receiverPhoto!))
+                            .image,
                     radius: 20.0,
                   ),
                 ),
@@ -132,21 +134,23 @@ class _MessageScreenState extends State<MessageScreen> {
                             )
                           : OfferBox(
                               socket: socket,
-                              id: (widget.messages[index] as Offer).id as String,
+                              id: (widget.messages[index] as Offer).id
+                                  as String,
                               customerId: (widget.messages[index] as Offer)
                                   .customerId as String,
-                              driverId: (widget.messages[index] as Offer).driverId
-                                  as String,
-                              location: (widget.messages[index] as Offer).location
-                                  as String,
-                              price:
-                                  (widget.messages[index] as Offer).price as int,
+                              driverId: (widget.messages[index] as Offer)
+                                  .driverId as String,
+                              location: (widget.messages[index] as Offer)
+                                  .location as String,
+                              price: (widget.messages[index] as Offer).price
+                                  as int,
                               startDate: (widget.messages[index] as Offer)
                                   .startDate as String,
                               endDate: (widget.messages[index] as Offer).endDate
                                   as String,
-                              offerDescription: (widget.messages[index] as Offer)
-                                  .offerDescription as String,
+                              offerDescription:
+                                  (widget.messages[index] as Offer)
+                                      .offerDescription as String,
                               status: (widget.messages[index] as Offer).status
                                   as String,
                             ),
@@ -160,7 +164,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       bottom: phoneHeight * 0.085, top: phoneHeight * 0.01),
                 ),
               ),
-    
+
               //Text enter area
               Container(
                 padding: EdgeInsets.all(5),
@@ -286,6 +290,11 @@ class _MessageScreenState extends State<MessageScreen> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(10),
+                              ],
                               controller: offerPriceController,
                               decoration: InputDecoration(
                                 hintText: "Price",
@@ -411,7 +420,11 @@ class _MessageScreenState extends State<MessageScreen> {
             widget.messages.add(Message.msg(
               msg["content"],
               "null",
-              msg["createDate"],
+              DateTime.parse(msg["createDate"])
+                  .toLocal()
+                  .toString()
+                  .substring(0, 16)
+                  .replaceAll("T", "  "),
               msg["senderID"],
               msg["receiverID"],
               msg["roomID"],
@@ -422,8 +435,6 @@ class _MessageScreenState extends State<MessageScreen> {
       });
       // get the response of the offer
       socket!.on("respondOffer", (response) {
-        print(response);
-
         if (true) {
           setState(() {
             String offerId = response["offerId"];
@@ -440,8 +451,6 @@ class _MessageScreenState extends State<MessageScreen> {
       });
       // get the offer
       socket!.on("offer", (offer) {
-        print(offer);
-
         setState(() {
           widget.messages.add(Offer.get(
             offer["_id"],
@@ -481,7 +490,11 @@ class _MessageScreenState extends State<MessageScreen> {
           widget.messages.add(Message.msg(
             msg["content"],
             "messsage",
-            msg["createDate"],
+            DateTime.parse(msg["createDate"])
+                .toLocal()
+                .toString()
+                .substring(0, 16)
+                .replaceAll("T", "  "),
             msg["senderID"],
             msg["receiverID"],
             msg["roomID"],
