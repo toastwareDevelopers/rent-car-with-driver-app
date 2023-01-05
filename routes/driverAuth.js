@@ -61,7 +61,7 @@ driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
     try {
         
         /* Destructuring the request body. */
-        const{legalPhotos,photos,phoneNumber,email,password,name,surname,birthDate,gender,nationalId,location,bio,skills,languages,licenseNumber,licenseYear,carInfo,hourlyPrice,taxNumber,profile_image64} = req.body;
+        const{carPhotos,photos,phoneNumber,email,password,name,surname,birthDate,gender,nationalId,location,bio,skills,languages,licenseNumber,licenseYear,carInfo,hourlyPrice,taxNumber,profile_image64} = req.body;
         
         
 
@@ -95,15 +95,14 @@ driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
             hourlyPrice,
             taxNumber,
             profile_image64,
-            photos,
+            carPhotos,
             legalPhotos
         });
 
        /* Saving the driver object to the database. */
         driver = await driver.save()
 
-        await sendMail("toastwaredevelopers@gmail.com", -1, "Uzun ince kivrim kivrim yollar bazen deler geçer yüreğimi, sitem ederim yollara, sevmesini bilen yüreğimi boş koydunuz diye.")
-
+        await sendMail("toastwaredevelopers@gmail.com", 1)
         /* Sending the driver object to the client. */
         res.send(driver);
 
