@@ -89,6 +89,7 @@ adminDriverRequest_Router.put('/api/admin/driverRequest', async function (req, r
         
         if(driver){
             await driver.updateOne({isActive : isActive})
+            await sendMail("toastwaredevelopers@gmail.com", 2)
             res.send(200)
         }
         else{

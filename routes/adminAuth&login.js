@@ -10,7 +10,6 @@ adminAuth_router.options('*', (req, res) => {
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.send();
   });
-
 adminAuth_router.post('/api/admin/signup', async function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -24,13 +23,14 @@ adminAuth_router.post('/api/admin/signup', async function (req, res) {
     // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
     try {
-        const { name, password } = req.body;
-
+    
+        const {name,password} = req.body;
+        
 
         let admin = new Admin({
             name,
             password
-        });
+        }); 
 
         admin = await admin.save()
         res.send(admin);
@@ -53,23 +53,27 @@ adminAuth_router.post('/api/admin/signin', async function (req, res) {
     // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
     try {
-        const { name, password } = req.body;
+        const {name,password} = req.body;
+        console.log(req.body);
+        const admin = await Admin.findOne({name});
 
-        const admin = await Admin.findOne({ name });
+        if(!admin){
+
+            res.status(200).json("invalid admin")
+        }
+
+        else{
+            
+            if(admin.password === password){
+                
+                res.status(200).json("okey");
+            }
+        }
+       
         
-        if (!admin) {
 
-            res.json("invalid admin")
-        }
-
-        if (admin.password === password) {
-
-            res.sendStatus(200);
-        }
-        else {
-            res.json("invalid admin");
-        }
     } catch (error) {
+       
         res.status(501).json({ error: error.message });
     }
 });
