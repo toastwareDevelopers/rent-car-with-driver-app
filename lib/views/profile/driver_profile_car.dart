@@ -3,6 +3,7 @@ import 'package:rentcarmobile/utils/base64_converter.dart';
 import '../../constants/assets_path.dart';
 import '../../main.dart';
 import '../../models/driver.dart';
+import '../chat/message_screen.dart';
 
 class DriverProfileCarScreen extends StatefulWidget {
   DriverProfileCarScreen({super.key});
@@ -33,14 +34,14 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
         appBar: AppBar(
           title: const Text("Driver Profile Car"),
           leading: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                  ),
-                ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              size: 30,
+            ),
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           child: RentVanApp.userType == "driver"
@@ -63,7 +64,13 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                   Navigator.pushNamed(context, "/editDriverAuth");
                 }
               : () {
-                  Navigator.pushNamed(context, "/messaging");
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MessageScreen(
+                        receiverId: driver.id,
+                      ),
+                    ),
+                  );
                 },
         ),
         body: Container(
@@ -208,28 +215,35 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                             ),
                           ),
                           Expanded(
-                          flex: 4,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 218, 218, 218),
-                              border: Border.all(width: 10, color: const Color.fromARGB(255, 218, 218, 218)),
-                              borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            flex: 4,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 218, 218, 218),
+                                border: Border.all(
+                                    width: 10,
+                                    color: const Color.fromARGB(
+                                        255, 218, 218, 218)),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(5)),
+                              ),
+                              child: isLoading
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : GridView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        mainAxisSpacing: 20,
+                                        crossAxisSpacing: 20,
+                                        crossAxisCount: 3,
+                                      ),
+                                      itemCount: driver.carPhotos.length - 1,
+                                      itemBuilder: (BuildContext ctx, index) {
+                                        return carPhotoWidget(
+                                            driver.carPhotos[index]);
+                                      }),
                             ),
-                            child: isLoading ?
-                            const Center(child: CircularProgressIndicator()) :
-                            GridView.builder(
-                              scrollDirection: Axis.vertical,
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisSpacing: 20,
-                                  crossAxisSpacing: 20,
-                                  crossAxisCount: 3,
-                                ),
-                                itemCount: driver.carPhotos.length - 1,
-                                itemBuilder: (BuildContext ctx, index) {
-                                  return carPhotoWidget(driver.carPhotos[index]);
-                                }),
                           ),
-                        ),
                         ],
                       ),
                     ),
@@ -249,7 +263,8 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                 Expanded(
                                   flex: 1,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Car Brand",
@@ -270,7 +285,8 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                 Expanded(
                                   flex: 1,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Car Model",
@@ -301,7 +317,8 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                 Expanded(
                                   flex: 1,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Car Color",
@@ -322,7 +339,8 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                                 Expanded(
                                   flex: 1,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Car Year",
@@ -363,7 +381,8 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
         height: 100,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border : Border.all(width: 4, color: const Color.fromARGB(255, 167, 117, 77)),
+          border: Border.all(
+              width: 4, color: const Color.fromARGB(255, 167, 117, 77)),
           color: const Color.fromARGB(255, 167, 117, 77),
           borderRadius: BorderRadius.circular(5),
           image: DecorationImage(
@@ -384,7 +403,7 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
   showEnhancedCarPhoto(String carPhoto) {
     return showDialog(
         context: context,
-        builder: (context){
+        builder: (context) {
           return Center(
             child: Material(
               type: MaterialType.transparency,
@@ -399,12 +418,16 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    border : Border.all(width: 4, color: const Color.fromARGB(255, 167, 117, 77)),
+                    border: Border.all(
+                        width: 4,
+                        color: const Color.fromARGB(255, 167, 117, 77)),
                     color: const Color.fromARGB(255, 167, 117, 77),
                     borderRadius: BorderRadius.circular(5),
                     image: DecorationImage(
                       fit: BoxFit.fill,
-                      image: Image.memory(Base64Converter.decodeImage64(carPhoto)).image,
+                      image:
+                          Image.memory(Base64Converter.decodeImage64(carPhoto))
+                              .image,
                       alignment: Alignment.center,
                     ),
                   ),
@@ -412,7 +435,6 @@ class _DriverProfileCarScreenState extends State<DriverProfileCarScreen> {
               ),
             ),
           );
-        }
-    );
+        });
   }
 }

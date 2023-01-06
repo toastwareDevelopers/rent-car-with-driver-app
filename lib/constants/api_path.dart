@@ -1,3 +1,3 @@
 class ApiPaths {
-  static String serverIP = "10.1.237.178:3000";
+  static String serverIP = "3.69.23.93:3000";
 }
