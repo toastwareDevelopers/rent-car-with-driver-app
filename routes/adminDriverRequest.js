@@ -12,8 +12,8 @@ adminDriverRequest_Router.options('*', (req, res) => {
     res.send();
   });
 
-
 adminDriverRequest_Router.get('/api/admin/driverRequest', async function (req, res) {
+    
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Request methods you wish to allow
@@ -38,6 +38,7 @@ adminDriverRequest_Router.get('/api/admin/driverRequest', async function (req, r
 });
 
 adminDriverRequest_Router.post('/api/admin/driverRequest', async function (req, res) {
+    
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Request methods you wish to allow
@@ -69,6 +70,7 @@ adminDriverRequest_Router.post('/api/admin/driverRequest', async function (req, 
 });
 
 adminDriverRequest_Router.put('/api/admin/driverRequest', async function (req, res) {
+    
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Request methods you wish to allow
@@ -89,7 +91,6 @@ adminDriverRequest_Router.put('/api/admin/driverRequest', async function (req, r
         
         if(driver){
             await driver.updateOne({isActive : isActive})
-            await sendMail("toastwaredevelopers@gmail.com", 2)
             res.send(200)
         }
         else{
