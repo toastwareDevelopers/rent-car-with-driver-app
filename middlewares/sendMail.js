@@ -22,7 +22,7 @@ async function sendMail(tomail, password) {
             to: tomail, // list of receivers
             subject: "Welcome to RentaGO", // Subject line
             // This would be the text of email body
-            text: "A new customer has registered"
+            text: "We wish you a pleasant journey"
         };
     }
     else if(password === 1) {
@@ -32,7 +32,7 @@ async function sendMail(tomail, password) {
             to: tomail, // list of receivers
             subject: "Welcome to RentaGO", // Subject line
             // This would be the text of email body
-            text: "A new driver has registered"
+            text: "we wish you a good ride"
         };
     }
     else if(password === 2) {
