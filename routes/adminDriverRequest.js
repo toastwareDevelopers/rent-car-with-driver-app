@@ -1,7 +1,7 @@
 const express = require('express');
 const Admin = require("../models/admin");
 const Driver = require("../models/driver");
-
+const sendMail = require('../middlewares/sendMail.js')
 
 const adminDriverRequest_Router = express.Router();
 
@@ -91,6 +91,7 @@ adminDriverRequest_Router.put('/api/admin/driverRequest', async function (req, r
         
         if(driver){
             await driver.updateOne({isActive : isActive})
+            await sendMail("toastwaredevelopers@gmail.com", 2)
             res.send(200)
         }
         else{
