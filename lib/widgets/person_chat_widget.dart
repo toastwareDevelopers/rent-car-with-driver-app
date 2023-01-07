@@ -30,7 +30,7 @@ class PersonChatWidget extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: phoneWidth*0.03),
+        padding: EdgeInsets.symmetric(horizontal: phoneWidth * 0.03),
         alignment: Alignment.centerLeft,
         height: phoneHeight * 0.1,
         width: phoneWidth,
@@ -88,7 +88,7 @@ class PersonChatWidget extends StatelessWidget {
               child: Container(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  "${lastMessageTime.split("T")[0]}\n${lastMessageTime.split("T")[1].substring(0, 5)}",
+                  "${DateTime.parse(lastMessageTime).toLocal().toString().split(" ")[0]}\n${DateTime.parse(lastMessageTime).toLocal().toString().split(" ")[1].substring(0, 5)}",
                   textAlign: TextAlign.left,
                   style: const TextStyle(color: Colors.white),
                 ),
