@@ -389,7 +389,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               phoneNumber.value.text.toString().isEmpty ||
                               nationalID.value.text.toString().isEmpty) {
                             WarningAlert.showWarningDialog(
-                              context,
+                              context,"Warning",
                               "Please fill all inputs!",
                               () {
                                 Navigator.pop(context);
@@ -400,7 +400,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                   .compareTo(password2.value.text.toString()) !=
                               0) {
                             WarningAlert.showWarningDialog(
-                              context,
+                              context,"Warning",
                               "Master Password must be same as confirmation ,but was different!",
                               () {
                                 Navigator.pop(context);
@@ -410,7 +410,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(email.text)) {
                             WarningAlert.showWarningDialog(
-                                context, "Email format is wrong!", () {
+                                context,"Warning", "Email format is wrong!", () {
                               Navigator.pop(context);
                             });
                           } else {
@@ -451,7 +451,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               );
 
                               WarningAlert.showWarningDialog(
-                                context,
+                                context,"Warning",
                                 errorMessages[0] == "null"
                                     ? jsonDecode(res.body)["msg"]
                                     : errorMessages
@@ -466,7 +466,7 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               );
                             } else {
                               WarningAlert.showWarningDialog(
-                                context,
+                                context,"Success",
                                 "Congratulations! You have registered successfully!",
                                 () {
                                   Navigator.pushNamed(context, "/");

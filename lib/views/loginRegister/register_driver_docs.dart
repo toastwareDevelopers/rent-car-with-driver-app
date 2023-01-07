@@ -97,7 +97,7 @@ class _RegisterDriverDocsScreenState extends State<RegisterDriverDocsScreen> {
                     onPressed: () async {
                       if(legalDocumentPhotos.length - 1 < 6) {
                         WarningAlert.showWarningDialog(
-                            context, "You must upload at least 6 photos!", () {
+                            context, "Warning","You must upload at least 6 photos!", () {
                           Navigator.pop(context);
                         });
                       } else {
@@ -149,7 +149,7 @@ class _RegisterDriverDocsScreenState extends State<RegisterDriverDocsScreen> {
                             },
                           );
                           WarningAlert.showWarningDialog(
-                              context,
+                              context,"Warning",
                               errorMessages[0] == "null"
                                   ? jsonDecode(res.body)["msg"]
                                   : errorMessages
@@ -161,7 +161,7 @@ class _RegisterDriverDocsScreenState extends State<RegisterDriverDocsScreen> {
                             Navigator.pop(context);
                           });
                         } else {
-                          WarningAlert.showWarningDialog(context,
+                          WarningAlert.showWarningDialog(context,"Success",
                               "Congrulations! You have registered succesfully!",
                                   () {
                                 Navigator.pushNamed(context, "/");

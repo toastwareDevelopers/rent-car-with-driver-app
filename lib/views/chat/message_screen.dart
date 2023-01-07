@@ -559,24 +559,24 @@ class _MessageScreenState extends State<MessageScreen> {
                     onPressed: () async {
                       if (offerStartDateController.text.isEmpty) {
                         WarningAlert.showWarningDialog(
-                            context, "Please enter start date!", () {
+                            context,"Warning", "Please enter start date!", () {
                           Navigator.pop(context);
                         });
                       } else if (offerEndDateController.text.isEmpty) {
                         WarningAlert.showWarningDialog(
-                            context, "Please enter end date!", () {
+                            context,"Warning", "Please enter end date!", () {
                           Navigator.pop(context);
                         });
                       } else if (offerPriceController.text.isEmpty) {
                         WarningAlert.showWarningDialog(
-                            context, "Please enter price!", () {
+                            context,"Warning", "Please enter price!", () {
                           Navigator.pop(context);
                         });
                       } else if (offerLocationController.text.isEmpty ||
                           offerLocationController.text == "Location" ||
                           offerLocationController.text == "") {
                         WarningAlert.showWarningDialog(
-                            context, "Please enter location!", () {
+                            context, "Warning","Please enter location!", () {
                           Navigator.pop(context);
                         });
                       } else {

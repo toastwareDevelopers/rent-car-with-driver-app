@@ -322,7 +322,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                     onPressed: () {
                       if (carPhotos.length - 1 < 3) {
                         WarningAlert.showWarningDialog(
-                            context, "You must upload atleast 3 car photos!",
+                            context, "Warning","You must upload at least 3 car photos!",
                             () {
                           Navigator.pop(context);
                         });

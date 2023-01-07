@@ -194,7 +194,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                               onPressed: () async {
                                 if (double.parse(widget.rating.text) > 10 ||
                                     double.parse(widget.rating.text) < 0) {
-                                  WarningAlert.showWarningDialog(context,
+                                  WarningAlert.showWarningDialog(context,"Warning",
                                       "Error! Rating must be within 0 and 10!",
                                       () {
                                     Navigator.pop(context);
@@ -208,7 +208,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                           widget.rating.text,
                                           customerTrip.tripId);
                                   if (statusCode == 200) {
-                                    WarningAlert.showWarningDialog(context,
+                                    WarningAlert.showWarningDialog(context,"Success",
                                         "Congrulations! Your review is added succesfully!",
                                         () {
                                       Navigator.popUntil(context,

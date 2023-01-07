@@ -135,22 +135,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 if (cardNumberController.text.isEmpty ||
                     cardNumberController.text.length < 16) {
                   WarningAlert.showWarningDialog(
-                      context, "Invalid card number!", () {
+                      context,"Warning", "Invalid card number!", () {
                     Navigator.pop(context);
                   });
                 } else if (cvvController.text.isEmpty ||
                     cvvController.text.length < 3) {
-                  WarningAlert.showWarningDialog(context, "Invalid  CVV!", () {
+                  WarningAlert.showWarningDialog(context,"Warning", "Invalid  CVV!", () {
                     Navigator.pop(context);
                   });
                 } else if (mmController.text.isEmpty ||
                     mmController.text.length < 2) {
-                  WarningAlert.showWarningDialog(context, "Invalid MM!", () {
+                  WarningAlert.showWarningDialog(context,"Warning", "Invalid MM!", () {
                     Navigator.pop(context);
                   });
                 } else if (yyController.text.isEmpty ||
                     yyController.text.length < 2) {
-                  WarningAlert.showWarningDialog(context, "Invalid YY!", () {
+                  WarningAlert.showWarningDialog(context,"Warning", "Invalid YY!", () {
                     Navigator.pop(context);
                   });
                 } else {

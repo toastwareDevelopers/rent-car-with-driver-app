@@ -365,7 +365,7 @@ class _RegisterDriverPersonalScreenState
                           widget.nationalIdController.text,
                           widget.biographyController.text)) {
                         WarningAlert.showWarningDialog(
-                            context, "Please fill all inputs", () {
+                            context,"Warning", "Please fill all inputs", () {
                           Navigator.pop(context);
                         });
                       } else {

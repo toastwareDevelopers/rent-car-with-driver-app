@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (widget.emailController.text.isEmpty ||
                                 widget.passwordController.text.isEmpty) {
                               WarningAlert.showWarningDialog(
-                                  context, "Please fill al inputs!", () {
+                                  context,"Warning", "Please fill al inputs!", () {
                                 Navigator.pop(context);
                               });
                               // If email format is wrong
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     r"""^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""")
                                 .hasMatch(widget.emailController.text)) {
                               WarningAlert.showWarningDialog(
-                                  context, "Email format is wrong!", () {
+                                  context, "Warning","Email format is wrong!", () {
                                 Navigator.pop(context);
                               });
                             } else {
@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   (await AuthService.login(login));
                               if (response.statusCode != 200) {
                                 WarningAlert.showWarningDialog(
-                                  context,
+                                  context,"Warning",
                                   response.body.split("\"")[3],
                                   () {
                                     Navigator.pop(context);

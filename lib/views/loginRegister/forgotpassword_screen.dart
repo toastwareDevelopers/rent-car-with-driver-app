@@ -85,9 +85,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 InputValidator.validateEmail(value),
                             controller: widget.emailController,
                             decoration: InputDecoration(
-                              //prefixIcon: Icon(Icons.person),
-                              labelText: 'Email',
-                              labelStyle: TextStyle(fontSize: 20.0),
+                              hintText: 'Email',
                             ),
                           ),
                         ),
@@ -104,14 +102,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               onPressed: () async {
                                 if (widget.emailController.text.isEmpty == true) {
                                   WarningAlert.showWarningDialog(
-                                      context, "Please enter your email!", () {
+                                      context,"Warning","Please enter your email!", () {
                                     Navigator.pop(context);
                                   });
-                                } else if (!RegExp(r"""
-    ^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""")
-                                    .hasMatch(widget.emailController.text)) {
+                                } else if (InputValidator.validateEmail(widget.emailController.text) != "") {
                                   WarningAlert.showWarningDialog(
-                                    context,
+                                    context,"Warning",
                                     "Email format is wrong!",
                                     () {
                                       Navigator.pop(context);
@@ -122,7 +118,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       widget.emailController.text);
                                   if (status == 200) {
                                     WarningAlert.showWarningDialog(
-                                      context,
+                                      context,"Success",
                                       "Your new password is sent to your email.",
                                       () {
                                         Navigator.pop(context);
@@ -130,7 +126,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     );
                                   } else {
                                     WarningAlert.showWarningDialog(
-                                      context,
+                                      context,"Warning",
                                       "We can not reset your password now. Please try again later!",
                                       () {
                                         Navigator.pop(context);

@@ -347,7 +347,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                           password2.value.text.toString()) !=
                                       0) {
                                     WarningAlert.showWarningDialog(
-                                      context,
+                                      context,"Warning",
                                       "Master Password must be same as confirmation ,but was different!",
                                       () {
                                         Navigator.pop(context);
@@ -383,7 +383,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                             RentVanApp.userId)) !=
                                         200) {
                                       WarningAlert.showWarningDialog(
-                                        context,
+                                        context,"Warning",
                                         "An Error occurred, We can not change your data!.",
                                         () {
                                           Navigator.pop(context);

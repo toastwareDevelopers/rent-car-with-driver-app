@@ -335,12 +335,12 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                           widget.hourlyPriceController.text,
                           widget.taxNumberController.text)) {
                         WarningAlert.showWarningDialog(
-                            context, "You must fill all inputs", () {
+                            context, "Warning","You must fill all inputs", () {
                           Navigator.pop(context);
                         });
                       } else if(carPhotos.length - 1 < 3) {
                         WarningAlert.showWarningDialog(
-                            context, "You must upload at least 3 Car Photos!", () {
+                            context, "Warning","You must upload at least 3 Car Photos!", () {
                           Navigator.pop(context);
                         });
                       } else {

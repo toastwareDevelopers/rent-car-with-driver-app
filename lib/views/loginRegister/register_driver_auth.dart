@@ -147,21 +147,21 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                           widget.passwordController.text,
                           widget.repasswordController.text)) {
                         WarningAlert.showWarningDialog(
-                            context, "Please fill all inputs!",(){Navigator.pop(context);});
+                            context, "Warning","Please fill all inputs!",(){Navigator.pop(context);});
                       }
                       //If password and repassword is not equal
                       else if (!controlIsSamePasswordAndRePassword(
                           widget.passwordController.text,
                           widget.repasswordController.text)) {
                         WarningAlert.showWarningDialog(
-                            context, "Password and repassword must be same!",(){Navigator.pop(context);});
+                            context, "Warning","Password and repassword must be same!",(){Navigator.pop(context);});
                       }
                       //If email format is not true
                       else if (!RegExp(
                               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(widget.emailController.text)) {
                         WarningAlert.showWarningDialog(
-                            context, "Email format is wrong!",(){Navigator.pop(context);});
+                            context,"Warning", "Email format is wrong!",(){Navigator.pop(context);});
                       }
                       //Control email and phone number
                       else {
@@ -169,7 +169,7 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                                 widget.emailController.text,
                                 widget.phoneNumberController.text)) !=
                             200) {
-                          WarningAlert.showWarningDialog(context,
+                          WarningAlert.showWarningDialog(context,"Warning",
                               "There is a user with same email or phone number",(){Navigator.pop(context);});
                         } else {
                           Navigator.of(context).pushNamed(

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class WarningAlert{
-  static Future<void> showWarningDialog(BuildContext context, String warning,Function func) async {
+  static Future<void> showWarningDialog(BuildContext context,String title,String warning,Function func) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Warning'),
+          title: Text(title),
           content: SingleChildScrollView(
             child: Text(warning),
           ),

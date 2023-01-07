@@ -104,7 +104,7 @@ class _EditDriverDocsScreenState extends State<EditDriverDocsScreen> {
                     onPressed: () async {
                       if(legalDocumentPhotos.length - 1 < 6) {
                         WarningAlert.showWarningDialog(
-                            context, "You must upload atleast 6 legal document photos!", () {
+                            context,"Warning", "You must upload at least 6 legal document photos!", () {
                           Navigator.pop(context);
                         });
                       } else {
@@ -112,7 +112,7 @@ class _EditDriverDocsScreenState extends State<EditDriverDocsScreen> {
                         if ((await ProfileService.editDriver(EditDriverAuthScreen.editDriver, RentVanApp.userId)) !=
                             200) {
                           WarningAlert.showWarningDialog(
-                              context, "An Error occurred, We can not change your data!.", () {
+                              context, "Warning","An Error occurred, We can not change your data!.", () {
                             Navigator.pop(context);
                           });
                         } else {

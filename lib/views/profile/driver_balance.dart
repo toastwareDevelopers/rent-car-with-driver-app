@@ -102,14 +102,14 @@ class _BalanceScreenState extends State<BalanceScreen> {
                             onPressed: () async {
                               if (driver.balance == 0) {
                                 WarningAlert.showWarningDialog(
-                                    context,
+                                    context,"Warning",
                                     "Your balance is zero.You can not withraw money.",
                                     () => Navigator.pop(context));
                               } else if (InputValidator.validateIBAN(
                                       ibanValue) !=
                                   "") {
                                 WarningAlert.showWarningDialog(
-                                    context,
+                                    context,"Warning",
                                     "Please enter valid iban.",
                                     () => Navigator.pop(context));
                               } else {
@@ -117,7 +117,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
                                     await ProfileService.withdrawDriver(
                                         driver.id);
                                 if (statusCode == 200) {
-                                  WarningAlert.showWarningDialog(context,
+                                  WarningAlert.showWarningDialog(context,"Success",
                                       "Your money has been successfully transferred to your account.",
                                       () {
                                     Navigator.popUntil(context,
@@ -128,7 +128,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
                                   });
                                 } else {
                                   WarningAlert.showWarningDialog(
-                                      context,
+                                      context,"Warning",
                                       "Sorry, we are unable to process your transaction at this time. Please try again later.",
                                       () => Navigator.pop(context));
                                 }
