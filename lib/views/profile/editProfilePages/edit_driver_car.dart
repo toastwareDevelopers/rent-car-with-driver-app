@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rentcarmobile/utils/base64_converter.dart';
 
@@ -140,29 +141,57 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                       //Driver Licence Year - Car Age
                       Row(
                         children: [
-                          //Driver Licence Year - Editable
+                          //Driver Lisence Year - Editable
                           Expanded(
                             flex: 1,
-                            child: TextField(
-                              controller: driverLicenseYearController,
-                              maxLengthEnforcement:
-                                  MaxLengthEnforcement.enforced,
-                              maxLength: 4,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9]"),
-                                ),
-                              ],
-                              decoration: const InputDecoration(
-                                hintText: "Driver Licence Year ",
-                                hintMaxLines: 2,
-                                isDense: false,
-                                counterText: "",
-                              ),
-                              onChanged: (String value) async {
-                                EditDriverAuthScreen.editDriver.licenseYear =
-                                    value;
+                            child: InkWell(
+                              onTap: () {
+                                DatePicker.showDatePicker(
+                                  context,
+                                  theme: DatePickerTheme(
+                                    doneStyle: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                    ),
+                                    itemStyle: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                    ),
+                                  ),
+                                  showTitleActions: true,
+                                  minTime: DateTime(1940, 1, 1),
+                                  maxTime: DateTime.now(),
+                                  onChanged: (date) {},
+                                  onConfirm: (date) {
+                                    setState(() {
+                                      driverLicenseYearController.text =
+                                          date.toString().substring(0, 4);
+                                    });
+                                  },
+                                  onCancel: () {
+                                    setState(() {
+                                      driverLicenseYearController.text = "";
+                                    });
+                                  },
+                                  currentTime: DateTime.now(),
+                                );
                               },
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 12),
+                                alignment: Alignment.centerLeft,
+                                height: phoneHeight * 0.06,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 218, 218, 218),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                  driverLicenseYearController.text != ""
+                                      ? driverLicenseYearController.text
+                                      : "Driver Lisence Year",
+                                  style: const TextStyle(
+                                      fontSize: 17,
+                                      color: Color.fromARGB(255, 96, 96, 96)),
+                                ),
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -171,22 +200,54 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                           //Car Model Year - Editable
                           Expanded(
                             flex: 1,
-                            child: TextField(
-                              controller: modelYearController,
-                              maxLength: 4,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9]"),
-                                ),
-                              ],
-                              decoration: const InputDecoration(
-                                hintText: "Model Year",
-                                counterText: "",
-                              ),
-                              onChanged: (String value) async {
-                                EditDriverAuthScreen
-                                    .editDriver.carInfo["year"] = value;
+                            child: InkWell(
+                              onTap: () {
+                                DatePicker.showDatePicker(
+                                  context,
+                                  theme: DatePickerTheme(
+                                    doneStyle: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                    ),
+                                    itemStyle: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                    ),
+                                  ),
+                                  showTitleActions: true,
+                                  minTime: DateTime(1940, 1, 1),
+                                  maxTime: DateTime.now(),
+                                  onChanged: (date) {},
+                                  onConfirm: (date) {
+                                    setState(() {
+                                      modelYearController.text =
+                                          date.toString().substring(0, 4);
+                                    });
+                                  },
+                                  onCancel: () {
+                                    setState(() {
+                                      modelYearController.text = "";
+                                    });
+                                  },
+                                  currentTime: DateTime.now(),
+                                );
                               },
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 12),
+                                alignment: Alignment.centerLeft,
+                                height: phoneHeight * 0.06,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 218, 218, 218),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                  modelYearController.text != ""
+                                      ? modelYearController.text
+                                      : "Model Year",
+                                  style: const TextStyle(
+                                      fontSize: 17,
+                                      color: Color.fromARGB(255, 96, 96, 96)),
+                                ),
+                              ),
                             ),
                           ),
                         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:rentcarmobile/main.dart';
 import 'package:rentcarmobile/utils/warning_alert.dart';
 import '../../../models/customer.dart';
@@ -134,8 +135,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                           readOnly: true,
                                           enabled: false,
                                           inputFormatters: [
-                            FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                          ],
+                                            FilteringTextInputFormatter.deny(
+                                                RegExp(r'\s')),
+                                          ],
                                           decoration: InputDecoration(
                                             // This part will receive data from the database
                                             hintText: customerData.email,
@@ -159,8 +161,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                                   hintText: 'Password'),
                                           controller: password1,
                                           inputFormatters: [
-                            FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                          ],
+                                            FilteringTextInputFormatter.deny(
+                                                RegExp(r'\s')),
+                                          ],
                                         ),
                                       ),
                                       SizedBox(
@@ -176,9 +179,10 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                               // This part will receive data from the database
                                               const InputDecoration(
                                                   hintText: 'Retype Password'),
-                                                  inputFormatters: [
-                            FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                          ],
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.deny(
+                                                RegExp(r'\s')),
+                                          ],
                                           controller: password2,
                                         ),
                                       ),
@@ -272,14 +276,64 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                   // Birthdate - Editable
                                   Row(
                                     children: [
+                                      //Birthdate
                                       Expanded(
                                         flex: 1,
-                                        child: TextField(
-                                          decoration: const InputDecoration(
-                                            // This part will receive data from the database
-                                            hintText: 'Birth Date',
+                                        child: InkWell(
+                                          onTap: () {
+                                            DatePicker.showDatePicker(
+                                              context,
+                                              theme: DatePickerTheme(
+                                                doneStyle: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .highlightColor,
+                                                ),
+                                                itemStyle: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .highlightColor,
+                                                ),
+                                              ),
+                                              showTitleActions: true,
+                                              minTime: DateTime(1900, 1, 1),
+                                              maxTime: DateTime(2004, 1, 1),
+                                              onChanged: (date) {},
+                                              onConfirm: (date) {
+                                                setState(() {
+                                                  birthDateController.text =
+                                                      date
+                                                          .toString()
+                                                          .substring(0, 10);
+                                                });
+                                              },
+                                              onCancel: () {
+                                                setState(() {
+                                                  birthDateController.text = "";
+                                                });
+                                              },
+                                              currentTime: DateTime.now(),
+                                            );
+                                          },
+                                          child: Container(
+                                            padding:
+                                                const EdgeInsets.only(left: 12),
+                                            alignment: Alignment.centerLeft,
+                                            height: phoneHeight * 0.06,
+                                            decoration: BoxDecoration(
+                                              color: const Color.fromARGB(
+                                                  255, 218, 218, 218),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: Text(
+                                              birthDateController.text != ""
+                                                  ? birthDateController.text
+                                                  : "Birthdate",
+                                              style: const TextStyle(
+                                                  fontSize: 17,
+                                                  color: Color.fromARGB(
+                                                      255, 96, 96, 96)),
+                                            ),
                                           ),
-                                          controller: birthDateController,
                                         ),
                                       ),
                                       SizedBox(
@@ -347,7 +401,8 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                           password2.value.text.toString()) !=
                                       0) {
                                     WarningAlert.showWarningDialog(
-                                      context,"Warning",
+                                      context,
+                                      "Warning",
                                       "Master Password must be same as confirmation ,but was different!",
                                       () {
                                         Navigator.pop(context);
@@ -383,7 +438,8 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                             RentVanApp.userId)) !=
                                         200) {
                                       WarningAlert.showWarningDialog(
-                                        context,"Warning",
+                                        context,
+                                        "Warning",
                                         "An Error occurred, We can not change your data!.",
                                         () {
                                           Navigator.pop(context);
