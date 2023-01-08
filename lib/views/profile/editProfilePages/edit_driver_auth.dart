@@ -35,139 +35,150 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(elevation: 0),
-      body: isLoading ?
-          const Center(child: CircularProgressIndicator())
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-        child: SizedBox(
-          height: phoneHeight,
-          width: phoneWidth,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                flex: 5,
-                child: Container(
-                  padding: EdgeInsets.only(top: phoneHeight * 0.08),
-                  child: Text(
-                    "Edit Driver",
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Container(
-                  padding: EdgeInsets.only(
-                      left: phoneWidth * 0.07, right: phoneWidth * 0.07),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //Email - Uneditable
-                      Expanded(
-                        flex: 3,
-                        child: TextFormField(
-                          autofocus: false,
-                          readOnly: true,
-                          enabled: false,
-                          decoration: InputDecoration(
-                            hintText: EditDriverAuthScreen.editDriver.email,
-                          ),
+              child: SizedBox(
+                height: phoneHeight,
+                width: phoneWidth,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 5,
+                      child: Container(
+                        padding: EdgeInsets.only(top: phoneHeight * 0.08),
+                        child: Text(
+                          "Edit Driver",
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
                       ),
-                      //Phone Number -Uneditable
-                      Expanded(
-                        flex: 3,
-                        child: TextFormField(
-                          autofocus: false,
-                          readOnly: true,
-                          enabled: false,
-                          decoration: InputDecoration(
-                            hintText: EditDriverAuthScreen.editDriver.phoneNumber,
-                          ),
-                        ),
-                      ),
-                      //Password - Editable
-                      Expanded(
-                        flex: 2,
-                        child: Row(
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: phoneWidth * 0.07, right: phoneWidth * 0.07),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            //Password - Editable
+                            //Email - Uneditable
                             Expanded(
-                              flex: 1,
-                              child: TextField(
-                                controller: passwordController,
-                                obscureText: true,
-                                enableSuggestions: false,
-                                autocorrect: false,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                                ],
-                                decoration: const InputDecoration(
-                                  hintText: "Password",
+                              flex: 3,
+                              child: TextFormField(
+                                autofocus: false,
+                                readOnly: true,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      EditDriverAuthScreen.editDriver.email,
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: phoneWidth * 0.04,
-                            ),
-                            //Retype Password - Editable
+                            //Phone Number -Uneditable
                             Expanded(
-                              flex: 1,
-                              child: TextField(
-                                controller: repasswordController,
-                                obscureText: true,
-                                enableSuggestions: false,
-                                autocorrect: false,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                                ],
-                                decoration: const InputDecoration(
-                                  hintText: "Retype Password",
+                              flex: 3,
+                              child: TextFormField(
+                                autofocus: false,
+                                readOnly: true,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  hintText: EditDriverAuthScreen
+                                      .editDriver.phoneNumber,
                                 ),
+                              ),
+                            ),
+                            //Password - Editable
+                            Expanded(
+                              flex: 2,
+                              child: Row(
+                                children: [
+                                  //Password - Editable
+                                  Expanded(
+                                    flex: 1,
+                                    child: TextField(
+                                      controller: passwordController,
+                                      obscureText: true,
+                                      enableSuggestions: false,
+                                      autocorrect: false,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.deny(
+                                            RegExp(r'\s')),
+                                      ],
+                                      decoration: const InputDecoration(
+                                        hintText: "Password",
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: phoneWidth * 0.04,
+                                  ),
+                                  //Retype Password - Editable
+                                  Expanded(
+                                    flex: 1,
+                                    child: TextField(
+                                      controller: repasswordController,
+                                      obscureText: true,
+                                      enableSuggestions: false,
+                                      autocorrect: false,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.deny(
+                                            RegExp(r'\s')),
+                                      ],
+                                      decoration: const InputDecoration(
+                                        hintText: "Retype Password",
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: phoneHeight * 0.01,
+                    ),
+                    //Continue Button
+                    Expanded(
+                      flex: 5,
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        padding: const EdgeInsets.only(right: 20),
+                        child: ElevatedButton(
+                          child: const Text("Continue"),
+                          onPressed: () async {
+                            if (!controlIsSamePasswordAndRePassword(
+                                passwordController.text,
+                                repasswordController.text)) {
+                              WarningAlert.showWarningDialog(context, "Warning",
+                                  "Master Password must be same as confirmation ,but was different!",
+                                  () {
+                                Navigator.pop(context);
+                              });
+                              // Get to the next screen
+                            } else if (passwordController.text.length < 8 &&
+                                passwordController.text.isNotEmpty) {
+                              WarningAlert.showWarningDialog(context, "Warning",
+                                  "Password has to be atleast 8 characters!",
+                                  () {
+                                Navigator.pop(context);
+                              });
+                            } else {
+                              EditDriverAuthScreen.editDriver.password =
+                                  passwordController.text;
+                              Navigator.of(context)
+                                  .pushNamed('/editDriverPersonal');
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(
-                height: phoneHeight * 0.01,
-              ),
-              //Continue Button
-              Expanded(
-                flex: 5,
-                child: Container(
-                  alignment: Alignment.topRight,
-                  padding: const EdgeInsets.only(right: 20),
-                  child: ElevatedButton(
-                    child: const Text("Continue"),
-                    onPressed: () async {
-                      if (!controlIsSamePasswordAndRePassword(
-                          passwordController.text, repasswordController.text)) {
-                        WarningAlert.showWarningDialog(context,"Warning",
-                            "Master Password must be same as confirmation ,but was different!",
-                            () {
-                          Navigator.pop(context);
-                        });
-                        // Get to the next screen
-                      } else if (passwordController.text.length < 8 || passwordController.text.isNotEmpty) {
-                        WarningAlert.showWarningDialog(
-                            context, "Warning","Password has to be atleast 8 characters!",(){Navigator.pop(context);});
-                      } else {
-                        EditDriverAuthScreen.editDriver.password = passwordController.text;
-                        Navigator.of(context).pushNamed('/editDriverPersonal');
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
