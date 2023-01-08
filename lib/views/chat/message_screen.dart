@@ -67,26 +67,15 @@ class _MessageScreenState extends State<MessageScreen> {
           titleSpacing: 0,
           title: Row(
             children: [
-              InkWell(
-                onTap: () {
-                  if (RentVanApp.userType == "driver") {
-                    Navigator.pushNamed(context, "/profileCustomer",
-                        arguments: widget.receiverId);
-                  } else {
-                    Navigator.pushNamed(context, "/profileDriverPersonal",
-                        arguments: widget.receiverId);
-                  }
-                },
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 23,
                 child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 23,
-                  child: CircleAvatar(
-                    backgroundImage: widget.receiverPhoto == "null"
-                        ? AssetImage(AssetPaths.blankProfilePhotoPath)
-                        : Image.memory(base64Decode(widget.receiverPhoto!))
-                            .image,
-                    radius: 20.0,
-                  ),
+                  backgroundImage: widget.receiverPhoto == "null"
+                      ? AssetImage(AssetPaths.blankProfilePhotoPath)
+                      : Image.memory(base64Decode(widget.receiverPhoto!))
+                          .image,
+                  radius: 20.0,
                 ),
               ),
               SizedBox(
