@@ -141,7 +141,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                       //Driver Licence Year - Car Age
                       Row(
                         children: [
-                          //Driver Lisence Year - Editable
+                          //Driver License Year - Editable
                           Expanded(
                             flex: 1,
                             child: InkWell(
@@ -186,7 +186,7 @@ class _EditDriverCarScreenState extends State<EditDriverCarScreen> {
                                 child: Text(
                                   driverLicenseYearController.text != ""
                                       ? driverLicenseYearController.text
-                                      : "Driver Lisence Year",
+                                      : "Driver License Year",
                                   style: const TextStyle(
                                       fontSize: 17,
                                       color: Color.fromARGB(255, 96, 96, 96)),
