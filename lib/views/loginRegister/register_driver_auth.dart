@@ -66,6 +66,10 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                           validator: (value) =>
                               InputValidator.validateEmail(value),
                           controller: widget.emailController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(
+                                RegExp(r'\s')),
+                          ],
                         ),
                       ),
                       //Phone Number
