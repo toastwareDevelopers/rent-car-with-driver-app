@@ -80,7 +80,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                             child: TextField(
                               controller: widget.driverLicenseNumberController,
                               decoration: const InputDecoration(
-                                hintText: "Driver Lisence Number ",
+                                hintText: "Driver License Number ",
                                 hintMaxLines: 2,
                                 isDense: true,
                               ),
@@ -95,7 +95,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                             child: TextField(
                               controller: widget.carLicenseNumberController,
                               decoration: const InputDecoration(
-                                hintText: "Car Lisence Number",
+                                hintText: "Car License Number",
                                 hintMaxLines: 2,
                                 isDense: false,
                               ),
@@ -151,7 +151,7 @@ class _RegisterDriverCarScreenState extends State<RegisterDriverCarScreen> {
                                 child: Text(
                                   widget.driverLicenseYearController.text != ""
                                       ? widget.driverLicenseYearController.text
-                                      : "Driver Lisence Year",
+                                      : "Driver License Year",
                                   style: const TextStyle(
                                       fontSize: 17,
                                       color: Color.fromARGB(255, 96, 96, 96)),

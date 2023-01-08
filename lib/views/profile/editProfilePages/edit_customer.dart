@@ -409,6 +409,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                                       },
                                     );
                                     // Update Customer Info
+                                  } else if (password1.text.length < 8 || password1.text.isNotEmpty) {
+                                    WarningAlert.showWarningDialog(
+                                        context, "Warning","Password has to be atleast 8 characters!",(){Navigator.pop(context);});
                                   } else {
                                     Customer changedCustomerData = Customer();
                                     changedCustomerData.name =
