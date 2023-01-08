@@ -118,7 +118,9 @@ class _EditDriverDocsScreenState extends State<EditDriverDocsScreen> {
                         } else {
                           SnackBar snackbar = const SnackBar(content: Text("Profile updated!"), duration: Duration(seconds: 2),);
                           ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                          Navigator.pushReplacementNamed(context, "/profileDriverPersonal", arguments: RentVanApp.userId);
+                          Navigator.popUntil(context, ModalRoute.withName('/'));
+                          Navigator.pushNamed(context, '/driverMain',
+                              arguments: RentVanApp.userId);
                         }
                       }
                     },
