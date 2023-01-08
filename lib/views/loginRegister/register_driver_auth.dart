@@ -108,6 +108,10 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                                 decoration: const InputDecoration(
                                   hintText: "Password",
                                 ),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'\s')),
+                                ],
                               ),
                             ),
                             SizedBox(
@@ -124,6 +128,10 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                                 decoration: const InputDecoration(
                                   hintText: "Retype Password",
                                 ),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'\s')),
+                                ],
                               ),
                             ),
                           ],
