@@ -54,9 +54,32 @@ reviewCreateRouter.post('/api/createReview',async function(req,res){
 
         
         /* This is saving the trip object to the database. */
-        review = await review.save();
+        //review = await review.save();
 
-        existDriver.rating = (review.rating + (existDriver.reviews.length)*existDriver.rating) / (existDriver.rating.length + 1);
+        //temp = (existDriver.reviews.length)*existDriver.rating;
+
+        //temp2 = existDriver.reviews.length
+
+
+
+        //console.log(temp)
+        //console.log(typeof temp)
+
+        //console.log(temp2)
+        //console.log(typeof temp2)
+
+        newRating = (review.rating + (existDriver.reviews.length)*existDriver.rating) / (existDriver.reviews.length + 1);
+
+        //console.log(existDriver)
+
+        //console.log(typeof review.rating)
+        //console.log(typeof existDriver.reviews.length)
+        //console.log(existDriver.rating)
+        //console.log(newRating)
+
+        await existDriver.updateOne({rating:newRating});
+
+        
        
         
         /* This is updating the driver and customer objects with the trip id. */
