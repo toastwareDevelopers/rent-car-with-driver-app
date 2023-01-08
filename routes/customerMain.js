@@ -123,6 +123,8 @@ CustomerProfileRouter.post('/customer/main', async function (req, res) {
 
 CustomerProfileRouter.get('/customer/activeTrip' ,async function (req, res) {
 
+    try {
+    
     const _id = req.query.ID;
 
     //console.log(_id);
@@ -157,6 +159,11 @@ CustomerProfileRouter.get('/customer/activeTrip' ,async function (req, res) {
     }
 
     return res.status(400).json({msg:"There is no active trip"});
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+
+    
 
 });
 
