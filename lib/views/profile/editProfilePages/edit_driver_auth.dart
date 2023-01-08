@@ -153,6 +153,9 @@ class _EditDriverAuthScreenState extends State<EditDriverAuthScreen> {
                           Navigator.pop(context);
                         });
                         // Get to the next screen
+                      } else if (passwordController.text.length < 8 || passwordController.text.isNotEmpty) {
+                        WarningAlert.showWarningDialog(
+                            context, "Warning","Password has to be atleast 8 characters!",(){Navigator.pop(context);});
                       } else {
                         EditDriverAuthScreen.editDriver.password = passwordController.text;
                         Navigator.of(context).pushNamed('/editDriverPersonal');

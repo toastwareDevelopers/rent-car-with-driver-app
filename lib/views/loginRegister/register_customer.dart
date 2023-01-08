@@ -389,7 +389,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               phoneNumber.value.text.toString().isEmpty ||
                               nationalID.value.text.toString().isEmpty) {
                             WarningAlert.showWarningDialog(
-                              context,"Warning",
+                              context,
+                              "Warning",
                               "Please fill all inputs!",
                               () {
                                 Navigator.pop(context);
@@ -400,17 +401,24 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                                   .compareTo(password2.value.text.toString()) !=
                               0) {
                             WarningAlert.showWarningDialog(
-                              context,"Warning",
+                              context,
+                              "Warning",
                               "Master Password must be same as confirmation ,but was different!",
                               () {
                                 Navigator.pop(context);
                               },
                             );
+                          } else if (password1.text.length < 8) {
+                            WarningAlert.showWarningDialog(context, "Warning",
+                                "Password has to be atleast 8 characters!", () {
+                              Navigator.pop(context);
+                            });
                           } else if (!RegExp(
                                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(email.text)) {
                             WarningAlert.showWarningDialog(
-                                context,"Warning", "Email format is wrong!", () {
+                                context, "Warning", "Email format is wrong!",
+                                () {
                               Navigator.pop(context);
                             });
                           } else {
@@ -451,7 +459,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               );
 
                               WarningAlert.showWarningDialog(
-                                context,"Warning",
+                                context,
+                                "Warning",
                                 errorMessages[0] == "null"
                                     ? jsonDecode(res.body)["msg"]
                                     : errorMessages
@@ -466,7 +475,8 @@ class _RegisterCustomerScreenState extends State<RegisterCustomerScreen> {
                               );
                             } else {
                               WarningAlert.showWarningDialog(
-                                context,"Success",
+                                context,
+                                "Success",
                                 "Congratulations! You have registered successfully!",
                                 () {
                                   Navigator.pushNamed(context, "/");

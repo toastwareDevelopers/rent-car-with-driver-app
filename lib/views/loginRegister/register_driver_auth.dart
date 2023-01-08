@@ -155,6 +155,9 @@ class _RegisterDriverAuthScreenState extends State<RegisterDriverAuthScreen> {
                           widget.repasswordController.text)) {
                         WarningAlert.showWarningDialog(
                             context, "Warning","Password and repassword must be same!",(){Navigator.pop(context);});
+                      } else if (widget.passwordController.text.length < 8) {
+                        WarningAlert.showWarningDialog(
+                            context, "Warning","Password has to be atleast 8 characters!",(){Navigator.pop(context);});
                       }
                       //If email format is not true
                       else if (!RegExp(
