@@ -117,7 +117,7 @@ class CustomerTrip extends StatelessWidget {
                 ),
               ),
               Container(
-                width: phoneWidth * 0.13,
+                constraints: BoxConstraints(maxWidth: phoneWidth*0.18),
                 height: phoneHeight * 0.03,
                 decoration: BoxDecoration(
                     color: Colors.white,
