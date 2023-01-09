@@ -105,7 +105,7 @@ class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
     phoneWidth = size.width / ratio;
     skills = EditDriverAuthScreen.editDriver.skills;
     addedLanguages = EditDriverAuthScreen.editDriver.languages;
-    languageDropdown = EditDriverAuthScreen.editDriver.languages[0];
+    languageDropdown = languages[0];
   }
 
   @override
@@ -284,7 +284,8 @@ class _EditDriverSkillsScreenState extends State<EditDriverSkillsScreen> {
                     // Get to the next screen
                     onPressed: () {
                       EditDriverAuthScreen.editDriver.skills = skills;
-                      EditDriverAuthScreen.editDriver.languages = addedLanguages;
+                      EditDriverAuthScreen.editDriver.languages =
+                          addedLanguages;
                       Navigator.of(context).pushNamed('/editDriverCar');
                     },
                   ),
