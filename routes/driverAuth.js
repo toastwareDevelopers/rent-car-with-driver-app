@@ -102,7 +102,7 @@ driverAuthRouter.post('/api/signup/driver' ,async function(req,res){
        /* Saving the driver object to the database. */
         driver = await driver.save()
 
-        await sendMail("toastwaredevelopers@gmail.com", 1)
+        await sendMail(email, 1)
         /* Sending the driver object to the client. */
         res.send(driver);
 
