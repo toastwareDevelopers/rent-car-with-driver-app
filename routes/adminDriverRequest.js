@@ -99,7 +99,7 @@ adminDriverRequest_Router.put('/api/admin/driverRequest', async function (req, r
 
                 await sendMail(driver.email, 3)
             }
-            res.send(200)
+            res.sendStatus(200)
         }
         else{
 
