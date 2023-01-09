@@ -14,7 +14,7 @@ async function sendMail(tomail, password) {
         },
     });
     let mailOptions;
-    console.log(typeof password)
+
     if (password === 0) {
         // send mail with defined transport object
         mailOptions = {
@@ -42,7 +42,17 @@ async function sendMail(tomail, password) {
             to: tomail, // list of receivers
             subject: "Welcome to RentaGO", // Subject line
             // This would be the text of email body
-            text: "document approval completed"
+            text: "document check completed"
+        };
+    }
+    else if(password === 3) {
+        // send mail with defined transport object
+        mailOptions = {
+            from: 'toastwaredevelopers.7@gmail.com', // sender address
+            to: tomail, // list of receivers
+            subject: "Invalid document | RentaGO", // Subject line
+            // This would be the text of email body
+            text: "Please update your legal document"
         };
     }
     else {
