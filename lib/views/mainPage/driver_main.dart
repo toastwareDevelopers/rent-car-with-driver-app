@@ -72,7 +72,7 @@ class _DriverMainScreenState extends State<DriverMainScreen> {
             ),
           ],
           title: const Text(
-            "Rent Car App",
+            "RentaGO",
             style: TextStyle(fontFamily: "Arapey", fontSize: 25),
           ),
           leading: InkWell(

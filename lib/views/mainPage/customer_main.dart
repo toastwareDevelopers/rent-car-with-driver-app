@@ -220,7 +220,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Rent Car App"),
+          title: const Text("RentaGO"),
           centerTitle: true,
           actions: [
             FutureBuilder(
