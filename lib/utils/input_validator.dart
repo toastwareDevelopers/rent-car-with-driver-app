@@ -32,4 +32,11 @@ class InputValidator{
     return "";
   }
 
+  static String validateRating(String? value){
+    if(double.parse(value.toString()) > 10){
+        return "Rating can not be greater than 10";
+    }
+    return "";
+  }
+
 }

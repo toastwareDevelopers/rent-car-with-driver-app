@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentcarmobile/utils/input_validator.dart';
 import 'package:rentcarmobile/widgets/customer_trip_widget.dart';
 import '../../constants/assets_path.dart';
 import '../../services/profile.dart';
@@ -167,22 +168,25 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           child: Container(
                             child: Container(
                               alignment: Alignment.center,
-                              child: TextField(
+                              child: TextFormField(
                                 keyboardType: TextInputType.number,
-                                decoration: InputDecoration(hintText: "Rating"),
+                                decoration: InputDecoration(hintText: "Rating",errorStyle: TextStyle(fontSize: 10)),
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                validator: (value) => InputValidator.validateRating(value != null && value != "" ? value : "0"),
                                 style: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
+                                    fontSize: 16.0, color: Colors.black,),
                                 controller: widget.rating,
                               ),
                             ),
                           ),
                         ),
                         SizedBox(
-                          width: phoneWidth * 0.3,
+                          width: phoneWidth * 0.2,
                         ),
                         Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: Container(
+                            padding: EdgeInsets.only(bottom: phoneHeight*0.015),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
