@@ -539,8 +539,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
                                                   .hourlyPrice
                                                   .toString(),
                                               driverRating: drivers[index]
-                                                  .rating
-                                                  .toString(),
+                                                  .rating.toStringAsFixed(1),
                                               driverPhoto:
                                                   drivers[index].profileImage,
                                             );
