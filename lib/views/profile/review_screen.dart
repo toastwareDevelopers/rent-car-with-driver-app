@@ -30,7 +30,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.popAndPushNamed(context, "/profileCustomer",arguments: customerTrip.customerId);
               },
             ),
             leadingWidth: phoneWidth * 0.1,
