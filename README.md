@@ -5,7 +5,7 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Features](#features)
+- [Screenshots](#screenshots)
 - [System Requirements](#system-requirements)
 - [Technologies](#technologies)
 - [Contributors](#contributors)
@@ -23,8 +23,51 @@ After the ride, passengers can leave a review for the driver to provide feedback
 
 <br>
 
-## Features
 
+
+## Screenshots
+
+* Login Page and Forgot Password Page <br><br>
+    <img src = "images/login.png" height=400> &nbsp;
+    <img src = "images/newpassword.png" height=400>
+
+* Register Driver Pages <br><br>
+    <img src = "images/registerDriver1.png" width=175> &nbsp;
+    <img src = "images/registerDriver2.png" width=175> &nbsp;
+    <img src = "images/registerDriver3.png" width=175> &nbsp;
+    <img src = "images/registerDriver4.png" width=175> &nbsp;
+    <img src = "images/registerDriver5.png" width=175> &nbsp;
+    
+* Register Customer Page <br><br>
+    <img src = "images/registerCustomer.png" height=400>
+
+* Profile Driver Pages <br><br>
+    <img src = "images/driverProfileCar.png" height=400> &nbsp;
+    <img src = "images/driverProfilePersonal.png" height=400> &nbsp;
+
+* Profile Customer Pages <br><br>
+    <img src = "images/customerProfile.png" height=400> &nbsp;
+    <img src = "images/review.png" height=400>
+
+* Home Customer Page <br><br>
+    <img src = "images/mainCustomer.png" height=400> &nbsp;
+    <img src = "images/filters.png" height=400> &nbsp;
+
+* Home Driver Page <br><br>
+    <img src = "images/mainDriver.png" height=400> &nbsp;
+
+* Chat and Offer Pages <br><br>
+    <img src = "images/chatMain.png" width=175> &nbsp;
+    <img src = "images/chatDriver.png" width=175> &nbsp;
+    <img src = "images/makeOffer.png" width=175> &nbsp;
+    <img src = "images/chatCustomer.png" width=175> &nbsp;
+    <img src = "images/chatOffered.png" width=175> &nbsp;
+    <img src = "images/payment.png" width=175> &nbsp;
+
+* Admin Pages <br><br>
+    <img src = "images/adminLogin.png" width=400> &nbsp;
+    <img src = "images/driverRegistirationRequests.png" width=400> &nbsp;
+    <img src = "images/regitrationRequestDetail.png" width=400> &nbsp;
 
 ## System Requirements
 
