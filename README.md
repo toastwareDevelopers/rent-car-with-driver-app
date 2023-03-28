@@ -5,6 +5,7 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Branch Navigation](#branch-navigation)
 - [Screenshots](#screenshots)
 - [System Requirements](#system-requirements)
 - [Technologies](#technologies)
@@ -23,7 +24,13 @@ After the ride, passengers can leave a review for the driver to provide feedback
 
 <br>
 
+## Branch Navigation
 
+Mobile : [mobile-main](https://github.com/toastwareDevelopers/Rent-Car-With-The-Driver-App/tree/mobile-main) branch <br>
+Backend : [backend-main](https://github.com/toastwareDevelopers/Rent-Car-With-The-Driver-App/tree/backend-main) branch <br>
+Web : [web-main](https://github.com/toastwareDevelopers/Rent-Car-With-The-Driver-App/tree/web-main) branch <br>
+
+<br>
 
 ## Screenshots
 
