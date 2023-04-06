@@ -24,7 +24,7 @@
 
 This mobile application connects passengers and drivers, allowing them to easily find each other and rent a car together. Passengers can view a driver's car details such as model, make, color, and year, as well as the driver's age, gender, abilities, location, and more. Passengers can filter their search based on these categories to find the perfect driver for their needs. In addition, both drivers and passengers can chat with each other within the app to coordinate their plans.
 
-After the ride, passengers can leave a review for the driver to provide feedback and help other users make informed decisions. This mobile application makes it easy and convenient for passengers and drivers to connect, plan, and review their trips.
+After the ride, passengers can leave a review for the driver to provide feedback and help other users make informed decisions. This mobile application makes it easy and convenient for passengers and drivers to connect, plan, and review their trips. 
 
 <br>
 
