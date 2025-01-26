@@ -10,7 +10,7 @@ async function sendMail(tomail, password) {
         service: "gmail",
         auth: {
             user: 'toastwaredevelopers.7@gmail.com', // generated ethereal user
-            pass: 'mdbwfhwbwvrlgfcx', // generated ethereal password
+            pass: '', // generated ethereal password
         },
     });
     let mailOptions;
